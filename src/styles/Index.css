@@ -1,0 +1,98 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 10px;
+    overflow-y: auto;
+    position: absolute;
+}
+
+.Container {
+    padding: 1px; ;
+    width: 10px;
+    height: 10px;
+    background: rgba(255,255,255,1);
+}
+
+.Logo{
+    width: 102px;
+    height: 99px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 32px;
+    left: 207px;
+    overflow: hidden;
+}
+
+
+.Tittle {
+    width: 561px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 210px;
+    left: 190px;
+    font-family: Josefin Slab;
+    font-weight: Regular;
+    font-size: 120px;
+    text-align: left;
+}
+
+.Tittle1 {
+    width: 284px;
+    color: rgba(163,231,132,1);
+    position: absolute;
+    top: 479px;
+    left: 193px;
+    font-family: Inter;
+    font-weight: Medium;
+    font-size: 100px;
+    opacity: 1;
+    text-align: left;
+}
+
+
+.Descripcion {
+    width: 636px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 611px;
+    left: 193px;
+    font-family: Josefin Sans;
+    font-weight: Regular;
+    font-size: 20px;
+    opacity: 1;
+    text-align: left;
+}
+
+.Registrarse {
+    width: 125px;
+    color: rgba(71,180,21,1);
+    position: absolute;
+    top: 764px;
+    left: 617px;
+    font-family: Inter;
+    font-weight: Regular;
+    font-size: 18px;
+    opacity: 1;
+    text-align: left;
+}
+
+.sesion {
+    width: 125px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 765px;
+    left: 272px;
+    font-family: Inter;
+    font-weight: Regular;
+    font-size: 18px;
+    opacity: 1;
+    text-align: center;
+}
+
