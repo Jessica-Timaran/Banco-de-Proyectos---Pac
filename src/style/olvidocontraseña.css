@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&amp;display=swap');
+
+
+body{
+    background-color: rgba(235, 239, 255, 1);
+    font-family: 'Josefin Slab', serif;
+}
+
+.contenedor{
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 2px 2px 4px 0 rgba(20, 20, 20, 0.3);
+   height: 33em;
+    border-radius: 8px;
+   width: 65%;
+    margin: 50px auto;
+   
+}
+
+.contenedorimg{
+    width: 90%;
+ 
+}
+
+.contenedorcontraseña{
+    width: 80%;
+ 
+    
+}
+
+.imagen{
+    padding: 30px;
+    width: 80%;
+    height: 80%;
+}
+.formulario{
+
+padding: 1em;
+}
+
+.logo{
+  
+    margin-left: 25%;
+    width: 50%;
+}
+
+.titulo{
+    padding-top: 50px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.correo{
+    margin-left: 19%;
+    width: 15em;
+    padding: 10px;
+    border-radius: 5px;
+ border-color: rgba(255, 255, 255, 0.144);
+    background-color:rgba(213, 213, 213, 0.219) ;
+}
+
+.button{
+    background-color: rgba(71, 181, 21, 1);
+    color: white;
+    margin-top: 50px;
+    margin-left: 30%;
+    width: 10em;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 7px 7px 12px 0 rgba(20, 20, 20, 0.247);
+   
+}
