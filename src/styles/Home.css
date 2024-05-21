@@ -1,13 +1,12 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-size: 10px;
-    overflow-y: auto;
-    position: absolute;
+    font-family: "Josefin Slab", serif;
+    font-optical-sizing: auto;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
 .Container {
@@ -18,16 +17,11 @@ body {
 }
 
 .Logo{
-    width: 102px;
-    height: 99px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    opacity: 1;
+    width: 80px;
+    height: 80px;
     position: absolute;
     top: 32px;
-    left: 207px;
-    overflow: hidden;
+    left: 100px;
 }
 
 
@@ -35,10 +29,10 @@ body {
     width: 561px;
     color: rgba(0,0,0,1);
     position: absolute;
-    top: 210px;
-    left: 190px;
+    top: 160px;
+    left: 100px;
     font-family: "Josefin Slab";
-    font-size: 120px;
+    font-size: 90px;
     text-align: left;
 }
 
@@ -46,52 +40,69 @@ body {
     width: 284px;
     color: rgba(163,231,132,1);
     position: absolute;
-    top: 479px;
-    left: 193px;
+    top: 350px;
+    left: 100px;
     font-family: Inter;
     font-weight: Medium;
-    font-size: 100px;
-    opacity: 1;
+    font-size: 90px;
     text-align: left;
 }
 
 
 .Descripcion {
-    width: 636px;
+    width: 550px;
     color: rgba(0,0,0,1);
     position: absolute;
-    top: 611px;
-    left: 193px;
+    top: 460px;
+    left: 100px;
     font-family: Josefin Sans;
     font-weight: Regular;
-    font-size: 20px;
-    opacity: 1;
-    text-align: left;
-}
-
-.Registrarse {
-    width: 125px;
-    color: rgba(71,180,21,1);
-    position: absolute;
-    top: 764px;
-    left: 617px;
-    font-family: Inter;
-    font-weight: Regular;
-    font-size: 18px;
-    opacity: 1;
+    font-size: 17px;
     text-align: left;
 }
 
 .sesion {
-    width: 125px;
-    color: rgba(0,0,0,1);
+    padding: 10px;
+    width: 250px;
+    background-color: #A3E784;
+    border-color: #A3E784;
+    color: #000000;
+    border-radius: 5px;
     position: absolute;
-    top: 765px;
-    left: 272px;
+    top: 560px;
+    left: 100px;
     font-family: Inter;
     font-weight: Regular;
     font-size: 18px;
-    opacity: 1;
     text-align: center;
+    cursor: pointer;
+    box-shadow:0px 4px 6px rgba(0, 0, 0, 0.3);
+
+}
+
+.Registrarse {
+    padding: 10px;
+    width: 250px;
+    background-color: #ffffff;
+    border-color: #A3E784;
+    color: #A3E784;
+    border-radius: 5px;
+    position: absolute;
+    top: 560px;
+    left: 400px;
+    font-family: Inter;
+    font-weight: Regular;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow:0px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.Principal{
+    width: 700px;
+    height: 500px;
+    position: absolute;
+    top: 140px;
+    left: 630px;
 }
 
