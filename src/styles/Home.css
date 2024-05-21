@@ -37,8 +37,7 @@ body {
     position: absolute;
     top: 210px;
     left: 190px;
-    font-family: Josefin Slab;
-    font-weight: Regular;
+    font-family: "Josefin Slab";
     font-size: 120px;
     text-align: left;
 }
