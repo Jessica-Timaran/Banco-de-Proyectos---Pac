@@ -13,15 +13,15 @@ body {
     padding: 1px; ;
     width: 10px;
     height: 10px;
-    background: rgba(255,255,255,1);
+    background: rgb(255, 255, 255);
 }
 
 .Logo{
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     top: 32px;
-    left: 100px;
+    left: 180px;
 }
 
 
@@ -29,10 +29,10 @@ body {
     width: 561px;
     color: rgba(0,0,0,1);
     position: absolute;
-    top: 160px;
-    left: 100px;
+    top: 200px;
+    left: 180px;
     font-family: "Josefin Slab";
-    font-size: 90px;
+    font-size: 130px;
     text-align: left;
 }
 
@@ -40,24 +40,24 @@ body {
     width: 284px;
     color: rgba(163,231,132,1);
     position: absolute;
-    top: 350px;
-    left: 100px;
+    top: 470px;
+    left: 180px;
     font-family: Inter;
     font-weight: Medium;
-    font-size: 90px;
+    font-size: 100px;
     text-align: left;
 }
 
 
 .Descripcion {
-    width: 550px;
+    width: 660px;
     color: rgba(0,0,0,1);
     position: absolute;
-    top: 460px;
-    left: 100px;
+    top: 620px;
+    left: 180px;
     font-family: Josefin Sans;
     font-weight: Regular;
-    font-size: 17px;
+    font-size: 20px;
     text-align: left;
 }
 
@@ -69,15 +69,13 @@ body {
     color: #000000;
     border-radius: 5px;
     position: absolute;
-    top: 560px;
-    left: 100px;
+    top: 770px;
+    left: 180px;
     font-family: Inter;
     font-weight: Regular;
     font-size: 18px;
     text-align: center;
     cursor: pointer;
-    box-shadow:0px 4px 6px rgba(0, 0, 0, 0.3);
-
 }
 
 .Registrarse {
@@ -88,21 +86,44 @@ body {
     color: #A3E784;
     border-radius: 5px;
     position: absolute;
-    top: 560px;
-    left: 400px;
+    top: 770px;
+    left: 500px;
     font-family: Inter;
     font-weight: Regular;
     font-size: 18px;
     text-align: center;
     cursor: pointer;
-    box-shadow:0px 4px 6px rgba(0, 0, 0, 0.3);
+
 }
 
 .Principal{
-    width: 700px;
-    height: 500px;
+    width: 1000px;
+    height: 700px;
     position: absolute;
-    top: 140px;
-    left: 630px;
+    top: 180px;
+    left: 800px;
+}
+
+@media (max-width: 1000px) {
+    .Principal{
+       display:none; 
+    }
+    
+}
+
+body{
+    position: static;
+    overflow: hidden;
+}
+
+@media (max-width: 780px){
+    .Principal{
+        display:none;
+        width: 75%;
+    }
+}
+body{
+    position: static;
+    overflow: hidden;
 }
 
