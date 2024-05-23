@@ -106,9 +106,9 @@ body {
 
 @media (max-width: 1000px) {
     .Principal{
-       display:none; 
+    display:none;
     }
-    
+
 }
 
 body{
@@ -120,6 +120,7 @@ body{
     .Principal{
         display:none;
         width: 75%;
+
     }
 }
 body{
