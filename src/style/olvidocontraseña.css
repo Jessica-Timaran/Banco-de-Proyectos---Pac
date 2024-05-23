@@ -2,22 +2,22 @@
 
 
 body{
-    background-color: rgb(255, 255, 255);
+   
     font-family: 'Josefin Slab', serif;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
    padding: 5%;
-    margin: 5px auto;
+    margin: 0px auto;
 }
 
 .contenedor {
-background-color: aqua;
+
     margin: 0px auto;
-    width: 80em;
-    height: 40em;
-    display: flex;
-    justify-content: center;
+ padding: 20px;
+ display: flex;
+
+ 
     
 }
 .contenedorimg{
@@ -26,13 +26,15 @@ background-color: aqua;
 
 .contenedorcontraseña{
     width: 80%;  
-   
+   display: flex;
+
+   flex-direction: column;
 }
 
 .imagen{
-  
-    width: 40em;
-    height: 33em;
+
+    width: 30em;
+    height: 30em;
 }
 
 .formulario{
@@ -53,7 +55,7 @@ padding: 1em;
 
 .correo{
    
-    margin-left: 20%;
+    margin-left: 10%;
     width: 20em;
     margin-top: 30px;
     padding: 15px;
@@ -79,17 +81,27 @@ padding: 1em;
       
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 550px)  {
     .imagen{
         display: none;
     }
 
     body {
+       
         position: static;
         zoom: reset; 
         overflow: hidden;
       }
 
+      .contenedor {
+       
+        margin: 0px auto;
+     padding: 20px;
+     display: flex;
+    width: 5px;
+     
+        
+    }
     
   }
 
@@ -105,5 +117,68 @@ padding: 1em;
         overflow: hidden;
       }
 
-    
+      .contenedor {
+  
+        margin: 0px auto;
+     padding: 20px;
+     display: flex;
+    width: 17em;
+     
+        
+    }
+    .logo{
+  
+        margin-left: 10%;
+        width: 15em;
+    }
+
+    .correo{
+   
+        margin-left: 3%;
+        width: 15em;
+        margin-top: 30px;
+        padding: 15px;
+        border-radius: 5px;
+     border-color: rgba(255, 255, 255, 0.144);
+        background-color:rgba(213, 213, 213, 0.219) ;
+    }
+
+    .button{
+        background-color: rgba(163, 231, 132, 1);
+        color: rgb(0, 0, 0);
+        margin-top: 60px;
+        margin-left: 30%;
+        width: 10em;
+        padding: 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 7px 7px 12px 0 rgba(20, 20, 20, 0.247);
+       
+      
+          
+          
+    }
+
+    .titulo{
+        margin-left: 50px;
+        padding-top: 50px;
+        font-size: 35px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
