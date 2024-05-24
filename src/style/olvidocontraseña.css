@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Josefin Slab' );
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Josefin Slab';
 }
 
 .boton-modal {
@@ -63,7 +63,9 @@
     color: darkblue; /* Color del texto al pasar por encima */
 }
 
-
+.button{
+    font-weight: bold;
+}
 
 body{
    
@@ -97,8 +99,8 @@ body{
 
 .imagen{
 
-    width: 29em;
-    height: 28em;
+    width: 25em;
+    height: 25em;
 }
 
 .formulario{
@@ -113,13 +115,13 @@ padding: 1em;
 
 .titulo{
     padding-top: 50px;
-    font-size: 35px;
+    font-size: 25px;
     text-align: center;
 }
 
 .correo{
    
-    margin-left: 10%;
+    margin-left: 5%;
     width: 20em;
     margin-top: 30px;
     padding: 15px;
@@ -132,7 +134,7 @@ padding: 1em;
     background-color: rgba(163, 231, 132, 1);
     color: rgb(0, 0, 0);
     margin-top: 60px;
-    margin-left: 38%;
+    margin-left: 30%;
     width: 10em;
     padding: 15px;
     border: none;
@@ -168,7 +170,7 @@ padding: 1em;
     .correo{
    
         margin-left: 3%;
-        width: 15em;
+        width: 18em;
         margin-top: 30px;
         padding: 15px;
         border-radius: 5px;
