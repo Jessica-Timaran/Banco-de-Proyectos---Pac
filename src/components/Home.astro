@@ -9,19 +9,36 @@ Tittle: "Home"
         <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="/src/styles/Home.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 		<title>PAC</title>
-	</head>
-	<body>
-		<div class="Container">
-			<img class="Logo" src="/public/Img/Logo.png">
-            <span class="Tittle1">ADSO</span>
-			<span class="Tittle">Banco de proyectos</span>
-            <span class="Descripcion">¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?</span>
 
-            <button class="Registrarse">Registrarse</button>
-            <button class="sesion">Iniciar sesion</button>
+        <style>
+            .font-josefin-slab {
+                font-family: 'Josefin Slab', serif;
+            }
+            .font-josefin-sans {
+                font-family: 'Josefin Sans', sans-serif;
+            }
+            .font-inter {
+                font-family: 'Inter', sans-serif;
+            }
+        </style>
+
+	</head>
+	<body class="bg-white flex justify-center items-center h-screen m-0">
+		<div class="flex flex-col items-start w-1/2 p-8">
+			<img class="w-20 h-20 mb-4" src="/Img/Logo.png" alt="Logo">
+            <span class="text-4xl bg-custom-green font-josefin-slab mb-4">ADSO</span>
+			<span class="text-6xl font-josefin-slab mb-4">Banco de proyectos</span>
+            <span class="text-base font-josefin-sans mb-8">¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?</span>
+
+            <div class="flex space-x-4">
+                <button class="px-4 py-2 bg-custom-green text-black rounded-md font-inter text-lg">Iniciar sesión</button>
+                <button class="px-4 py-2 bg-white border border-custom-green text-custom-green rounded-md font-inter text-lg">Registrarse</button>
+            </div>
         </div>
-            <img class="Principal" src="/public/Img/Principal.png">
+        <div class="w-1/2 flex justify-center items-center">
+            <img src="/Img/Principal.png" alt="Principal Image" class="w-full h-auto">
+        </div>
 	</body>
 </html>

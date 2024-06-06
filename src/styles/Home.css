@@ -9,13 +9,6 @@ body {
     margin: 0;
 }
 
-@media (max-width: 780px){
-    .Principal{
-        display:none;
-        width: 75%;
-
-    }
-
 .Container {
     padding: 1px; ;
     width: 10px;
@@ -109,13 +102,4 @@ body {
     position: absolute;
     top: 180px;
     left: 800px;
-}
-
-@media (max-width: 768px) {
-    .Principal{
-    display:none;
-    }
-
-}
-
 }
