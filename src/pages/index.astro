@@ -8,9 +8,56 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+		<style>
+			/* Estilos personalizados con Tailwind CSS */
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+	
+			body {
+				
+				overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+  
+   padding: 0;
+    margin: 0px auto;
+			}
+		</style>
 		<title>Astro</title>
 	</head>
-	<body>
-		<h2>astro</h2>
-	</body>
+
+		<div class="p-10 h-screen w-full m-auto">
+    <div class="max-w-800px p-20 m-auto ">
+   
+        <div class="w-4/5 flex flex-col"> 
+            <img class="ml-10 w-60" src="/img/image1.png" alt="Forgot Password Image">
+             
+         
+            <h1 class="titulo">RECUPERAR CONTRASEÑA</h1> 
+            <form class="formulario"> 
+                <input class="correo" type="email" id="new-password" name="new-password" placeholder="Correo" required>
+          
+                <div class="button-group"> 
+                <button type="button" class="button">Recuperar</button> 
+               
+                </div>
+             </form> 
+            
+            </div> 
+            
+        
+            <div class="contenedorimg"> 
+                <img class="imagen" src="/img/olvidocontraseña.png" alt="Olvido de contraseña" />
+              
+            </div> 
+                
+     
+        
+    </div>
+</div>
+	
 </html>
