@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "build:css": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/styles.css --watch",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
@@ -10,6 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/tailwind": "^5.1.0",
     "@tailwindcss/typography": "^0.5.13",
     "astro": "^4.7.1"
   },
