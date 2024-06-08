@@ -1,7 +1,9 @@
 ---
-Tittle: "Home"
----
+import Button_Inicio from "../components/Button_Inicio.astro"
+import Button2 from "../components/Button2.astro"
+import Input from "../components/Input.astro"
 
+---
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -35,8 +37,9 @@ Tittle: "Home"
             <span class="text-base font-josefin-san s mb-10 w-30">¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?</span>
 
             <div class="flex space-x-4">
-                <button class="px-20 py-3 bg-Verde text-black rounded-md font-inter text-lg">Iniciar sesión</button>
-                <button class="px-20 py-3 text-Verde border border-Verde rounded-md font-inter text-lg">Registrarse</button>
+                <Button_Inicio/>
+                <Button2 /> 
+                
             </div>
         </div>
         <div class="w-1/2 flex justify-center items-center">
@@ -44,3 +47,6 @@ Tittle: "Home"
         </div>
 	</body>
 </html>
+
+
+
