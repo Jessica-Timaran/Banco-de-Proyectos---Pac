@@ -12,8 +12,9 @@
 		<style>
 			/* Estilos personalizados con Tailwind CSS */
 			* {
-				margin: 0;
-				padding: 0;
+			 
+			
+	
 				box-sizing: border-box;
 			}
 	
@@ -22,27 +23,25 @@
 				overflow: hidden;
     display: flex;
     justify-content: space-between;
-  
-   padding: 0;
     margin: 0px auto;
 			}
 		</style>
 		<title>Astro</title>
 	</head>
 
-		<div class="p-10 h-screen w-full m-auto">
-    <div class="max-w-800px p-20 m-auto ">
+<div class="p-[5%] h-screen w-full m-auto   ">
+         <div class="max-w-[850px] scroll-p-[20px]  p-[20px] m-auto flex     ">
    
-        <div class="w-4/5 flex flex-col"> 
-            <img class="ml-10 w-60" src="/img/image1.png" alt="Forgot Password Image">
+        <div class=" w-[80%] flex flex-col"> 
+            <img class="ml-[20%] w-[60%] " src="/img/image1.png" alt="Forgot Password Image">
              
          
-            <h1 class="titulo">RECUPERAR CONTRASEÑA</h1> 
-            <form class="formulario"> 
-                <input class="correo" type="email" id="new-password" name="new-password" placeholder="Correo" required>
+            <h1 class="font-['sans-serif'] pt-[50px] text-[25px] text-center ">RECUPERAR CONTRASEÑA</h1> 
+            <form class="p-[1em] "> 
+                <input class="font-['sans-serif'] ml-[5%] w-[20em] mt-[30px] p-[15px] rounded-[5px] bg-[#d5d5d538] " type="email" id="new-password" name="new-password" placeholder="Correo" required>
           
                 <div class="button-group"> 
-                <button type="button" class="button">Recuperar</button> 
+                <button type="button" class="bg-[#a3e784] text-[black] mt-[60px] ml-[30%]  w-[10em] p-[15px] rounded-[5px] shadow-[#1414143f] shadow-xl ">Recuperar</button> 
                
                 </div>
              </form> 
@@ -51,7 +50,7 @@
             
         
             <div class="contenedorimg"> 
-                <img class="imagen" src="/img/olvidocontraseña.png" alt="Olvido de contraseña" />
+                <img class="w-[40em] h-[25em] max-[768px]:hidden " src="/img/olvidocontraseña.png" alt="Olvido de contraseña" />
               
             </div> 
                 
