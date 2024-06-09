@@ -1,4 +1,8 @@
 ---
-Tittle: "Button_Inicio"
+interface Props {
+Text: string;
+}
+
+const { Text} = Astro.props;
 ---
- <button class="px-20 py-3 bg-Verde text-black rounded-md font-inter text-lg">Iniciar sesión</button>
+ <button class="px-20 py-3 bg-Verde text-black rounded-md font-inter text-lg">{Text}</button>
