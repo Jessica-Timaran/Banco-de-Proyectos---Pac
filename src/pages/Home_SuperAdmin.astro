@@ -1,0 +1,49 @@
+---
+import Card from "../components/Card.astro"
+---
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+		<title>PAC</title>
+
+        <style>
+            .font-josefin-slab {
+                font-family: 'Josefin Slab', serif;
+            }
+            .font-josefin-sans {
+                font-family: 'Josefin Sans', sans-serif;
+            }
+            .font-inter {
+                font-family: 'Inter', sans-serif;
+            }
+        </style>
+
+	</head>
+    <body class="p-3 bg-white flex justify-center items-center h-screen m-4">
+		<div class="flex flex-col items-start w-1/2 p-8">
+            <span class="text-8xl font-josefin-slab mb-30">Bienvenido</span>
+            <span class="text-6xl text-Verde font-Inter mb-10">SUPERADMIN</span>
+            <span class="text-base font-josefin-san s mb-30 w-50">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de aprendices y crear los usuarios de intructores, tambien podras crear areas, y editar.</span>
+
+            <img class="bg-cover bg-center h-screen max-70 h-auto" src="/Img/Principal.png" alt="Principal Image">
+
+            <div class="relative flex items-center justify-center h-full">
+
+                <div class="absolute top-10 left-10">
+                    <Card Text="Carga masiva de aprendices"/>
+                </div>
+
+                <div class="absolute top-10 left-10">
+                    <Card Text="Crear usuarios"/>
+                </div>
+
+                <div class="absolute top-10 left-10">
+                    <Card Text="Crear Area"/>
+                </div>
+            </div>
+        </body>
