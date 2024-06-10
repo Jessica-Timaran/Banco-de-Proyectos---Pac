@@ -5,8 +5,9 @@ export default {
 	theme: {
 	extend: {
 		colors: {
-		Verde: '#A3E784',
-		Color_carta:'#FBFCFF'
+		'Verde': '#A3E784',
+		'Color_carta': '#FBFCFF',
+		'Verde_claro': '#A3E784'
 		},
 		fontFamily: {
 		'Inter': ['Inter', 'sans-serif'],
