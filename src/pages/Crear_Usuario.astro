@@ -1,5 +1,6 @@
 ---
-
+import Navbar from "../components/Navbar.astro"
+import Sidebar_Simulador from "../components/Sidebar_Simulador.astro"
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -22,9 +23,18 @@
                 font-family: 'Inter', sans-serif;
             }
         </style>
-	</head>
-    <body>
-        
 
+	</head>
+    <body class=" bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll  ">
+        <Navbar Text="SuperAdmin"/>
+
+            <div class=" text-center p-8">
+                <span class="font-serif"> Crear usuario </span>
+            </div>
+
+            <div class=" w-3/4 h-5/6 bg-white rounded-lg border-none border-Borde_gris flex float-center justify-center adsolute p-8 m-8">
+
+
+            </div>
     </body>
 </html>
