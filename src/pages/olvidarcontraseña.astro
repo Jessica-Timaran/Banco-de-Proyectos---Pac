@@ -1,25 +1,67 @@
 ---
-import Olvidarcontraseña from "../components/Olvidarcontraseña.astro"
+
+import "../../public/img/olvidocontraseña.png"
+import "../../public/img/image1.png"
+import "../components/botton.astro"
+import Botton from "../components/botton.astro"
+import Input from "../components/Input.astro"
 ---
+
 
 
 <html lang="en">
 	<head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+		<style>
+			/* Estilos personalizados con Tailwind CSS */
+			* {
+				box-sizing: border-box;
+			}
+	
+			body {	
+		    overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            margin: 0px auto;
+			}
+
+		</style>
 		<title>Astro</title>
 	</head>
-	<body>
-		<Olvidarcontraseña/>
-      
-	</body>
-</html>
 
+<body class=" h-screen w-full m-auto p-[1%] max-[768px]:bg-[#00000046]   max-[768px]:p-[20px]  max-[768px]:flex flex-none    ">
+         <div class="max-w-[100%] m-auto flex  max-[768px]:m-[50px]: bg-white max-[768px]:mt-12 max-[768px]:max-w-[320px] rounded-[20px] ">
+   
+        <div class=" w-[50em] flex flex-col mr-[15px] "> 
+			<div class="w-[200px] "> 
+            <img class="ml-[25%] w-[320px]   max-[768px]:w-[16em]  max-[768px]:ml-[18%]  " src="/img/image1.png" alt="Forgot Password Image">
+             </div>
+         
+            <h1 class="font-['sans-serif'] pt-[15%] text-[33px] text-center max-[768px]:text-[35px]  flex justify-center max-[768px]:ml-[30px]  ">RECUPERAR CONTRASEÑA</h1> 
+            <form class="p-[1em] flex-col  justify-center  items-center flex"> 
+				<Input placeholder="Correo" type="email"/>
+                
+				<Botton Text="Recuperar"/>
+        
+             </form> 
+            
+            </div> 
+            
+        
+            <div class="flex  w-[70em] max-[768px]:hidden "> 
+                <img class="w-[60em] h-[100%] max-[768px]:hidden ml-[10px] " src="/img/olvidocontraseña.png" alt="Olvido de contraseña" />
+              
+            </div> 
+                
+   
+        
+    </div>
+</body>
+	
+</html>
 
     

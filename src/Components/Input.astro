@@ -1,0 +1,14 @@
+---
+interface Props {
+placeholder: string;
+type:"text" | "email" | "password" | "number";
+}
+
+const { placeholder, type} = Astro.props;
+
+---
+
+    <div>
+        <label for=""></label>
+        <input type={type} placeholder={placeholder} id="nombreCompleto" name="nombreCompleto" required class="bg-[#F5F6FA] font-['sans-serif'] w-[350px] min-h-11 mt-[50px] rounded-[4px] border border-[#D5D5D5] ml-[1%]  px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px] max-[768px]:w-[15em] max-[768px]:ml-[5%]">
+    </div>
