@@ -10,7 +10,11 @@ import Carpag from "../components/carpag.astro"
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
         <style>
+            
             /* Estilos personalizados con Tailwind CSS */
             * {
                 box-sizing: border-box;
@@ -21,31 +25,41 @@ import Carpag from "../components/carpag.astro"
             display: flex;
             justify-content: space-between;
             margin: 0px auto;
+            .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
             }
+            
 
         </style>
         <title>Astro</title>
     </head>
 
-<body class="  w-full    max-[768px]:bg-[#00000046]   max-[768px]:p-[20px]      ">
-    <div class="w-full"> 
-<div class="   m-auto flex  max-[768px]:m-[50px]: ">
-    <div class="w-[60em] p-[60px] "> 
-        <h1 class=" text-[130px]  font-['sans-serif']">  Bienvenido
-            <h2 class=" text-[100px]  font-['sans-serif'] text-[#A3E784] ">  Aprendiz
-                <p class=" text-[20px] text-black ">  ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?</p>
-    </div>
-         <div class="contenedorimg"> 
-                    <img class="w-[60em] h-[40em] max-[768px]:hidden " src="/img/mujer.png" alt="Olvido de contraseña" />
-            </div>    
-         </div> 
-
-         <div class="w-[100%] flex justify-center "> 
-            <Carpag Text="Ver proyecto asignado"/>
+    <body class="   h-screen w-full  flex justify-center items-center  p-[5%]    max-[768px]:p-[20px]      ">
+        <div class="w-full h-screen  "> 
+    <div class=" w-[100%]     m-auto flex   max-[768px]:m-[50px]: ">
+        <div class=" flex justify-center  flex-col pt-[1%] "> 
+            <h1 class=" text-[100px]  leading-[5rem]  font-josefin-slab">  Bienvenido
+                <h2 class=" text-[90px]   font-['serif' ] text-[#A3E784] ">  Aprendiz
+                    <p class=" text-[20px] mt-[2%] text-black  font-serif ">  <b> ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla!  Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito? </b></p>
+        </div>
+             <div class=" w-full   "> 
+                        <img class=" w-[40em]   max-[768px]:hidden  mt-[50px] " src="/img/mujer.png" alt="Olvido de contraseña" />
+                </div>    
+             </div> 
+    
+             <div class="w-[100%] h-[50%] flex justify-center "> 
+                <Carpag Text="Ver proyecto asignado"/>
+            </div>
         </div>
     </div>
-</div>
-</body>
+    </body>
     
 </html>
 
