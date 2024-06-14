@@ -1,0 +1,53 @@
+---
+import Carpag from "../components/carpag.astro"
+---
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+        <style>
+            /* Estilos personalizados con Tailwind CSS */
+            * {
+                box-sizing: border-box;
+            }
+    
+            body {  
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            margin: 0px auto;
+            }
+
+        </style>
+        <title>Astro</title>
+    </head>
+
+<body class="  w-full    max-[768px]:bg-[#00000046]   max-[768px]:p-[20px]      ">
+    <div class="w-full"> 
+<div class="   m-auto flex  max-[768px]:m-[50px]: ">
+    <div class="w-[60em] p-[60px] "> 
+        <h1 class=" text-[130px]  font-['sans-serif']">  Bienvenido
+            <h2 class=" text-[100px]  font-['sans-serif'] text-[#A3E784] ">  Aprendiz
+                <p class=" text-[20px] text-black ">  ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?</p>
+    </div>
+         <div class="contenedorimg"> 
+                    <img class="w-[60em] h-[40em] max-[768px]:hidden " src="/img/mujer.png" alt="Olvido de contraseña" />
+            </div>    
+         </div> 
+
+         <div class="w-[100%] flex justify-center "> 
+            <Carpag Text="Ver proyecto asignado"/>
+        </div>
+    </div>
+</div>
+</body>
+    
+</html>
+
+    
+</html>
