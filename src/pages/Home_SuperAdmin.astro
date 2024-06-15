@@ -1,10 +1,7 @@
 ---
-
 import Card_Home from "../components/Card_Home.astro"
 import Navbar from "../components/Navbar.astro"
 import Sidebar_Simulador from "../components/Sidebar_Simulador.astro"
-import Input from "../components/Input.astro"
-
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -29,25 +26,25 @@ import Input from "../components/Input.astro"
         </style>
 
 	</head>
-	<body class="bg-cover bg-center shadow-md h-full overflow-y-scroll ">
+	<body class="bg-cover bg-center shadow-md h-full max-[768px] max-[768px]:p-[20px] overflow-y-scroll ">
             <Navbar Text="SuperAdmin"/>
             
             <div class="flex h-full">
                 <Sidebar_Simulador />
 
                 <div class="flex flex-col items-start w-1/2 p-8">
-                    <span class="text-9xl font-josefin-slab mb-30">Bienvenido</span>
+                    <span class="text-9xl  font-josefin-slab mb-30">Bienvenido</span>
                     <span class="text-8xl text-Verde font-Inter mb-30">SUPERADMIN</span>
                     <span class="text-1xl font-josefin-Inter mb-10 w-30">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
                         aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
 
-                        <div class="relative flex items-center justify-center h-full">
+                        <div class="p-50 relative flex items-center justify-center h-full ">
                             <Card_Home Text="Carga masiva de aprendices"/>
                             <Card_Home Text="Crear usuarios"/>
                             <Card_Home Text="Crear Area"/>
                         </div>
 
-                        <div class="relative flex items-center justify-center h-full">
+                        <div class="p-50 relative flex items-center justify-center h-full">
                             <Card_Home Text="Crear Registro del proyecto"/>
                             <Card_Home Text="Crear Objetivos"/>
                             <Card_Home Text="Crear Alcance"/>
