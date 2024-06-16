@@ -2,8 +2,11 @@
 import Navbar from "../components/Navbar.astro"
 import Sidebar_Simulador from "../components/Sidebar_Simulador.astro"
 import Input from "../components/Input.astro"
-import Checkbox from "../components/Checkbox.astro"
 import Button_Inicio from "../components/Button_Inicio.astro"
+import SelectBox_Identidad from "../components/SelectBox_Identidad.astro"
+import SelectBox_Rol from "../components/SelectBox_Rol.astro"
+import TypeRadio from "../components/TypeRadio.astro"
+
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -34,36 +37,39 @@ import Button_Inicio from "../components/Button_Inicio.astro"
             <div class=" text-center p-8">
                 <span class="font-serif"> Crear usuario </span>
             </div>
-            <div class="p-1 w-3/4 h-5/6 bg-white rounded-lg border-none border-Borde_gris flex items-center justify-center adsolute mx-40">
-                <div class="flex space-x-10">
-                <div class="flex-box flex flex-col space-y-2 w-1/2">
-                    <h1 class="font-serif text-base">Nombre del usuario:</h1>
-                    <Input  placeholder="Jairo Ramirez" type="text"/>
-                    <h1 class="font-serif">Numero de documento:</h1>
-                    <Input  placeholder="1112343546" type="text"/>
-                    <h1 class="font-serif">Correo:</h1>
-                    <Input  placeholder="jairoramirez@misena.edu.co" type="email"/>
-                </div>
+            <div class="p-10 w-3/4 h-full bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute mx-40">
+                <div class=" p-20 flex justify-center items-center">
+                        <div class="flex justify-center space-x-10 ">
 
-                <div class="Flex-box flex flex-col space-y-2 w-1/2">
-                    <h1 class="font-serif">Contraseña:</h1>
-                <Input  placeholder=".............." type="password"/>
-                <h1 class="font-serif">Estado:</h1>
-                <div class="flex-box flex flex-col space-y-10">
-                    <div class="flex space-x-8">
-                    <Checkbox Text="Activo"/>     <Checkbox Text="Inactivo"/>
-                </div>
-                <div class="flex-box flex flex-col space-y-2 w-1/2">
-                    <h1 class="font-serif">Celular:</h1>
-                <Input  placeholder="3245678900" type="text"/>
-                </div>
-                <div class="mx-32">
-                    <Button_Inicio Text="Guardar"/>
-                </div>
-                </div>
-                </div>
+                            <div class="flex-box flex flex-col space-y-8 w-1/2">
+                                <Input Text="Nombre del usuario:" placeholder="Jairo Ramirez" type="text"/>
+                                <SelectBox_Identidad Text="Tipo de documento"/>
+                                <Input Text="Número de documento:" placeholder="1112343546" type="text"/>
+                                <Input Text="Correo Electrónico:" placeholder="jairoramirez@misena.edu.co" type="email"/>
+                            </div>
+
+                            <div class="Flex-box flex flex-col space-y-8 w-1/2">
+                                <Input Text="Contraseña:" placeholder=".............." type="password"/>
+                                <SelectBox_Rol Text="Rol del usuario:"/>
+
+                                <div class=" space-y-11">
+                                <div class="flex-box flex flex-col space-y-6">
+                                    <h1 class="font-josefin-slab text-black ">Estado:</h1>
+                                    <div class="flex space-x-4">
+                                        <TypeRadio Text="Activo"/> <TypeRadio Text="Inactivo"/>
+                                    </div>
+                                </div>
+                                </div>
+                                 <div class="flex-box flex flex-col space-y-6 w-1/2 ">
+                                        <Input Text="Celular:" placeholder="3245678900" type="text"/>
+                                </div>
+
+                                <div class="flex justify-end">
+                                    <Button_Inicio Text="Guardar"/>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
-
     </body>
 </html>
