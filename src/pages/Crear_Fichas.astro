@@ -1,0 +1,54 @@
+---
+import Navbar from "../components/Navbar.astro"
+import Input from "../components/Input.astro"
+import Button_Inicio from "../components/Button_Inicio.astro"
+import Devolver from "../components/Devolver.astro"
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <title>PAC</title>
+
+        <style>
+            .font-josefin-slab {
+                font-family: 'Josefin Slab', serif;
+            }
+            .font-josefin-sans {
+                font-family: 'Josefin Sans', sans-serif;
+            }
+            .font-inter {
+                font-family: 'Inter', sans-serif;
+            }
+        </style>
+
+    </head>
+    <body class=" bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll ">
+        <Navbar Text="SuperAdmin"/>
+
+        <Devolver/>
+
+        <div class=" text-center p-8">
+            <span class="font-serif"> Crear Ficha </span>
+        </div>
+        <div class="p-10 w-2/4 h-4/6 bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute mx-80">
+            <div class="flex justify-center items-center">
+                    <div class=" p-60 flex-box justify-center space-x-10 ">
+
+                        <div class="flex flex-col space-y-8 w-1/2 justify-center items-center">
+                            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text"/>
+                            <Input Text="Número de ficha:" placeholder="2694265" type="text"/>
+
+                            <div class="justify-center">
+                                <Button_Inicio Text="Guardar"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
