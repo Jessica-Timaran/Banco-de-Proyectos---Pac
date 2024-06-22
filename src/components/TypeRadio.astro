@@ -1,0 +1,124 @@
+---
+interface Props {
+Text: string;
+}
+
+const {Text} = Astro.props;
+---
+
+<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+<form class="radio-form flex flex-box mx-auto max-w-[10em] relative ">
+    <input checked value="a" name="hopping" type="radio" id="a" class="fixed top-[-1.5em] left-[-1.5em]">
+    <label for="a" class="cursor-pointer font-bold text-shadow-sm transition-colors duration-200 ease-in-out mb-6 flex flex-box">
+      <span class="box-shadow-sm flex flex-box mr-2 align-bottom rounded-full w-6 h-6 transition-transform transform scale-125"></span>{Text}
+    </label>
+    
+    <input value="b" name="hopping" type="radio" id="b" class="fixed top-[-1.5em] left-[-1.5em]">
+    <label for="b" class="cursor-pointer font-bold text-shadow-sm transition-colors duration-200 ease-in-out mb-6 flex flex-box">
+      <span class="flex flex-box box-shadow-sm mr-2 align-bottom rounded-full w-6 h-6 transition-transform transform scale-125 "></span>{Text}
+    </label>
+    
+    <div class="worm absolute top-[0.375em] left-[0.375em]">
+      <div class="worm__segment relative w-3 h-3 rounded-full transition-transform duration-400 ease-in-out"></div>
+    </div>
+  </form>
+  
+  <style>
+    .text-shadow-sm {
+      text-shadow: 0 0.1em 0.1em rgba(0, 0, 0, 0.2);
+    }
+    .box-shadow-sm {
+      box-shadow: 0 0 0 0.2em currentColor inset, 0 0.2em 0.2em rgba(0, 0, 0, 0.2), 0 0.3em 0.2em rgba(0, 0, 0, 0.2) inset;
+    }
+    .radio-form input:checked + label,
+    .radio-form input:checked + label span {
+      color: #A3E784;
+      transition-delay: 0.4s;
+    }
+    .radio-form .worm__segment:before {
+      animation-duration: 0.4s;
+      animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+      background: currentColor;
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    .radio-form .worm__segment:first-child:before,
+    .radio-form .worm__segment:last-child:before {
+      box-shadow: 0 0 1em 0 currentColor;
+    }
+    @keyframes hop1 {
+      from, to {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-1.5em);
+      }
+    }
+    @keyframes hop2 {
+      from, to {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-1.5em);
+      }
+    }
+    @keyframes hop3 {
+      from, to {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-1.5em);
+      }
+    }
+    .radio-form input:nth-of-type(1):checked ~ .worm .worm__segment {
+      transform: translateY(0);
+    }
+    .radio-form input:nth-of-type(1):checked ~ .worm .worm__segment:before {
+      animation-name: hop1;
+    }
+    .radio-form input:nth-of-type(2):checked ~ .worm .worm__segment {
+      transform: translateY(3em);
+    }
+    .radio-form input:nth-of-type(2):checked ~ .worm .worm__segment:before {
+      animation-name: hop2;
+    }
+    .radio-form input:nth-of-type(3):checked ~ .worm .worm__segment {
+      transform: translateY(6em);
+    }
+    .radio-form input:nth-of-type(3):checked ~ .worm .worm__segment:before {
+      animation-name: hop3;
+    }
+    @media screen and (prefers-color-scheme: dark) {
+      body {
+        background: #B9B9B9;
+        color: #000000;
+        font-family: "Josefin Slab", serif;
+      }
+      .radio-form input:checked + label,
+      .radio-form input:checked + label span,
+      .radio-form .worm__segment:before {
+        color: #A3E784;
+      }
+    }
+  </style>
+  
+
+

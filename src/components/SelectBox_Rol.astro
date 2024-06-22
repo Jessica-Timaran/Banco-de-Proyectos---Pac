@@ -1,0 +1,32 @@
+---
+interface Props {
+Text: String
+}
+
+const {Text} = Astro.props;
+---
+
+<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+<form class="max-w-sm mx-auto">
+    <label  class="pace-y-2 w-1/2 font-josefin-slab">{Text}</label>
+    <select class="bg-[#F5F6FA] w-[350px] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px] font-josefin-slab text-black">
+      <option selected>Eligue una opcion </option>
+      <option value="Intructor">Instructo</option>
+      <option value="Aprendiz">Aprendiz</option>
+    </select>
+  </form>
