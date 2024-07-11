@@ -1,0 +1,18 @@
+---
+interface Props {
+   
+   title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<main class="flex justify-center items-center min-h-screen min-w-full ">
+   <div class="w-2/3 h-auto bg-white rounded-lg border-none pt-8 p-8">
+   
+       <slot />
+
+   </div>
+
+
+</main>

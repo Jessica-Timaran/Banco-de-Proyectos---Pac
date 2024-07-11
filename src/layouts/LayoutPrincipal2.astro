@@ -1,0 +1,28 @@
+---
+import Navbar from "../Components/Navbar.astro";
+import Menu from "../Components/Menu.astro";
+import PostLayout from "./PostLayout.astro";
+
+
+interface Props { //TypeScript
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<PostLayout title="Instructor">
+    <div>
+    <header class="w-full bg-white  ">
+        <Navbar Text="djcds"/>
+    </header>
+
+    <aside>
+        <Menu/>
+        
+    </aside>
+
+    <slot/>
+</div>
+
+</PostLayout>

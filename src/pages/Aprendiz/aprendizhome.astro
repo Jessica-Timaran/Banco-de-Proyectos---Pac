@@ -1,0 +1,73 @@
+---
+import Carpag from "../../Components/Card.astro"
+---
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+        <style>
+            
+            /* Estilos personalizados con Tailwind CSS */
+            * {
+                box-sizing: border-box;
+            }
+    
+            body {  
+                overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            margin: 0px auto;
+            font-size: 1vw; 
+        }
+
+
+            .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
+
+  
+       
+            
+
+        </style>
+        <title>Astro</title>
+    </head>
+
+   
+        <div class=" h-screen w-full  flex justify-center items-center flex-col p-[5%]      "> 
+    <div class=" w-[70%]   m-auto flex  max-[768px]:m-[15px] ">
+        <div class=" w-[90%] flex-col mt-[10%] "> 
+            <h1 class=" text-[6vw]  leading-[1rem]  font-josefin-slab max-[768px]:text-[15vw] mb-[5%]  ">  Bienvenido
+                <h2 class=" text-[5vw] mt-[3%]   font-['serif' max-[768px]:text-[50px] ] text-[#A3E784] ">  Aprendiz
+                    <p class=" text-[1vw] mt-[5%] text-black  font-josefin-sans leading-[1.1rem]  max-[768px]:text-[15px] mb-[8%] "> ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla!  Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito? </b></p>
+        </div>
+             <div class=" w-full   max-[768px]:hidden  flex  items-center   "> 
+                        <img class=" w-[35em]   max-[768px]:hidden    " src="/Img/mujer.png" alt="Olvido de contraseña" />
+                </div>    
+             </div> 
+    
+             <div class="w-[100%] h-[50%] flex justify-center "> 
+                <Carpag Text="Ver proyecto asignado"/>
+            </div>
+        </div>
+    </div>
+
+    
+</html>
+
+    
+</html>

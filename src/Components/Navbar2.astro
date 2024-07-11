@@ -1,0 +1,19 @@
+---
+interface Props {
+Text: string;
+}
+
+const {Text} = Astro.props;
+import Buscador from "../Components/Buscador.astro"
+---
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+</style>
+
+<nav class="bg-white flex p-2 sm:p-4 justify-end">
+    <div class="flex items-center mr-2 sm:mr-6">
+        <img src="/public/img/perfil.png" alt="User Avatar" class="rounded-full w-8 h-8 sm:w-12 sm:h-12 mr-2">
+        <span class="text-black text-xs sm:text-base">Karen Riascos <br>{Text}</span>
+    </div>
+</nav>

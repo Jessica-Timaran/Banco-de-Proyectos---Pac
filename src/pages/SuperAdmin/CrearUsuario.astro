@@ -1,0 +1,77 @@
+---
+import Input from "../../Components/Input.astro"
+import BotonPrincipal from "../../Components/BotonPrincipal.astro"
+import BotonSegundo from "../../Components/BotonSegundo.astro"
+import SelectBoxTI from "../../Components/SelectBoxTI.astro"
+import SelectBoxRol from "../../Components/SelectBoxRol.astro"
+import RadioButton from "../../Components/RadioButton.astro"
+import LayoutPrincipal from "../../layouts/LayoutPrincipal.astro"
+import Layoutcontenido from "../../layouts/Layoutcontenido.astro"
+import ModalUsuario from "../../Components/ModalUsuario.astro"
+---
+
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+</style>
+
+
+<LayoutPrincipal title="Crear Usuario">
+    <Layoutcontenido title="Crear Usuario">
+        <div class="flex-box flex flex-col space-y-8 w-1/2">
+            <Input Text="Nombre del usuario:" placeholder="Ej: Pepito Perez" type="text" id=""/>
+            <div class=" w-1/2">
+                <SelectBoxTI Text="Tipo de documento"/>
+            </div>
+            <Input Text="Número de documento:" placeholder="Ej: 123456789" type="text" id=""/>
+            <Input Text="Correo Electrónico:" placeholder="Ej: ejemplo@gmail.com" type="email" id=""/>
+        </div>
+
+        <div class="flex-box flex flex-col space-y-8 w-1/2">
+            <Input Text="Contraseña:" placeholder=".............." type="password" id=""/>
+            <div class=" w-1/2">
+                <SelectBoxRol Text="Rol del usuario:"/>
+            </div>
+
+            <div class=" space-y-11">
+            <div class="flex-box flex flex-col space-y-6">
+                <h1 class="font-josefin-slab text-black font-semibold ">Estado:</h1>
+                <div class="flex space-x-8">
+                    <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
+                </div>
+            </div>
+            </div>
+            <div class="flex-box flex flex-col space-y-5 w-1/2 ">
+                    <Input Text="Celular:" placeholder="Ej: 312456789" type="text" id=""/>
+            </div>
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <a href="/SuperAdmin/HomeSuperAdmin">
+                    <BotonPrincipal Text="Volver" />
+                </a>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                    <BotonSegundo Text="Guardar" />
+                </div>
+            </div>
+        </div>
+
+<ModalUsuario >
+
+<script>
+    const modal = document.querySelector('.modal');
+
+    const showModal = document.querySelector('.show-modal');
+    const closeModal = document.querySelector('.close-modal')
+
+    showModal?.addEventListener('click', function(){
+        modal?.classList.remove('hidden')
+    });
+
+    closeModal?.addEventListener('click', function(){
+        modal?.classList.add('hidden')
+    });
+</script>
+    </Layoutcontenido>
+</Layoutprincipal>

@@ -1,0 +1,23 @@
+---
+import BotonEditar from "./BotonEditar.astro"
+---
+
+
+<label class="flex justify-center items-center p-2 gap-2 h-8 w-28 border border-[#FF8700] bg-[#ffaa2b6f] rounded-sm  hover:bg-[#ffb82b95]">
+  <span class="text-[#FF8700] text-base font-semibold">Devuelto</span>
+</label>
+
+
+<style>
+  @keyframes spin {
+      0% {
+          transform: rotate(0deg);
+      }
+      100% {
+          transform: rotate(-360deg);
+      }
+  }
+  .button:hover .svg-icon {
+      animation: spin 2s linear infinite;
+  }
+</style>

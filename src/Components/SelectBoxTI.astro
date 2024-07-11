@@ -1,0 +1,37 @@
+---
+interface Props {
+Text: String
+
+}
+
+const {Text} = Astro.props;
+---
+
+<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+<form class="max-w-sm mx-auto">
+    <label  class="pace-y-2 w-1/2 font-josefin-slab ">{Text}</label>
+    <select class="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px]  text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]">
+    </div>
+    <option selected> Tipo de documento</option>
+    <option value="CC">Cédula de ciudadanía</option>
+    <option value="CE">Cédula de extranjeria</option>
+    <option value="TI">Tarjeta de identidad</option>
+    <option value="PEP">Permiso especial de permanencia</option>
+    <option value="PPT">Permiso de proteccion tempotal</option>
+    </select>
+</form>

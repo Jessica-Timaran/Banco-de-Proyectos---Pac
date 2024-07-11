@@ -1,0 +1,23 @@
+---
+import EstadoAprobado from './EstadoAprobado.astro';
+import BotonEditar from './BotonEditar.astro';
+
+interface Props {
+  Text1: string;
+}
+
+const { Text1} = Astro.props;
+---
+
+<div class="w-full bg-white">
+    <div class="grid gap-4">
+        <div class="grid grid-cols-12 items-center border-b py-2 mt-15 h-14">
+            <div class="col-span-10 flex items-center">
+                <span class="text-base pl-12">{Text1}</span>
+            </div>
+            <div class="col-span-1 flex justify-center items-center mb-3">
+                <slot/>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+---
+import Input from "../../Components/Input.astro"
+import BotonPrincipal from "../../Components/BotonPrincipal.astro"
+import BotonSegundo from "../../Components/BotonSegundo.astro"
+import LayoutPrincipal from "../../layouts/LayoutPrincipal.astro"
+import Layoutcontenido from "../../layouts/Layoutcontenido.astro"
+import ModalFichas from "../../Components/ModalFichas.astro"
+---
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+</style>
+
+<LayoutPrincipal title="Crear Fichas">
+    <Layoutcontenido title="Crear Fichas">
+        <div class="flex flex-col space-y-8 w-1/2 justify-center items-center">
+            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id=""/>
+            <Input Text="Número de ficha:" placeholder="2694265" type="text" id=""/>
+
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <a href="/SuperAdmin/HomeSuperAdmin" class="">
+                    <BotonPrincipal Text="Volver" />
+                </a>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                    <BotonSegundo Text="Guardar" />
+                </div>
+            </div>
+        </div>
+        <ModalFichas >
+
+            <script>
+                const modal = document.querySelector('.modal');
+
+                const showModal = document.querySelector('.show-modal');
+                const closeModal = document.querySelector('.close-modal')
+
+                showModal?.addEventListener('click', function(){
+                    modal?.classList.remove('hidden')
+                });
+
+                closeModal?.addEventListener('click', function(){
+                    modal?.classList.add('hidden')
+                });
+            </script>
+    </Layoutcontenido>
+</Layoutprincipal>

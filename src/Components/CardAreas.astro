@@ -1,0 +1,45 @@
+---
+import BotonSegundo from './BotonSegundo.astro';
+interface Props {
+Text: string;
+Text2: string;
+Text3: string;
+Text4: string;
+Text5: string;
+
+}
+
+const {Text, Text2, Text3, Text4, Text5} = Astro.props;
+---
+
+<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+
+
+<div class="w-100 h-auto bg-[#FBFCFF] rounded-xl border-2 border-[#FBFCFF] shadow-lg flex flex-col p-8 lg:m-8 ">
+    <h2 class="text-lg lg:text-2xl font-josefin-slab mb-4 leading-tight p-4 font-bold">{Text}</h2>
+    <h2 class="text-lg lg:text-2xl font-josefin-slab leading-tight pl-4">{Text2}</h2>
+    <h2 class="text-lg lg:text-2xl font-josefin-slab leading-tight pl-4">{Text3}</h2>
+    <h2 class="text-lg lg:text-2xl font-josefin-slab leading-tight pl-4 ">{Text4}</h2>
+    <h2 class="text-lg lg:text-2xl font-josefin-slab leading-tight pl-4">{Text5}</h2>
+
+    <div class="flex w-full mt-auto text-sm md:text-base justify-center xl:justify-end">
+        <a href="/VistaObjetivos">
+            <BotonSegundo Text="Seleccionar" />
+        </a>
+    </div>
+</div>
