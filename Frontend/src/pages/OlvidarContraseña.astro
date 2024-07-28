@@ -1,0 +1,77 @@
+---
+import Input from "../Components/Input.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import Modal from "../Components/Modal.astro"
+
+interface Props {
+id1: string;
+
+}
+
+const {id1} = Astro.props;
+---
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            font-optical-sizing: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="flex h-screen items-center justify-center gap-x-72"> <!--contenedor principal -->
+        <div class="flex content-center"> <!--contenedor del formulario -->
+            <form id="formu" action="/Inicio" class="form flex flex-col w-96 items-center gap-20">
+
+                <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
+                    <img class="sena w-20 h-20" src="/Img/Logo.png" width="10" height="10">
+                </div>
+
+                <div class="registro flex flex-col items-center gap-20 min-w-96">
+                    <div class="text-3xl">OLVIDAR CONTRASEÑA</div>
+
+                    <div class="relative w-full">
+                        <Input type="text" Text="" placeholder="Correo:" id="registroNombre" />
+                        <span id="nombreError" class="error-message"></span>
+                    </div>
+
+                    <a href="/Inicio">
+                    <BotonPrincipal Text="Recuperar"/>
+                    </a>
+
+                    <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
+                    <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
+                </div>
+            </form>
+        </div>
+
+        <div class="hidden lg:block w-full lg:w-[800px]">
+            <img class="w-[800px] h-[800px]" src="../../public/img/registro.png" alt="Registro">
+        </div>
+    </div>
+    <Modal Text="Se le ha enviado un link a su correo">
+        <script>
+            const modal = document.querySelector('.modal');
+
+            const showModal = document.querySelector('.show-modal');
+            const closeModal = document.querySelector('.close-modal')
+
+            showModal?.addEventListener('click', function(){
+                modal?.classList.remove('hidden')
+            });
+
+            closeModal?.addEventListener('click', function(){
+                modal?.classList.add('hidden')
+            });
+        </script>
+</body>

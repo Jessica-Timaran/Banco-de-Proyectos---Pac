@@ -1,0 +1,74 @@
+---
+import Layoutcontenido4 from "../layouts/Layoutcontenido4.astro"
+import Layoutprincipal from "../layouts/LayoutPrincipal.astro"
+import Input from "../Components/Input.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro"
+import Modal from "../Components/Modal.astro"
+import RadioButton from "../Components/RadioButton.astro"
+---
+
+<style>
+
+body {
+            font-family: "Nunito Sans", sans-serif;
+            font-optical-sizing: auto;
+        }
+
+    .relative input {
+        padding-right: 2.5rem; /* Añade espacio a la derecha del input para el icono */
+    }
+    .relative i {
+        right: 1rem; /* Ajusta la posición del icono */
+    }
+    .error-message {
+        color: red;
+        font-size: 0.875rem; /* Tamaño de fuente pequeño */
+        margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
+        margin-bottom: 1rem; /* Espacio debajo del mensaje */
+        text-align: left; /* Alineación del texto */
+        width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+    }
+</style>
+
+<Layoutprincipal title=""> 
+<Layoutcontenido4 title="Crear Fichas">
+
+    <div class="w-full md:w-1/2" >
+        <div class=" flex flex-col p-[5%] Flex-box space-y-6">
+            <div>
+                 <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id="nombreFicha"/>
+                 <span id="nombreError" class="error-message"></span>
+            </div>
+           
+            <div>
+                <Input Text="Número de ficha:" placeholder="2694265" type="text" id="FichasNum"/>
+                <span id="FichasNumError" class="error-message"></span>
+            </div>
+
+            <div class="space-y-4">
+                <h1> Estado: </h1>
+                <div class="flex h-[23px] ">
+                    <RadioButton Text="Activo" id="estadoActivo"/>
+                    <RadioButton Text="Inactivo" id="estadoInactivo"/>
+                </div>
+                <span id="estadoError" class="error-message"></span>
+                </div>
+           
+        </div>
+
+    <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4">
+        <a href="/VistaSuperadmin" class="">
+            <BotonPrincipal Text="Volver" />
+        </a>
+        <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4 show-modal">
+            <BotonSegundo Text="Guardar" id="guardarBtn"/>
+        </div>
+    </div>
+</div>
+
+<Modal Text="Ficha registrada correctamente"/>
+<script src="../js/CrearFichas.js"></script>
+
+</Layoutcontenido4>
+</Layoutprincipal>

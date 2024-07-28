@@ -1,0 +1,20 @@
+---
+interface Props {
+  Text: string;
+  id: string;
+  name: string;  // Añadido para gestionar el grupo de botones de radio
+}
+
+const { Text, id, name } = Astro.props;
+---
+
+<div class="flex items-center">
+    <input type="radio" id={id} name={name} class="form-radio h-5 w-5 focus:ring-red-600">
+    <label for={id} class="ml-2 text-sm font-josefin-slab">{Text}</label>
+</div>
+
+<style>
+    input[type="radio"].form-radio:checked {
+        background-color: #A3E784; 
+    }
+</style>

@@ -1,0 +1,50 @@
+---
+import Layoutprincipal from "../layouts/LayoutPrincipal.astro"
+import BarraPreguntas from "../Components/BarraPreguntas.astro"
+import EstadoAprobado from "../Components/EstadoAprobado.astro"
+import EstadoRechazado from "../Components/EstadoRechazado.astro"
+import GridDevolver from "../Components/GridDevolver.astro"
+import Grid2 from "../Components/Grid2.astro"
+---
+
+<Layoutprincipal title="">
+    <div class="flex justify-center min-h-screen">
+        <div class="p-10 w-full max-w-7xl my-10">
+            <div class="flex flex-col space-y-8">
+
+                <div class="flex justify-center">
+                    <BarraPreguntas Text1="Objetivos" Text2="Estado" Text3=""/>
+                </div>
+
+                <Grid2 Text1="PAC">
+                    <EstadoAprobado/>
+                </Grid2>
+
+                <GridDevolver Text1="Boteritos"></GridDevolver>
+
+                <GridDevolver Text1="Software contable liviano"></GridDevolver>
+
+                <Grid2 Text1="Plataforma Banca II" >
+                    <EstadoAprobado/>
+                </Grid>
+
+                <Grid2 Text1="Libro de registro de operaciones diarias" >
+                    <EstadoRechazado/>
+                </Grid>
+
+                <Grid2 Text1="MISE">
+                    <EstadoAprobado/>
+                </Grid>
+
+                <Grid2 Text1="Agendamiento centro de estetica facial" >
+                    <EstadoAprobado/>
+                </Grid>
+
+                <Grid2 Text1="Mesa de soporte" >
+                    <EstadoRechazado/>
+                </Grid>
+
+            </div>
+        </div>
+    </div>
+</Layoutprincipal>

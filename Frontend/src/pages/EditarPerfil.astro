@@ -1,0 +1,86 @@
+---
+import Input from '../Components/Input.astro';
+import SelectBoxTI from "../Components/SelectBoxTI.astro"
+import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
+import Layoutcontenido3 from "../layouts/Layoutcontenido3.astro"
+import BotonPrincipal from '../Components/BotonPrincipal.astro';
+import ModalPerfil from '../Components/Modal.astro';
+---
+
+
+<style>
+    .editable-input {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease-in-out;
+      width: 300px; /* Ajusta el ancho según sea necesario */
+    }
+  
+    .editable-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+  
+    .input-container {
+      position: relative;
+    }
+  
+    .input-container i {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      color: #ccc;
+    }
+  </style>
+
+<LayoutPrincipal title="Editar Perfil">
+    <Layoutcontenido3 title="Editar Perfil">
+
+    <div class="w-full md:w-1/2 " >   
+    <div class="  flex flex-col  p-[5%]  Flex-box     ">
+        <Input  placeholder="Nombre completo" type="text" Text="Nombre completo *" id='nombre'/>
+        <SelectBoxTI Text="Tipo de documento:"/>
+        <Input  placeholder="Numero de docuemnto" type="text" Text="Tipo de documento" id='numeroDoc'/>
+
+        <Input   placeholder="Telefono" type="text"Text="Telefono *" id='telefono'/>
+    </div>
+    </div>
+
+    <div class="w-full md:w-1/2  " >
+    <div class="  flex flex-col  p-[5%] Flex-box  ">
+        
+        <Input  placeholder="Correo" type="email" Text="Correo:" id='correo'/>
+        <Input  type="text" Text="Nombre De la Empresa:" placeholder="Nombre De la Empresa" id='nombreEmpresa'/>
+        <Input placeholder="Contraseña" type="password" Text="Contraseña *" id='contraseña'/>
+        <Input placeholder="Confirmar Contraseña" type="password" Text="Confirmar Contraseña *" id='confiContraseña'/>
+        <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+            <div class="">
+                <BotonPrincipal Text="Guardar" />
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<ModalPerfil Text='Perfil actualizado'/>
+
+<script>
+    const modal = document.querySelector('.modal');
+
+    const showModal = document.querySelector('.show-modal');
+    const closeModal = document.querySelector('.close-modal')
+
+    showModal?.addEventListener('click', function(){
+        modal?.classList.remove('hidden')
+    });
+
+    closeModal?.addEventListener('click', function(){
+        modal?.classList.add('hidden')
+    });
+</script>
+
+    </Layoutcontenido3></LayoutPrincipal>
