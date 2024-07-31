@@ -1,12 +1,15 @@
 ---
 import AceptarTerminos from './AceptarTerminos.astro';
+import RadioButton2 from './RadioButton2.astro';
+
 interface Props {
   Text1: string;
   id1: string;
   id2: string;
+  name: string;  // Asegúrate de pasar este nombre al componente RadioButton2
 }
 
-const { Text1, id1, id2 } = Astro.props;
+const { Text1, id1, id2, name } = Astro.props;
 ---
 
 <div class="w-full bg-white">
@@ -15,11 +18,11 @@ const { Text1, id1, id2 } = Astro.props;
             <div class="col-span-10 flex items-center">
                 <span class="text-lg pl-12">{Text1}</span>
             </div>
-            <div class="col-span-1 flex justify-center items-center mb-8 ">
-                <AceptarTerminos Text="" id={id1}></AceptarTerminos>
+            <div class="col-span-1 flex justify-center items-center m-4 ">
+                <RadioButton2 Text='' id={id1} name={name}></RadioButton2>
             </div>
-            <div class="col-span-1 flex justify-center items-center mb-8">
-                <AceptarTerminos Text="" id={id2}></AceptarTerminos>
+            <div class="col-span-1 flex justify-center items-center m-4">
+                <RadioButton2 Text='' id={id2} name={name}></RadioButton2>
             </div>
         </div>
     </div>

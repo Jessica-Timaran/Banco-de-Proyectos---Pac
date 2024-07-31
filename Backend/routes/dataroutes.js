@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -66,6 +66,27 @@ router.post('/registerFicha', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar ficha' });
     }
 });
-  
+
+// Ruta para registrar un nuevo proyecto
+router.post('/proyectos', async (req, res) => {
+    try {
+        console.log('Solicitud recibida:', req.body); 
+        let { nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona } = req.body;
+
+        // Convertir cadenas vacías a null
+        idalcance = idalcance || null;
+        idobjetivos = idobjetivos || null;
+        idarea = idarea || null;
+        idficha = idficha || null;
+        idpersona = idpersona || null;
+
+        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona });
+        res.status(201).json(newProject);
+    } catch (error) {
+        console.error('Error al registrar proyecto:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
 
 export default router;

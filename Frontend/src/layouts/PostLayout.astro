@@ -17,7 +17,13 @@ const { title } = Astro.props;
         <link rel="icon" type="image/svg+xml" href="../../public/img/IconBoteritos.png" />
         <meta name="generator" content={Astro.generator} />
         <script src="https://kit.fontawesome.com/763c79dbc1.js" crossorigin="anonymous"></script>
-PostLa        <title>{title}</title>
+        <title>{title}</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap');
+            body {
+                font-family: 'Josefin Slab', serif;
+            }
+        </style>
     </head>
     <body class=" bg-[#F5F6FA] ">
         <slot/>

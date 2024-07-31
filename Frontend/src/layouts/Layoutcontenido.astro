@@ -7,18 +7,11 @@ interface Props {
 const { title } = Astro.props;
 ---
 
+<main class="flex justify-center items-center min-h-screen min-w-full 2xl:p-10 pl-9 p-10  ">
+    <div class="xl:w-2/3 h-auto p-8 rounded-lg border-none bg-white ">
+    
+        <slot />
 
- 
-    <div class="text-center px-20 mt-[1%] ">
-        <span class="text-2xl font-bold font-nunito-sans text-center "> {title} </span>
-
-    </div>
-
-<main class="flex justify-center  h-[100vh] max-[768px]:h-[100%] ">
-    <div class="   flex-wrap w-[65%] max-[768px]:w-[70%] mt-[1%] h-[100%] bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute  justify-center ">
-        <div class=" flex flex-wrap justify-center w-[90%] ">
-            <slot />
-        </div>
     </div>
 
 
