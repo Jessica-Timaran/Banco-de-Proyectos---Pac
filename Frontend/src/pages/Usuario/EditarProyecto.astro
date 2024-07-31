@@ -1,10 +1,10 @@
 ---
-import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro";
-import LayoutPrincipal2 from "../layouts/LayoutPrincipal2.astro";
-import Input from "../Components/Input.astro";
-import BotonPrincipal from "../Components/BotonPrincipal.astro";
-import BotonSegundo from "../Components/BotonSegundo.astro";
-import RadioButton from "../Components/RadioButton.astro";
+import Layoutcontenido2 from "../../layouts/Layoutcontenido2.astro";
+import LayoutPrincipal2 from "../../layouts/LayoutPrincipal2.astro";
+import Input from "../../Components/Input.astro";
+import BotonPrincipal from "../../Components/BotonPrincipal.astro";
+import BotonSegundo from "../../Components/BotonSegundo.astro";
+import RadioButton from "../../Components/RadioButton.astro";
 ---
 <LayoutPrincipal2 title="">
     <Layoutcontenido2 title="" text1="Editar Proyecto">
@@ -13,7 +13,7 @@ import RadioButton from "../Components/RadioButton.astro";
                 <Input type="text" Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac" id="Nombre Del Proyecto" />
                 <Input type="text" Text="Sector Impactado" placeholder="Impacto Del Proyecto:" id="Impacto del proyecto"/>
                 <Input type="text" Text="Responsable" placeholder="Responsable Del Proyecto" id="Responsable"/>
-                
+
                 <div class="space-y-2">
                     <label class="font-josefin-slab font-semibold text-black">
                         Disponibilidad Para Reuniones Con El Equipo Desarrollador
@@ -40,7 +40,7 @@ import RadioButton from "../Components/RadioButton.astro";
                     <RadioButton Text="Viernes" id=""/>
                     <RadioButton Text="Sábado" id=""/>
                 </div>
-                
+
                 <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                     <a href="/VistaAreas1">
                         <BotonSegundo Text="Siguiente" />

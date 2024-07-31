@@ -1,10 +1,10 @@
 ---
-import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro";
-import LayoutPrincipal2 from "../layouts/LayoutPrincipal2.astro";
-import Input from "../Components/Input.astro";
-import BotonPrincipal from "../Components/BotonPrincipal.astro";
-import BotonSegundo from "../Components/BotonSegundo.astro";
-import RadioButton from "../Components/RadioButton.astro";
+import Layoutcontenido2 from "../../layouts/Layoutcontenido2.astro";
+import LayoutPrincipal2 from "../../layouts/LayoutPrincipal2.astro";
+import Input from "../../Components/Input.astro";
+import BotonPrincipal from "../../Components/BotonPrincipal.astro";
+import BotonSegundo from "../../Components/BotonSegundo.astro";
+import RadioButton from "../../Components/RadioButton.astro";
 ---
 
 <LayoutPrincipal2 title="">
@@ -47,7 +47,7 @@ import RadioButton from "../Components/RadioButton.astro";
                     </div>
                     <span id="errorFrecuenciaReunion" class="text-red-500 text-sm sm:col-span-3"></span>
                 </div>
-              
+
                 <div class="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
                     <RadioButton Text="Lunes" id="checkboxLunes" />
                     <RadioButton Text="Martes" id="checkboxMartes" />
@@ -55,10 +55,10 @@ import RadioButton from "../Components/RadioButton.astro";
                     <RadioButton Text="Jueves" id="checkboxJueves" />
                     <RadioButton Text="Viernes" id="checkboxViernes" />
                     <RadioButton Text="Sábado" id="checkboxSabado" />
-                    
+
                     <span id="errorDiasReunion" class="text-red-500 text-sm sm:col-span-3 "></span>
                 </div>
-               
+
                 <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                     <a id="nextPageLink" href="/VistaAreas1">
                         <BotonSegundo Text="Siguiente" />
@@ -66,7 +66,7 @@ import RadioButton from "../Components/RadioButton.astro";
                 </div>
             </div>
         </div>
-        <script src="../js/RegistroProyecto.js"></script>
-        
+        <script src="../../js/Usuario/RegistroProyecto.js"></script>
+
     </Layoutcontenido2>
 </LayoutPrincipal2>

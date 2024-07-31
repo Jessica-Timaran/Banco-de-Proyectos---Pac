@@ -50,13 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             window.location.href = '/VistaAdministrador';
                             break;
                         case 2:
-                            window.location.href = '/VistaUsuario';
+                            window.location.href = '/Usuario/VistaUsuario';
                             break;
                         case 3:
-                            window.location.href = '/VistaSuperadmin';
+                            window.location.href = 'SuperAdmin/VistaSuperadmin';
                             break;
                         case 4:
-                            window.location.href = '/VistaAprendiz';
+                            window.location.href = '/Aprendiz/VistaAprendiz';
                             break;
                         default:
                             correoError.textContent = 'Rol de usuario desconocido';

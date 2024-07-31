@@ -114,11 +114,20 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
     }
 }
 
-export { 
-    getAllPersonas, 
-    getAllUsuario, 
-    registerPerson, 
-    loginPerson, 
-    registerFicha, 
-    registerProject 
-};
+// Función para obtener todos los proyectos 
+async function getAllProyectos() {
+    try {
+        console.log('Obteniendo todos los proyectos...');
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM proyecto');
+        client.release();
+        console.log('Proyectos obtenidos con éxito:', result.rows);
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener proyectos:', error);
+        throw error;
+    }
+}
+
+
+export {getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos};
