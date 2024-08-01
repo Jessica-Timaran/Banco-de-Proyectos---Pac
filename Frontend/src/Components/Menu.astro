@@ -58,23 +58,23 @@ import Items1 from "./Itemss1.astro";
       // Definir los ítems del menú para cada rol
       const menuItemsByRole = {
         1: [
-          { icon: 'fas fa-home', href: '/VistaProyectos', label: 'Proyectos' },
-          { icon: 'fas fa-solid fa-user', href: '/VistaAprobados', label: 'Vista Aprobados' },
-          { icon: 'fas fa-cog', href: '/AsignarProyecto', label: 'Asignar Proyecto' }
+          { icon: 'fas fa-home', href: '/Admin/VistaProyectos', label: 'Proyectos' },
+          { icon: 'fas fa-solid fa-user', href: '/Admin/VistaAprobados', label: 'Vista Aprobados' },
+          { icon: 'fas fa-cog', href: '/Admin/AsignarProyecto', label: 'Asignar Proyecto' }
         ],
         2: [
-          { icon: 'fas fa-home', href: '/VistaMisProyectos', label: 'Vista Mis proyectos' },
-          { icon: 'fas fa-project-diagram', href: '/editarPerfil', label: 'Editar Perfil' }
+          { icon: 'fas fa-home', href: '/Usuario/RegistroProyecto', label: 'Registrar proyecto' },
+          { icon: 'fas fa-project-diagram', href: '/Usuario/EditarPerfil', label: 'Editar Perfil' }
         ],
         3: [
-          { icon: 'fas fa-home', href: '/CrearFichas', label: 'Crear Usuario' },
-          { icon: 'fas fa-solid fa-users', href: '/CrearUsuario', label: 'Crear Fichas' },
-          { icon: 'fas fa-tools', href: '/EditarRegistro', label: 'Editar Registro' },
-          { icon: 'fas fa-tools', href: '/CargaMasiva', label: 'Cargar Aprendices' }
+          { icon: 'fas fa-home', href: '/SuperAdmin/CrearFichas', label: 'Crear Usuario' },
+          { icon: 'fas fa-solid fa-users', href: '/SuperAdmin/CrearUsuario', label: 'Crear Fichas' },
+          { icon: 'fas fa-tools', href: '#', label: 'Editar Registro' },
+          { icon: 'fas fa-tools', href: '#', label: 'Cargar Aprendices' }
         ],
         4: [
-          { icon: 'fas fa-home', href: '/ProyectosAsignados', label: 'Proyectos Asignados' },
-          { icon: 'fas fa-book', href: '/editarPerfil', label: 'Editar Perfil' }
+          {icon: 'fas fa-home', href: '/Aprendiz/VistaProyectos', label: 'Vista Mis proyectos' },
+          { icon: 'fas fa-project-diagram', href: 'Aprendiz/EditarPerfil', label: 'Editar Perfil' }
         ]
       };
 

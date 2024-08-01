@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos, getAllAlcances } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -114,6 +114,17 @@ router.get('/proyectos/:id', async (req, res) => {
         }
     } catch (error) {
         console.error('Error al obtener el proyecto:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para obtener todas las preguntas junto con sus categorías
+router.get('/alcances', async (req, res) => {
+    try {
+        const alcances = await getAllAlcances();
+        res.json(alcances);
+    } catch (error) {
+        console.error('Error al obtener alcances:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });

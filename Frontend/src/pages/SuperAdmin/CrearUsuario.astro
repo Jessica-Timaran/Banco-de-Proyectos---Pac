@@ -6,7 +6,7 @@ import SelectBoxTI from "../../Components/SelectBoxTI.astro"
 import SelectBoxRol from "../../Components/SelectBoxRol.astro"
 import RadioButton from "../../Components/RadioButton.astro"
 import LayoutPrincipal from "../../layouts/LayoutPrincipal.astro"
-import Layoutcontenido from "../../layouts/Layoutcontenido.astro"
+import Layoutcontenido4 from "../../layouts/Layoutcontenido4.astro"
 import Modal from "../../Components/Modal.astro"
 ---
 <style>
@@ -32,7 +32,7 @@ import Modal from "../../Components/Modal.astro"
 </style>
 
 <LayoutPrincipal title="Crear Usuario">
-    <Layoutcontenido title="Crear Usuario">
+    <Layoutcontenido4 title="Crear Usuario">
         <div class="w-full md:w-1/2 " >
         <div class="flex flex-col p-[5%] Flex-box space-y-5">
             <div>
@@ -84,7 +84,7 @@ import Modal from "../../Components/Modal.astro"
             </div>
 
             <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <a href="/VistaSuperadmin">
+                <a href="/HomeSuperAdmin">
                     <BotonPrincipal Text="Volver" />
                 </a>
                 <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
@@ -98,5 +98,5 @@ import Modal from "../../Components/Modal.astro"
     <Modal Text="Usuario registrado correctamente"/>
     <script src="../../js/SuperAdmin/CrearUsuario.js"></script>
 
-    </Layoutcontenido>
+    </Layoutcontenido4>
 </LayoutPrincipal>
