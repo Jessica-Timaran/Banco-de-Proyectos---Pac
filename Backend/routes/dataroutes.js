@@ -1,5 +1,14 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos, getAllAlcances } from '../controllers/datacontroler.js';
+import { 
+    getAllPersonas, 
+    getAllUsuario, 
+    registerPerson, 
+    loginPerson, 
+    registerFicha, 
+    registerProject, 
+    getAllProyectos, 
+    getAllAlcances,  
+} from '../controllers/datacontroler.js';
 
 const router = express.Router();
 

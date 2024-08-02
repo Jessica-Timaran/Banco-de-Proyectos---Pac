@@ -135,7 +135,7 @@ async function getAllAlcances() {
     try {
         const client = await pool.connect();
         const query = `
-            SELECT a.idalcance, a.descripcion, a.aplica, c.nombre as categoria
+            SELECT a.idalcance, a.descripcion, a.aplica, c.nombre as categoria 
             FROM alcance a
             JOIN categoriasalcance c ON a.idcategoriasalcance = c.idcategoriasalcance
         `;
@@ -147,7 +147,6 @@ async function getAllAlcances() {
         throw error;
     }
 }
-
 
 
 export {getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos, getAllAlcances};
