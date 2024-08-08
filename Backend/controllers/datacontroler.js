@@ -150,7 +150,6 @@ async function getProyectoById(id) {
     }
 }
 
-
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {
     try {
@@ -169,5 +168,27 @@ async function getAllAlcances() {
     }
 }
 
+async function getAllAreas() {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT idarea, area, estado FROM area');
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
+        throw error;
+    }
+}
 
-export {getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos, getAllAlcances, getProyectoById};
+export {
+    getAllPersonas, 
+    getAllUsuario, 
+    registerPerson, 
+    loginPerson, 
+    registerFicha, 
+    registerProject, 
+    getAllProyectos, 
+    getAllAlcances, 
+    getProyectoById,
+    getAllAreas
+};

@@ -8,7 +8,8 @@ import {
     registerProject, 
     getAllProyectos, 
     getAllAlcances,
-    getProyectoById,  
+    getProyectoById,
+    getAllAreas,  
 } from '../controllers/datacontroler.js';
 
 const router = express.Router();
@@ -47,8 +48,6 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
-
-
 
 // Ruta para iniciar sesión
 router.post('/login', async (req, res) => {
@@ -135,6 +134,17 @@ router.get('/alcances', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener alcances:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para obtener todas las áreas
+router.get('/areas', async (req, res) => {
+    try {
+        const areas = await getAllAreas();
+        res.json(areas);
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
     }
 });
 
