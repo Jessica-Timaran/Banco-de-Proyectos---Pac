@@ -114,7 +114,7 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
     }
 }
 
-// Función para obtener todos los proyectos
+// Función para obtener todos los proyectos Steeven
 async function getAllProyectos() {
     try {
         console.log('Obteniendo todos los proyectos...');
@@ -125,6 +125,27 @@ async function getAllProyectos() {
         return result.rows;
     } catch (error) {
         console.error('Error al obtener proyectos:', error);
+        throw error;
+    }
+}
+
+// Función para obtener un proyecto por ID Steeven
+async function getProyectoById(id) {
+    try {
+        const numericId = parseInt(id); // Convertir a entero
+        if (isNaN(numericId)) {
+            throw new Error('ID inválido');
+        }
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM proyecto WHERE idproyecto = $1', [numericId]);
+        client.release();
+        if (result.rows.length > 0) {
+            return result.rows[0];
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener el proyecto por ID:', error);
         throw error;
     }
 }
@@ -149,4 +170,4 @@ async function getAllAlcances() {
 }
 
 
-export {getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos, getAllAlcances};
+export {getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerProject, getAllProyectos, getAllAlcances, getProyectoById};
