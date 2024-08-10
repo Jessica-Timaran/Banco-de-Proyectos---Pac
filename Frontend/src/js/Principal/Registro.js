@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const numeroDc = document.getElementById('numeroDc');
     const telefono = document.getElementById('telefono');
     const aceptarTerminos = document.getElementById('aceptarTerminos');
+    const successMessage = document.getElementById('successMessage');
 
     const nombreError = document.getElementById('nombreError');
     const empresaError = document.getElementById('empresaError');
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
             let valid = true;
 
+            // Limpiar mensajes de error
             if (nombreError) nombreError.textContent = '';
             if (empresaError) empresaError.textContent = '';
             if (correoError) correoError.textContent = '';
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (numeroDcError) numeroDcError.textContent = '';
             if (telefonoError) telefonoError.textContent = '';
             if (terminosError) terminosError.textContent = '';
+            if (successMessage) successMessage.textContent = '';
 
             // Validación del nombre
             const nombreValue = nombre ? nombre.value.trim() : '';
@@ -114,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (terminosError) terminosError.textContent = 'Debe aceptar los términos y condiciones.';
             }
 
+
             if (valid) {
                 const tipoDocumentoValue = document.getElementById('tipoDocumento').value;
                 const data = {
@@ -124,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     telefono: telefono.value.trim(),
                     correo: correoRegistro.value.trim(),
                     contraseña: contrasenaRegistro.value,
-                    idrol: 2 // Hardcoded idrol value
+                    idrol: 2 
                 };
 
                 console.log('Datos enviados al servidor:', data);
@@ -139,7 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     if (response.ok) {
-                        console.log('Registro exitoso');
+                        // Mostrar mensaje de éxito
+                        if (successMessage) successMessage.textContent = '¡Registro exitoso!';
+
+                        // Redirigir después de un breve retraso para que el mensaje de éxito sea visible
+                        setTimeout(() => {
+                            window.location.href = '/Principal/Inicio';
+                        }, 2000); // Ajusta el tiempo según sea necesario
                     } else {
                         console.error('Error en el registro');
                     }

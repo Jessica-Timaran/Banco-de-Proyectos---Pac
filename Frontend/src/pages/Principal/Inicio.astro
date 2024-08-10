@@ -4,9 +4,10 @@ import Input from "../../Components/Input.astro";
 import BotonPrincipal from "../../Components/BotonPrincipal.astro";
 ---
 
+
 <style>
     body {
-        font-family: "Nunito Sans", sans-serif;
+        font-family: "Josefin Slab", serif;
         font-optical-sizing: auto;
     }
     .relative input {
@@ -16,26 +17,12 @@ import BotonPrincipal from "../../Components/BotonPrincipal.astro";
         right: 1rem; /* Ajusta la posición del icono */
     }
     .error-message {
-        color: red;
-        font-size: 0.875rem; /* Tamaño de fuente pequeño */
-        margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
-        margin-bottom: 1rem; /* Espacio debajo del mensaje */
-        text-align: left; /* Alineación del texto */
-        width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
-    }
-    .loader {
-        /* Estilo básico para el loader */
-        border: 4px solid #f3f3f3; /* Light grey */
-        border-top: 4px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        animation: spin 2s linear infinite;
-    }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+    color: red;
+    font-size: 0.875rem; 
+    margin-top: 0.25rem; /* Espacio entre el input y el mensaje de error */
+    text-align: left;
+    width: 100%;
+}
 </style>
 
 <LayoutFormulario title="Formulario">
@@ -43,25 +30,28 @@ import BotonPrincipal from "../../Components/BotonPrincipal.astro";
         <div class="flex content-center">
             <form id="formu" action="http://localhost:4000/api/login" method="POST" class="form flex flex-col 2xl:w-96 sm:w-[600px] sm:h-[900px] justify-center items-center 2xl:gap-28 gap-y-20 sm:gap-y-24">
                 <div class="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-96 sm:h-32 2xl:max-w-80 2xl:max-h-32 bg-custom-green 2xl:rounded-bl-[50px] 2xl:rounded-br-[50px] rounded-bl-[40px] rounded-br-[40px]">
-                    <img class="sena sm:w-20 sm:h-20 w-12 h-12" src="/Img/logoSena.png" alt="Logo Sena">
+                    <img class="sena sm:w-20 sm:h-20 w-12 h-12" src="/public/img/logoSena.png" alt="Logo Sena">
                 </div>
 
                 <div class="login flex flex-col items-center 2xl:gap-4 2xl:min-w-96 w-56 sm:w-96 gap-y-4 sm:gap-y-7">
                     <div class="text-3xl 2xl:pb-8">LOGIN</div>
 
+
                     <div class="relative w-full">
                         <Input type="email" Text="" placeholder="Correo:" id="CorreoInicio"/>
                         <span id="correoError" class="error-message"></span>
                     </div>
-
+                    
                     <div class="relative w-full">
                         <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaInicio"/>
                         <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordInicio"></i>
                         <span id="contrasenaError" class="error-message"></span>
                     </div>
 
+                    <span id="globalError" class="error-message"></span>
+
                     <div class="flex justify-end w-full">
-                        <a href="/Principal/OlvidarContraseña" class="text-blue-500 underline decoration-1">¿Olvidaste tu contraseña?</a>
+                        <a href="/OlvidarContraseña" class="text-blue-500 underline decoration-1">¿Olvidaste tu contraseña?</a>
                     </div>
 
                     <BotonPrincipal Text="Login" />
@@ -75,7 +65,7 @@ import BotonPrincipal from "../../Components/BotonPrincipal.astro";
         </div>
 
         <div class="hidden md:hidden lg:hidden xl:block 2xl:block 2xl:w-[800px] 2xl:h-[800px] xl:h-[650px] xl:w-[550px] sm:w-[700px] sm:h-[700px]">
-            <img class="sm:w-auto sm:h-auto 2xl:w-full 2xl:h-full" src="/Img/Principal.png" alt="Imagen niño">
+            <img class="sm:w-auto sm:h-auto 2xl:w-full 2xl:h-full" src="../../public/img/nino.png" alt="Imagen niño">
         </div>
     </div>
 
