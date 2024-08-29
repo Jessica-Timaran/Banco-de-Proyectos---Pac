@@ -136,12 +136,12 @@ async function registerFicha({ nombre, numeroFicha, estado }) {
 }
 
 // Función para registrar un nuevo proyecto
-async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona }) {
+async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
     try {
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, idalcance, idobjetivos, idarea, idficha, idpersona, dia) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-            [nombre, impacto, responsable, disponibilidad, idalcance, idobjetivos, idarea, idficha, idpersona, dia]
+            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+            [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea]
         );
         client.release();
         console.log('Proyecto registrado con éxito:', result.rows[0]);
@@ -218,6 +218,177 @@ async function getAllAreas() {
     }
 }
 
+async function getTiposDeAreaPorArea(idArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT t.idtiposdearea, t.tiposdearea, t.estado
+        FROM tipodearea t
+        WHERE t.idarea = $1
+      `;
+      const result = await client.query(query, [idArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener tipos de área:', error);
+      throw error;
+    }
+  }
+
+  async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT * FROM items
+        WHERE idarea = $1 AND idtiposdearea = $2
+      `;
+      const result = await client.query(query, [idArea, idTiposDeArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      throw error;
+    }
+  }
+  
+// Obtener todos los objetivos
+async function getObjetivos() {
+    try {
+        const query = `
+            SELECT o.idobjetivos, o.descripcion, o.aplica, o.idarea, co.nombre AS categoria
+            FROM objetivos o
+            JOIN categoriasobjetivos co ON o.idcategoriasobjetivos = co.idcategoriasobjetivos
+        `;
+        const result = await pool.query(query);
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener objetivos:', error);
+        throw error;
+    }
+};
+
+async function guardarRespuestas(respuestas) {
+    try {
+        const client = await pool.connect();
+
+        for (const respuesta of respuestas) {
+            const { idproyecto, idalcance, respuesta: valorRespuesta } = respuesta;
+
+            // Convertir idproyecto a número
+            const idproyectoNumero = parseInt(idproyecto, 10);
+            
+            await client.query(
+                'INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) VALUES ($1, $2, $3)',
+                [idproyectoNumero, idalcance, valorRespuesta]
+            );
+        }
+
+        client.release();
+        console.log('Respuestas guardadas con éxito');
+    } catch (error) {
+        console.error('Error al guardar respuestas:', error);
+        throw error;
+    }
+}
+
+
+async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
+            [areaId, projectId]
+        );
+        
+        client.release();
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al actualizar el proyecto con el área:', error);
+        throw error;
+    }
+}
+
+  
+// Obtener objetivos por área
+async function getObjetivosPorArea(idArea) {
+    try {
+        const query = `
+            SELECT o.idobjetivos, o.descripcion, o.aplica, co.nombre AS categoria
+            FROM objetivos o
+            JOIN categoriasobjetivos co ON o.idcategoriasobjetivos = co.idcategoriasobjetivos
+            WHERE o.idarea = $1
+        `;
+        const result = await pool.query(query, [idArea]);
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener objetivos por área:', error);
+        throw error;
+    }
+}
+
+async function updateProjectTipo(areaId, projectId) {
+    try {
+        const result = await pool.query(
+            `UPDATE proyecto SET idtiposdearea = $1 WHERE idproyecto = $2`,
+            [areaId, projectId]
+        );
+
+        if (result.rowCount === 0) {
+            throw new Error('Proyecto no encontrado');
+        }
+
+        return { message: 'Proyecto actualizado correctamente' };
+    } catch (error) {
+        console.error('Error updating proyecto:', error);
+        throw error;
+    }
+}
+
+async function updateProyectoItem({ projectId, itemId }) {
+    try {
+      // Asegúrate de que los valores estén presentes
+      if (!projectId || !itemId) {
+        throw new Error('Faltan parámetros en la solicitud');
+      }
+  
+      const result = await pool.query(
+        `UPDATE proyecto SET iditems = $1 WHERE idproyecto = $2`,
+        [itemId, projectId]
+      );
+  
+      if (result.rowCount === 0) {
+        throw new Error('Proyecto no encontrado');
+      }
+  
+      return { message: 'Ítem actualizado correctamente' };
+    } catch (error) {
+      console.error('Error updating proyecto:', error);
+      throw error;
+    }
+  }
+  
+  async function guardarRespuestasObjetivos(respuestas) {
+    try {
+        const client = await pool.connect();
+
+        for (const respuesta of respuestas) {
+            const { idproyecto, idobjetivos, respuesta: valorRespuesta } = respuesta;
+
+            // Guarda en la tabla respuestasobjetivos con el idproyecto
+            await client.query(
+                'INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) VALUES ($1, $2, $3)',
+                [idproyecto, idobjetivos, valorRespuesta]
+            );
+        }
+
+        client.release();
+        console.log('Respuestas guardadas con éxito');
+    } catch (error) {
+        console.error('Error al guardar respuestas:', error);
+        throw error;
+    }
+}
+
 export {
     getAllPersonas, 
     getAllUsuario, 
@@ -230,5 +401,15 @@ export {
     getProyectoById,
     getAllAreas,
     checkIfUserExists,
-    updatePassword
+    updatePassword,
+    getTiposDeAreaPorArea,
+    getItemsPorAreaYTipo,
+    getObjetivos,
+    guardarRespuestas,
+    updateProjectWithArea,
+    getObjetivosPorArea,
+    updateProjectTipo,
+    updateProyectoItem,
+    guardarRespuestasObjetivos
+
 };

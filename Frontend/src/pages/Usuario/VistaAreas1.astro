@@ -3,21 +3,26 @@ import LayoutPrincipal from "../../layouts/LayoutPrincipal.astro";
 import Card from "../../Components/Card.astro";
 import Layoutcontenido from "../../layouts/Layoutcontenido.astro";
 import BotonPrincipal from "../../Components/BotonPrincipal.astro";
-// Función para obtener las áreas desde la API
+import Loader from "../../Components/Loader.astro";
+
+// Obtén el ID del proyecto de los parámetros de la URL (esto solo funciona en el navegador)
+const getProjectIdFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('projectId');
+};
+
 const fetchAreas = async () => {
   try {
-    const response = await fetch('http://localhost:4000/api/areas');
+    const response = await fetch('http://localhost:4000/api/areas'); 
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const data = await response.json();
-    return data.map(area => area.area);
+    return response.json();
   } catch (error) {
     console.error('Error al obtener áreas:', error);
     return []; 
   }
 };
-
 
 // Obtén los datos
 const areas = await fetchAreas();
@@ -32,21 +37,68 @@ const areas = await fetchAreas();
 
     <div class="flex justify-center">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Usa un bucle para renderizar un componente Card para cada área -->
-        {areas.map((area, index) => (
-          <Fragment key={index}>
-            <a href={`Usuario/VistaAreas2?area=${encodeURIComponent(area)}`}>
-              <Card Text={area} />
+        {areas.map((area) => (
+          <div :key={area.idarea}>
+            <a href="#" class="area-card" data-area-id={area.idarea}>
+              <Card Text={area.area} />
             </a>
-          </Fragment>
+          </div>
         ))}
       </div>
     </div>
 
     <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-      <a href="/Usuario/RegistroProyecto" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+      <a href="/RegistroProyecto" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
         <BotonPrincipal Text="Volver" />
       </a>
     </div>
   </Layoutcontenido>
+
+  <script>
+    // Define projectId in the script
+    const projectId = (() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('projectId');
+    })();
+
+    document.querySelectorAll('.area-card').forEach(card => {
+  card.addEventListener('click', async (event) => {
+    event.preventDefault();
+    
+    // Asegurarse de que el target es un elemento HTML
+    const target = event.currentTarget as HTMLElement;
+
+    const areaId = target.getAttribute('data-area-id');
+    const projectId = new URLSearchParams(window.location.search).get('projectId');
+
+    if (!areaId || !projectId) {
+      console.error('No se pudo obtener el id del área o del proyecto');
+      return;
+    }
+
+    try {
+      console.log(`Enviando solicitud para seleccionar el área: ${areaId}`);
+      const response = await fetch('http://localhost:4000/api/proyectos/seleccionar-area', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ areaId, projectId }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error en la respuesta del servidor: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Área seleccionada correctamente:', data);
+
+      // Redirige a la siguiente vista incluyendo projectId en la URL
+      window.location.href = `/Usuario/Services/${areaId}?projectId=${projectId}`;
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
+    }
+  });
+});
+  </script>
 </LayoutPrincipal>
