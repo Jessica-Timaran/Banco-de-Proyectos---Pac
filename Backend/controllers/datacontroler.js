@@ -1,20 +1,24 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
-// Función para verificar si el correo electrónico ya está registrado
-async function checkIfUserExists(correo) {
+
+async function checkEmailExists(correo) {
+    if (!correo) {
+        throw new Error('El correo electrónico es requerido.');
+    }
     try {
         const client = await pool.connect();
-        const result = await client.query(
-            'SELECT * FROM personas WHERE correo = $1',
-            [correo]
-        );
+        const result = await client.query('SELECT COUNT(*) FROM personas WHERE correo = $1', [correo]);
         client.release();
-
-        return result.rows.length > 0;
+        
+        if (result.rows[0].count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     } catch (error) {
-        console.error('Error al verificar si el usuario existe:', error);
-        throw error;
+        console.error('Error en checkEmailExists:', error);
+        throw new Error('Error en la base de datos al verificar el correo electrónico.');
     }
 }
 
@@ -401,7 +405,7 @@ export {
     getAllAlcances,
     getProyectoById,
     getAllAreas,
-    checkIfUserExists,
+    checkEmailExists,
     updatePassword,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,

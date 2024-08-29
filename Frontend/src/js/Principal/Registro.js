@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const formu = document.getElementById('formu');
-
-
     const nombre = document.getElementById('registroNombre');
     const empresa = document.getElementById('nombreEmpresa');
     const correoRegistro = document.getElementById('CorreoRegistro');
@@ -25,41 +23,142 @@ document.addEventListener('DOMContentLoaded', function () {
     const togglePasswordRegistro = document.getElementById('togglePasswordRegistro');
     const togglePasswordConfirmacion = document.getElementById('togglePasswordConfirmacion');
 
-
-
-
     if (formu) {
-        formu.addEventListener('submit', function (event) {
+        formu.addEventListener('submit', async function (event) {
             event.preventDefault();
             let valid = true;
 
-            // Limpiar mensaje de error del tipo de documento
-            if (tipoDocumentoError) tipoDocumentoError.textContent = '';
+            // Limpiar mensajes de error
+            tipoDocumentoError.textContent = '';
+            nombreError.textContent = '';
+            empresaError.textContent = '';
+            correoError.textContent = '';
+            contrasenaError.textContent = '';
+            confirmarContrasenaError.textContent = '';
+            numeroDcError.textContent = '';
+            telefonoError.textContent = '';
+            terminosError.textContent = '';
+            successMessage.textContent = '';
 
             // Validación del tipo de documento
             const tipoDocumentoValue = tipoDocumento ? tipoDocumento.value.trim() : '';
             if (!tipoDocumentoValue || tipoDocumentoValue === 'Elije una opción') {
                 valid = false;
-                if (tipoDocumentoError) tipoDocumentoError.textContent = 'Debes seleccionar una opción.';
+                tipoDocumentoError.textContent = 'Debes seleccionar una opción.';
             }
 
-            // Continuar con otras validaciones aquí...
+            // Validación del nombre
+            const nombreValue = nombre ? nombre.value.trim() : '';
+            if (!nombreValue || !/^[A-Za-z\s]+$/.test(nombreValue) || nombreValue.split(' ').length < 2) {
+                valid = false;
+                nombreError.textContent = 'Ingrese un nombre completo válido.';
+            }
+
+            // Validación del correo electrónico
+            const correoValue = correoRegistro ? correoRegistro.value.trim() : '';
+            if (!correoValue) {
+                valid = false;
+                correoError.textContent = 'El correo electrónico es requerido.';
+            } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
+                valid = false;
+                correoError.textContent = 'El correo electrónico debe tener formato válido.';
+            } else {
+                // Verificar si el correo ya está en uso
+                try {
+                    const response = await fetch('http://localhost:4000/api/check-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ correo: correoValue })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.exists) {
+                        valid = false;
+                        correoError.textContent = 'Este correo electrónico ya está en uso.';
+                    }
+                } catch (error) {
+                    correoError.textContent = 'Error al verificar el correo electrónico.';
+                    valid = false;
+                }
+            }
+
+            // Validación de la contraseña
+            const contrasenaValue = contrasenaRegistro ? contrasenaRegistro.value : '';
+            if (!contrasenaValue || contrasenaValue.length < 8) {
+                valid = false;
+                contrasenaError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+            } else if (!/[A-Z]/.test(contrasenaValue)) {
+                valid = false;
+                contrasenaError.textContent = 'La contraseña debe contener al menos una letra mayúscula.';
+            }
+
+            // Validación de la confirmación de contraseña
+            const confirmarContrasenaValue = confirmarContrasena ? confirmarContrasena.value : '';
+            if (contrasenaValue !== confirmarContrasenaValue) {
+                valid = false;
+                confirmarContrasenaError.textContent = 'Las contraseñas no coinciden.';
+            }
+
+            // Validación del número de documento
+            const numeroDcValue = numeroDc ? numeroDc.value.trim() : '';
+            if (!/^\d{10}$/.test(numeroDcValue)) {
+                valid = false;
+                numeroDcError.textContent = 'Ingrese un número de documento válido de 10 dígitos.';
+            }
+
+            // Validación del teléfono
+            const telefonoValue = telefono ? telefono.value.trim() : '';
+            if (!/^\d{10}$/.test(telefonoValue)) {
+                valid = false;
+                telefonoError.textContent = 'Ingrese un número de teléfono válido de 10 dígitos.';
+            }
+
+            // Validación de aceptación de términos y condiciones
+            if (!aceptarTerminos || !aceptarTerminos.checked) {
+                valid = false;
+                terminosError.textContent = 'Debe aceptar los términos y condiciones.';
+            }
 
             if (valid) {
-                // Procesar el formulario si es válido
                 const data = {
-                    // Recoge los datos del formulario aquí
+                    nombre: nombre.value.trim(),
+                    tipodocumento: tipoDocumentoValue,
+                    numerodocumento: numeroDc.value.trim(),
+                    nombreempresa: empresa.value.trim(),
+                    telefono: telefono.value.trim(),
+                    correo: correoRegistro.value.trim(),
+                    contraseña: contrasenaRegistro.value,
+                    idrol: 2
                 };
 
                 console.log('Datos enviados al servidor:', data);
 
-                // Enviar los datos al servidor o hacer otra acción aquí
+                try {
+                    const response = await fetch('http://localhost:4000/api/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        successMessage.textContent = '¡Registro exitoso!';
+
+                        setTimeout(() => {
+                            window.location.href = '/Principal/Inicio';
+                        }, 2000);
+                    } else {
+                        console.error('Error en el registro');
+                    }
+                } catch (error) {
+                    console.error('Error al enviar la solicitud:', error);
+                }
             }
         });
-    }
-
-    if (formu) {
-        formu.reset();
     }
 
     if (togglePasswordRegistro) {
@@ -84,177 +183,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (formu) {
-        formu.addEventListener('submit', async function (event) {
-            event.preventDefault();
-            let valid = true;
-
-            // Limpiar mensajes de error
-            if (nombreError) nombreError.textContent = '';
-            if (empresaError) empresaError.textContent = '';
-            if (correoError) correoError.textContent = '';
-            if (contrasenaError) contrasenaError.textContent = '';
-            if (confirmarContrasenaError) confirmarContrasenaError.textContent = '';
-            if (numeroDcError) numeroDcError.textContent = '';
-            if (telefonoError) telefonoError.textContent = '';
-            if (terminosError) terminosError.textContent = '';
-            if (successMessage) successMessage.textContent = '';
-
-            // Validación del nombre
-            const nombreValue = nombre ? nombre.value.trim() : '';
-            if (!nombreValue || !/^[A-Za-z\s]+$/.test(nombreValue) || nombreValue.split(' ').length < 1) {
-                valid = false;
-                if (nombreError) nombreError.textContent = 'Ingrese un nombre completo válido.';
-            }
-
-
-            // Validación del correo electrónico
-            const correoValue = correoRegistro ? correoRegistro.value.trim() : '';
-            if (!correoValue) {
-                valid = false;
-                if (correoError) correoError.textContent = 'El correo electrónico es requerido.';
-            } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
-                valid = false;
-                if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
-            }
-
-            // Validación de la contraseña
-            const contrasenaValue = contrasenaRegistro ? contrasenaRegistro.value : '';
-            if (!contrasenaValue || contrasenaValue.length < 8) {
-                valid = false;
-                if (contrasenaError) contrasenaError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
-            } else if (!/[A-Z]/.test(contrasenaValue)) {
-                valid = false;
-                if (contrasenaError) contrasenaError.textContent = 'La contraseña debe contener al menos una letra mayúscula.';
-            }
-
-            // Validación de la confirmación de contraseña
-            const confirmarContrasenaValue = confirmarContrasena ? confirmarContrasena.value : '';
-            if (contrasenaValue !== confirmarContrasenaValue) {
-                valid = false;
-                if (confirmarContrasenaError) confirmarContrasenaError.textContent = 'Las contraseñas no coinciden.';
-            }
-
-            // Validación del número de documento
-            const numeroDcValue = numeroDc ? numeroDc.value.trim() : '';
-            if (!/^\d{10}$/.test(numeroDcValue)) {
-                valid = false;
-                if (numeroDcError) numeroDcError.textContent = 'Ingrese un número de documento válido de 10 dígitos.';
-            }
-
-            // Validación del teléfono
-            const telefonoValue = telefono ? telefono.value.trim() : '';
-            if (!/^\d{10}$/.test(telefonoValue)) {
-                valid = false;
-                if (telefonoError) telefonoError.textContent = 'Ingrese un número de teléfono válido de 10 dígitos.';
-            }
-
-
-            // Validación de aceptación de términos y condiciones
-            if (!aceptarTerminos || !aceptarTerminos.checked) {
-                valid = false;
-                if (terminosError) terminosError.textContent = 'Debe aceptar los términos y condiciones.';
-            }
-
-
-            if (valid) {
-                const tipoDocumentoValue = document.getElementById('tipoDocumento').value;
-                const data = {
-                    nombre: nombre.value.trim(),
-                    tipodocumento: tipoDocumentoValue,
-                    numerodocumento: numeroDc.value.trim(),
-                    nombreempresa: empresa.value.trim(),
-                    telefono: telefono.value.trim(),
-                    correo: correoRegistro.value.trim(),
-                    contraseña: contrasenaRegistro.value,
-                    idrol: 2
-                };
-
-                console.log('Datos enviados al servidor:', data);
-
-                try {
-                    const response = await fetch('http://localhost:4000/api/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    if (response.ok) {
-                        // Mostrar mensaje de éxito
-                        if (successMessage) successMessage.textContent = '¡Registro exitoso!';
-
-                        // Redirigir después de un breve retraso para que el mensaje de éxito sea visible
-                        setTimeout(() => {
-                            window.location.href = '/Principal/Inicio';
-                        }, 2000); // Ajusta el tiempo según sea necesario
-                    } else {
-                        console.error('Error en el registro');
-                    }
-                } catch (error) {
-                    console.error('Error al enviar la solicitud:', error);
-                }
-            }
-        });
-    }
-
     window.addEventListener('pageshow', function (event) {
         if (event.persisted && formu) {
             formu.reset();
         }
     });
 });
-if (formu) {
-    formu.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        let valid = true;
-
-        // Limpiar mensajes de error
-        if (correoError) correoError.textContent = '';
-
-        // Validación del correo electrónico
-        const correoValue = correoRegistro ? correoRegistro.value.trim() : '';
-        if (!correoValue) {
-            valid = false;
-            if (correoError) correoError.textContent = 'El correo electrónico es requerido.';
-        } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
-            valid = false;
-            if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
-        } else {
-            // Verificar en la base de datos si el correo ya está registrado
-            try {
-                const response = await fetch('http://localhost:4000/api/check-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: correoValue }),
-                });
-
-                const data = await response.json();
-                if (data.exists) {
-                    valid = false;
-                    if (correoError) correoError.textContent = 'El correo electrónico ya está registrado. Por favor, ingrese otro correo electrónico.';
-                }
-            } catch (error) {
-                console.error('Error al verificar el correo electrónico:', error);
-                valid = false;
-                if (correoError) correoError.textContent = 'Error al verificar el correo electrónico.';
-            }
-        }
-
-        // Continuar con otras validaciones aquí...
-
-        if (valid) {
-            // Procesar el formulario si es válido
-            const data = {
-                // Recoge los datos del formulario aquí
-            };
-
-            console.log('Datos enviados al servidor:', data);
-
-            // Enviar los datos al servidor o hacer otra acción aquí
-        }
-    });
-}

@@ -1,5 +1,5 @@
 import express from 'express';
-import {
+import {checkEmailExists,
     getAllPersonas,
     getAllUsuario,
     registerPerson,
@@ -11,7 +11,6 @@ import {
     getProyectoById,
     getAllAreas,
     updatePassword,
-    checkIfUserExists,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
     getObjetivos,
@@ -32,21 +31,19 @@ import transporter from '../config/nodemailerConfig.js';
 
 const router = express.Router();
 
-
-// Ruta para verificar si el correo electrónico ya está registrado
 router.post('/check-email', async (req, res) => {
+    const { correo } = req.body;
+
+    if (!correo) {
+        return res.status(400).json({ error: 'Correo electrónico es requerido.' });
+    }
+
     try {
-        const email = req.query.email;
-
-        if (!email) {
-            return res.status(400).json({ error: 'El correo electrónico es requerido.' });
-        }
-
-        const userExists = await checkIfUserExists(email);
-        res.json({ exists: userExists });
+        const exists = await checkEmailExists(correo);
+        res.json({ exists });
     } catch (error) {
-        console.error('Error al verificar el correo electrónico:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        console.error('Error en el endpoint check-email:', error);
+        res.status(500).json({ error: error.message });
     }
 });
 

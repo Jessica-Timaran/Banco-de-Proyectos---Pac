@@ -20,6 +20,12 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
+// Manejador global de errores
+app.use((err, req, res, next) => {
+    console.error('Error global:', err);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+});
+
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
