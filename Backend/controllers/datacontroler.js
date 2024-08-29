@@ -1,6 +1,7 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
+// Función para verificar si el correo electrónico ya está registrado
 async function checkIfUserExists(correo) {
     try {
         const client = await pool.connect();
@@ -220,37 +221,37 @@ async function getAllAreas() {
 
 async function getTiposDeAreaPorArea(idArea) {
     try {
-      const client = await pool.connect();
-      const query = `
+        const client = await pool.connect();
+        const query = `
         SELECT t.idtiposdearea, t.tiposdearea, t.estado
         FROM tipodearea t
         WHERE t.idarea = $1
       `;
-      const result = await client.query(query, [idArea]);
-      client.release();
-      return result.rows;
+        const result = await client.query(query, [idArea]);
+        client.release();
+        return result.rows;
     } catch (error) {
-      console.error('Error al obtener tipos de área:', error);
-      throw error;
+        console.error('Error al obtener tipos de área:', error);
+        throw error;
     }
-  }
+}
 
-  async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
+async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
     try {
-      const client = await pool.connect();
-      const query = `
+        const client = await pool.connect();
+        const query = `
         SELECT * FROM items
         WHERE idarea = $1 AND idtiposdearea = $2
       `;
-      const result = await client.query(query, [idArea, idTiposDeArea]);
-      client.release();
-      return result.rows;
+        const result = await client.query(query, [idArea, idTiposDeArea]);
+        client.release();
+        return result.rows;
     } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      throw error;
+        console.error('Error al obtener ítems:', error);
+        throw error;
     }
-  }
-  
+}
+
 // Obtener todos los objetivos
 async function getObjetivos() {
     try {
@@ -276,7 +277,7 @@ async function guardarRespuestas(respuestas) {
 
             // Convertir idproyecto a número
             const idproyectoNumero = parseInt(idproyecto, 10);
-            
+
             await client.query(
                 'INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) VALUES ($1, $2, $3)',
                 [idproyectoNumero, idalcance, valorRespuesta]
@@ -299,7 +300,7 @@ async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
             'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
             [areaId, projectId]
         );
-        
+
         client.release();
         return result.rows[0];
     } catch (error) {
@@ -308,7 +309,7 @@ async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
     }
 }
 
-  
+
 // Obtener objetivos por área
 async function getObjetivosPorArea(idArea) {
     try {
@@ -346,28 +347,28 @@ async function updateProjectTipo(areaId, projectId) {
 
 async function updateProyectoItem({ projectId, itemId }) {
     try {
-      // Asegúrate de que los valores estén presentes
-      if (!projectId || !itemId) {
-        throw new Error('Faltan parámetros en la solicitud');
-      }
-  
-      const result = await pool.query(
-        `UPDATE proyecto SET iditems = $1 WHERE idproyecto = $2`,
-        [itemId, projectId]
-      );
-  
-      if (result.rowCount === 0) {
-        throw new Error('Proyecto no encontrado');
-      }
-  
-      return { message: 'Ítem actualizado correctamente' };
+        // Asegúrate de que los valores estén presentes
+        if (!projectId || !itemId) {
+            throw new Error('Faltan parámetros en la solicitud');
+        }
+
+        const result = await pool.query(
+            `UPDATE proyecto SET iditems = $1 WHERE idproyecto = $2`,
+            [itemId, projectId]
+        );
+
+        if (result.rowCount === 0) {
+            throw new Error('Proyecto no encontrado');
+        }
+
+        return { message: 'Ítem actualizado correctamente' };
     } catch (error) {
-      console.error('Error updating proyecto:', error);
-      throw error;
+        console.error('Error updating proyecto:', error);
+        throw error;
     }
-  }
-  
-  async function guardarRespuestasObjetivos(respuestas) {
+}
+
+async function guardarRespuestasObjetivos(respuestas) {
     try {
         const client = await pool.connect();
 
@@ -390,14 +391,14 @@ async function updateProyectoItem({ projectId, itemId }) {
 }
 
 export {
-    getAllPersonas, 
-    getAllUsuario, 
-    registerPerson, 
-    loginPerson, 
-    registerFicha, 
-    registerProject, 
-    getAllProyectos, 
-    getAllAlcances, 
+    getAllPersonas,
+    getAllUsuario,
+    registerPerson,
+    loginPerson,
+    registerFicha,
+    registerProject,
+    getAllProyectos,
+    getAllAlcances,
     getProyectoById,
     getAllAreas,
     checkIfUserExists,

@@ -1,5 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const formu = document.getElementById('formu');
+
+
     const nombre = document.getElementById('registroNombre');
     const empresa = document.getElementById('nombreEmpresa');
     const correoRegistro = document.getElementById('CorreoRegistro');
@@ -9,7 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const telefono = document.getElementById('telefono');
     const aceptarTerminos = document.getElementById('aceptarTerminos');
     const successMessage = document.getElementById('successMessage');
+    const tipoDocumento = document.getElementById('tipoDocumento');
 
+    const tipoDocumentoError = document.getElementById('tipoDocumentoError');
     const nombreError = document.getElementById('nombreError');
     const empresaError = document.getElementById('empresaError');
     const correoError = document.getElementById('correoError');
@@ -21,12 +25,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const togglePasswordRegistro = document.getElementById('togglePasswordRegistro');
     const togglePasswordConfirmacion = document.getElementById('togglePasswordConfirmacion');
 
+
+
+
+    if (formu) {
+        formu.addEventListener('submit', function (event) {
+            event.preventDefault();
+            let valid = true;
+
+            // Limpiar mensaje de error del tipo de documento
+            if (tipoDocumentoError) tipoDocumentoError.textContent = '';
+
+            // Validación del tipo de documento
+            const tipoDocumentoValue = tipoDocumento ? tipoDocumento.value.trim() : '';
+            if (!tipoDocumentoValue || tipoDocumentoValue === 'Elije una opción') {
+                valid = false;
+                if (tipoDocumentoError) tipoDocumentoError.textContent = 'Debes seleccionar una opción.';
+            }
+
+            // Continuar con otras validaciones aquí...
+
+            if (valid) {
+                // Procesar el formulario si es válido
+                const data = {
+                    // Recoge los datos del formulario aquí
+                };
+
+                console.log('Datos enviados al servidor:', data);
+
+                // Enviar los datos al servidor o hacer otra acción aquí
+            }
+        });
+    }
+
     if (formu) {
         formu.reset();
     }
 
     if (togglePasswordRegistro) {
-        togglePasswordRegistro.addEventListener('click', function() {
+        togglePasswordRegistro.addEventListener('click', function () {
             if (contrasenaRegistro) {
                 const type = contrasenaRegistro.getAttribute('type') === 'password' ? 'text' : 'password';
                 contrasenaRegistro.setAttribute('type', type);
@@ -37,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (togglePasswordConfirmacion) {
-        togglePasswordConfirmacion.addEventListener('click', function() {
+        togglePasswordConfirmacion.addEventListener('click', function () {
             if (confirmarContrasena) {
                 const type = confirmarContrasena.getAttribute('type') === 'password' ? 'text' : 'password';
                 confirmarContrasena.setAttribute('type', type);
@@ -48,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (formu) {
-        formu.addEventListener('submit', async function(event) {
+        formu.addEventListener('submit', async function (event) {
             event.preventDefault();
             let valid = true;
 
@@ -69,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 valid = false;
                 if (nombreError) nombreError.textContent = 'Ingrese un nombre completo válido.';
             }
+
 
             // Validación del correo electrónico
             const correoValue = correoRegistro ? correoRegistro.value.trim() : '';
@@ -111,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (telefonoError) telefonoError.textContent = 'Ingrese un número de teléfono válido de 10 dígitos.';
             }
 
+
             // Validación de aceptación de términos y condiciones
             if (!aceptarTerminos || !aceptarTerminos.checked) {
                 valid = false;
@@ -128,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     telefono: telefono.value.trim(),
                     correo: correoRegistro.value.trim(),
                     contraseña: contrasenaRegistro.value,
-                    idrol: 2 
+                    idrol: 2
                 };
 
                 console.log('Datos enviados al servidor:', data);
@@ -160,9 +199,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    window.addEventListener('pageshow', function(event) {
+    window.addEventListener('pageshow', function (event) {
         if (event.persisted && formu) {
             formu.reset();
         }
     });
 });
+if (formu) {
+    formu.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        let valid = true;
+
+        // Limpiar mensajes de error
+        if (correoError) correoError.textContent = '';
+
+        // Validación del correo electrónico
+        const correoValue = correoRegistro ? correoRegistro.value.trim() : '';
+        if (!correoValue) {
+            valid = false;
+            if (correoError) correoError.textContent = 'El correo electrónico es requerido.';
+        } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
+            valid = false;
+            if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
+        } else {
+            // Verificar en la base de datos si el correo ya está registrado
+            try {
+                const response = await fetch('http://localhost:4000/api/check-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: correoValue }),
+                });
+
+                const data = await response.json();
+                if (data.exists) {
+                    valid = false;
+                    if (correoError) correoError.textContent = 'El correo electrónico ya está registrado. Por favor, ingrese otro correo electrónico.';
+                }
+            } catch (error) {
+                console.error('Error al verificar el correo electrónico:', error);
+                valid = false;
+                if (correoError) correoError.textContent = 'Error al verificar el correo electrónico.';
+            }
+        }
+
+        // Continuar con otras validaciones aquí...
+
+        if (valid) {
+            // Procesar el formulario si es válido
+            const data = {
+                // Recoge los datos del formulario aquí
+            };
+
+            console.log('Datos enviados al servidor:', data);
+
+            // Enviar los datos al servidor o hacer otra acción aquí
+        }
+    });
+}

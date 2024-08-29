@@ -1,16 +1,16 @@
 import express from 'express';
-import { 
-    getAllPersonas, 
-    getAllUsuario, 
-    registerPerson, 
-    loginPerson, 
-    registerFicha, 
-    registerProject, 
-    getAllProyectos, 
+import {
+    getAllPersonas,
+    getAllUsuario,
+    registerPerson,
+    loginPerson,
+    registerFicha,
+    registerProject,
+    getAllProyectos,
     getAllAlcances,
     getProyectoById,
     getAllAreas,
-    updatePassword, 
+    updatePassword,
     checkIfUserExists,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
@@ -27,7 +27,29 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import transporter from '../config/nodemailerConfig.js';
 
+
+
+
 const router = express.Router();
+
+
+// Ruta para verificar si el correo electrónico ya está registrado
+router.post('/check-email', async (req, res) => {
+    try {
+        const email = req.query.email;
+
+        if (!email) {
+            return res.status(400).json({ error: 'El correo electrónico es requerido.' });
+        }
+
+        const userExists = await checkIfUserExists(email);
+        res.json({ exists: userExists });
+    } catch (error) {
+        console.error('Error al verificar el correo electrónico:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
 // Ruta para actualizar la contraseña
 router.post('/update-password', async (req, res) => {
     const { email, newPassword } = req.body;
@@ -208,27 +230,27 @@ router.get('/areas', async (req, res) => {
 // Ruta para obtener los tipos de área de acuerdo al área seleccionada
 router.get('/tipos-de-area/:idArea', async (req, res) => {
     try {
-      const idArea = req.params.idArea;
-      const tiposDeArea = await getTiposDeAreaPorArea(idArea);
-      res.json(tiposDeArea);
+        const idArea = req.params.idArea;
+        const tiposDeArea = await getTiposDeAreaPorArea(idArea);
+        res.json(tiposDeArea);
     } catch (error) {
-      console.error('Error al obtener tipos de área:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+        console.error('Error al obtener tipos de área:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
-  });
+});
 
-  router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
     try {
-      const { idArea, idTiposDeArea } = req.params;
-      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
-      res.json(items);
+        const { idArea, idTiposDeArea } = req.params;
+        const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+        res.json(items);
     } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+        console.error('Error al obtener ítems:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
-  });
+});
 
-  // Ruta para obtener todos los objetivos
+// Ruta para obtener todos los objetivos
 router.get('/objetivos', async (req, res) => {
     try {
         const objetivos = await getObjetivos();
@@ -260,7 +282,7 @@ router.post('/guardarRespuestas', async (req, res) => {
         }
 
         await guardarRespuestas(respuestasAlcance);
-        
+
         // Redirige a la URL
         res.redirect('http://localhost:4321/Usuario/VistaUsuario');
     } catch (error) {
@@ -318,47 +340,47 @@ router.post('/update-proyecto', async (req, res) => {
 });
 
 // Ruta para actualizar el ítem del proyecto
-router.post('/update-proyecto-item', async (req, res) => {
+router.post('/updat-proyecto-item', async (req, res) => {
     const { projectId, itemId } = req.body;
-  
+
     if (!projectId || !itemId) {
-      return res.status(400).json({ error: 'Faltan parámetros en el cuerpo de la solicitud' });
+        return res.status(400).json({ error: 'Faltan parámetros en el cuerpo de la solicitud' });
     }
-  
+
     try {
-      const result = await updateProyectoItem({ projectId, itemId });
-      res.status(200).json(result);
+        const result = await updateProyectoItem({ projectId, itemId });
+        res.status(200).json(result);
     } catch (error) {
-      console.error('Error al actualizar el ítem:', error);
-      res.status(500).json({ error: 'Error interno del servidor' });
+        console.error('Error al actualizar el ítem:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
-  });
-  
+});
+
 // Ruta para guardar las respuestas de objetivos
 router.post('/guardarRespuestasObjetivos', async (req, res) => {
     const idproyecto = parseInt(req.body.idproyecto, 10);
     console.log('ID Proyecto recibido:', idproyecto);
-  
+
     if (isNaN(idproyecto)) {
-      return res.status(400).json({ error: 'ID del proyecto inválido' });
+        return res.status(400).json({ error: 'ID del proyecto inválido' });
     }
-  
+
     try {
-      const respuestas = req.body;
-      const respuestasObjetivos = [];
-  
-      for (const [key, value] of Object.entries(respuestas)) {
-        if (key !== 'idproyecto') {
-          const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
-          respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
+        const respuestas = req.body;
+        const respuestasObjetivos = [];
+
+        for (const [key, value] of Object.entries(respuestas)) {
+            if (key !== 'idproyecto') {
+                const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
+                respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
+            }e
         }
-      }
-  
-      await guardarRespuestasObjetivos(respuestasObjetivos);
-      res.redirect('http://localhost:4321/Usuario/VistaAlcance');
+
+        await guardarRespuestasObjetivos(respuestasObjetivos);
+        res.redirect('http://localhost:4321/Usuario/VistaAlcance');
     } catch (error) {
-      console.error('Error al guardar respuestas:', error);
-      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+        console.error('Error al guardar respuestas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
-  });
+});
 export default router;
