@@ -1,0 +1,12 @@
+.sidebar {
+    width: 16rem;
+  }
+  
+  .sidebar.w-16 {
+    width: 4rem;
+  }
+  
+  .sidebar.w-64 {
+    width: 16rem;
+  }
+  
