@@ -20,6 +20,15 @@ const RegistroProyecto = () => {
     frecuencia: '',
     dias: '',
   });
+  const [loading, setLoading] = useState(true); // Estado para controlar el loader
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Oculta el loader después de 2 segundos
+
+    return () => clearTimeout(timer); // Limpia el timeout si el componente se desmonta
+  }, []);
 
   const handleFrecuenciaClick = (value) => {
     setFrecuencia(value);
@@ -96,14 +105,16 @@ const RegistroProyecto = () => {
 
   return (
     <LayoutPrincipal2 title="">
-      <div className="loading-container">
-        <Loader />
-      </div>
-      <div className="content-container hidden">
-        <Layoutcontenido2 title="" text1="Registrar Proyecto">
-          <div className="w-1/2 mx-auto">
-            <div className="flex font-josefin-slab flex-col space-y-8">
-              <form onSubmit={handleSubmit}>
+      {loading ? (
+        <div className="loading-container">
+          <Loader />
+        </div>
+      ) : (
+        <div className="content-container">
+          <Layoutcontenido2 title="" text1="Registrar Proyecto">
+            <div className="w-1/2 mx-auto">
+              <div className="flex font-josefin-slab flex-col space-y-8">
+                <form onSubmit={handleSubmit}>
                 <div>
                   <Input
                     type="text"
@@ -228,6 +239,7 @@ const RegistroProyecto = () => {
           </div>
         </Layoutcontenido2>
       </div>
+     )}
     </LayoutPrincipal2>
   );
 };
