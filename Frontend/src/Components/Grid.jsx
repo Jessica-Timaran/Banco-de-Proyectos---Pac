@@ -14,12 +14,12 @@ const Grid = ({ Text1, id1, id2, name }) => {
 
           {/* Columna Sí */}
           <div className="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
-            <RadioButton2 id={id1} name={name} value="true" />
+            <RadioButton2 id={id1} name={name} value="" />
           </div>
 
           {/* Columna No */}
           <div className="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
-            <RadioButton2 id={id2} name={name} value="false" />
+            <RadioButton2 id={id2} name={name} value="" />
           </div>
         </div>
         {/* Añadir más filas aquí */}

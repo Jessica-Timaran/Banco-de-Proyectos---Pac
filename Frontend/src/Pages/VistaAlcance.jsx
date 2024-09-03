@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import LayoutPrincipal from '../layouts/LayoutPrincipal';
-import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
+import { useLocation } from 'react-router-dom';
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);
-  const [idproyecto, setIdProyecto] = useState('');
+  const [idproyecto, setIdProyecto] = useState(null); // Agregado el estado para idproyecto
+  const location = useLocation();
 
   useEffect(() => {
     const fetchAlcances = async () => {
@@ -25,14 +26,15 @@ const VistaAlcance = () => {
 
     fetchAlcances();
 
-    const urlParams = new URLSearchParams(window.location.search);
+    // Captura el parámetro idproyecto de la URL
+    const urlParams = new URLSearchParams(location.search);
     const projectId = urlParams.get('idproyecto');
     if (projectId) {
       setIdProyecto(projectId);
     } else {
       console.error('Falta el ID del proyecto en la URL.');
     }
-  }, []);
+  }, [location.search]); // Dependencia agregada para location.search
 
   // Agrupar alcances por categoría
   const groupedAlcances = alcances.reduce((acc, alcance) => {
@@ -56,13 +58,12 @@ const VistaAlcance = () => {
 
             <form id="respuestasForm" action="http://localhost:4000/api/guardarRespuestas" method="POST">
               {/* Campo oculto para idproyecto */}
-              <input type="hidden" name="idproyecto" id="idproyecto" value={idproyecto} />
+              <input type="hidden" name="idproyecto" id="idproyecto" value={idproyecto || ''} />
 
               <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">ALCANCE</div>
               </div>
 
-              {/* Fila de títulos de la tabla */}
               <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipo de alcance</div>
                 <div className="hidden md:block col-span-1 text-center">Sí</div>
@@ -88,7 +89,7 @@ const VistaAlcance = () => {
               ))}
 
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <a href="/VistaObjetivos" className="">
+                <a href="/VistaObjetivos">
                   <BotonPrincipal Text="Volver" />
                 </a>
                 <button type="submit" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">

@@ -1,22 +1,26 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Menu from '../Components/Menu';
-import PostLayout from '../Layouts/PostLayout';
+import PostLayout from './PostLayout';
 
-const LayoutPrincipal = ({ title, children }) => {
+// Componente principal
+const Layoutprincipal = ({ title, children }) => {
   return (
-    <PostLayout title="Banco de proyectos">
+    <PostLayout title={title}>
       <div>
-        <header className="w-full bg-white">
-          <Navbar Text="djcds" />
+        <header className="w-full h-full bg-white sticky top-0 z-10">
+          <Navbar text="usuario" />
         </header>
-        <aside>
+
+        <aside className='w-full'>
           <Menu />
         </aside>
-        {children}
+
+          {children}
+
       </div>
     </PostLayout>
   );
 };
 
-export default LayoutPrincipal;
+export default Layoutprincipal;

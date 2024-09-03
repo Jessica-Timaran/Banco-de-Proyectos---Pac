@@ -29,9 +29,7 @@ const VistaAreas1 = () => {
     fetchAreas();
   }, []);
 
-  const handleCardClick = async (event, areaId) => {
-    event.preventDefault();
-    
+  const handleCardClick = async (areaId) => {
     const projectId = new URLSearchParams(window.location.search).get('projectId');
 
     if (!areaId || !projectId) {
@@ -56,14 +54,12 @@ const VistaAreas1 = () => {
       const data = await response.json();
       console.log('Área seleccionada correctamente:', data);
 
-      // Redirige a la siguiente vista incluyendo projectId en la URL
-      window.location.href = `/Services/${areaId}?projectId=${projectId}`;
+      // Redirige a la vista TiposDeArea en la carpeta Services, incluyendo projectId en la URL
+      window.location.href = `/Services/TiposDeArea/${areaId}?projectId=${projectId}`;
     } catch (error) {
       console.error('Error al enviar la solicitud:', error);
     }
   };
-
-  const projectId = new URLSearchParams(window.location.search).get('projectId');
 
   if (loading) {
     return <Loader />; // Asegúrate de tener un componente Loader
@@ -80,11 +76,11 @@ const VistaAreas1 = () => {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {areas.map((area) => (
-              <div key={area.idarea}>
-                <a href="#" className="area-card" data-area-id={area.idarea} onClick={(e) => handleCardClick(e, area.idarea)}>
-                  <Card Text={area.area} />
-                </a>
-              </div>
+              <Card
+                key={area.idarea}
+                Text={area.area}
+                onClick={() => handleCardClick(area.idarea)} // Pasar la función onClick
+              />
             ))}
           </div>
         </div>
