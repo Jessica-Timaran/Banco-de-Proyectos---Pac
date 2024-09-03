@@ -2,7 +2,7 @@ import React from 'react';
 
 const Layoutcontenido2 = ({ title, text1, children }) => {
   return (
-    <main className="flex flex-col justify-center items-center h-screen min-w-full">
+    <main className="flex flex-col justify-center items-center h-auto w-screen">
       <div className="w-full flex justify-center">
         <h1 className="text-3xl font-bold font-josefin-slab text-center m-8">{text1}</h1>
       </div>

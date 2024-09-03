@@ -113,7 +113,7 @@ const RegistroProyecto = () => {
         <div className="content-container">
           <Layoutcontenido2 title="" text1="Registrar Proyecto">
             <div className="w-1/2 mx-auto">
-              <div className="flex font-josefin-slab flex-col space-y-8">
+              <div className="flex font-josefin-slab flex-col space-y-12">
                 <form onSubmit={handleSubmit}>
                 <div>
                   <Input
@@ -154,7 +154,7 @@ const RegistroProyecto = () => {
                   />
                   <span className="text-red-500 text-sm">{errors.responsable}</span>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-8">
                   <label className="font-josefin-slab font-semibold text-black">
                     Disponibilidad Para Reuniones Con El Equipo Desarrollador
                   </label>
