@@ -18,7 +18,8 @@ const App = () => {
         <Route path="/Services/ItemsDeArea/:idarea/:idtiposdearea" element={<ItemsDeArea />} />
         <Route path="/Vista_Objetivos/ObjetivosDeArea/:idarea/:idtiposdearea" element={<ObjetivosDeArea />} />
         <Route path="/VistaAreas1" element={<VistaAreas1 />} />
-        <Route path="/VistaAlcance/:idproyecto" element={<VistaAlcance />} />
+        <Route path="/VistaAlcance" element={<VistaAlcance />} />
+       
 
       </Routes>
     </Router>

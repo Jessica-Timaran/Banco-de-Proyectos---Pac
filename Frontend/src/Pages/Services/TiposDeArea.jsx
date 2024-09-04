@@ -41,7 +41,7 @@ const TiposDeArea = () => {
       console.error('No se pudo obtener el id del tipo o del proyecto');
       return;
     }
-
+  
     try {
       console.log('Enviando solicitud para actualizar el proyecto...');
       const response = await fetch('http://localhost:4000/api/update-proyecto', {
@@ -51,14 +51,18 @@ const TiposDeArea = () => {
         },
         body: JSON.stringify({ projectId, tipoId }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Error updating proyecto: ' + response.statusText);
       }
-
+  
       const result = await response.json();
       console.log('Proyecto actualizado correctamente:', result);
-
+  
+      // Almacena la URL completa de retorno en localStorage
+      const returnUrl = `/Services/TiposDeArea/${id}?projectId=${projectId}`;
+      localStorage.setItem('returnUrl', returnUrl);
+  
       // Redirige a la ruta dinámica después de actualizar
       navigate(`/Services/ItemsDeArea/${id}/${tipoId}?projectId=${projectId}`);
     } catch (error) {

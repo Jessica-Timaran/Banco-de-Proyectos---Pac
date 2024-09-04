@@ -11,6 +11,8 @@ const ObjetivosDeArea = () => {
   const navigate = useNavigate();
   const [objetivos, setObjetivos] = useState([]);
   const [groupedObjetivos, setGroupedObjetivos] = useState({});
+  const [respuestas, setRespuestas] = useState({});
+  const [error, setError] = useState(null);
   const projectId = new URLSearchParams(location.search).get('projectId');
 
   useEffect(() => {
@@ -43,22 +45,35 @@ const ObjetivosDeArea = () => {
     setGroupedObjetivos(grouped);
   }, [objetivos]);
 
+  const handleRadioChange = (event) => {
+    const { name, value } = event.target;
+    setRespuestas({
+      ...respuestas,
+      [name]: value,
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    // Construir un objeto con los datos del formulario
-    const formData = new FormData(event.target);
-    const data = {};
-    formData.forEach((value, key) => {
-      data[key] = value;
+
+    const allQuestionsAnswered = Object.keys(groupedObjetivos).every((categoriaNombre) => {
+      return groupedObjetivos[categoriaNombre].every((objetivo) => {
+        return respuestas[`pregunta${objetivo.idobjetivos}`] !== undefined;
+      });
     });
-  
-    // Asegurarse de que el valor del campo `idproyecto` esté definido
-    data.idproyecto = projectId || '';
-  
-    // Mostrar los datos en la consola para depuración
-    console.log('Datos a enviar:', data);
-  
+
+    if (!allQuestionsAnswered) {
+      setError("Por favor, responda todas las preguntas antes de continuar.");
+      return;
+    }
+
+    setError(null);
+
+    const data = {
+      ...respuestas,
+      idproyecto: projectId || '',
+    };
+
     try {
       const response = await fetch('http://localhost:4000/api/guardarRespuestasObjetivos', {
         method: 'POST',
@@ -67,26 +82,30 @@ const ObjetivosDeArea = () => {
         },
         body: JSON.stringify(data),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error al guardar respuestas: ${response.statusText}`);
       }
-  
+
       const result = await response.json();
       console.log('Respuestas guardadas correctamente:', result);
-  
-      // Verificar que `projectId` esté definido
-      console.log('Redirigiendo a VistaAlcance con projectId:', projectId);
-  
-      // Redirige a la vista VistaAlcance después de guardar
-      navigate(`/VistaAlcance?idproyecto=${projectId}`)
-
-
-
     } catch (error) {
       console.error('Error al guardar respuestas:', error);
+    } finally {
+      navigate(`/VistaAlcance?idproyecto=${projectId}`);
     }
   };
+
+  const handleBackClick = () => {
+    // Recupera la URL de ItemsDeArea desde localStorage
+    const returnUrl = localStorage.getItem('returnUrl') || '/';
+    navigate(returnUrl);
+  };
+
+  useEffect(() => {
+    // Guarda la URL de ItemsDeArea en localStorage cuando se carga ObjetivosDeArea
+    localStorage.setItem('returnUrl', `/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+  }, [idarea, idtiposdearea, projectId]);
 
   return (
     <LayoutPrincipal title="">
@@ -96,6 +115,12 @@ const ObjetivosDeArea = () => {
             <div className="text-left mb-4">
               <h1 className="font-josefin-slab text-2xl text-black">Por favor marque “SI” o “NO” en cada pregunta</h1>
             </div>
+
+            {error && (
+              <div className="text-red-500 mb-4">
+                {error}
+              </div>
+            )}
 
             <form id="respuestasForm" onSubmit={handleSubmit}>
               <input type="hidden" name="idproyecto" value={projectId || ''} />
@@ -123,18 +148,21 @@ const ObjetivosDeArea = () => {
                       id1={`radioButton-grid${objetivo.idobjetivos}-si`}
                       id2={`radioButton-grid${objetivo.idobjetivos}-no`}
                       name={`pregunta${objetivo.idobjetivos}`}
+                      checkedValue={respuestas[`pregunta${objetivo.idobjetivos}`] || ""}
+                      onChange={handleRadioChange}
                     />
                   ))}
                 </div>
               ))}
 
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <a href={`/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`}>
+                <button type="button" onClick={handleBackClick} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                   <BotonPrincipal Text="Volver" />
-                </a>
+                </button>
                 <button type="submit" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                   <BotonSegundo Text="Siguiente" />
                 </button>
+             
               </div>
             </form>
           </div>
