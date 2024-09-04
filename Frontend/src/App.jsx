@@ -7,6 +7,7 @@ import ItemsDeArea from './Pages/Services/ItemsDeArea';
 import ObjetivosDeArea from './Pages/Vista_Objetivos/ObjetivosDeArea';
 import VistaAreas1 from './Pages/VistaAreas1';
 import VistaAlcance from './Pages/VistaAlcance'; 
+import VistaUsuario from './Pages/VistaUsuario'
 
 const App = () => {
   return (
@@ -18,7 +19,9 @@ const App = () => {
         <Route path="/Services/ItemsDeArea/:idarea/:idtiposdearea" element={<ItemsDeArea />} />
         <Route path="/Vista_Objetivos/ObjetivosDeArea/:idarea/:idtiposdearea" element={<ObjetivosDeArea />} />
         <Route path="/VistaAreas1" element={<VistaAreas1 />} />
+        <Route path="/VistaUsuario" element={<VistaUsuario />} />
         <Route path="/VistaAlcance" element={<VistaAlcance />} />
+        
        
 
       </Routes>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
@@ -10,6 +11,7 @@ const VistaAlcance = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState(null);
   const idproyecto = new URLSearchParams(window.location.search).get('idproyecto') || '';
+  const navigate = useNavigate(); // Usa useNavigate para la redirección
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,23 +50,23 @@ const VistaAlcance = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     const allQuestionsAnswered = Object.keys(groupedAlcances).every((categoria) => {
       return groupedAlcances[categoria].every((alcance) => {
         return selectedValues[alcance.idalcance] !== undefined;
       });
     });
-
+  
     if (!allQuestionsAnswered) {
       setError("Por favor, responda todas las preguntas antes de continuar.");
       return;
     }
-
+  
     const data = {
       ...selectedValues,
       idproyecto: idproyecto,
     };
-
+  
     try {
       const response = await fetch('http://localhost:4000/api/guardarRespuestas', {
         method: 'POST',
@@ -73,13 +75,16 @@ const VistaAlcance = () => {
         },
         body: JSON.stringify(data),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error al guardar respuestas: ${response.statusText}`);
       }
-
+  
       const result = await response.json();
       console.log('Respuestas guardadas correctamente:', result);
+  
+      // Redirige a VistaUsuario
+      navigate('/VistaUsuario');
     } catch (error) {
       console.error('Error al guardar respuestas:', error);
     }

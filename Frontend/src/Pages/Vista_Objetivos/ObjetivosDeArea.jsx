@@ -55,46 +55,47 @@ const ObjetivosDeArea = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     const allQuestionsAnswered = Object.keys(groupedObjetivos).every((categoriaNombre) => {
       return groupedObjetivos[categoriaNombre].every((objetivo) => {
         return respuestas[`pregunta${objetivo.idobjetivos}`] !== undefined;
       });
     });
-
+  
     if (!allQuestionsAnswered) {
       setError("Por favor, responda todas las preguntas antes de continuar.");
       return;
     }
-
+  
     setError(null);
-
+  
     const data = {
       ...respuestas,
       idproyecto: projectId || '',
     };
-
+  
     try {
-      const response = await fetch('http://localhost:4000/api/guardarRespuestasObjetivos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
+    const response = await fetch(`http://localhost:4000/api/guardarRespuestasObjetivos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  
       if (!response.ok) {
-        throw new Error(`Error al guardar respuestas: ${response.statusText}`);
+        throw new Error(`Error al actualizar respuestas: ${response.statusText}`);
       }
-
+  
       const result = await response.json();
-      console.log('Respuestas guardadas correctamente:', result);
+      console.log('Respuestas actualizadas correctamente:', result);
     } catch (error) {
-      console.error('Error al guardar respuestas:', error);
+      console.error('Error al actualizar respuestas:', error);
     } finally {
       navigate(`/VistaAlcance?idproyecto=${projectId}`);
     }
   };
+
 
   const handleBackClick = () => {
     // Recupera la URL de ItemsDeArea desde localStorage

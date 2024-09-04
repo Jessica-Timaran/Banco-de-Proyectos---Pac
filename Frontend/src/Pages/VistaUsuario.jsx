@@ -22,7 +22,7 @@ const VistaUsuario = () => {
           <Loader />
         </div>
       ) : (
-        <div id="content" className="hidden">
+        <div id="content" className="">
           <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
             <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
               <div className="flex flex-col md:flex-row items-start">

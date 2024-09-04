@@ -178,12 +178,13 @@ router.post('/guardarRespuestas', async (req, res) => {
         }
 
         await guardarRespuestas(respuestasAlcance);
-        res.redirect('http://localhost:4321/VistaUsuario');
+       
     } catch (error) {
         console.error('Error al guardar respuestas:', error);
         res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
+
 
 router.get('/objetivos/:idarea', async (req, res) => {
     const { idarea } = req.params;
