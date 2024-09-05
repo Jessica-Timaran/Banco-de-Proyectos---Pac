@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ObjetivosPrueba from './Pages/ObjetivosPrueba';
 import RegistroProyecto from './Pages/RegistroProyecto';
 import TiposDeArea from './Pages/Services/TiposDeArea';
@@ -10,6 +11,8 @@ import VistaAlcance from './Pages/VistaAlcance';
 import VistaUsuario from './Pages/VistaUsuario';
 import VistaMisProyectos from './Pages/VistaMisProyectos'
 import Prueba from './Pages/Prueba';
+import Home from './Pages/Principal/Registro1';
+import Inicio from './Pages/Principal/Incio';
 
 const App = () => {
   return (
@@ -25,9 +28,11 @@ const App = () => {
         <Route path="/VistaAlcance" element={<VistaAlcance />} />
         <Route path="/VistaMisProyectos" element={<VistaMisProyectos />} />
         <Route path="/Prueba" element={<Prueba />} />
-        
-       
-
+        <Route path="/Home" element={<Home />} />
+        <Route path="/Incio" element={<Inicio />} />
+        <Route path="/" element={<Home />} /> {/* Página inicial */}
+        <Route path="/" element={<Navigate to="/Inicio" replace />} /> {/* Redirige a Inicio */}
+      
       </Routes>
     </Router>
   );
