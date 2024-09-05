@@ -74,10 +74,10 @@ const Inicio = () => {
             onSubmit={handleSubmit}
             className="form flex flex-col 2xl:w-96 sm:w-[600px] sm:h-[900px] justify-center items-center 2xl:gap-28 gap-y-20 sm:gap-y-24"
           >
-            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-96 sm:h-32 2xl:max-w-80 2xl:max-h-32 bg-custom-green 2xl:rounded-bl-[50px] 2xl:rounded-br-[50px] rounded-bl-[40px] rounded-br-[40px]">
+            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-96 sm:h-32 2xl:max-w-80 2xl:max-h-32 bg-[#A3E784] 2xl:rounded-bl-[50px] 2xl:rounded-br-[50px] rounded-bl-[40px] rounded-br-[40px]">
               <img
                 className="sena sm:w-20 sm:h-20 w-12 h-12"
-                src="/public/img/logoSena.png"
+                src="/public/img/logo.png"
                 alt="Logo Sena"
               />
             </div>
