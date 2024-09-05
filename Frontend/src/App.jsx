@@ -11,7 +11,7 @@ import VistaAlcance from './Pages/VistaAlcance';
 import VistaUsuario from './Pages/VistaUsuario';
 import VistaMisProyectos from './Pages/VistaMisProyectos'
 import Prueba from './Pages/Prueba';
-import Home from './Pages/Principal/Registro1';
+import Home from './Pages/Principal/Home';
 import Inicio from './Pages/Principal/Incio';
 
 const App = () => {
@@ -28,10 +28,11 @@ const App = () => {
         <Route path="/VistaAlcance" element={<VistaAlcance />} />
         <Route path="/VistaMisProyectos" element={<VistaMisProyectos />} />
         <Route path="/Prueba" element={<Prueba />} />
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Incio" element={<Inicio />} />
-        <Route path="/" element={<Home />} /> {/* Página inicial */}
-        <Route path="/" element={<Navigate to="/Inicio" replace />} /> {/* Redirige a Inicio */}
+        <Route path="/" element={<Home />} />
+        <Route path="/Principal/Inicio" element={<Inicio />} />
+
+
+    
       
       </Routes>
     </Router>
