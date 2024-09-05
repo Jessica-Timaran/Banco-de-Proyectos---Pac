@@ -43,9 +43,8 @@ const ItemsDeArea = () => {
       console.error('No se pudo obtener el id del ítem o del proyecto');
       return;
     }
-
+  
     try {
-      console.log(`Enviando solicitud para actualizar el ítem: ${itemId}`);
       const response = await fetch('http://localhost:4000/api/update-proyecto-item', {
         method: 'POST',
         headers: {
@@ -53,26 +52,31 @@ const ItemsDeArea = () => {
         },
         body: JSON.stringify({ projectId, itemId }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error en la respuesta del servidor: ${response.status} ${response.statusText}`);
       }
-
+  
       const data = await response.json();
       console.log('Ítem actualizado correctamente:', data);
-
-      // Guarda la URL actual en localStorage
-      localStorage.setItem('returnUrl', `/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
-
+  
+      // Guarda la URL de ItemsDeArea en localStorage
+      localStorage.setItem('itemsReturnUrl', `/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+  
       // Redirige a la vista de objetivos, pasando el projectId
       navigate(`/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
     } catch (error) {
       console.error('Error al actualizar el ítem:', error);
     }
   };
+  
 
-  // Recupera la URL de retorno desde localStorage
-  const returnUrl = localStorage.getItem('returnUrl') || '/';
+  const handleBackClick = () => {
+    // Recupera la URL de retorno de TiposDeArea desde localStorage
+    const returnUrl = localStorage.getItem('tiposReturnUrl') || '/';
+    navigate(returnUrl);
+  };
+  
 
   if (loading) {
     return <Loader />; // Asegúrate de tener un componente Loader
@@ -104,10 +108,10 @@ const ItemsDeArea = () => {
         </div>
 
         <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-          <a href={returnUrl} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
-            <BotonPrincipal Text="Volver" />
-          </a>
-        </div>
+  <button onClick={handleBackClick} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+    <BotonPrincipal Text="Volver" />
+  </button>
+</div>
       </Layoutcontenido>
     </LayoutPrincipal>
   );

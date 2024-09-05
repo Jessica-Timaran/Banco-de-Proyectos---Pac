@@ -7,7 +7,9 @@ import ItemsDeArea from './Pages/Services/ItemsDeArea';
 import ObjetivosDeArea from './Pages/Vista_Objetivos/ObjetivosDeArea';
 import VistaAreas1 from './Pages/VistaAreas1';
 import VistaAlcance from './Pages/VistaAlcance'; 
-import VistaUsuario from './Pages/VistaUsuario'
+import VistaUsuario from './Pages/VistaUsuario';
+import VistaMisProyectos from './Pages/VistaMisProyectos'
+import Prueba from './Pages/Prueba';
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
         <Route path="/VistaAreas1" element={<VistaAreas1 />} />
         <Route path="/VistaUsuario" element={<VistaUsuario />} />
         <Route path="/VistaAlcance" element={<VistaAlcance />} />
+        <Route path="/VistaMisProyectos" element={<VistaMisProyectos />} />
+        <Route path="/Prueba" element={<Prueba />} />
         
        
 

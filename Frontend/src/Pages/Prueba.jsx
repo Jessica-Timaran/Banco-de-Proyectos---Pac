@@ -13,12 +13,12 @@ const Prueba = () => {
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
             <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
-              <div className="col-span-12 md:col-span-10 text-center md:text-left px-6">ESTADO</div>
+              <div className="col-span-12 md:col-span-10 text-center md:text-left px-6">POYECTOS</div>
               <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">ESTADO</div>
             </div>
 
             <GridPrueba Text1="PAC" id1="" id2="" name="" categoria="">
-              <Estado />
+             
             </GridPrueba>
 
             <GridPrueba Text1="Boteritos" id1="" id2="" name="" categoria="">

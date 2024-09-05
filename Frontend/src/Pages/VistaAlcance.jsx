@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
+import Loader from '../Components/Loader'; // Importa el componente Loader
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);
   const [groupedAlcances, setGroupedAlcances] = useState({});
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado para manejar la carga
   const idproyecto = new URLSearchParams(window.location.search).get('idproyecto') || '';
-  const navigate = useNavigate(); // Usa useNavigate para la redirección
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,9 +26,10 @@ const VistaAlcance = () => {
         setAlcances(data);
       } catch (error) {
         console.error('No se han podido recuperar los alcances:', error);
+      } finally {
+        setLoading(false); // Desactiva el estado de carga cuando los datos se han cargado
       }
     };
-
     fetchData();
   }, []);
 
@@ -50,24 +53,28 @@ const VistaAlcance = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+    console.log("handleSubmit ejecutado");
+
     const allQuestionsAnswered = Object.keys(groupedAlcances).every((categoria) => {
       return groupedAlcances[categoria].every((alcance) => {
         return selectedValues[alcance.idalcance] !== undefined;
       });
     });
-  
+
     if (!allQuestionsAnswered) {
       setError("Por favor, responda todas las preguntas antes de continuar.");
       return;
     }
-  
+
+    setError(null);
+
     const data = {
       ...selectedValues,
       idproyecto: idproyecto,
     };
-  
+
     try {
+      console.log("Antes de realizar fetch...");
       const response = await fetch('http://localhost:4000/api/guardarRespuestas', {
         method: 'POST',
         headers: {
@@ -75,20 +82,38 @@ const VistaAlcance = () => {
         },
         body: JSON.stringify(data),
       });
-  
-      if (!response.ok) {
-        throw new Error(`Error al guardar respuestas: ${response.statusText}`);
-      }
-  
+
+      console.log("Fetch completado.");
+
       const result = await response.json();
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        console.log('Error en la respuesta:', result.error || 'Error desconocido');
+        throw new Error(`Error al guardar respuestas: ${result.error || 'Error desconocido'}`);
+      }
+
       console.log('Respuestas guardadas correctamente:', result);
-  
-      // Redirige a VistaUsuario
-      navigate('/VistaUsuario');
+      
+      // Redirigir al obtener una respuesta exitosa
+      window.location.href = result.redirectUrl || '/VistaUsuario';
     } catch (error) {
       console.error('Error al guardar respuestas:', error);
+    } finally {
+      console.log('Finalmente, redirigiendo...');
     }
   };
+
+  const handleBackClick = () => {
+    // Recupera la URL de retorno desde localStorage
+    const returnUrl = localStorage.getItem('objetivosReturnUrl') || '/VistaObjetivos';
+    navigate(returnUrl);
+  };
+
+  // Muestra el loader mientras los datos se están cargando
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <LayoutPrincipal title="">
@@ -141,13 +166,15 @@ const VistaAlcance = () => {
               ))}
 
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <a href="/VistaObjetivos" className="">
+                <button
+                  type="button"
+                  onClick={handleBackClick}
+                  className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                   <BotonPrincipal Text="Volver" />
-                </a>
+                </button>
                 <button
                   type="submit"
-                  className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4"
-                >
+                  className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                   <BotonSegundo Text="Guardar" />
                 </button>
               </div>
@@ -160,7 +187,6 @@ const VistaAlcance = () => {
 };
 
 export default VistaAlcance;
-
 
 
 // import React, { useEffect, useState } from 'react';

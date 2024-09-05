@@ -59,16 +59,17 @@ const TiposDeArea = () => {
       const result = await response.json();
       console.log('Proyecto actualizado correctamente:', result);
   
-      // Almacena la URL completa de retorno en localStorage
+      // Guarda la URL de TiposDeArea en localStorage
       const returnUrl = `/Services/TiposDeArea/${id}?projectId=${projectId}`;
-      localStorage.setItem('returnUrl', returnUrl);
+      localStorage.setItem('tiposReturnUrl', returnUrl);
   
-      // Redirige a la ruta dinámica después de actualizar
+      // Redirige a ItemsDeArea
       navigate(`/Services/ItemsDeArea/${id}/${tipoId}?projectId=${projectId}`);
     } catch (error) {
       console.error('Error al actualizar el proyecto:', error);
     }
   };
+  
 
   if (loading) {
     return <p>Cargando...</p>; // Puedes reemplazar esto con un componente Loader si lo tienes

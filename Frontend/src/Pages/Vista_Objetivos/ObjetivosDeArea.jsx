@@ -99,15 +99,13 @@ const ObjetivosDeArea = () => {
 
   const handleBackClick = () => {
     // Recupera la URL de ItemsDeArea desde localStorage
-    const returnUrl = localStorage.getItem('returnUrl') || '/';
-    navigate(returnUrl);
-  };
-
-  useEffect(() => {
-    // Guarda la URL de ItemsDeArea en localStorage cuando se carga ObjetivosDeArea
-    localStorage.setItem('returnUrl', `/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
-  }, [idarea, idtiposdearea, projectId]);
-
+    const returnUrl = localStorage.getItem('itemsReturnUrl') || '/';
+  navigate(returnUrl);
+};
+useEffect(() => {
+  // Guarda la URL de ObjetivosDeArea para volver a ItemsDeArea
+  localStorage.setItem('objetivosReturnUrl', `/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+}, [idarea, idtiposdearea, projectId]);
   return (
     <LayoutPrincipal title="">
       <div className="flex justify-center min-h-screen">

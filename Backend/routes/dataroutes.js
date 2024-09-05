@@ -152,11 +152,9 @@ router.get('/objetivos', async (req, res) => {
 });
 //Ruta para guardar respuestas de alcance
 router.post('/guardarRespuestas', async (req, res) => {
-    // Extrae idproyecto del cuerpo de la solicitud
     const idproyecto = parseInt(req.body.idproyecto, 10);
     console.log('ID Proyecto recibido:', idproyecto);
 
-    // Verifica si idproyecto es un número válido
     if (isNaN(idproyecto)) {
         return res.status(400).json({ error: 'ID del proyecto inválido' });
     }
@@ -165,7 +163,6 @@ router.post('/guardarRespuestas', async (req, res) => {
         const respuestas = req.body;
         const respuestasAlcance = [];
 
-        // Recorre las respuestas para extraer idalcance y valor
         for (const [key, value] of Object.entries(respuestas)) {
             if (key !== 'idproyecto') {
                 const idalcance = parseInt(key.replace('pregunta', ''), 10);
@@ -178,7 +175,12 @@ router.post('/guardarRespuestas', async (req, res) => {
         }
 
         await guardarRespuestas(respuestasAlcance);
-       
+        
+        // Aquí enviamos una respuesta exitosa al cliente
+        res.status(200).json({ 
+            message: 'Respuestas guardadas correctamente',
+            redirectUrl: '/VistaUsuario' 
+        });
     } catch (error) {
         console.error('Error al guardar respuestas:', error);
         res.status(500).json({ error: 'Error interno del servidor', details: error.message });
