@@ -1,154 +1,172 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import axios from "axios";
 import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import AceptarTerminos from "../../Components/AceptarTerminos";
 import SelectBoxTI from "../../Components/SelectBoxTI";
 
-const Registro1 = () => {
-  const [formData, setFormData] = useState({
+
+const Registro = () => {
+  const [formValues, setFormValues] = useState({
     nombre: "",
     tipoDocumento: "",
     numeroDc: "",
-    correoRegistro: "",
+    correo: "",
     telefono: "",
-    nombreEmpresa: "",
-    contrasenaRegistro: "",
+    contrasena: "",
     confirmarContrasena: "",
     aceptarTerminos: false,
   });
 
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const navigate = useNavigate(); // Crea una constante para navegar
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setConfirmPasswordVisible(!confirmPasswordVisible);
-  };
-
-  const validateForm = async () => {
-    let valid = true;
+  // Función de validación
+  const validate = async () => {
     const newErrors = {};
+    let valid = true;
 
-    if (!formData.tipoDocumento || formData.tipoDocumento === "Elije una opción") {
+    // Validación del correo electrónico
+    const correoValue = formValues.correo.trim();
+    if (!correoValue) {
+      newErrors.correo = "El correo electrónico es requerido.";
       valid = false;
-      newErrors.tipoDocumentoError = "Debes seleccionar una opción.";
-    }
-
-    if (!formData.nombre || !/^[A-Za-z\s]+$/.test(formData.nombre) || formData.nombre.split(" ").length < 2) {
+    } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
+      newErrors.correo = "El correo electrónico debe tener un formato válido.";
       valid = false;
-      newErrors.nombreError = "Ingrese un nombre completo válido.";
-    }
-
-    if (!formData.correoRegistro) {
-      valid = false;
-      newErrors.correoError = "El correo electrónico es requerido.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.correoRegistro)) {
-      valid = false;
-      newErrors.correoError = "El correo electrónico debe tener formato válido.";
     } else {
+      // Verificar si el correo ya está en uso
       try {
         const response = await fetch("http://localhost:4000/api/check-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ correo: formData.correoRegistro }),
+          body: JSON.stringify({ correo: correoValue }),
         });
 
         const result = await response.json();
 
         if (response.ok && result.exists) {
+          newErrors.correo = "Este correo electrónico ya está en uso.";
           valid = false;
-          newErrors.correoError = "Este correo electrónico ya está en uso.";
         }
       } catch (error) {
-        newErrors.correoError = "Error al verificar el correo electrónico.";
+        newErrors.correo = "Error al verificar el correo electrónico.";
         valid = false;
       }
     }
 
-    if (!formData.contrasenaRegistro || formData.contrasenaRegistro.length < 8) {
+    // Validación del nombre
+    if (!formValues.nombre) {
+      newErrors.nombre = "El nombre es requerido.";
       valid = false;
-      newErrors.contrasenaError = "La contraseña debe tener al menos 8 caracteres.";
-    } else if (!/[A-Z]/.test(formData.contrasenaRegistro)) {
-      valid = false;
-      newErrors.contrasenaError = "La contraseña debe contener al menos una letra mayúscula.";
     }
 
-    if (formData.contrasenaRegistro !== formData.confirmarContrasena) {
+    // Validación del tipo de documento
+    if (!formValues.tipoDocumento) {
+      newErrors.tipoDocumento = "Seleccione un tipo de documento.";
       valid = false;
-      newErrors.confirmarContrasenaError = "Las contraseñas no coinciden.";
     }
 
-    if (!/^\d{10}$/.test(formData.numeroDc)) {
+    // Validación del número de documento
+    if (!formValues.numeroDc || !/^\d{7,10}$/.test(formValues.numeroDc)) {
+      newErrors.numeroDc = "Ingrese un número de documento válido.";
       valid = false;
-      newErrors.numeroDcError = "Ingrese un número de documento válido de 10 dígitos.";
     }
 
-    if (!/^\d{10}$/.test(formData.telefono)) {
+    // Validación del teléfono
+    if (!formValues.telefono || !/^\d{7,12}$/.test(formValues.telefono)) {
+      newErrors.telefono = "Ingrese un número de teléfono válido de 10 dígitos.";
       valid = false;
-      newErrors.telefonoError = "Ingrese un número de teléfono válido de 10 dígitos.";
     }
 
-    if (!formData.aceptarTerminos) {
+    // Validación de la contraseña
+    if (!formValues.contrasena) {
+      newErrors.contrasena = "La contraseña es requerida.";
       valid = false;
-      newErrors.terminosError = "Debe aceptar los términos y condiciones.";
+    } else if (formValues.contrasena.length < 8) {
+      newErrors.contrasena = "La contraseña debe tener al menos 8 caracteres.";
+      valid = false;
+    } else if (!/[A-Z]/.test(formValues.contrasena)) {
+      newErrors.contrasena = "La contraseña debe contener al menos una letra mayúscula.";
+      valid = false;
+    }
+
+    // Validación de la confirmación de la contraseña
+    if (formValues.contrasena !== formValues.confirmarContrasena) {
+      newErrors.confirmarContrasena = "Las contraseñas no coinciden.";
+      valid = false;
+    }
+
+    // Validación de aceptación de términos
+    if (!formValues.aceptarTerminos) {
+      newErrors.aceptarTerminos = "Debe aceptar los términos y condiciones.";
+      valid = false;
     }
 
     setErrors(newErrors);
     return valid;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Manejar el envío del formulario
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const isValid = await validate();
 
-    const isValid = await validateForm();
     if (isValid) {
-      const data = {
-        nombre: formData.nombre.trim(),
-        tipodocumento: formData.tipoDocumento,
-        numerodocumento: formData.numeroDc.trim(),
-        nombreempresa: formData.nombreEmpresa.trim(),
-        telefono: formData.telefono.trim(),
-        correo: formData.correoRegistro.trim(),
-        contraseña: formData.contrasenaRegistro,
-        idrol: 2,
-      };
-
       try {
-        const response = await fetch("http://localhost:4000/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+        const { nombre, tipoDocumento, numeroDc, correo, telefono, contrasena } = formValues;
+
+        const response = await axios.post("http://localhost:4000/api/register", {
+          nombre,
+          tipodocumento: tipoDocumento,
+          numerodocumento: numeroDc,
+          nombreempresa: formValues.nombreEmpresa,
+          telefono,
+          correo,
+          contraseña: contrasena,
+          idrol: 2,
         });
 
-        if (response.ok) {
-          setSuccessMessage("¡Registro exitoso!");
-          setTimeout(() => {
-            window.location.href = "/Principal/Inicio";
-          }, 2000);
-        } else {
-          console.error("Error en el registro");
-        }
+        setSuccessMessage("Registro exitoso");
+        console.log("Respuesta del servidor:", response.data);
+
+        // Restablece los valores del formulario
+        setFormValues({
+          nombre: "",
+          tipoDocumento: "",
+          numeroDc: "",
+          correo: "",
+          telefono: "",
+          contrasena: "",
+          confirmarContrasena: "",
+          aceptarTerminos: false,
+        });
+
+        // Redirigir a la vista de Inicio después del registro exitoso
+        navigate("/Principal/Inicio");
+
       } catch (error) {
-        console.error("Error al enviar la solicitud:", error);
+        if (error.response && error.response.status === 409) {
+          // El correo ya está registrado
+          setErrors({ correo: "El correo electrónico ya está registrado." });
+        } else {
+          console.error("Error al registrar la persona:", error);
+          setErrors({ server: "Hubo un problema al registrar. Inténtalo de nuevo más tarde." });
+        }
       }
     }
+  };
+
+  const handleChange = (event) => {
+    const { id, value, type, checked } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [id]: type === "checkbox" ? checked : value,
+    }));
   };
 
   return (
@@ -157,12 +175,15 @@ const Registro1 = () => {
         <form
           id="formu"
           className="form flex flex-col w-96 items-center gap-4"
+          method="post"
           onSubmit={handleSubmit}
         >
           <div className="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-[#A3E784] rounded-bl-[50px] rounded-br-[50px]">
             <img
               className="sena w-20 h-20"
-              src="/public/img/logo.png"
+              src="/public/img/Logo.png"
+              width="10"
+              height="10"
               alt="Logo Sena"
             />
           </div>
@@ -173,14 +194,14 @@ const Registro1 = () => {
             <div className="relative w-full">
               <Input
                 type="text"
+                Text=""
                 placeholder="Nombre Completo:"
-                id="registroNombre"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
+                id="nombre"
+                value={formValues.nombre}
+                onChange={handleChange}
               />
               <span id="nombreError" className="error-message">
-                {errors.nombreError}
+                {errors.nombre}
               </span>
             </div>
 
@@ -188,104 +209,101 @@ const Registro1 = () => {
               <SelectBoxTI
                 Text=""
                 id="tipoDocumento"
-                name="tipoDocumento"
-                value={formData.tipoDocumento}
-                onChange={handleInputChange}
+                value={formValues.tipoDocumento}
+                onChange={handleChange}
               />
               <span id="tipoDocumentoError" className="error-message">
-                {errors.tipoDocumentoError}
+                {errors.tipoDocumento}
               </span>
             </div>
 
             <div className="relative w-full">
               <Input
                 type="text"
+                Text=""
                 placeholder="Número De Documento:"
                 id="numeroDc"
-                name="numeroDc"
-                value={formData.numeroDc}
-                onChange={handleInputChange}
+                value={formValues.numeroDc}
+                onChange={handleChange}
               />
               <span id="numeroDcError" className="error-message">
-                {errors.numeroDcError}
+                {errors.numeroDc}
               </span>
             </div>
 
             <div className="relative w-full">
               <Input
                 type="email"
+                Text=""
                 placeholder="Correo:"
-                id="CorreoRegistro"
-                name="correoRegistro"
-                value={formData.correoRegistro}
-                onChange={handleInputChange}
+                id="correo"
+                value={formValues.correo}
+                onChange={handleChange}
               />
               <span id="correoError" className="error-message">
-                {errors.correoError}
+                {errors.correo}
               </span>
             </div>
 
             <div className="relative w-full">
               <Input
                 type="text"
+                Text=""
                 placeholder="Teléfono:"
                 id="telefono"
-                name="telefono"
-                value={formData.telefono}
-                onChange={handleInputChange}
+                value={formValues.telefono}
+                onChange={handleChange}
               />
               <span id="telefonoError" className="error-message">
-                {errors.telefonoError}
+                {errors.telefono}
               </span>
             </div>
 
             <div className="relative w-full">
               <Input
                 type="text"
+                Text=""
                 placeholder="Nombre De la Empresa:"
                 id="nombreEmpresa"
-                name="nombreEmpresa"
-                value={formData.nombreEmpresa}
-                onChange={handleInputChange}
+                value={formValues.nombreEmpresa}
+                onChange={handleChange}
               />
-              <span id="empresaError" className="error-message">
-                {errors.empresaError}
-              </span>
+              <div id="empresaError" className="error-message"></div>
             </div>
 
             <div className="relative w-full">
               <Input
-                type={passwordVisible ? "text" : "password"}
+                type="password"
+                Text=""
                 placeholder="Contraseña:"
-                id="contrasenaRegistro"
-                name="contrasenaRegistro"
-                value={formData.contrasenaRegistro}
-                onChange={handleInputChange}
+                id="contrasena"
+                value={formValues.contrasena}
+                onChange={handleChange}
               />
               <i
-                className={`bx ${passwordVisible ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4`}
-                onClick={togglePasswordVisibility}
+                className="bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4"
+                id="togglePasswordRegistro"
               ></i>
               <span id="contrasenaError" className="error-message">
-                {errors.contrasenaError}
+                {errors.contrasena}
               </span>
             </div>
 
             <div className="relative w-full">
               <Input
-                type={confirmPasswordVisible ? "text" : "password"}
+                type="password"
+                Text=""
                 placeholder="Confirmar Contraseña:"
                 id="confirmarContrasena"
-                name="confirmarContrasena"
-                value={formData.confirmarContrasena}
-                onChange={handleInputChange}
+                value={formValues.confirmarContrasena}
+                onChange={handleChange}
               />
               <i
-                className={`bx ${confirmPasswordVisible ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4`}
-                onClick={toggleConfirmPasswordVisibility}
+                className="bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4"
+                id="togglePasswordConfirmacion"
               ></i>
               <span id="confirmarContrasenaError" className="error-message">
-                {errors.confirmarContrasenaError}
+                {errors.confirmarContrasena}
               </span>
             </div>
 
@@ -294,22 +312,21 @@ const Registro1 = () => {
                 <AceptarTerminos
                   Text="Aceptar Términos y Condiciones"
                   id="aceptarTerminos"
-                  name="aceptarTerminos"
-                  checked={formData.aceptarTerminos}
-                  onChange={handleInputChange}
+                  checked={formValues.aceptarTerminos}
+                  onChange={handleChange}
                 />
               </div>
               <span id="terminosError" className="error-message">
-                {errors.terminosError}
+                {errors.aceptarTerminos}
               </span>
             </div>
 
+            {errors.server && <span className="error-message">{errors.server}</span>}
+            {successMessage && <span className="success-message">{successMessage}</span>}
+
             <BotonPrincipal Text="Registrarse" id="Registro" />
-            <span id="successMessage" className="success-message">
-              {successMessage}
-            </span>
             <h3 className="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">
-              Ya tienes cuenta?
+              ¿Ya tienes cuenta?
               <a
                 href="/Principal/Inicio"
                 className="text-blue-500 underline decoration-1"
@@ -332,4 +349,4 @@ const Registro1 = () => {
   );
 };
 
-export default Registro1;
+export default Registro;

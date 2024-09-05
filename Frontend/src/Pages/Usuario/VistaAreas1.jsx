@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../layouts/LayoutPrincipal';
-import Card from '../Components/Card';
-import Layoutcontenido from '../Layouts/Layoutcontenido';
-import BotonPrincipal from '../Components/BotonPrincipal';
-import Loader from '../Components/Loader';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import Card from '../../Components/Card';
+import Layoutcontenido from '../../Layouts/Layoutcontenido';
+import BotonPrincipal from '../../Components/BotonPrincipal';
+import Loader from '../../Components/Loader';
 
 const VistaAreas1 = () => {
   const [areas, setAreas] = useState([]);
@@ -55,7 +55,7 @@ const VistaAreas1 = () => {
       console.log('Área seleccionada correctamente:', data);
 
       // Redirige a la vista TiposDeArea en la carpeta Services, incluyendo projectId en la URL
-      window.location.href = `/Services/TiposDeArea/${areaId}?projectId=${projectId}`;
+      window.location.href = `/Usuario/Services/TiposDeArea/${areaId}?projectId=${projectId}`;
     } catch (error) {
       console.error('Error al enviar la solicitud:', error);
     }

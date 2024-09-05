@@ -1,10 +1,10 @@
 import React from 'react';
-import LayoutPrincipal from '../layouts/LayoutPrincipal';
-import BarraPreguntas from '../Components/BarraPreguntas';
-import EstadoAprobado from '../Components/EstadoAprobado';
-import EstadoRechazado from '../Components/EstadoRechazado';
-import GridDevolver from '../Components/GridDevolver';
-import Grid2 from '../Components/Grid2';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import BarraPreguntas from '../../Components/BarraPreguntas';
+import EstadoAprobado from '../../Components/EstadoAprobado';
+import EstadoRechazado from '../../Components/EstadoRechazado';
+import GridDevolver from '../../Components/GridDevolver';
+import Grid2 from '../../Components/Grid2'
 
 const VistaMisProyectos = () => {
   return (

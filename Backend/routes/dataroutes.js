@@ -1,5 +1,6 @@
 import express from 'express';
 import { 
+    checkEmailExists,
     getAllPersonas, 
     getAllUsuario, 
     registerPerson, 
@@ -21,6 +22,23 @@ import {
 } from '../controllers/datacontroler.js';
 
 const router = express.Router();
+
+
+router.post('/check-email', async (req, res) => {
+    const { correo } = req.body;
+
+    if (!correo) {
+        return res.status(400).json({ error: 'Correo electrónico es requerido.' });
+    }
+
+    try {
+        const exists = await checkEmailExists(correo);
+        res.json({ exists });
+    } catch (error) {
+        console.error('Error en el endpoint check-email:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
@@ -45,9 +63,18 @@ router.get('/usuarios', async (req, res) => {
 });
 
 // Ruta para registrar una nueva persona
+// Ruta para registrar una nueva persona
 router.post('/register', async (req, res) => {
     try {
         const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol } = req.body;
+
+        // Verificar si el correo ya existe
+        const emailExists = await checkEmailExists(correo);
+        if (emailExists) {
+            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
+        }
+
+        // Registrar la nueva persona si el correo no existe
         const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol });
         res.status(201).json(newPerson);
     } catch (error) {
@@ -55,6 +82,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
 
 // Ruta para iniciar sesión
 router.post('/login', async (req, res) => {

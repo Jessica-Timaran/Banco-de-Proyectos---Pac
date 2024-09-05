@@ -1,10 +1,10 @@
 import React from 'react';
-import LayoutPrincipal from '../layouts/LayoutPrincipal.jsx';
-import GridPrueba from '../Components/GridPrueba.jsx';
-import Estado from '../Components/Estado.jsx';
-import GridDevolver from '../Components/GridDevolver.jsx';
-import Grid2 from '../Components/Grid2.jsx';
-import EstadoAprobado from '../Components/EstadoAprobado.jsx';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import GridPrueba from '../../Components/GridPrueba.jsx'
+import Estado from '../../Components/Estado.jsx';
+import GridDevolver from '../../Components/GridDevolver.jsx';
+import Grid2 from '../../Components/Grid2.jsx';
+import EstadoAprobado from '../../Components/EstadoAprobado.jsx';
 
 const Prueba = () => {
   return (

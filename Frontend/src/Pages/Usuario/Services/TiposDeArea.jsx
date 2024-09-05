@@ -1,9 +1,9 @@
 // TiposDeArea.js
 import React, { useState, useEffect } from 'react';
-import LayoutPrincipal from "../../layouts/LayoutPrincipal";
-import Card from "../../Components/Card";
-import Layoutcontenido from '../../Layouts/Layoutcontenido';
-import BotonPrincipal from "../../Components/BotonPrincipal";
+import LayoutPrincipal from "../../../layouts/LayoutPrincipal";
+import Card from "../../../Components/Card";
+import Layoutcontenido from '../../../Layouts/Layoutcontenido';
+import BotonPrincipal from "../../../Components/BotonPrincipal";
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 
 const TiposDeArea = () => {
@@ -60,11 +60,11 @@ const TiposDeArea = () => {
       console.log('Proyecto actualizado correctamente:', result);
   
       // Guarda la URL de TiposDeArea en localStorage
-      const returnUrl = `/Services/TiposDeArea/${id}?projectId=${projectId}`;
+      const returnUrl = `/Usuario/Services/TiposDeArea/${id}?projectId=${projectId}`;
       localStorage.setItem('tiposReturnUrl', returnUrl);
   
       // Redirige a ItemsDeArea
-      navigate(`/Services/ItemsDeArea/${id}/${tipoId}?projectId=${projectId}`);
+      navigate(`/Usuario/Services/ItemsDeArea/${id}/${tipoId}?projectId=${projectId}`);
     } catch (error) {
       console.error('Error al actualizar el proyecto:', error);
     }
@@ -101,7 +101,7 @@ const TiposDeArea = () => {
         </div>
 
         <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-          <Link to={`/VistaAreas1?projectId=${projectId}`} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+          <Link to={`/Usuario/VistaAreas1?projectId=${projectId}`} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
             <BotonPrincipal Text="Volver" />
           </Link>
         </div>

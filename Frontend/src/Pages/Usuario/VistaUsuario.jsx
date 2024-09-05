@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import LayoutHome from '../Layouts/LayoutHome';
-import CartaUsuario from '../Components/CartaUsuario';
-import Loader from '../Components/Loader';
+import LayoutHome from '../../Layouts/LayoutHome';
+import CartaUsuario from '../../Components/CartaUsuario';
+import Loader from '../../Components/Loader';
 
 const VistaUsuario = () => {
   const [loading, setLoading] = useState(true);
@@ -34,15 +34,15 @@ const VistaUsuario = () => {
                   </p>
                 </div>
                 <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
-                  <img className="w-full max-w-md h-auto" src="/img/usuario.png" alt="Imagen Principal" />
+                  <img className="w-full max-w-md h-auto" src="/Img/usuario.png" alt="Imagen Principal" />
                 </div>
               </div>
               <div className="flex justify-center mt-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
-                  <a href="/RegistroProyecto">
+                  <a href="/Usuario/RegistroProyecto">
                     <CartaUsuario Text="Registrar proyectos" />
                   </a>
-                  <a href="/VistaMisProyectos">
+                  <a href="/Usuario/VistaMisProyectos">
                     <CartaUsuario Text="Ver proyectos" />
                   </a>
                 </div>

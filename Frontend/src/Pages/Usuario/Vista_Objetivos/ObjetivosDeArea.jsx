@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import LayoutPrincipal from "../../layouts/LayoutPrincipal";
-import Grid from "../../Components/Grid";
-import BotonPrincipal from "../../Components/BotonPrincipal";
-import BotonSegundo from "../../Components/BotonSegundo";
+import LayoutPrincipal from "../../../layouts/LayoutPrincipal";
+import Grid from "../../../Components/Grid";
+import BotonPrincipal from "../../../Components/BotonPrincipal";
+import BotonSegundo from "../../../Components/BotonSegundo";
 
 const ObjetivosDeArea = () => {
   const { idarea, idtiposdearea } = useParams();
@@ -92,7 +92,7 @@ const ObjetivosDeArea = () => {
     } catch (error) {
       console.error('Error al actualizar respuestas:', error);
     } finally {
-      navigate(`/VistaAlcance?idproyecto=${projectId}`);
+      navigate(`/Usuario/VistaAlcance?idproyecto=${projectId}`);
     }
   };
 
@@ -104,7 +104,7 @@ const ObjetivosDeArea = () => {
 };
 useEffect(() => {
   // Guarda la URL de ObjetivosDeArea para volver a ItemsDeArea
-  localStorage.setItem('objetivosReturnUrl', `/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+  localStorage.setItem('objetivosReturnUrl', `/Usuario/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
 }, [idarea, idtiposdearea, projectId]);
   return (
     <LayoutPrincipal title="">

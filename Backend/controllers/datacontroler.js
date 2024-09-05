@@ -1,6 +1,26 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
+async function checkEmailExists(correo) {
+    if (!correo) {
+        throw new Error('El correo electrónico es requerido.');
+    }
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT COUNT(*) FROM personas WHERE correo = $1', [correo]);
+        client.release();
+        
+        if (result.rows[0].count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error en checkEmailExists:', error);
+        throw new Error('Error en la base de datos al verificar el correo electrónico.');
+    }
+}
+
 // Función para obtener todas las personas
 async function getAllPersonas() {
     try {
@@ -116,7 +136,7 @@ async function getAllAlcances() {
 async function getAllAreas() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT idarea, area, estado FROM area');
+        const result = await client.query('SELECT idarea, area FROM area');
         client.release();
         return result.rows;
     } catch (error) {
@@ -129,7 +149,7 @@ async function getTiposDeAreaPorArea(idArea) {
     try {
       const client = await pool.connect();
       const query = `
-        SELECT t.idtiposdearea, t.tiposdearea, t.estado
+        SELECT t.idtiposdearea, t.tiposdearea
         FROM tipodearea t
         WHERE t.idarea = $1
       `;
@@ -382,5 +402,6 @@ export {
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos
+    guardarRespuestasObjetivos,
+    checkEmailExists,
 };

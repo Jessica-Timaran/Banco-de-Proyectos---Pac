@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import LayoutPrincipal2 from '../layouts/LayoutPrincipal2';
-import Layoutcontenido2 from '../layouts/Layoutcontenido2';
-import Input from '../Components/Input';
-import BotonPrincipal from '../Components/BotonPrincipal';
-import BotonSegundo from '../Components/BotonSegundo';
-import RadioButton2 from '../Components/RadioButton2';
-import Loader from '../Components/Loader';
+import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
+import Layoutcontenido2 from '../../layouts/Layoutcontenido2';
+import Input from '../../Components/Input';
+import BotonPrincipal from '../../Components/BotonPrincipal';
+import BotonSegundo from '../../Components/BotonSegundo';
+import RadioButton2 from '../../Components/RadioButton2';
+import Loader from '../../Components/Loader';
 
 const RegistroProyecto = () => {
   const [nombreProyecto, setNombreProyecto] = useState('');
@@ -92,7 +92,7 @@ const RegistroProyecto = () => {
 
         if (response.ok) {
           const data = await response.json();
-          window.location.href = `/VistaAreas1?projectId=${data.idproyecto}`;
+          window.location.href = `/Usuario/VistaAreas1?projectId=${data.idproyecto}`;
         } else {
           const errorText = await response.text();
           console.error('Error al registrar proyecto:', errorText);

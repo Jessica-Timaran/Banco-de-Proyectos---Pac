@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AceptarTerminos = ({ Text, id }) => {
+const AceptarTerminos = ({ Text, id, checked, onChange }) => {
   return (
     <>
       <label
@@ -12,6 +12,8 @@ const AceptarTerminos = ({ Text, id }) => {
           type="checkbox"
           id={id}
           className="peer absolute opacity-0 cursor-pointer"
+          checked={checked}
+          onChange={onChange}
         />
         <span className="checkmark absolute top-0 left-0 h-[25px] w-[25px] bg-[#eee] rounded-[4px] mt-2 border-2 border-solid border-[#A3E784] sm:border-0"></span>
         <svg

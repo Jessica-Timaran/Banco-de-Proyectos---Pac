@@ -1,10 +1,10 @@
 // ItemsDeArea.js
 import React, { useState, useEffect } from 'react';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
-import Card from '../../Components/Card';
-import Layoutcontenido from '../../Layouts/Layoutcontenido';
-import BotonPrincipal from '../../Components/BotonPrincipal';
-import Loader from '../../Components/Loader';
+import LayoutPrincipal from '../../../layouts/LayoutPrincipal';
+import Card from '../../../Components/Card';
+import Layoutcontenido from '../../../Layouts/Layoutcontenido';
+import BotonPrincipal from '../../../Components/BotonPrincipal';
+import Loader from '../../../Components/Loader';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 const ItemsDeArea = () => {
@@ -61,10 +61,10 @@ const ItemsDeArea = () => {
       console.log('Ítem actualizado correctamente:', data);
   
       // Guarda la URL de ItemsDeArea en localStorage
-      localStorage.setItem('itemsReturnUrl', `/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+      localStorage.setItem('itemsReturnUrl', `/Usuario/Services/ItemsDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
   
       // Redirige a la vista de objetivos, pasando el projectId
-      navigate(`/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+      navigate(`/Usuario/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
     } catch (error) {
       console.error('Error al actualizar el ítem:', error);
     }
