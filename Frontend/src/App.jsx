@@ -13,8 +13,7 @@ import VistaMisProyectos from './Pages/Usuario/VistaMisProyectos'
 import Home from './Pages/Principal/Home';
 import Inicio from './Pages/Principal/Incio';
 import Registro1 from './Pages/Principal/Registro1';
-
-
+import CrearArea from './Pages/SuperAdmin/CrearArea';
 import Prueba from './Pages/Usuario/Prueba'
 
 
@@ -36,6 +35,7 @@ const App = () => {
         <Route path="/Principal/Inicio" element={<Inicio />} />
         <Route path="/Principal/Registro1" element={<Registro1 />} />
         <Route path="/Usuario/Prueba" element={<Prueba />} />
+        <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
        
 
 
