@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import Input from './Input'; 
 import BotonSegundo from './BotonSegundo';
-import RadioButton from '../Components/RadioButton';
+import RadioButton2 from '../Components/RadioButton2'; // Importa el nuevo componente
 import SelectBoxTI from './SelectBoxTI';
 import SelectBoxRol from './SelectBoxRol';
 
@@ -15,31 +15,62 @@ export default function ModalUsuario() {
         correo: '',
         contrasena: '',
         celular: '',
-        tipoRol: '',
-        estado: '' // Se inicializa como cadena vacía
+        tipoRol: '', // Inicializa como una cadena vacía
+        estado: null // Inicializa como null para asegurarnos de que se procese correctamente
     });
 
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
 
     const handleChange = (event) => {
-        const { id, value, type, checked } = event.target;
+        const { id, value, type } = event.target;
         setFormValues((prevValues) => ({
             ...prevValues,
             [id]: type === 'checkbox' ? checked : value,
         }));
     };
 
-    const handleRadioChange = (value) => {
+    const handleRadioChange = (event) => {
         setFormValues((prevValues) => ({
             ...prevValues,
-            estado: value // Actualiza el estado con el valor del radio button seleccionado
+            estado: event.target.value === "Activo" ? true : false // Convertir a booleano
         }));
     };
 
     const validateFields = async () => {
         const newErrors = {};
         let valid = true;
+
+        // Validación del correo
+        const correoValue = formValues.correo.trim();
+        if (!correoValue) {
+            newErrors.correo = 'El correo electrónico es obligatorio.';
+            valid = false;
+        } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
+            newErrors.correo = 'El correo electrónico no es válido.';
+            valid = false;
+        } else {
+            // Verificar si el correo ya está en uso
+            try {
+                const response = await fetch('http://localhost:4000/api/check-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ correo: correoValue }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.exists) {
+                    newErrors.correo = 'Este correo electrónico ya está en uso.';
+                    valid = false;
+                }
+            } catch (error) {
+                newErrors.correo = 'Error al verificar el correo electrónico.';
+                valid = false;
+            }
+        }
 
         // Validación del nombre
         if (!formValues.nombreUsu.trim()) {
@@ -57,17 +88,11 @@ export default function ModalUsuario() {
         if (!formValues.numeroDoc.trim()) {
             newErrors.numeroDoc = 'El número de documento es obligatorio.';
             valid = false;
+        } else if (!/^\d+$/.test(formValues.numeroDoc)) {
+            newErrors.numeroDoc = 'El número de documento solo debe contener dígitos.';
+            valid = false;
         } else if (formValues.numeroDoc.length < 7 || formValues.numeroDoc.length > 10) {
             newErrors.numeroDoc = 'El número de documento no es válido.';
-            valid = false;
-        }
-
-        // Validación del correo
-        if (!formValues.correo.trim()) {
-            newErrors.correo = 'El correo electrónico es obligatorio.';
-            valid = false;
-        } else if (!/\S+@\S+\.\S+/.test(formValues.correo)) {
-            newErrors.correo = 'El correo electrónico no es válido.';
             valid = false;
         }
 
@@ -78,25 +103,31 @@ export default function ModalUsuario() {
         } else if (formValues.contrasena.length < 6) {
             newErrors.contrasena = 'La contraseña debe tener al menos 6 caracteres.';
             valid = false;
-        }
-
-        // Validación del rol
-        if (!formValues.tipoRol) {
-            newErrors.tipoRol = 'Seleccione un rol.';
+        } else if (!/[A-Z]/.test(formValues.contrasena)) {
+            newErrors.contrasena = 'La contraseña debe contener al menos una letra mayúscula.';
             valid = false;
         }
 
-        // Validación del celular
+        // Validación del celular/número de teléfono
         if (!formValues.celular.trim()) {
             newErrors.celular = 'El número de celular es obligatorio.';
+            valid = false;
+        } else if (!/^\d+$/.test(formValues.celular)) {
+            newErrors.celular = 'El número de celular solo debe contener dígitos.';
             valid = false;
         } else if (formValues.celular.length < 10 || formValues.celular.length > 12) {
             newErrors.celular = 'El número de celular no es válido.';
             valid = false;
         }
 
+        // Validación del rol
+        if (!formValues.tipoRol) {
+            newErrors.tipoRol = 'Seleccione un tipo de rol.';
+            valid = false;
+        }
+
         // Validación del estado
-        if (formValues.estado === '') {
+        if (formValues.estado === null) {
             newErrors.estado = 'Seleccione un estado.';
             valid = false;
         }
@@ -124,7 +155,7 @@ export default function ModalUsuario() {
                         correo: formValues.correo,
                         contraseña: formValues.contrasena,
                         idrol: formValues.tipoRol,
-                        estado: formValues.estado === 'Activo',
+                        estado: formValues.estado, // Envía el estado como booleano
                     }),
                 });
 
@@ -143,8 +174,10 @@ export default function ModalUsuario() {
                         contrasena: '',
                         celular: '',
                         tipoRol: '',
-                        estado: ''
+                        estado: null
                     });
+                } else if (response.status === 409) {
+                    setErrors({ correo: 'El correo electrónico ya está registrado.' });
                 } else {
                     console.error('Error al registrar persona:', response.statusText);
                 }
@@ -293,18 +326,20 @@ export default function ModalUsuario() {
                                         <div className="space-y-5">
                                             <span className="text-gray-800 font-medium">Selecciona una opción:</span>
                                             <div className="flex mt-2 space-x-4">
-                                                <RadioButton
-                                                    Text="Activo"
+                                                <RadioButton2
+                                                    label="Activo"
                                                     id="Activo"
                                                     name="estado"
-                                                    checked={formValues.estado === 'Activo'}
+                                                    value="Activo"
+                                                    checked={formValues.estado === true}
                                                     onChange={handleRadioChange}
                                                 />
-                                                <RadioButton
-                                                    Text="Inactivo"
+                                                <RadioButton2
+                                                    label="Inactivo"
                                                     id="Inactivo"
                                                     name="estado"
-                                                    checked={formValues.estado === 'Inactivo'}
+                                                    value="Inactivo"
+                                                    checked={formValues.estado === false}
                                                     onChange={handleRadioChange}
                                                 />
                                             </div>

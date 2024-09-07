@@ -18,6 +18,7 @@ import Prueba from './Pages/Usuario/Prueba'
 import CrearArea from './Pages/SuperAdmin/CrearArea';
 
 
+
 const App = () => {
   return (
     <Router>
@@ -39,7 +40,7 @@ const App = () => {
 
 
         <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
-       
+    
 
 
     
