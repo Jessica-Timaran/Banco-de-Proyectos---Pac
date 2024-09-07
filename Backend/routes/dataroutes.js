@@ -16,7 +16,8 @@ import {
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos
+    guardarRespuestasObjetivos,
+    agregarPersona
 
 
 } from '../controllers/datacontroler.js';
@@ -309,6 +310,24 @@ router.post('/guardarRespuestasObjetivos', async (req, res) => {
     }
 });
 
+router.post('/agregarpersona', async (req, res) => {
+    try {
+        const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol } = req.body;
+
+        // Verificar si el correo ya existe
+        const emailExists = await checkEmailExists(correo);
+        if (emailExists) {
+            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
+        }
+
+        // Registrar la nueva persona si el correo no existe
+        const newPerson = await agregarPersona({ nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol });
+        res.status(201).json(newPerson);
+    } catch (error) {
+        console.error('Error al registrar persona:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
 
 
 export default router;

@@ -1,103 +1,156 @@
 import React, { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
-import Input from './Input';  // Asegúrate de que la ruta de importación sea correcta
+import Input from './Input'; 
 import BotonSegundo from './BotonSegundo';
 import RadioButton from '../Components/RadioButton';
 import SelectBoxTI from './SelectBoxTI';
 import SelectBoxRol from './SelectBoxRol';
 
-
 export default function ModalUsuario() {
     const [isOpen, setIsOpen] = useState(false);
-    const [tipoDocumento, setTipoDocumento] = useState('');
-    const [nombreUsu, setNombreUsu] = useState('');
-    const [numeroDoc, setNumeroDoc] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [contrasena, setContrasena] = useState('');
-    const [celular, setCelular] = useState('');
-    const [tipoRol, setTipoRol] = useState('');
-    const [estado, setEstado] = useState('');
-  
+    const [formValues, setFormValues] = useState({
+        tipoDocumento: '',
+        nombreUsu: '',
+        numeroDoc: '',
+        correo: '',
+        contrasena: '',
+        celular: '',
+        tipoRol: '',
+        estado: '' // Se inicializa como cadena vacía
+    });
+
     const [errors, setErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState('');
 
-    const handleTipoDocumentoChange = (event) => {
-        setTipoDocumento(event.target.value);
+    const handleChange = (event) => {
+        const { id, value, type, checked } = event.target;
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [id]: type === 'checkbox' ? checked : value,
+        }));
     };
 
-    const handleNumericInputChange = (setter) => (event) => {
-        const value = event.target.value;
-        if (/^\d*$/.test(value)) { // Verifica si solo contiene números
-            setter(value);
-        }
+    const handleRadioChange = (value) => {
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            estado: value // Actualiza el estado con el valor del radio button seleccionado
+        }));
     };
 
-    const handleTipoRolChange = (event) => {
-        setTipoRol(event.target.value);
-        if (event.target.value) {
-            setErrors((prevErrors) => ({ ...prevErrors, tipoRol: undefined }));
-        }
-    };
-
-    const handleEstadoChange = (nuevoEstado) => {
-        setEstado(nuevoEstado);
-        if (nuevoEstado) {
-            setErrors((prevErrors) => ({ ...prevErrors, estado: undefined }));
-        }
-    };
-
-    const validateFields = () => {
+    const validateFields = async () => {
         const newErrors = {};
+        let valid = true;
 
-        if (!nombreUsu.trim()) {
+        // Validación del nombre
+        if (!formValues.nombreUsu.trim()) {
             newErrors.nombreUsu = 'El nombre es obligatorio.';
+            valid = false;
         }
 
-        if (!tipoDocumento) {
+        // Validación del tipo de documento
+        if (!formValues.tipoDocumento) {
             newErrors.tipoDocumento = 'Seleccione un tipo de documento.';
+            valid = false;
         }
 
-        if (!numeroDoc.trim()) {
+        // Validación del número de documento
+        if (!formValues.numeroDoc.trim()) {
             newErrors.numeroDoc = 'El número de documento es obligatorio.';
-        } else if (numeroDoc.length < 7 || numeroDoc.length > 10) {
-            newErrors.numeroDoc = 'El número de documento no es valido.';
+            valid = false;
+        } else if (formValues.numeroDoc.length < 7 || formValues.numeroDoc.length > 10) {
+            newErrors.numeroDoc = 'El número de documento no es válido.';
+            valid = false;
         }
 
-        if (!correo.trim()) {
+        // Validación del correo
+        if (!formValues.correo.trim()) {
             newErrors.correo = 'El correo electrónico es obligatorio.';
-        } else if (!/\S+@\S+\.\S+/.test(correo)) {
+            valid = false;
+        } else if (!/\S+@\S+\.\S+/.test(formValues.correo)) {
             newErrors.correo = 'El correo electrónico no es válido.';
+            valid = false;
         }
 
-        if (!contrasena.trim()) {
+        // Validación de la contraseña
+        if (!formValues.contrasena.trim()) {
             newErrors.contrasena = 'La contraseña es obligatoria.';
-        } else if (contrasena.length < 6) {
+            valid = false;
+        } else if (formValues.contrasena.length < 6) {
             newErrors.contrasena = 'La contraseña debe tener al menos 6 caracteres.';
+            valid = false;
         }
 
-        if (!tipoRol) {
+        // Validación del rol
+        if (!formValues.tipoRol) {
             newErrors.tipoRol = 'Seleccione un rol.';
+            valid = false;
         }
 
-        if (!celular.trim()) {
+        // Validación del celular
+        if (!formValues.celular.trim()) {
             newErrors.celular = 'El número de celular es obligatorio.';
-        } else if (celular.length < 10 || celular.length > 12) {
+            valid = false;
+        } else if (formValues.celular.length < 10 || formValues.celular.length > 12) {
             newErrors.celular = 'El número de celular no es válido.';
+            valid = false;
         }
 
-        if (!estado) {
+        // Validación del estado
+        if (formValues.estado === '') {
             newErrors.estado = 'Seleccione un estado.';
+            valid = false;
         }
 
         setErrors(newErrors);
-
-        return Object.keys(newErrors).length === 0;
+        return valid;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateFields()) {
-            console.log('Datos válidos. Enviando formulario...');
-            setIsOpen(false);
+        const isValid = await validateFields();
+
+        if (isValid) {
+            try {
+                const response = await fetch('http://localhost:4000/api/agregarpersona', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre: formValues.nombreUsu,
+                        tipodocumento: formValues.tipoDocumento,
+                        numerodocumento: formValues.numeroDoc,
+                        telefono: formValues.celular,
+                        correo: formValues.correo,
+                        contraseña: formValues.contrasena,
+                        idrol: formValues.tipoRol,
+                        estado: formValues.estado === 'Activo',
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setSuccessMessage('Registro exitoso');
+                    console.log('Persona registrada con éxito:', data);
+                    setIsOpen(false);
+
+                    // Restablecer valores del formulario
+                    setFormValues({
+                        tipoDocumento: '',
+                        nombreUsu: '',
+                        numeroDoc: '',
+                        correo: '',
+                        contrasena: '',
+                        celular: '',
+                        tipoRol: '',
+                        estado: ''
+                    });
+                } else {
+                    console.error('Error al registrar persona:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+            }
         } else {
             console.log('Errores en el formulario:', errors);
         }
@@ -128,7 +181,7 @@ export default function ModalUsuario() {
                                 <RiCloseLine className="w-6 h-6" aria-hidden={true} />
                             </button>
                         </div>
-                        <h4 className="text-xl font-semibold text-center mb-4">Modal Title</h4>
+                        <h4 className="text-xl font-semibold text-center mb-4">Añade nuevo usuario</h4>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <h4 className="font-semibold text-gray-800">Añade nuevo usuario</h4>
                             <p className="mt-2 text-gray-600 leading-6">
@@ -142,8 +195,8 @@ export default function ModalUsuario() {
                                             type="text"
                                             placeholder="Nombre del usuario"
                                             Text="Nombre del usuario:"
-                                            value={nombreUsu}
-                                            onChange={(e) => setNombreUsu(e.target.value)}
+                                            value={formValues.nombreUsu}
+                                            onChange={handleChange}
                                             error={errors.nombreUsu}
                                         />
                                         {errors.nombreUsu && (
@@ -155,8 +208,8 @@ export default function ModalUsuario() {
                                         <SelectBoxTI
                                             id="tipoDocumento"
                                             Text="Tipo de Documento:"
-                                            value={tipoDocumento}
-                                            onChange={handleTipoDocumentoChange}
+                                            value={formValues.tipoDocumento}
+                                            onChange={handleChange}
                                         />
                                         {errors.tipoDocumento && (
                                             <p className="text-red-500 text-sm">{errors.tipoDocumento}</p>
@@ -169,8 +222,8 @@ export default function ModalUsuario() {
                                             type="text"
                                             placeholder="Número de documento"
                                             Text="Número de documento:"
-                                            value={numeroDoc}
-                                            onChange={handleNumericInputChange(setNumeroDoc)}
+                                            value={formValues.numeroDoc}
+                                            onChange={handleChange}
                                             error={errors.numeroDoc}
                                         />
                                         {errors.numeroDoc && (
@@ -184,8 +237,8 @@ export default function ModalUsuario() {
                                             type="email"
                                             placeholder="Correo"
                                             Text="Correo Electrónico:"
-                                            value={correo}
-                                            onChange={(e) => setCorreo(e.target.value)}
+                                            value={formValues.correo}
+                                            onChange={handleChange}
                                             error={errors.correo}
                                         />
                                         {errors.correo && (
@@ -201,8 +254,8 @@ export default function ModalUsuario() {
                                             type="password"
                                             placeholder="Contraseña"
                                             Text="Contraseña:"
-                                            value={contrasena}
-                                            onChange={(e) => setContrasena(e.target.value)}
+                                            value={formValues.contrasena}
+                                            onChange={handleChange}
                                             error={errors.contrasena}
                                         />
                                         {errors.contrasena && (
@@ -213,9 +266,10 @@ export default function ModalUsuario() {
                                     <SelectBoxRol
                                         id="tipoRol"
                                         text="Seleccione un rol:"
-                                        value={tipoRol}
-                                        onChange={handleTipoRolChange}
+                                        value={formValues.tipoRol}
+                                        onChange={(value) => setFormValues({ ...formValues, tipoRol: value })}
                                     />
+
                                     {errors.tipoRol && (
                                         <p className="text-red-500 text-sm">{errors.tipoRol}</p>
                                     )}
@@ -226,8 +280,8 @@ export default function ModalUsuario() {
                                             type="text"
                                             placeholder="Celular"
                                             Text="Celular:"
-                                            value={celular}
-                                            onChange={handleNumericInputChange(setCelular)}
+                                            value={formValues.celular}
+                                            onChange={handleChange}
                                             error={errors.celular}
                                         />
                                         {errors.celular && (
@@ -241,15 +295,17 @@ export default function ModalUsuario() {
                                             <div className="flex mt-2 space-x-4">
                                                 <RadioButton
                                                     Text="Activo"
-                                                    id="estadoActivo"
-                                                    checked={estado === 'Activo'}
-                                                    onChange={() => handleEstadoChange('Activo')}
+                                                    id="Activo"
+                                                    name="estado"
+                                                    checked={formValues.estado === 'Activo'}
+                                                    onChange={handleRadioChange}
                                                 />
                                                 <RadioButton
                                                     Text="Inactivo"
-                                                    id="estadoInactivo"
-                                                    checked={estado === 'Inactivo'}
-                                                    onChange={() => handleEstadoChange('Inactivo')}
+                                                    id="Inactivo"
+                                                    name="estado"
+                                                    checked={formValues.estado === 'Inactivo'}
+                                                    onChange={handleRadioChange}
                                                 />
                                             </div>
                                             {errors.estado && (

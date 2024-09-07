@@ -384,7 +384,27 @@ async function updateProyectoItem({ projectId, itemId }) {
     }
 }
 
+async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
+    try {
+        console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
 
+        // Cifrar la contraseña
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
+        console.log('Contraseña cifrada:', hashedPassword);
+
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
+        );
+        client.release();
+        console.log('Persona registrada con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar persona:', error);
+        throw error;
+    }
+}
 
 export {
     getAllPersonas,
@@ -404,4 +424,5 @@ export {
     updateProyectoItem,
     guardarRespuestasObjetivos,
     checkEmailExists,
+    agregarPersona
 };
