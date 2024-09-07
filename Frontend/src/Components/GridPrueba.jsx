@@ -8,9 +8,9 @@ const GridPrueba = ({ Text1, id1, id2, name, categoria }) => {
     <div className="w-full bg-white">
       <div className="grid rounded-lg">
         {/* Filas de la tabla */}
-        <div className="grid grid-cols-12 items-center border-b py-4">
+        <div className="grid grid-cols-12 items-center border-b py-4 px-10">
           {/* Columna Pregunta */}
-          <div className="col-span-12 md:col-span-10 flex items-center px-6">
+          <div className="col-span-12 md:col-span-10 flex items-center">
             <span className="text-lg">{Text1}</span>
           </div>
 

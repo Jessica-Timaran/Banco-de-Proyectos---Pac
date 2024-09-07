@@ -6,7 +6,7 @@ const Estado = () => {
       {/* Botón Active */}
       <button className="flex items-center px-3 py-1 bg-green-100 text-green-600 rounded-full">
         <span className="inline-block w-2.5 h-2.5 bg-green-500 rounded-full "></span>
-        Active
+        Aceptado
       </button>
 
       {/* Botón Devolver */}
