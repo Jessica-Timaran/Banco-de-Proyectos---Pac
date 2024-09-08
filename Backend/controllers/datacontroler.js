@@ -86,7 +86,12 @@ async function loginPerson(correo, contraseña) {
             const person = result.rows[0];
             const match = await bcrypt.compare(contraseña, person.contraseña);
             if (match) {
-                return { id: person.id, rol: person.idrol };  // Devuelve el rol del usuario
+                // Asegúrate de devolver el nombre del usuario junto con el id y rol
+                return { 
+                    id: person.id, 
+                    rol: person.idrol, 
+                    nombre: person.nombre // Aquí se agrega el nombre
+                };
             } else {
                 return null;
             }
@@ -98,6 +103,7 @@ async function loginPerson(correo, contraseña) {
         throw error;
     }
 }
+
 
 // Función para registrar un nuevo proyecto
 async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
@@ -115,6 +121,7 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
         throw error;
     }
 }
+
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {
     try {
@@ -406,6 +413,17 @@ async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreem
     }
 }
 
+const getUserNameById = async (userId) => {
+    try {
+        const user = await User.findById(userId); // Suponiendo que estás utilizando Mongoose
+        return user ? user.name : null;
+    } catch (error) {
+        console.error('Error al obtener el nombre de usuario:', error);
+        return null;
+    }
+};
+
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -424,5 +442,6 @@ export {
     updateProyectoItem,
     guardarRespuestasObjetivos,
     checkEmailExists,
-    agregarPersona
+    agregarPersona,
+    getUserNameById
 };

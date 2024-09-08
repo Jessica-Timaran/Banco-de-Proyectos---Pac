@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import LayoutFormulario from "../../layouts/LayoutFormulario";
 import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import '../../css/Incio.css';
+import { useUser } from '../../Context/UserContext'; // Importar el contexto del usuario
 
 const Inicio = () => {
   const [correo, setCorreo] = useState('');
@@ -11,6 +12,7 @@ const Inicio = () => {
   const [contrasenaError, setContrasenaError] = useState('');
   const [globalError, setGlobalError] = useState('');
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
+  const { setUser } = useUser(); // Usar el contexto del usuario
 
   const togglePasswordVisibility = () => {
     setMostrarContrasena(!mostrarContrasena);
@@ -21,7 +23,7 @@ const Inicio = () => {
     setCorreoError('');
     setContrasenaError('');
     setGlobalError('');
-
+    
     try {
       const response = await fetch('http://localhost:4000/api/login', {
         method: 'POST',
@@ -30,16 +32,20 @@ const Inicio = () => {
         },
         body: JSON.stringify({ correo, contraseña: contrasena }),
       });
-
+    
       const result = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          setGlobalError('Correo o contraseña incorrectos');
+  
+      console.log('Respuesta del servidor:', result); // Verifica la respuesta aquí
+    
+      if (response.ok) {
+        // Verifica que `result.nombre` esté presente antes de guardarlo en el contexto
+        if (result.nombre) {
+          setUser({ id: result.id, nombre: result.nombre, rol: result.rol });
+          console.log('Usuario guardado en el contexto:', { id: result.id, nombre: result.nombre, rol: result.rol });
         } else {
-          setGlobalError('Error en el servidor. Intenta nuevamente.');
+          console.error("El nombre del usuario no se encontró en la respuesta");
         }
-      } else {
+    
         // Redirige según el rol del usuario
         switch (result.rol) {
           case 1:
@@ -58,12 +64,19 @@ const Inicio = () => {
             setGlobalError('Rol de usuario desconocido');
             break;
         }
+      } else {
+        if (response.status === 401) {
+          setGlobalError('Correo o contraseña incorrectos');
+        } else {
+          setGlobalError('Error en el servidor. Intenta nuevamente.');
+        }
       }
     } catch (error) {
       console.error('Error en el inicio de sesión:', error);
       setGlobalError('Error en la conexión. Intenta nuevamente.');
     }
   };
+  
 
   return (
     <LayoutFormulario title="Formulario">

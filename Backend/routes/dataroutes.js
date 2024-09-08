@@ -17,7 +17,8 @@ import {
     updateProjectTipo,
     updateProyectoItem,
     guardarRespuestasObjetivos,
-    agregarPersona
+    agregarPersona,
+    getUserNameById
 
 
 } from '../controllers/datacontroler.js';
@@ -25,6 +26,21 @@ import {
 const router = express.Router();
 
 
+// Ruta para establecer una cookie
+router.get('/set-cookie', (req, res) => {
+    res.cookie('testCookie', 'testValue', { maxAge: 900000, httpOnly: true });
+    res.send('Cookie has been set');
+  });
+
+
+
+// Ruta para verificar la cookie
+router.get('/get-cookie', (req, res) => {
+  const cookie = req.cookies['testCookie'];
+  res.send(`Cookie value is: ${cookie}`);
+});
+
+  
 router.post('/check-email', async (req, res) => {
     const { correo } = req.body;
 
@@ -63,7 +79,7 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
-// Ruta para registrar una nueva persona
+
 // Ruta para registrar una nueva persona
 router.post('/register', async (req, res) => {
     try {
@@ -84,14 +100,21 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 // Ruta para iniciar sesión
 router.post('/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
         const user = await loginPerson(correo, contraseña);
+        
         if (user) {
-            res.status(200).json(user);
+            req.session.userId = user.id;
+            req.session.rol = user.rol;
+
+            // Asegúrate de enviar el nombre del usuario en la respuesta
+            res.status(200).json({ 
+                rol: user.rol,
+                nombre: user.nombre // Ahora `user.nombre` existe y se envía al frontend
+            });
         } else {
             res.status(401).json({ error: 'Correo o contraseña incorrectos' });
         }
@@ -100,6 +123,18 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
+
+router.get('/ruta-protegida', (req, res) => {
+    if (req.session.userId) {
+        // El usuario está autenticado
+        res.send('Acceso concedido');
+    } else {
+        res.status(401).send('No autenticado');
+    }
+});
+
+
 
 // Ruta para registrar un nuevo proyecto
 router.post('/proyectos', async (req, res) => {

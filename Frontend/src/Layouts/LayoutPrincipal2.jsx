@@ -8,7 +8,7 @@ const LayoutPrincipal2 = ({ title, children }) => {
     <PostLayout title="Instructor">
       <div className="min-h-screen">
         <header className="w-full bg-white">
-          <Navbar2 Text="djcds" />
+          <Navbar2 Text="" />
         </header>
         <aside>
           <Menu />

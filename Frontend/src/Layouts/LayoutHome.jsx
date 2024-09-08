@@ -8,7 +8,7 @@ const LayoutHome = ({ title, children }) => {
     <PostLayout2 title={title}>
       <div>
         <header className="w-full bg-white">
-          <Navbar2 Text="djcds" />
+          <Navbar2 Text="" />
         </header>
         <aside>
           <Menu />
