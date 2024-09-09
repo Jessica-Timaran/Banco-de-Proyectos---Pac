@@ -1,7 +1,6 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
-
 async function checkEmailExists(correo) {
     if (!correo) {
         throw new Error('El correo electrónico es requerido.');
@@ -19,28 +18,6 @@ async function checkEmailExists(correo) {
     } catch (error) {
         console.error('Error en checkEmailExists:', error);
         throw new Error('Error en la base de datos al verificar el correo electrónico.');
-    }
-}
-
-async function updatePassword(correo, nuevaContraseña) {
-    try {
-        const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
-
-        const client = await pool.connect();
-        const result = await client.query(
-            'UPDATE personas SET contraseña = $1 WHERE correo = $2 RETURNING *',
-            [hashedPassword, correo]
-        );
-        client.release();
-
-        if (result.rows.length > 0) {
-            return result.rows[0];
-        } else {
-            throw new Error('Usuario no encontrado');
-        }
-    } catch (error) {
-        console.error('Error al actualizar la contraseña:', error);
-        throw error;
     }
 }
 
@@ -75,18 +52,19 @@ async function getAllUsuario() {
 }
 
 // Función para registrar una nueva persona
-async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
+async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol }) {
     try {
-        console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
-
+        console.log('Contraseña original:', contraseña);
+        
         // Cifrar la contraseña
         const hashedPassword = await bcrypt.hash(contraseña, 10);
+        
         console.log('Contraseña cifrada:', hashedPassword);
 
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
+            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, hashedPassword, idrol] 
         );
         client.release();
         console.log('Persona registrada con éxito:', result.rows[0]);
@@ -101,14 +79,23 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
 async function loginPerson(correo, contraseña) {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM personas WHERE correo = $1', [correo]);
+        const result = await client.query('SELECT idpersonas, idrol, nombre, contraseña FROM personas WHERE correo = $1', [correo]); // Asegúrate de seleccionar 'contraseña'
         client.release();
 
         if (result.rows.length > 0) {
             const person = result.rows[0];
+            if (!person.contraseña) {
+                console.error('Error: contraseña no encontrada en la base de datos');
+                return null;
+            }
+
             const match = await bcrypt.compare(contraseña, person.contraseña);
             if (match) {
-                return { id: person.id, rol: person.idrol };  // Devuelve el rol del usuario
+                return { 
+                    id: person.idpersonas,  // Cambié 'id' a 'idpersonas'
+                    rol: person.idrol, 
+                    nombre: person.nombre 
+                };
             } else {
                 return null;
             }
@@ -121,32 +108,18 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
-// Función para registrar una nueva ficha
-async function registerFicha({ nombre, numeroFicha, estado }) {
-    try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha, estado });
 
-        const client = await pool.connect();
-        const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
-            [nombre, numeroFicha, estado]
-        );
-        client.release();
-        console.log('Ficha registrada con éxito:', result.rows[0]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al registrar ficha:', error);
-        throw error;
-    }
-}
 
+
+
+// Función para registrar un nuevo proyecto
 // Función para registrar un nuevo proyecto
 async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
     try {
         const client = await pool.connect();
         const result = await client.query(
             'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
-            [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea]
+            [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea] // Aquí asegúrate de usar idpersona
         );
         client.release();
         console.log('Proyecto registrado con éxito:', result.rows[0]);
@@ -157,41 +130,6 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
     }
 }
 
-// Función para obtener todos los proyectos Steeven
-async function getAllProyectos() {
-    try {
-        console.log('Obteniendo todos los proyectos...');
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM proyecto');
-        client.release();
-        console.log('Proyectos obtenidos con éxito:', result.rows);
-        return result.rows;
-    } catch (error) {
-        console.error('Error al obtener proyectos:', error);
-        throw error;
-    }
-}
-
-// Función para obtener un proyecto por ID Steeven
-async function getProyectoById(id) {
-    try {
-        const numericId = parseInt(id); // Convertir a entero
-        if (isNaN(numericId)) {
-            throw new Error('ID inválido');
-        }
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM proyecto WHERE idproyecto = $1', [numericId]);
-        client.release();
-        if (result.rows.length > 0) {
-            return result.rows[0];
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error('Error al obtener el proyecto por ID:', error);
-        throw error;
-    }
-}
 
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {
@@ -214,7 +152,7 @@ async function getAllAlcances() {
 async function getAllAreas() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT idarea, area, estado FROM area');
+        const result = await client.query('SELECT idarea, area FROM area');
         client.release();
         return result.rows;
     } catch (error) {
@@ -225,37 +163,37 @@ async function getAllAreas() {
 
 async function getTiposDeAreaPorArea(idArea) {
     try {
-        const client = await pool.connect();
-        const query = `
-        SELECT t.idtiposdearea, t.tiposdearea, t.estado
+      const client = await pool.connect();
+      const query = `
+        SELECT t.idtiposdearea, t.tiposdearea
         FROM tipodearea t
         WHERE t.idarea = $1
       `;
-        const result = await client.query(query, [idArea]);
-        client.release();
-        return result.rows;
+      const result = await client.query(query, [idArea]);
+      client.release();
+      return result.rows;
     } catch (error) {
-        console.error('Error al obtener tipos de área:', error);
-        throw error;
+      console.error('Error al obtener tipos de área:', error);
+      throw error;
     }
-}
+  }
 
-async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
+  async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
     try {
-        const client = await pool.connect();
-        const query = `
+      const client = await pool.connect();
+      const query = `
         SELECT * FROM items
         WHERE idarea = $1 AND idtiposdearea = $2
       `;
-        const result = await client.query(query, [idArea, idTiposDeArea]);
-        client.release();
-        return result.rows;
+      const result = await client.query(query, [idArea, idTiposDeArea]);
+      client.release();
+      return result.rows;
     } catch (error) {
-        console.error('Error al obtener ítems:', error);
-        throw error;
+      console.error('Error al obtener ítems:', error);
+      throw error;
     }
-}
-
+  }
+  
 // Obtener todos los objetivos
 async function getObjetivos() {
     try {
@@ -273,30 +211,58 @@ async function getObjetivos() {
 };
 
 async function guardarRespuestas(respuestas) {
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
-
-        for (const respuesta of respuestas) {
-            const { idproyecto, idalcance, respuesta: valorRespuesta } = respuesta;
-
-            // Convertir idproyecto a número
-            const idproyectoNumero = parseInt(idproyecto, 10);
-
-            await client.query(
-                'INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) VALUES ($1, $2, $3)',
-                [idproyectoNumero, idalcance, valorRespuesta]
-            );
+      await client.query('BEGIN'); // Inicia una transacción
+  
+      for (const respuesta of respuestas) {
+        const { idproyecto, idalcance, respuesta: valorRespuesta } = respuesta;
+  
+        // Verifica si ya existe una respuesta para este proyecto y alcance
+        const selectQuery = `
+          SELECT idrespuesta 
+          FROM respuestasalcance 
+          WHERE idproyecto = $1 AND idalcance = $2
+        `;
+        const selectResult = await client.query(selectQuery, [idproyecto, idalcance]);
+  
+        if (selectResult.rows.length > 0) {
+          // Si existe, realiza un UPDATE
+          const idrespuesta = selectResult.rows[0].idrespuesta;
+          const updateQuery = `
+            UPDATE respuestasalcance 
+            SET respuesta = $1 
+            WHERE idrespuesta = $2
+          `;
+          await client.query(updateQuery, [valorRespuesta, idrespuesta]);
+        } else {
+          // Si no existe, realiza un INSERT
+          const insertQuery = `
+            INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) 
+            VALUES ($1, $2, $3) RETURNING idrespuesta
+          `;
+          const result = await client.query(insertQuery, [idproyecto, idalcance, valorRespuesta]);
+  
+          // Extrae el idrespuesta generado
+          const idrespuesta = result.rows[0].idrespuesta;
+  
+          // Ahora, actualiza la tabla `proyecto` con este idrespuesta
+          const updateQuery = 'UPDATE proyecto SET idrespuestaalcance = $1 WHERE idproyecto = $2';
+          await client.query(updateQuery, [idrespuesta, idproyecto]);
         }
-
-        client.release();
-        console.log('Respuestas guardadas con éxito');
+      }
+  
+      await client.query('COMMIT'); // Confirma la transacción
+      console.log('Respuestas y actualización del proyecto guardadas con éxito');
     } catch (error) {
-        console.error('Error al guardar respuestas:', error);
-        throw error;
+      await client.query('ROLLBACK'); // Revertir en caso de error
+      console.error('Error al guardar respuestas:', error);
+      throw error;
+    } finally {
+      client.release();
     }
-}
-
-
+  }
+  
 async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
     try {
         const client = await pool.connect();
@@ -304,7 +270,7 @@ async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
             'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
             [areaId, projectId]
         );
-
+        
         client.release();
         return result.rows[0];
     } catch (error) {
@@ -313,7 +279,7 @@ async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
     }
 }
 
-
+  
 // Obtener objetivos por área
 async function getObjetivosPorArea(idArea) {
     try {
@@ -351,70 +317,140 @@ async function updateProjectTipo(areaId, projectId) {
 
 async function updateProyectoItem({ projectId, itemId }) {
     try {
-        // Asegúrate de que los valores estén presentes
-        if (!projectId || !itemId) {
-            throw new Error('Faltan parámetros en la solicitud');
-        }
-
-        const result = await pool.query(
-            `UPDATE proyecto SET iditems = $1 WHERE idproyecto = $2`,
-            [itemId, projectId]
-        );
-
-        if (result.rowCount === 0) {
-            throw new Error('Proyecto no encontrado');
-        }
-
-        return { message: 'Ítem actualizado correctamente' };
+      // Asegúrate de que los valores estén presentes
+      if (!projectId || !itemId) {
+        throw new Error('Faltan parámetros en la solicitud');
+      }
+  
+      const result = await pool.query(
+        `UPDATE proyecto SET iditems = $1 WHERE idproyecto = $2`,
+        [itemId, projectId]
+      );
+  
+      if (result.rowCount === 0) {
+        throw new Error('Proyecto no encontrado');
+      }
+  
+      return { message: 'Ítem actualizado correctamente' };
     } catch (error) {
-        console.error('Error updating proyecto:', error);
-        throw error;
+      console.error('Error updating proyecto:', error);
+      throw error;
     }
-}
+  }
+  
+  async function guardarRespuestasObjetivos(respuestas) {
+    const client = await pool.connect();
 
-async function guardarRespuestasObjetivos(respuestas) {
     try {
-        const client = await pool.connect();
+        // Iniciar una transacción
+        await client.query('BEGIN');
 
         for (const respuesta of respuestas) {
             const { idproyecto, idobjetivos, respuesta: valorRespuesta } = respuesta;
 
-            // Guarda en la tabla respuestasobjetivos con el idproyecto
-            await client.query(
-                'INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) VALUES ($1, $2, $3)',
-                [idproyecto, idobjetivos, valorRespuesta]
-            );
+            // Verifica si ya existe una respuesta para este proyecto y objetivo
+            const selectQuery = `
+                SELECT idrespuestasobjetivos 
+                FROM respuestasobjetivos 
+                WHERE idproyecto = $1 AND idobjetivos = $2
+            `;
+            const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
+
+            if (selectResult.rows.length > 0) {
+                // Si existe, realiza un UPDATE
+                const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
+                const updateQuery = `
+                    UPDATE respuestasobjetivos 
+                    SET respuesta = $1 
+                    WHERE idrespuestasobjetivos = $2
+                `;
+                await client.query(updateQuery, [valorRespuesta, idrespuestasobjetivos]);
+            } else {
+                // Si no existe, realiza un INSERT
+                const insertQuery = `
+                    INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) 
+                    VALUES ($1, $2, $3) RETURNING idrespuestasobjetivos
+                `;
+                const insertResult = await client.query(insertQuery, [idproyecto, idobjetivos, valorRespuesta]);
+
+                // Extrae el idrespuestasobjetivos generado
+                const idrespuestasobjetivos = insertResult.rows[0].idrespuestasobjetivos;
+
+                // Actualiza la tabla `proyecto` con este idrespuestasobjetivos si es necesario
+                const updateProyectoQuery = `
+                    UPDATE proyecto 
+                    SET idrespuestaobjetivos = $1 
+                    WHERE idproyecto = $2
+                `;
+                await client.query(updateProyectoQuery, [idrespuestasobjetivos, idproyecto]);
+            }
         }
 
-        client.release();
-        console.log('Respuestas guardadas con éxito');
+        // Finaliza la transacción
+        await client.query('COMMIT');
+        console.log('Respuestas y actualización del proyecto guardadas con éxito');
     } catch (error) {
         console.error('Error al guardar respuestas:', error);
+
+        // Si ocurre un error, deshaz la transacción
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
+    try {
+        console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
+
+        // Cifrar la contraseña
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
+        console.log('Contraseña cifrada:', hashedPassword);
+
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
+        );
+        client.release();
+        console.log('Persona registrada con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar persona:', error);
         throw error;
     }
 }
+
+const getUserNameById = async (userId) => {
+    try {
+        const user = await User.findById(userId); // Suponiendo que estás utilizando Mongoose
+        return user ? user.name : null;
+    } catch (error) {
+        console.error('Error al obtener el nombre de usuario:', error);
+        return null;
+    }
+};
+
 
 export {
     getAllPersonas,
     getAllUsuario,
     registerPerson,
     loginPerson,
-    registerFicha,
     registerProject,
-    getAllProyectos,
     getAllAlcances,
-    getProyectoById,
     getAllAreas,
-    checkEmailExists,
-    updatePassword,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
     getObjetivos,
     guardarRespuestas,
-    updateProjectWithArea,
     getObjetivosPorArea,
+    updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos
-
+    guardarRespuestasObjetivos,
+    checkEmailExists,
+    agregarPersona,
+    getUserNameById
 };

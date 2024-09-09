@@ -1,0 +1,15 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .close-modal {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .font-Josefin-Slab {
+    font-family: 'Josefin Slab', serif;
+  }
+  
