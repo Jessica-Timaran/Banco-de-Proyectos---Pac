@@ -76,6 +76,12 @@ const RegistroProyecto = () => {
 
     if (!hasError) {
       const diasSeleccionadosStr = diasSeleccionados.join(', ');
+      const userId = localStorage.getItem('userId'); // Asegúrate de que el idpersona es correcto
+
+      if (!userId) {
+        console.error('Error: idpersona no encontrado en localStorage');
+        return;
+      }
 
       try {
         const response = await fetch('http://localhost:4000/api/proyectos', {
@@ -87,6 +93,7 @@ const RegistroProyecto = () => {
             responsable: responsable,
             disponibilidad: frecuencia,
             dia: diasSeleccionadosStr,
+            idpersona: userId, // Asegúrate de enviar idpersona
           }),
         });
 
@@ -101,7 +108,9 @@ const RegistroProyecto = () => {
         console.error('Error en la solicitud:', error);
       }
     }
-  };
+};
+
+
 
   return (
     <LayoutPrincipal2 title="">

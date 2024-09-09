@@ -105,15 +105,16 @@ router.post('/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
         const user = await loginPerson(correo, contraseña);
-        
+
         if (user) {
             req.session.userId = user.id;
             req.session.rol = user.rol;
 
-            // Asegúrate de enviar el nombre del usuario en la respuesta
+            // Verifica que se esté enviando el id, nombre y rol del usuario
             res.status(200).json({ 
+                id: user.id, // Aquí asegúrate de que `id` esté presente
                 rol: user.rol,
-                nombre: user.nombre // Ahora `user.nombre` existe y se envía al frontend
+                nombre: user.nombre // Asegúrate de que `nombre` esté presente
             });
         } else {
             res.status(401).json({ error: 'Correo o contraseña incorrectos' });
@@ -123,6 +124,8 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
+
 
 
 router.get('/ruta-protegida', (req, res) => {
@@ -142,22 +145,40 @@ router.post('/proyectos', async (req, res) => {
         console.log('Solicitud recibida:', req.body);
         let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
 
+        // Asegúrate de que el idpersona está presente y es válido
+        if (!idpersona) {
+            return res.status(400).json({ error: 'Id de usuario no disponible. El usuario debe estar autenticado.' });
+        }
+
         // Convertir cadenas vacías a null
         idarea = idarea || null;
         idficha = idficha || null;
-        idpersona = idpersona || null;
         idrespuestaobjetivos = idrespuestaobjetivos || null;
         idrespuestaalcance = idrespuestaalcance || null;
         iditems = iditems || null;
         idtiposdearea = idtiposdearea || null;
 
-        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea });
+        const newProject = await registerProject({ 
+            nombre, 
+            impacto, 
+            responsable, 
+            disponibilidad, 
+            dia, 
+            idarea, 
+            idficha, 
+            idpersona,  // Aquí asegúrate de usar idpersona
+            idrespuestaobjetivos, 
+            idrespuestaalcance, 
+            iditems, 
+            idtiposdearea 
+        });
         res.status(201).json(newProject);
     } catch (error) {
         console.error('Error al registrar proyecto:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
 
 // Ruta para obtener todas las preguntas junto con sus categorías
 router.get('/alcances', async (req, res) => {

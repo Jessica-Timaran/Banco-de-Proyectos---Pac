@@ -79,18 +79,22 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
 async function loginPerson(correo, contraseña) {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM personas WHERE correo = $1', [correo]);
+        const result = await client.query('SELECT idpersonas, idrol, nombre, contraseña FROM personas WHERE correo = $1', [correo]); // Asegúrate de seleccionar 'contraseña'
         client.release();
 
         if (result.rows.length > 0) {
             const person = result.rows[0];
+            if (!person.contraseña) {
+                console.error('Error: contraseña no encontrada en la base de datos');
+                return null;
+            }
+
             const match = await bcrypt.compare(contraseña, person.contraseña);
             if (match) {
-                // Asegúrate de devolver el nombre del usuario junto con el id y rol
                 return { 
-                    id: person.id, 
+                    id: person.idpersonas,  // Cambié 'id' a 'idpersonas'
                     rol: person.idrol, 
-                    nombre: person.nombre // Aquí se agrega el nombre
+                    nombre: person.nombre 
                 };
             } else {
                 return null;
@@ -105,13 +109,17 @@ async function loginPerson(correo, contraseña) {
 }
 
 
+
+
+
+// Función para registrar un nuevo proyecto
 // Función para registrar un nuevo proyecto
 async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
     try {
         const client = await pool.connect();
         const result = await client.query(
             'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
-            [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea]
+            [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea] // Aquí asegúrate de usar idpersona
         );
         client.release();
         console.log('Proyecto registrado con éxito:', result.rows[0]);
@@ -121,6 +129,7 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
         throw error;
     }
 }
+
 
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {

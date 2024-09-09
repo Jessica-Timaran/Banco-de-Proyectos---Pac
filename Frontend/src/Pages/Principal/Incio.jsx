@@ -3,7 +3,7 @@ import LayoutFormulario from "../../layouts/LayoutFormulario";
 import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import '../../css/Incio.css';
-import { useUser } from '../../Context/UserContext'; // Importar el contexto del usuario
+import { useUser } from '../../Context/UserContext';
 
 const Inicio = () => {
   const [correo, setCorreo] = useState('');
@@ -12,7 +12,7 @@ const Inicio = () => {
   const [contrasenaError, setContrasenaError] = useState('');
   const [globalError, setGlobalError] = useState('');
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
-  const { setUser } = useUser(); // Usar el contexto del usuario
+  const { setUser } = useUser();
 
   const togglePasswordVisibility = () => {
     setMostrarContrasena(!mostrarContrasena);
@@ -23,7 +23,7 @@ const Inicio = () => {
     setCorreoError('');
     setContrasenaError('');
     setGlobalError('');
-    
+
     try {
       const response = await fetch('http://localhost:4000/api/login', {
         method: 'POST',
@@ -32,37 +32,39 @@ const Inicio = () => {
         },
         body: JSON.stringify({ correo, contraseña: contrasena }),
       });
-    
+
       const result = await response.json();
-  
+
       console.log('Respuesta del servidor:', result); // Verifica la respuesta aquí
-    
+
       if (response.ok) {
-        // Verifica que `result.nombre` esté presente antes de guardarlo en el contexto
-        if (result.nombre) {
+        // Verifica que `result.id` y `result.nombre` estén presentes antes de guardarlo en el contexto
+        if (result.id && result.nombre) {
           setUser({ id: result.id, nombre: result.nombre, rol: result.rol });
-          console.log('Usuario guardado en el contexto:', { id: result.id, nombre: result.nombre, rol: result.rol });
+          localStorage.setItem('userId', result.id);
+          localStorage.setItem('userRole', result.rol);
+          localStorage.setItem('userName', result.nombre);
+
+          // Redirige según el rol del usuario
+          switch (result.rol) {
+            case 1:
+              window.location.href = '/Admin/VistaAdministrador';
+              break;
+            case 2:
+              window.location.href = '/Usuario/VistaUsuario';
+              break;
+            case 3:
+              window.location.href = '/SuperAdmin/VistaSuperadmin';
+              break;
+            case 4:
+              window.location.href = '/Aprendiz/VistaAprendiz';
+              break;
+            default:
+              setGlobalError('Rol de usuario desconocido');
+              break;
+          }
         } else {
-          console.error("El nombre del usuario no se encontró en la respuesta");
-        }
-    
-        // Redirige según el rol del usuario
-        switch (result.rol) {
-          case 1:
-            window.location.href = '/Admin/VistaAdministrador';
-            break;
-          case 2:
-            window.location.href = '/Usuario/VistaUsuario';
-            break;
-          case 3:
-            window.location.href = '/SuperAdmin/VistaSuperadmin';
-            break;
-          case 4:
-            window.location.href = '/Aprendiz/VistaAprendiz';
-            break;
-          default:
-            setGlobalError('Rol de usuario desconocido');
-            break;
+          console.error("El ID o nombre del usuario no se encontró en la respuesta");
         }
       } else {
         if (response.status === 401) {
@@ -75,8 +77,8 @@ const Inicio = () => {
       console.error('Error en el inicio de sesión:', error);
       setGlobalError('Error en la conexión. Intenta nuevamente.');
     }
-  };
-  
+};
+
 
   return (
     <LayoutFormulario title="Formulario">
