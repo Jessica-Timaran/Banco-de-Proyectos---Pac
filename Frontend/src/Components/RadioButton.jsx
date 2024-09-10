@@ -1,22 +1,24 @@
 import React from 'react';
 
-const RadioButton2 = ({ Text, id, name, checked, disabled }) => {
+const RadioButton = ({ Text, id, name = "estado", value, checked, disabled, onClick }) => {
   return (
     <div className="flex items-center">
       <input
         type="radio"
-        id={id}
+        id={id || value}
         name={name}
-        className="form-radio h-5 w-5 focus:ring-red-600"
-        checked={checked} // Marcar según la propiedad `checked`
-        disabled={disabled} // Deshabilitar según la propiedad `disabled`
-        readOnly // Asegurar que no se pueda cambiar desde el cliente
+        value={value}
+        className="form-radio h-5 w-5 focus:ring-lime-600 checked:bg-lime-400"
+        checked={checked}
+        disabled={disabled}
+        onChange={onClick}  // Captura el evento de cambio
+        readOnly={onClick ? false : true} // Solo es de lectura si no hay onClick
       />
-      <label htmlFor={id} className="ml-2 text-sm font-josefin-slab">
+      <label htmlFor={id || value} className="ml-2 text-sm font-josefin-slab">
         {Text}
       </label>
     </div>
   );
 };
 
-export default RadioButton2;
+export default RadioButton;

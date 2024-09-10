@@ -1,14 +1,13 @@
-// Components/Card.js
 import React from 'react';
 import BotonSegundo from './BotonSegundo';
 
-const Card = ({ Text, onClick }) => {
+const Card = ({ Text, onClick, className = '', isBold = false }) => {
   return (
     <div
-      className="xl:w-72 xl:h-60 bg-[#FBFCFF] rounded-lg shadow-lg flex flex-col items-center justify-center p-8 m-8 border-2 border-[#FBFCFF] hover:border-[#A3E784] transition duration-300 cursor-pointer"
+      className={`w-100 xl:w-72 xl:h-60 h-60 bg-[#FBFCFF] rounded-lg border-2 shadow-lg flex flex-col items-center justify-center p-8 m-8 hover:border-[#A3E784] transition duration-300 cursor-pointer ${className}`}
       onClick={onClick}
     >
-      <h2 className="text-2xl font-josefin-slab mb-4 text-center leading-tight p-4">
+      <h2 className={`text-2xl md:text-2xl font-josefin-slab mb-4 text-center leading-tight p-4 ${isBold ? 'font-bold' : ''}`}>
         {Text}
       </h2>
       <div className="w-full md:w-auto text-sm md:text-base">

@@ -1,35 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
-import GridPrueba from '../../Components/GridPrueba.jsx'
-import Estado from '../../Components/Estado.jsx';
-import GridDevolver from '../../Components/GridDevolver.jsx';
-import Grid2 from '../../Components/Grid2.jsx';
-import EstadoAprobado from '../../Components/EstadoAprobado.jsx';
+import GridPrueba from '../../Components/GridPrueba.jsx';
 
 const Prueba = () => {
+  const [proyectos, setProyectos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProyectos = async () => {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        console.error('Error: idpersona no encontrado en localStorage');
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:4000/api/proyectos?userId=${userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProyectos(data);
+        } else {
+          console.error('Error al obtener los proyectos');
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProyectos();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <LayoutPrincipal title="">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
             <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-10 rounded-t-lg border-b">
-              <div className="col-span-12 md:col-span-11 text-center md:text-left">POYECTOS</div>
-              <div className="col-span-12 md:col-span-1 text-center  md:text-right ">ESTADO</div>
+              <div className="col-span-12 md:col-span-11 text-center md:text-left">PROYECTOS</div>
+              <div className="col-span-12 md:col-span-1 text-center md:text-right">ESTADO</div>
             </div>
 
-            <GridPrueba Text1="PAC" id1="" id2="" name="" categoria="">
-            </GridPrueba>
-
-            <GridPrueba Text1="Boteritos" id1="" id2="" name="" categoria="">
-            </GridPrueba>
-
-            {/* <GridDevolver Text1="Boteritos" />
-
-            <GridDevolver Text1="Software contable liviano" />
-
-            <Grid2 Text1="Plataforma Banca II">
-              <EstadoAprobado />
-            </Grid2> */}
+            {proyectos.map((proyecto) => (
+              <GridPrueba
+                key={proyecto.idproyecto}
+                Text1={proyecto.nombre}
+                estado={proyecto.estado} // Pasar el estado al componente GridPrueba
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -38,4 +62,3 @@ const Prueba = () => {
 };
 
 export default Prueba;
-

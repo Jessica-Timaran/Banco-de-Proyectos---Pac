@@ -1,19 +1,20 @@
 import React from 'react';
 import RadioButton2 from '../Components/RadioButton2';
+import { Evaluar } from '../Components/Evaluar';
 
-const Grid = ({ Text1, id1, id2, name, categoria, seleccionado, onChange, nuevaColumnaContenido }) => {
+const Grid2 = ({ Text1, id1, id2, name, seleccionado, onChange, handleEvaluarChange, id }) => {
   return (
     <div className="w-full bg-white">
-      <div className="grid rounded-lg">
-        {/* Filas de la tabla */}
-        <div className="grid grid-cols-12 items-center border-b py-4">
+      <div className="rounded-lg">
+        {/* Fila de la tabla */}
+        <div className="grid grid-cols-1 sm:grid-cols-12 items-center border-b py-2 sm:py-4 px-2 sm:px-4 gap-y-2 sm:gap-y-0">
           {/* Columna Pregunta */}
-          <div className="col-span-12 md:col-span-8 flex items-center pl-4">
-            <span className="text-lg">{Text1}</span>
+          <div className="col-span-1 sm:col-span-4 md:col-span-6 flex items-center sm:pl-4">
+            <span className="text-base sm:text-lg">{Text1}</span>
           </div>
 
-          {/* Columna Sí */}
-          <div className="col-span-6 md:col-span-2 flex justify-center items-center space-x-2">
+          {/* Columna Sí y No RadioButtons */}
+          <div className="col-span-1 sm:col-span-4 flex justify-center items-center space-x-6">
             <RadioButton2
               Text="Sí"
               id={id1}
@@ -21,10 +22,6 @@ const Grid = ({ Text1, id1, id2, name, categoria, seleccionado, onChange, nuevaC
               checked={seleccionado === "Sí"}
               onChange={onChange}
             />
-          </div>
-
-          {/* Columna No */}
-          <div className="col-span-6 md:col-span-2 flex justify-center items-center space-x-2">
             <RadioButton2
               Text="No"
               id={id2}
@@ -34,15 +31,14 @@ const Grid = ({ Text1, id1, id2, name, categoria, seleccionado, onChange, nuevaC
             />
           </div>
 
-          {/* Columna Nueva */}
-          <div className="col-span-12 md:col-span-12 flex justify-center items-center">
-            {nuevaColumnaContenido}
+          {/* Columna Evaluar */}
+          <div className="col-span-1 sm:col-span-4 md:col-span-2 flex justify-center items-center mt-2 sm:mt-0">
+            <Evaluar onChange={(value) => handleEvaluarChange(id, value)} />
           </div>
         </div>
-        {/* Añadir más filas aquí si es necesario */}
       </div>
     </div>
   );
 };
 
-export default Grid;
+export default Grid2;

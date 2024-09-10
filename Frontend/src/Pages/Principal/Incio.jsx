@@ -48,7 +48,7 @@ const Inicio = () => {
           // Redirige según el rol del usuario
           switch (result.rol) {
             case 1:
-              window.location.href = '/Admin/VistaAdministrador';
+              window.location.href = '/Calificar';
               break;
             case 2:
               window.location.href = '/Usuario/VistaUsuario';
