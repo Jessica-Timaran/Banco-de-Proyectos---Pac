@@ -396,37 +396,6 @@ async function updateProyectoItem({ projectId, itemId }) {
     }
 }
 
-async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
-    try {
-        console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
-
-        // Cifrar la contraseña
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-        console.log('Contraseña cifrada:', hashedPassword);
-
-        const client = await pool.connect();
-        const result = await client.query(
-            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
-        );
-        client.release();
-        console.log('Persona registrada con éxito:', result.rows[0]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al registrar persona:', error);
-        throw error;
-    }
-}
-
-const getUserNameById = async (userId) => {
-    try {
-        const user = await User.findById(userId); // Suponiendo que estás utilizando Mongoose
-        return user ? user.name : null;
-    } catch (error) {
-        console.error('Error al obtener el nombre de usuario:', error);
-        return null;
-    }
-};
 
 
 
@@ -717,6 +686,117 @@ const getAprendicesByFicha = async (req, res) => {
         res.status(500).json({ error: 'Server Error', message: err.message });
     }
   };
+
+
+
+
+//SuperAdmin
+
+async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
+  try {
+      console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
+
+      // Cifrar la contraseña
+      const hashedPassword = await bcrypt.hash(contraseña, 10);
+      console.log('Contraseña cifrada:', hashedPassword);
+
+      const client = await pool.connect();
+      const result = await client.query(
+          'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+          [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
+      );
+      client.release();
+      console.log('Persona registrada con éxito:', result.rows[0]);
+      return result.rows[0];
+  } catch (error) {
+      console.error('Error al registrar persona:', error);
+      throw error;
+  }
+}
+
+const getUserNameById = async (userId) => {
+  try {
+      const user = await User.findById(userId); // Suponiendo que estás utilizando Mongoose
+      return user ? user.name : null;
+  } catch (error) {
+      console.error('Error al obtener el nombre de usuario:', error);
+      return null;
+  }
+};
+
+// Función para obtener todos los proyectos de la base de datos
+async function obtenerTodosLosProyectos() {
+  try {
+      console.log('Obteniendo todos los proyectos...');
+      const cliente = await pool.connect();
+      const consulta = 'SELECT idproyecto, nombre, responsable FROM proyecto';
+      console.log('Ejecutando consulta:', consulta); 
+      const resultado = await cliente.query(consulta);
+      cliente.release();
+      console.log('Proyectos obtenidos con éxito:', resultado.rows);
+      return resultado.rows;
+  } catch (error) {
+      console.error('Error al obtener proyectos:', error);
+      throw error;
+  }
+}
+
+// Function to delete a person
+async function deletePerson(idpersonas) {
+  let client;
+  try {
+    console.log('Intentando eliminar persona con ID:', idpersonas);
+    client = await pool.connect();
+    const result = await client.query('DELETE FROM personas WHERE idpersonas = $1 RETURNING *', [idpersonas]);
+    if (result.rows.length > 0) {
+      console.log('Persona eliminada con éxito:', result.rows[0]);
+      return result.rows[0];
+    } else {
+      console.log('No se encontró persona con ID:', idpersonas);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al eliminar persona:', error);
+    throw error;
+  } finally {
+    if (client) {
+      client.release();
+    }
+  }
+}
+
+
+async function getAllFicha() {
+  try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT idficha, nombre, estado, numeroficha FROM ficha');
+      client.release();
+      return result.rows;
+  } catch (error) {
+      console.error('Error al obtener fichas:', error);
+      throw error;
+  }
+}
+
+async function getUserProjects(idpersonas) {
+  const client = await pool.connect();
+  try {
+    const result = await client.query('SELECT idproyecto, nombre FROM proyecto WHERE idpersona = $1', [idpersonas]);
+    return result.rows;
+  } finally {
+    client.release();
+  }
+}
+
+async function unlinkUserFromProject(idpersonas, idproyecto) {
+  const client = await pool.connect();
+  try {
+    await client.query('UPDATE proyecto SET idpersona = NULL WHERE idproyecto = $1 AND idpersona = $2', [idproyecto, idpersonas]);
+  } finally {
+    client.release();
+  }
+}
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -747,5 +827,9 @@ export {
     actualizarEstadoRespuestas,
     getFichas,
     getAprendicesByFicha,
+    getUserProjects,
+    getAllFicha,
+    deletePerson,
+    obtenerTodosLosProyectos 
 
 };
