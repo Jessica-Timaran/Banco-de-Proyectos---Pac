@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RiCloseLine } from 'react-icons/ri';
+// import { RiCloseLine } from 'react-icons/ri';
 import Input from './Input'; 
 import BotonSegundo from './BotonSegundo';
 import RadioButton2 from '../Components/RadioButton2'; // Importa el nuevo componente

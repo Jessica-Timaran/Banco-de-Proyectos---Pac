@@ -1,146 +1,106 @@
-import { useState, useEffect } from 'react';
-import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
-import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
-import AprendicesList from '../../Components/AprendicesList';
-import Loader from '../../Components/Loader';
-import BotonSegundo from '../../Components/BotonSegundo';
-import FichaSelector from '../../Components/FichaSelector';
+import React, { useState } from 'react';
+import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
+import Layoutprincipal from '../layouts/LayoutPrincipal';
+import Layoutcontenido2 from '../layouts/Layoutcontenido2';
+import useFichasYAprendices from '../../hooks/useFichasYAprendices';
+import BotonPrincipal from '../Components/BotonPrincipal';
+import BotonSegundo from '../Components/BotonSegundo';
 
 const AsignarProyectos = () => {
-    const [fichas, setFichas] = useState([]);
-    const [selectedNombreFicha, setSelectedNombreFicha] = useState('');
-    const [selectedNumeroFicha, setSelectedNumeroFicha] = useState('');
-    const [aprendices, setAprendices] = useState([]);
-    const [assignedAprendices, setAssignedAprendices] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const {
+    fichas,
+    aprendices,
+    selectedFicha,
+    setSelectedFicha,
+    loading,
+    error,
+  } = useFichasYAprendices();
 
-    useEffect(() => {
-        // Obtener las fichas al montar el componente
-        const fetchFichas = async () => {
-            try {
-                const response = await fetch('http://localhost:4000/api/fichas');
-                const data = await response.json();
-                setFichas(data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error al obtener las fichas:', error);
-                setLoading(false);
-            }
-        };
+  const { asignarProyecto, loading: saving, error: saveError } = useAsignarProyecto();
+  const [selectedAprendices, setSelectedAprendices] = useState([]);
 
-        fetchFichas();
-    }, []);
-
-    const handleNombreFichaChange = async (event) => {
-        const fichaId = event.target.value;
-        setSelectedNombreFicha(fichaId);
-        setAssignedAprendices([]);
-        
-        // Obtener los aprendices asociados a la ficha seleccionada
-        try {
-            const response = await fetch(`http://localhost:4000/api/aprendices/${fichaId}`);
-            const data = await response.json();
-            setAprendices(data);
-        } catch (error) {
-            console.error('Error al obtener los aprendices:', error);
-        }
-    };
-
-    const handleNumeroFichaChange = async (event) => {
-        const fichaId = event.target.value;
-        setSelectedNumeroFicha(fichaId);
-        setAssignedAprendices([]);
-
-        // Obtener los aprendices asociados a la ficha seleccionada
-        try {
-            const response = await fetch(`http://localhost:4000/api/aprendices/${fichaId}`);
-            const data = await response.json();
-            setAprendices(data);
-        } catch (error) {
-            console.error('Error al obtener los aprendices:', error);
-        }
-    };
-
-    const handleAssignAprendiz = (aprendiz) => {
-        if (!assignedAprendices.find(a => a.id === aprendiz.id)) {
-            setAssignedAprendices([...assignedAprendices, aprendiz]);
-        }
-    };
-
-    const handleRemoveAprendiz = (aprendiz) => {
-        setAssignedAprendices(assignedAprendices.filter(a => a.id !== aprendiz.id));
-    };
-
-    const handleConfirm = () => {
-        console.log("Proyecto asignado a:", assignedAprendices);
-    };
-
-    return (
-        <LayoutPrincipal2 title="">
-            {loading ? (
-                <div className="loading-container">
-                    <Loader />
-                </div>
-            ) : (
-                <div className="content-container">
-                    <Layoutcontenido2 title="" text1="Asignación de Proyectos">
-                        <div className="w-full mx-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {/* Selección de Ficha por Nombre */}
-                                <FichaSelector
-                                    fichas={fichas}
-                                    selectedFicha={selectedNombreFicha}
-                                    onChange={handleNombreFichaChange}
-                                    displayField="nombre"
-                                />
-
-                                {/* Selección de Ficha por Número */}
-                                <FichaSelector
-                                    fichas={fichas}
-                                    selectedFicha={selectedNumeroFicha}
-                                    onChange={handleNumeroFichaChange}
-                                    displayField="numeroficha"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {/* Aprendices Disponibles */}
-                                <AprendicesList
-                                    title="Aprendices Disponibles"
-                                    items={aprendices}
-                                    buttonText="Asignar"
-                                    buttonAction={handleAssignAprendiz}
-                                    buttonColor="bg-[#A3E784]"
-                                />
-
-                                {/* Aprendices Asignados */}
-                                <AprendicesList
-                                    title="Equipo del Proyecto"
-                                    items={assignedAprendices}
-                                    buttonText="Remover"
-                                    buttonAction={handleRemoveAprendiz}
-                                    buttonColor="bg-red-400"
-                                />
-                            </div>
-
-                            <div className="mt-8 max-w-md mx-auto">
-                                <BotonSegundo
-                                    Text="Confirmar Asignación de Proyecto"
-                                    onClick={handleConfirm}
-                                    additionalClasses={`w-full py-3 text-sm font-medium rounded-lg ${
-                                        assignedAprendices.length > 0
-                                            ? 'bg-[#A3E784] text-white hover:bg-[#A3E784]'
-                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    } transition-colors`}
-                                    disabled={assignedAprendices.length === 0}
-                                />
-                            </div>
-                        </div>
-                    </Layoutcontenido2>
-                </div>
-            )}
-        </LayoutPrincipal2>
+  const handleCheckboxChange = (idpersona) => {
+    setSelectedAprendices(prevState =>
+      prevState.includes(idpersona)
+        ? prevState.filter(id => id !== idpersona)
+        : [...prevState, idpersona]
     );
+  };
+
+  const handleGuardarClick = async () => {
+    for (const idpersona of selectedAprendices) {
+      await asignarProyecto(selectedFicha, idpersona);
+    }
+    // Aquí puedes agregar lógica adicional después de guardar, como mostrar una notificación o redirigir al usuario.
+  };
+
+  return (
+    <Layoutprincipal title="Asignación de Proyecto">
+      <Layoutcontenido2 text1="Asignar Proyecto">
+        <Card className='h-[450px]'>
+          <div className="flex items-center mb-6">
+            <Button variant="light" color="gray" className="mr-4">
+              Asignación de proyecto
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <Title>Proyecto Aprobado</Title>
+              {loading && <p>Cargando...</p>}
+              {error && <p>Error: {error}</p>}
+              <Select
+                className="mt-2"
+                placeholder="Seleccione ficha"
+                onValueChange={(value) => setSelectedFicha(value)}
+                value={selectedFicha}
+              >
+                {fichas.map((ficha) => (
+                  <SelectItem key={ficha.idficha} value={ficha.idficha}>
+                    {ficha.nombre} - {ficha.numeroficha}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+
+            <div>
+              <Title className="mb-2">Listado de Aprendices</Title>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableHeaderCell>Nombre</TableHeaderCell>
+                    <TableHeaderCell>Seleccionar</TableHeaderCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {aprendices.map((aprendiz) => (
+                    <TableRow key={aprendiz.idpersonas}>
+                      <TableCell>{aprendiz.nombre}</TableCell>
+                      <TableCell>
+                        <input
+                          type="checkbox"
+                          className="form-checkbox h-5 w-5 text-green-500"
+                          checked={selectedAprendices.includes(aprendiz.idpersonas)}
+                          onChange={() => handleCheckboxChange(aprendiz.idpersonas)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+
+          <div className="flex justify-end mt-6 mr-4 space-x-4">
+            <BotonPrincipal Text='Volver' />
+            <BotonSegundo Text='Guardar' onClick={handleGuardarClick} disabled={saving} />
+          </div>
+
+          {saveError && <p className="text-red-500">Error al guardar la asignación: {saveError}</p>}
+        </Card>
+      </Layoutcontenido2>
+    </Layoutprincipal>
+  );
 };
 
 export default AsignarProyectos;

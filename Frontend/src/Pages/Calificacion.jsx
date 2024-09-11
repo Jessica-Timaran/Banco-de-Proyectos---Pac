@@ -18,6 +18,8 @@ const Calificacion = () => {
     const [loading, setLoading] = useState(false);
     const [viewLoading, setViewLoading] = useState(true);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [comentario, setComentario] = useState("");
+    const [estado, setEstado] = useState("");
 
     useEffect(() => {
         const promedioFinalCalculado = Math.round((promedioObjetivos + promedioAlcance) / 2);
@@ -25,7 +27,7 @@ const Calificacion = () => {
         setViewLoading(false);
     }, [promedioAlcance, promedioObjetivos]);
 
-    const guardarCalificacion = async (estado, comentario) => {
+    const guardarCalificacion = async () => {
         setLoading(true);
         const detalles = [...(location.state.detallesObjetivos || []), ...(location.state.detallesAlcance || [])];
 
@@ -34,7 +36,7 @@ const Calificacion = () => {
             resultado: promedioFinal.toFixed(2),
             estado,
             comentario,
-            detalles
+            detalles,
         };
 
         try {
@@ -48,7 +50,8 @@ const Calificacion = () => {
 
             if (response.ok) {
                 setLoading(false);
-                setShowConfirmModal(true);
+                setShowConfirmModal(false);
+                navigate("/calificar");
             } else {
                 console.error("Error al guardar la calificación");
                 setLoading(false);
@@ -60,20 +63,29 @@ const Calificacion = () => {
     };
 
     const handleAceptar = (comentario) => {
-        guardarCalificacion("Aceptado", comentario);
+        setEstado("Aceptado");
+        setComentario(comentario);
+        setShowConfirmModal(true);
     };
 
     const handleDevolver = (comentario) => {
-        guardarCalificacion("Devuelto", comentario);
+        setEstado("Devuelto");
+        setComentario(comentario);
+        setShowConfirmModal(true);
     };
 
     const handleRechazar = (comentario) => {
-        guardarCalificacion("Rechazado", comentario);
+        setEstado("Rechazado");
+        setComentario(comentario);
+        setShowConfirmModal(true);
     };
 
     const handleConfirmClose = () => {
-        setShowConfirmModal(false);
-        navigate("/");
+        guardarCalificacion();
+    };
+
+    const handleCancelConfirm = () => {
+        setShowConfirmModal(false); // Solo cierra el modal, no guarda los datos
     };
 
     return (
@@ -106,7 +118,10 @@ const Calificacion = () => {
                     )}
 
                     {showConfirmModal && (
-                        <ModalConfirm onClose={handleConfirmClose} />
+                        <ModalConfirm
+                            onConfirm={handleConfirmClose}
+                            onCancel={handleCancelConfirm} // Pasa la función handleCancelConfirm
+                        />
                     )}
                 </Layoutcontenido2>
             )}

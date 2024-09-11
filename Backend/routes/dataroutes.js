@@ -396,7 +396,7 @@ router.post('/agregarpersona', async (req, res) => {
 });
 
 
-/*Administrador*/
+/*------------------------------Administrador---------------------------------------------------------------------------------------*/
 
 // Ruta para obtener proyectos, con filtrado opcional por estado de calificación
 router.get('/proyectos', getProyectos);
@@ -500,6 +500,7 @@ router.get('/fichas', getFichas);
 // Ruta para obtener aprendices por ficha
 router.get('/aprendices/:idficha', getAprendicesByFicha);
 
+/*------------------------------Administrador---------------------------------------------------------------------------------------*/
 
 
 

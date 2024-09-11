@@ -1,26 +1,52 @@
 import React from 'react';
-import { Button, Dialog, DialogPanel } from '@tremor/react';
+import { Button, Dialog, DialogPanel, Card, Text } from '@tremor/react';
 
-export function ModalConfirm({ onClose }) {
-  const [isOpen, setIsOpen] = React.useState(true); // Iniciar como abierto
+export function ModalConfirm({ onConfirm, onCancel, confirmText = "¿Estás seguro de realizar esta acción?" }) {
+  const [isOpen, setIsOpen] = React.useState(true);
 
-  const handleClose = () => {
-    setIsOpen(false);
-    if (onClose) {
-      onClose(); // Llamar al manejador de cierre pasado como prop
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm(); // Llama a la función para guardar los datos
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel(); // Cierra el modal sin realizar ninguna acción adicional
     }
   };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} static={true}>
+    <Dialog open={isOpen} onClose={() => {}} static={true}>
       <DialogPanel>
-        <div className="w-10 h-10 flex justify-center items-center">
-          <i className="fa-solid fa-check w-10 h-10 flex justify-center items-center"></i>
-        </div>
-        <Button className="mt-8 w-full" onClick={handleClose}>
-          <p>El proyecto ya se reviso</p>
-          <p>Volver al inicio</p>
-        </Button>
+        <Card className="max-w-md mx-auto">
+          <div className="flex flex-col items-center text-center">
+            <Text className="text-2xl font-bold text-gray-800 mb-2">
+              Estas a punto de Aceptar el proyecto
+            </Text>
+            <Text className="text-gray-600 mb-6">
+              {confirmText}
+            </Text>
+            <div className="flex space-x-4">
+              <Button
+                className="max-w-32 bg-white text-black"
+                size="xl"
+                variant="secondary"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+              <Button
+                className="max-w-32 bg-[#A3E784]"
+                size="xl"
+                variant="primary"
+                onClick={handleConfirm}
+              >
+                Confirmar
+              </Button>
+            </div>
+          </div>
+        </Card>
       </DialogPanel>
     </Dialog>
   );

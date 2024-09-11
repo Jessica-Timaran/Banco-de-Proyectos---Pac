@@ -5,12 +5,12 @@ export function ModalComent({ buttonColor = 'bg-blue-500', text = 'Abrir comenta
   const [isOpen, setIsOpen] = useState(false);
   const [comentario, setComentario] = useState('');
 
-  const handleSubmit = () => {
+  const handleOpenConfirm = () => {
     if (onSubmit) {
-      onSubmit(comentario);
+      onSubmit(comentario);  // Llama a la función para abrir el modal de confirmación
     }
     setIsOpen(false);
-    setComentario('');
+    setComentario(''); // Resetea el comentario
   };
 
   return (
@@ -26,16 +26,6 @@ export function ModalComent({ buttonColor = 'bg-blue-500', text = 'Abrir comenta
         <DialogPanel className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
           <div className="flex justify-between items-center mb-4">
             <Title>Añadir Comentario</Title>
-            <Button
-              variant="light"
-              icon={() => (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
-              onClick={() => setIsOpen(false)}
-              className="text-gray-500 hover:text-gray-700"
-            />
           </div>
 
           <Text className="mb-4">Por favor, ingrese su comentario a continuación:</Text>
@@ -57,7 +47,7 @@ export function ModalComent({ buttonColor = 'bg-blue-500', text = 'Abrir comenta
               Cancelar
             </Button>
             <Button
-              onClick={handleSubmit}
+              onClick={handleOpenConfirm}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Enviar

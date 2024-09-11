@@ -1,6 +1,6 @@
 
 import PropTypes from 'prop-types';
-import { RiCloseLine } from '@remixicon/react';
+
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import RadioButton from '../RadioButton3';

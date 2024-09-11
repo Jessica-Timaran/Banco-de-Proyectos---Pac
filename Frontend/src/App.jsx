@@ -22,6 +22,7 @@ import Detalle from './Pages/Detalle';
 import Objetivos from './Pages/Objetivos';
 import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
+import AsignarProyectos from './Pages/AsignarProyectos';
 
 const App = () => {
   return (
@@ -49,6 +50,8 @@ const App = () => {
           <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
           <Route path="/alcance/:idproyecto" element={<Alcance />} />
           <Route path="/calificacion/:idproyecto" element={<Calificacion />} />
+          <Route path="/asignar-proyectos/:idproyecto" element={<AsignarProyectos />} />
+          <Route path="/calificar/:idproyecto" element={<Calificacion />} />
         </Routes>
       </Router>
     </UserProvider>
