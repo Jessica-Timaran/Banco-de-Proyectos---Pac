@@ -5,7 +5,8 @@ import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import AceptarTerminos from "../../Components/AceptarTerminos";
 import SelectBoxTI from "../../Components/SelectBoxTI";
-
+import Loader from "../../Components/Loader";
+import LayoutFormulario from "../../layouts/LayoutFormulario";
 
 const Registro = () => {
   const [formValues, setFormValues] = useState({
@@ -79,7 +80,7 @@ const Registro = () => {
 
     // Validación del teléfono
     if (!formValues.telefono || !/^\d{7,12}$/.test(formValues.telefono)) {
-      newErrors.telefono = "Ingrese un número de teléfono válido de 10 dígitos.";
+      newErrors.telefono = "Ingrese un número de teléfono válido.";
       valid = false;
     }
 
@@ -146,8 +147,10 @@ const Registro = () => {
           aceptarTerminos: false,
         });
 
-        // Redirigir a la vista de Inicio después del registro exitoso
-        navigate("/Principal/Inicio");
+        // Redirigir a la vista de Inicio después de unos segundos
+        setTimeout(() => {
+          navigate("/Principal/Inicio");
+        }, 3000); // Espera 3 segundos antes de redirigir
 
       } catch (error) {
         if (error.response && error.response.status === 409) {
@@ -169,18 +172,20 @@ const Registro = () => {
     }));
   };
 
+
   return (
-    <div className="flex 2xl:h-screen h-auto sm:96 items-center justify-center 2xl:gap-x-72">
-      <div className="flex content-center">
+    <LayoutFormulario>
+    <div className="flex flex-col-reverse md:flex-row min-h-screen items-center justify-center p-4 md:p-8">
+  <div className="flex justify-center w-full md:w-1/2">
         <form
           id="formu"
-          className="form flex flex-col w-96 items-center gap-4"
+          className="form flex flex-col w-80 sm:w-96  items-center gap-4"
           method="post"
           onSubmit={handleSubmit}
         >
-          <div className="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-[#A3E784] rounded-bl-[50px] rounded-br-[50px]">
+          <div className="logo-sena flex m-auto items-center justify-center w-full h-28 bg-[#A3E784] rounded-bl-[50px] rounded-br-[50px]">
             <img
-              className="sena w-20 h-20"
+              className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
               src="/public/img/Logo.png"
               width="10"
               height="10"
@@ -188,8 +193,8 @@ const Registro = () => {
             />
           </div>
 
-          <div className="registro flex flex-col items-center gap-2 min-w-96">
-            <div className="text-3xl">REGISTRO</div>
+          <div className="registro flex flex-col items-center gap-y-2 w-full max-w-sm">
+            <div className="text-2xl sm:text-3xl  ">REGISTRO</div>
 
             <div className="relative w-full">
               <Input
@@ -322,7 +327,7 @@ const Registro = () => {
             </div>
 
             {errors.server && <span className="error-message">{errors.server}</span>}
-            {successMessage && <span className="success-message">{successMessage}</span>}
+            {successMessage && <span className="text-green-600 font-bold mt-2 text-center">{successMessage}</span>}
 
             <BotonPrincipal Text="Registrarse" id="Registro" />
             <h3 className="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">
@@ -338,14 +343,15 @@ const Registro = () => {
         </form>
       </div>
 
-      <div className="hidden md:hidden lg:hidden xl:block 2xl:block 2xl:w-[800px] 2xl:h-[800px] xl:h-[650px] xl:w-[550px] sm:w-[700px] sm:h-[700px]">
+      <div className="hidden lg:flex lg:w-1/2 xl:w-[600px] 2xl:w-[800px] items-center justify-center">
         <img
-          className="sm:w-auto sm:h-auto 2xl:w-full 2xl:h-full"
+          className="w-full h-auto max-h-[80vh] object-contain"
           src="/Img/registro.png"
           alt="Registro"
         />
       </div>
     </div>
+    </LayoutFormulario>
   );
 };
 
