@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal.jsx';
 import GridPrueba from '../../Components/GridPrueba.jsx';
+import Loader from '../../Components/Loader.jsx';
+import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
 
 const Prueba = () => {
   const [proyectos, setProyectos] = useState([]);
@@ -34,7 +36,7 @@ const Prueba = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
@@ -51,9 +53,15 @@ const Prueba = () => {
               <GridPrueba
                 key={proyecto.idproyecto}
                 Text1={proyecto.nombre}
-                estado={proyecto.estado} // Pasar el estado al componente GridPrueba
+                estado={proyecto.estado}
+                idproyecto={proyecto.idproyecto} // Pasar el idproyecto al componente GridPrueba
               />
             ))}
+          </div>
+          <div>
+            <a href='/Usuario/VistaUsuario' className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+              <BotonPrincipal Text="Volver" />
+            </a>
           </div>
         </div>
       </div>

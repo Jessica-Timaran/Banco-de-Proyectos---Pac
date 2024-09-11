@@ -1,98 +1,293 @@
-import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
-import Card from '../../Components/Card';
-import Layoutcontenido from '../../Layouts/Layoutcontenido';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';  // <--- Importa useParams
+import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
+import Layoutcontenido2 from '../../layouts/Layoutcontenido2';
+import Input from '../../Components/Input';
 import BotonPrincipal from '../../Components/BotonPrincipal';
+import BotonSegundo from '../../Components/BotonSegundo';
+import RadioButton2 from '../../Components/RadioButton2';
 import Loader from '../../Components/Loader';
 
-const VistaAreas1 = () => {
-  const [areas, setAreas] = useState([]);
+const RegistroProyecto = () => {
+  const { idproyecto } = useParams();
+  const [idProyecto, setIdProyecto] = useState(idproyecto || null); // Se inicializa con el idproyecto de los params
+  const [nombreProyecto, setNombreProyecto] = useState('');
+  const [impactoDelProyecto, setImpactoDelProyecto] = useState('');
+  const [responsable, setResponsable] = useState('');
+  const [frecuencia, setFrecuencia] = useState(null);
+  const [diasSeleccionados, setDiasSeleccionados] = useState([]);
+  const [errors, setErrors] = useState({
+    nombre: '',
+    impacto: '',
+    responsable: '',
+    frecuencia: '',
+    dias: '',
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAreas = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/areas');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setAreas(data);
-      } catch (error) {
-        console.error('Error al obtener áreas:', error);
-        setAreas([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (idProyecto) {
+      fetch(`http://localhost:4000/api/proyectos/${idProyecto}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al obtener el proyecto');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setNombreProyecto(data.nombre);
+          setImpactoDelProyecto(data.impacto);
+          setResponsable(data.responsable);
+          setFrecuencia(data.disponibilidad);
+          setDiasSeleccionados(data.dia.split(', '));
+        })
+        .catch(error => console.error('Error al cargar el proyecto:', error))
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [idProyecto]);
 
-    fetchAreas();
-  }, []);
+  const handleFrecuenciaClick = (value) => {
+    setFrecuencia(value);
+  };
 
-  const handleCardClick = async (areaId) => {
-    const projectId = new URLSearchParams(window.location.search).get('projectId');
+  const handleDiaChange = (e) => {
+    const { value, checked } = e.target;
+    setDiasSeleccionados(prev =>
+      checked ? [...prev, value] : prev.filter(day => day !== value)
+    );
+  };
 
-    if (!areaId || !projectId) {
-      console.error('No se pudo obtener el id del área o del proyecto');
-      return;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    let hasError = false;
+    setErrors({
+      nombre: '',
+      impacto: '',
+      responsable: '',
+      frecuencia: '',
+      dias: '',
+    });
+
+    if (!nombreProyecto) {
+      setErrors(prev => ({ ...prev, nombre: 'Este campo es obligatorio.' }));
+      hasError = true;
+    }
+    if (!impactoDelProyecto) {
+      setErrors(prev => ({ ...prev, impacto: 'Este campo es obligatorio.' }));
+      hasError = true;
+    }
+    if (!responsable) {
+      setErrors(prev => ({ ...prev, responsable: 'Este campo es obligatorio.' }));
+      hasError = true;
+    }
+    if (diasSeleccionados.length === 0) {
+      setErrors(prev => ({ ...prev, dias: 'Seleccione un día para las reuniones.' }));
+      hasError = true;
+    }
+    if (!frecuencia) {
+      setErrors(prev => ({ ...prev, frecuencia: 'Seleccione una frecuencia para las reuniones.' }));
+      hasError = true;
     }
 
-    try {
-      console.log(`Enviando solicitud para seleccionar el área: ${areaId}`);
-      const response = await fetch('http://localhost:4000/api/proyectos/seleccionar-area', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ areaId, projectId }),
-      });
+    if (!hasError) {
+      const diasSeleccionadosStr = diasSeleccionados.join(', ');
+      const userId = localStorage.getItem('userId');
 
-      if (!response.ok) {
-        throw new Error(`Error en la respuesta del servidor: ${response.status} ${response.statusText}`);
+      if (!userId) {
+        console.error('Error: idpersona no encontrado en localStorage');
+        return;
       }
 
-      const data = await response.json();
-      console.log('Área seleccionada correctamente:', data);
+      const url = idProyecto
+        ? `http://localhost:4000/api/proyectos/${idProyecto}`
+        : 'http://localhost:4000/api/proyectos';
+      const method = idProyecto ? 'PUT' : 'POST';
 
-      // Redirige a la vista TiposDeArea en la carpeta Services, incluyendo projectId en la URL
-      window.location.href = `/Usuario/Services/TiposDeArea/${areaId}?projectId=${projectId}`;
-    } catch (error) {
-      console.error('Error al enviar la solicitud:', error);
+      try {
+        const response = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: nombreProyecto,
+            impacto: impactoDelProyecto,
+            responsable: responsable,
+            disponibilidad: frecuencia,
+            dia: diasSeleccionadosStr,
+            idpersona: userId,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          window.location.href = `/Usuario/VistaAreas1?projectId=${data.idproyecto}`;
+        } else {
+          const errorText = await response.text();
+          console.error('Error al registrar proyecto:', errorText);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+      }
     }
   };
 
-  if (loading) {
-    return <Loader />; // Asegúrate de tener un componente Loader
-  }
-
   return (
-    <LayoutPrincipal title="">
-      <Layoutcontenido title="">
-        <div className="p-8">
-          <h1 className="text-3xl font-bold font-josefin-slab">Áreas de Proyectos</h1>
-          <p className="text-lg font-josefin-slab">Por favor seleccione el área en la cual se centrará su proyecto</p>
+    <LayoutPrincipal2 title="">
+      {loading ? (
+        <div className="loading-container">
+          <Loader />
         </div>
+      ) : (
+        <div className="content-container">
+          <Layoutcontenido2 title="" text1={idProyecto ? "Actualizar Proyecto" : "Registrar Proyecto"}>
+            <div className="w-1/2 mx-auto">
+              <form onSubmit={handleSubmit}>
+                <div className="flex font-josefin-slab flex-col space-y-8">
+                  <div>
+                    <Input
+                      type="text"
+                      Text="Nombre Del Proyecto"
+                      placeholder="Ejemplo: Pac"
+                      id="NombreDelProyecto"
+                      value={nombreProyecto}
+                      onChange={(e) => setNombreProyecto(e.target.value)}
+                    />
+                    <span className="text-red-500 text-sm">
+                      {errors.nombre}
+                    </span>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="ImpactoDelProyecto"
+                      className="block font-josefin-slab font-semibold text-black"
+                    >
+                      Sector Impactado
+                    </label>
+                    <textarea
+                      id="ImpactoDelProyecto"
+                      placeholder="Impacto Del Proyecto:"
+                      maxLength="250"
+                      className="w-full p-2 border border-gray-300 rounded bg-[#F5F6FA]"
+                      value={impactoDelProyecto}
+                      onChange={(e) => setImpactoDelProyecto(e.target.value)}
+                    ></textarea>
+                    <span className="text-red-500 text-sm">
+                      {errors.impacto}
+                    </span>
+                  </div>
+                  <div>
+                    <Input
+                      type="text"
+                      Text="Responsable"
+                      placeholder="Responsable Del Proyecto"
+                      id="Responsable"
+                      value={responsable}
+                      onChange={(e) => setResponsable(e.target.value)}
+                    />
+                    <span className="text-red-500 text-sm">
+                      {errors.responsable}
+                    </span>
+                  </div>
+                  <div className="space-y-8">
+                    <label className="font-josefin-slab font-semibold text-black">
+                      Disponibilidad Para Reuniones Con El Equipo Desarrollador
+                    </label>
+                  </div>
 
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {areas.map((area) => (
-              <Card
-                key={area.idarea}
-                Text={area.area}
-                onClick={() => handleCardClick(area.idarea)} // Pasar la función onClick
-              />
-            ))}
-          </div>
-        </div>
+                  <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-y-4 gap-4">
+                    <div className="flex justify-center">
+                      <BotonPrincipal
+                        Text="Semanal"
+                        isSelected={frecuencia === 'Semanal'}
+                        onClick={() => handleFrecuenciaClick('Semanal')}
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                      <BotonPrincipal
+                        Text="Quincenal"
+                        isSelected={frecuencia === 'Quincenal'}
+                        onClick={() => handleFrecuenciaClick('Quincenal')}
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                      <BotonPrincipal
+                        Text="Mensual"
+                        isSelected={frecuencia === 'Mensual'}
+                        onClick={() => handleFrecuenciaClick('Mensual')}
+                      />
+                    </div>
+                    <span className="text-red-500 text-sm sm:col-span-3">
+                      {errors.frecuencia}
+                    </span>
+                  </div>
 
-        <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-          <a href="/RegistroProyecto" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
-            <BotonPrincipal Text="Volver" />
-          </a>
+                  <div className="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
+                    <RadioButton2
+                      id="checkboxLunes"
+                      name="dias"
+                      value="Lunes"
+                      checked={diasSeleccionados.includes('Lunes')}
+                      label="Lunes" 
+                      onChange={handleDiaChange}
+                    />
+                    <RadioButton2
+                      id="checkboxMartes"
+                      name="dias"
+                      value="Martes"
+                      checked={diasSeleccionados.includes('Martes')}
+                      label="Martes" 
+                      onChange={handleDiaChange}
+                    />
+                    <RadioButton2
+                      id="checkboxMiercoles"
+                      name="dias"
+                      value="Miércoles"
+                      checked={diasSeleccionados.includes('Miércoles')}
+                      label="Miércoles"
+                      onChange={handleDiaChange}
+                    />
+                    <RadioButton2
+                      id="checkboxJueves"
+                      name="dias"
+                      value="Jueves"
+                      checked={diasSeleccionados.includes('Jueves')}
+                      label="Jueves"
+                      onChange={handleDiaChange}
+                    />
+                    <RadioButton2
+                      id="checkboxViernes"
+                      name="dias"
+                      value="Viernes"
+                      checked={diasSeleccionados.includes('Viernes')}
+                      label="Viernes"
+                      onChange={handleDiaChange}
+                    />
+                    <RadioButton2
+                      id="checkboxSabado"
+                      name="dias"
+                      value="Sábado"
+                      checked={diasSeleccionados.includes('Sábado')}
+                      label="Sábado"
+                      onChange={handleDiaChange}
+                    />
+                    <span className="text-red-500 text-sm sm:col-span-3">
+                      {errors.dias}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                    <BotonSegundo Text="Guardar" type="submit" />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </Layoutcontenido2>
         </div>
-      </Layoutcontenido>
-    </LayoutPrincipal>
+      )}
+    </LayoutPrincipal2>
   );
 };
 
-export default VistaAreas1;
+export default RegistroProyecto;

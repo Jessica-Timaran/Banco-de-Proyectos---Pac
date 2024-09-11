@@ -20,6 +20,7 @@ import {
     agregarPersona,
     getUserNameById,
     getProyectosUsuario,
+    updateProject,
 
     getProyectos,
     getProyectoById, 
@@ -29,7 +30,8 @@ import {
     actualizarEstadoRespuestas, 
     getFichas, 
     getAprendicesByFicha,
-    asignarProyecto
+    asignarProyecto,
+    actualizarIdCalificacion
 
 
 } from '../controllers/datacontroler.js';
@@ -396,6 +398,8 @@ router.post('/agregarpersona', async (req, res) => {
     }
 });
 
+router.get('/proyectos', getProyectosUsuario);
+
 
 /*------------------------------Administrador---------------------------------------------------------------------------------------*/
 
@@ -503,6 +507,9 @@ router.get('/aprendices/:idficha', getAprendicesByFicha);
 
 // Ruta para asignar proyectos
 router.post('/asignar-proyectos', asignarProyecto);
+
+// Ruta para actualizar el idcalificacion en la tabla proyecto
+router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
 
 /*------------------------------Administrador---------------------------------------------------------------------------------------*/
 

@@ -420,7 +420,6 @@ const getProyectosUsuario = async (req, res) => {
   
 
 
-
   //-------------------------------Administrador------------------------------:
 
   // Controlador para obtener proyectos con filtrado opcional por estado de calificación
@@ -669,6 +668,31 @@ const getAprendicesByFicha = async (req, res) => {
     }
   };
 
+
+  const actualizarIdCalificacion = async (req, res) => {
+    const { idproyecto, idcalificacion } = req.body;
+  
+    try {
+      // Actualiza el proyecto con el idcalificacion
+      const result = await pool.query(
+        `UPDATE proyecto 
+         SET idcalificacion = $1 
+         WHERE idproyecto = $2 
+         RETURNING *`,
+        [idcalificacion, idproyecto]
+      );
+  
+      if (result.rowCount > 0) {
+        res.status(200).json({ message: "idcalificacion actualizado correctamente", proyecto: result.rows[0] });
+      } else {
+        res.status(404).json({ message: "Proyecto no encontrado" });
+      }
+    } catch (error) {
+      console.error("Error al actualizar idcalificacion:", error);
+      res.status(500).json({ message: "Error al actualizar idcalificacion" });
+    }
+  };
+  
 //------------------------------------------------------------------------------------------------  
 
 
@@ -812,6 +836,8 @@ export {
     getAllFicha,
     deletePerson,
     obtenerTodosLosProyectos,
-    asignarProyecto 
+    asignarProyecto,
+    actualizarIdCalificacion,
+    getProyectosUsuario  
 
 };
