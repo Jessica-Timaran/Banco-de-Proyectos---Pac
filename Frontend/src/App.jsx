@@ -1,6 +1,5 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { UserProvider } from './Context/UserContext'; // Asegúrate de que la ruta sea correcta
+import { UserProvider } from './Context/UserContext'; 
 
 /*Usuario*/
 import RegistroProyecto from './Pages/Usuario/RegistroProyecto';
@@ -15,6 +14,17 @@ import Home from './Pages/Principal/Home';
 import Inicio from './Pages/Principal/Incio';
 import Registro1 from './Pages/Principal/Registro1';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
+
+/*SuperAdmin */
+import Dashboard from './Pages/SuperAdmin/Dashboard';
+import AdminUsuarios from './Pages//SuperAdmin/AdminUsuarios';
+import AdminProyectos from './Pages//SuperAdmin/AdminProyectos';
+import AdminAreas from './Pages//SuperAdmin/AdminAreas';
+import AdminTipoArea from './Pages//SuperAdmin/AdminTipodeArea';
+import AdminObjetivos from './Pages//SuperAdmin/AdminObjetivos'
+import AdminAlcance from './Pages//SuperAdmin/AdminAlcance';
+import AdminItems from './Pages//SuperAdmin/AdminItems'
+import AdminFicha from './Pages//SuperAdmin/AdminFicha';
 
 /*Administrador */
 import Calificar from './Pages/Calificar';
@@ -43,7 +53,18 @@ const App = () => {
           <Route path="/Principal/Inicio" element={<Inicio />} />
           <Route path="/Principal/Registro1" element={<Registro1 />} />
 
+
           <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
+          <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
+          <Route path="/SuperAdmin/usuarios" element={<AdminUsuarios />} />
+          <Route path="/SuperAdmin/proyectos" element={<AdminProyectos/>} />
+          <Route path="/SuperAdmin/areas" element={<AdminAreas/>} />
+          <Route path="/SuperAdmin/tipodearea" element={<AdminTipoArea/>} />
+          <Route path="/SuperAdmin/objetivos" element={<AdminObjetivos/>} />
+          <Route path="/SuperAdmin/alcance" element={<AdminAlcance/>} />
+          <Route path="/SuperAdmin/items" element={<AdminItems/>} />
+          <Route path="/SuperAdmin/ficha" element={<AdminFicha/>} />
+
 
           <Route path="/Calificar" element={<Calificar />} />
           <Route path="/Detalle/:id" element={<Detalle />} />

@@ -1,4 +1,3 @@
-
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
 import Layoutprincipal from '../../layouts/LayoutPrincipal';
@@ -11,7 +10,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simula un tiempo de carga de 2 segundos
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -20,7 +18,6 @@ const Dashboard = () => {
   }, []);
 
   return (
-    
     <Layoutprincipal title="Proyectos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen">
@@ -28,7 +25,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <Layoutcontenido title="">
-          <div className="bg-Verde p-6 sm:p-10 rounded">
+          <div className="bg-verde p-6 sm:p-10 rounded">
             <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
             <Text className="text-white font-extrabold">Banco de Proyectos</Text>
           </div>
@@ -39,56 +36,56 @@ const Dashboard = () => {
               metricValue={50}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
-              route="/usuarios"
+              route="/SuperAdmin/usuarios"
             />
             <CardBase
               title="Fichas"
               metricValue={20}
               progressText="Aprendices"
               buttonTex="Ver detalle"
-              route="/ficha"
+              route="/SuperAdmin/ficha"
             />
             <CardBase
               title="Proyectos"
               metricValue={50}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
-              route="/proyectos"
+              route="/SuperAdmin/proyectos"
             />
             <CardBase
               title="Areas"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/areas"
+              route="/SuperAdmin/areas"
             />
             <CardBase
               title="Tipos de Area"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/tipodearea"
+              route="/SuperAdmin/tipodearea"
             />
              <CardBase
               title="Items"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/items"
+              route="/SuperAdmin/items"
             />
             <CardBase
               title="Objetivo"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/objetivos"
+              route="/SuperAdmin/objetivos"
             />
             <CardBase
               title="Alcance"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/alcance"
+              route="/SuperAdmin/alcance"
             />
           </div>
 

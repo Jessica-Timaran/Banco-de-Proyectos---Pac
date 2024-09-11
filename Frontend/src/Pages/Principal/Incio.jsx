@@ -54,7 +54,7 @@ const Inicio = () => {
               window.location.href = '/Usuario/VistaUsuario';
               break;
             case 3:
-              window.location.href = '/SuperAdmin/VistaSuperadmin';
+              window.location.href = '/SuperAdmin/dashboard';
               break;
             case 4:
               window.location.href = '/Aprendiz/VistaAprendiz';
@@ -92,7 +92,7 @@ const Inicio = () => {
             <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-96 sm:h-32 2xl:max-w-80 2xl:max-h-32 bg-[#A3E784] 2xl:rounded-bl-[50px] 2xl:rounded-br-[50px] rounded-bl-[40px] rounded-br-[40px]">
               <img
                 className="sena sm:w-20 sm:h-20 w-12 h-12"
-                src="/public/img/logo.png"
+                src="/img/logo.png"
                 alt="Logo Sena"
               />
             </div>

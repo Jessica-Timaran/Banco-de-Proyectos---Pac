@@ -1,6 +1,5 @@
 
 import PropTypes from 'prop-types';
-
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import RadioButton from '../RadioButton3';
@@ -153,14 +152,14 @@ export default function ModalUsuario({ onClose, onAddMember }) {
         className="z-[100]"
       >
         <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
-          <button
-            type="button"
-            className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle dark:text-dark-tremor-content-subtle dark:hover:bg-dark-tremor-background-subtle dark:hover:text-tremor-content"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <RiCloseLine className="size-5" aria-hidden={true} />
-          </button>
+        <button
+          type="button"
+          className="absolute right-4 top-4 p-2 bg-transparent border-none"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <i className="fas fa-times size-5" aria-hidden={true}></i>
+        </button>
           <form onSubmit={handleSubmit} className="space-y-4">
             <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
               Añade nuevo usuario

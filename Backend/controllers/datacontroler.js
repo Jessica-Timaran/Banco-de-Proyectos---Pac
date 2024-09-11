@@ -189,7 +189,7 @@ async function getTiposDeAreaPorArea(idArea) {
       throw error;
     }
   }
-  
+
 // Obtener todos los objetivos
 async function getObjetivos() {
     try {
@@ -747,30 +747,6 @@ async function obtenerTodosLosProyectos() {
   }
 }
 
-// Function to delete a person
-async function deletePerson(idpersonas) {
-  let client;
-  try {
-    console.log('Intentando eliminar persona con ID:', idpersonas);
-    client = await pool.connect();
-    const result = await client.query('DELETE FROM personas WHERE idpersonas = $1 RETURNING *', [idpersonas]);
-    if (result.rows.length > 0) {
-      console.log('Persona eliminada con éxito:', result.rows[0]);
-      return result.rows[0];
-    } else {
-      console.log('No se encontró persona con ID:', idpersonas);
-      return null;
-    }
-  } catch (error) {
-    console.error('Error al eliminar persona:', error);
-    throw error;
-  } finally {
-    if (client) {
-      client.release();
-    }
-  }
-}
-
 
 async function getAllFicha() {
   try {
@@ -791,6 +767,117 @@ async function getUserProjects(idpersonas) {
     return result.rows;
   } finally {
     client.release();
+  }
+}
+
+// Función para registrar Área
+async function registerArea({ area }) {
+  try {
+      console.log('Datos recibidos en registerArea:', { area });
+
+      const client = await pool.connect();
+
+      // Verificar si el área ya existe
+      const checkQuery = 'SELECT COUNT(*) FROM area WHERE area = $1';
+      const checkResult = await client.query(checkQuery, [area]);
+
+      if (parseInt(checkResult.rows[0].count) > 0) {
+          console.log('El área ya existe.');
+          client.release();
+          return { error: 'El área ya existe.' };
+      } else {
+          // Insertar el área si no existe
+          const insertQuery = 'INSERT INTO area (area) VALUES ($1) RETURNING *';
+          const result = await client.query(insertQuery, [area]);
+          client.release();
+          console.log('Área registrada con éxito:', result.rows[0]);
+          return result.rows[0];
+      }
+  } catch (error) {
+      console.error('Error al registrar área:', error.message, error.stack);
+      throw error;
+  }
+}
+// Función para registrar una nueva ficha
+async function registerFicha({ nombre, numeroFicha }) {
+  try {
+      console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha  });
+
+      const client = await pool.connect();
+      const result = await client.query(
+          'INSERT INTO ficha (nombre, numeroficha ) VALUES ($1, $2) RETURNING *',
+          [nombre, numeroFicha, estado]
+      );
+      client.release();
+      console.log('Ficha registrada con éxito:', result.rows[0]);
+      return result.rows[0];
+  } catch (error) {
+      console.error('Error al registrar ficha:', error);
+      throw error;
+  }
+}
+
+
+// Función para obtener todos los tipos de área por un área específica
+async function getTipoDeArea(idarea) {
+  try {
+      console.log('Obteniendo tipos de área para el área con ID:', idarea);
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM tipodearea WHERE idarea = $1', [idarea]);
+      client.release();
+      console.log('Tipos de área obtenidos con éxito:', result.rows);
+      return result.rows;
+  } catch (error) {
+      console.error('Error al obtener tipos de área:', error);
+      throw error;
+  }
+}
+
+// Función para registrar un nuevo tipo de área
+async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
+  const client = await pool.connect();
+  console.log("aaaaaaaaaaaaaaa  " ,tiposdearea);
+  console.log("aaaaaaaaaaaaaaa  " ,estado);
+  console.log("aaaaaaaaaaaaaaa  " ,idarea);
+  
+  try {
+      const condi = 0;
+      const checkQuery = 'SELECT MAX(idtiposdearea) FROM tipodearea WHERE idtiposdearea != $1';
+      const checkResult = await client.query(checkQuery, [condi]);
+    
+      console.error('>>>>>>>>>>>> ',checkResult);
+
+      if (parseInt(checkResult.rows[0].max) > 0) {
+          const cont=checkResult.rows[0].max+1;
+          console.error('>>>>>>>>>>>> ',cont);
+          const insertQuery = 'INSERT INTO tipodearea (idtiposdearea,tiposdearea, estado, idarea) VALUES ($1, $2, $3,$4) RETURNING *';
+          const result = await client.query(insertQuery, [cont,tiposdearea, estado, idarea]);
+          client.release();
+          return result.rows[0];
+      }else{
+      console.error('Error al registrar tipo de área:aaaaa');
+
+      }
+  } catch (error) {
+      console.error('Error al registrar tipo de área:', error.message);
+      // throw error;
+  }
+}
+
+// Función para registrar un nuevo item en itemsarea
+async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
+  try {
+      const client = await pool.connect();
+      const result = await client.query(
+          'INSERT INTO itemsarea (items, estado, idtiposdearea, idarea) VALUES ($1, $2, $3, $4) RETURNING *',
+          [items, estado, idtiposdearea, idarea]
+      );
+      client.release();
+      console.log('Item registrado con éxito:', result.rows[0]);
+      return result.rows[0];
+  } catch (error) {
+      console.error('Error al registrar item:', error);
+      throw error;
   }
 }
 
@@ -834,10 +921,14 @@ export {
     getAprendicesByFicha,
     getUserProjects,
     getAllFicha,
-    deletePerson,
     obtenerTodosLosProyectos,
     asignarProyecto,
     actualizarIdCalificacion,
-    getProyectosUsuario  
+    registerFicha,
+    registerItemArea,
+    registerTipoDeArea,
+    getTipoDeArea,
+    registerArea,  
+    
 
 };

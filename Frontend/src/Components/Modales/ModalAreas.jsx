@@ -27,6 +27,14 @@ const Areas = ({ onClose, onAddMember, onEditMember, onDeleteMember, user, actio
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
       <DialogPanel className="sm:max-w-md">
+      <button
+          type="button"
+          className="absolute right-4 top-4 p-2 bg-transparent border-none"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <i className="fas fa-times size-5" aria-hidden={true}></i>
+        </button>
         <form action="#" method="POST" className="space-y-4" onSubmit={handleSubmit}>
           <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             {actionType === 'add' ? 'Añade una nueva Area' : actionType === 'edit' ? 'Editar Area' : 'Borrar Area'}

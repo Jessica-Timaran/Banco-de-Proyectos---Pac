@@ -12,7 +12,7 @@ const Navbar2 = ({ Text }) => {
     <nav className="bg-white flex p-2 sm:p-4 justify-end">
       <div className="flex items-center mr-2 sm:mr-6">
         <img
-          src="/public/img/perfil.png"
+          src="/img/perfil.png"
           alt="User Avatar"
           className="rounded-full w-8 h-8 sm:w-12 sm:h-12 mr-2"
         />

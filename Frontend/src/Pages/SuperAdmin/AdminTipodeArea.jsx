@@ -6,7 +6,7 @@ import GridListTipoArea from './GridList/GridListTipoArea';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import TipoAreas from '../../Components/Modales/ModalTipoAreas';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,7 @@ const Area = () => {
 
 
   const handleGoBack = () => {
-    navigate('/dashboard'); // Redirigir al dashboard
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
   return (
@@ -55,18 +55,16 @@ const Area = () => {
         <Layoutcontenido title="Tipos de Area">
           <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
-              <button
-                onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
-              >
-                <ArrowLeftIcon className="w-5 h-5 mr-2" />
-                Volver
-              </button>
+            <button
+              onClick={handleGoBack}
+              className="flex items-center text-black hover:text-Verde"
+            >
+              <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+              Volver
+            </button>
               <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <GridListTipoArea />
-            </div>
             {isModalOpen && (
               <TipoAreas
                 onClose={handleCloseModal}

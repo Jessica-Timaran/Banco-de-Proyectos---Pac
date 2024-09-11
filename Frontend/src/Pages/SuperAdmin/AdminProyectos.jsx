@@ -4,7 +4,7 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListProyectos from './GridList/GridListProyectos';
 import Loader from '../../Components/Loader';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
 
 
 const Proyectos = () => {
@@ -22,7 +22,7 @@ const Proyectos = () => {
 
 
   const handleGoBack = () => {
-    navigate('/dashboard'); // Redirigir al dashboard
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
 ;
@@ -39,17 +39,15 @@ const Proyectos = () => {
             <div className="flex justify-between items-center mb-4">
               <p className="mt-4 text-lg leading-6 text-black text-left">
               <button
-                onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
-              >
-                <ArrowLeftIcon className="w-5 h-5 mr-2" />
-                Volver
-              </button>
+              onClick={handleGoBack}
+              className="flex items-center text-black hover:text-Verde"
+            >
+              <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+              Volver
+            </button>
               </p>
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <GridListProyectos  />
-            </div>
           </div>
         </Layoutcontenido>
       )}
