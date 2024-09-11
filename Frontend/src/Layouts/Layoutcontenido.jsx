@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Layoutcontenido = ({ title, children }) => {
+const Layoutcontenido = ({ children }) => {
   return (
-    <main className="flex justify-center items-center min-h-screen min-w-full 2xl:p-10 pl-9 p-10">
-      <div className="xl:w-2/3 h-auto p-8 rounded-lg border-none bg-white">
-        {children}
+    <main className="flex justify-center items-center min-h-screen w-full sm:p-6 md:p-8 lg:p-10 p-10 xl:pl-32 2xl:pl-32 xl:pr-8">
+      <div className="w-full max-w-7xl bg-white rounded-lg shadow-md overflow-hidden ">
+        <div className="p-4 sm:p-6 md:p-8 lg:p-10">
+          {children}
+        </div>
       </div>
     </main>
   );

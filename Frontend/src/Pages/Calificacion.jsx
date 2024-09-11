@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
+import Layoutprincipal from "../Layouts/LayoutPrincipal";
 import Layoutcontenido2 from "../layouts/Layoutcontenido2";
 import { BarState } from "../Components/BarState";
 import { ModalComent } from "../Components/ModalComent";
@@ -81,8 +81,11 @@ const Calificacion = () => {
     };
 
     const handleConfirmClose = () => {
-        guardarCalificacion();
+        guardarCalificacion().then(() => {
+            navigate(`/asignar-proyectos/${idproyecto}`);
+        });
     };
+    
 
     const handleCancelConfirm = () => {
         setShowConfirmModal(false); // Solo cierra el modal, no guarda los datos

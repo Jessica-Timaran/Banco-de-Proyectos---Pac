@@ -2,13 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { UserProvider } from './Context/UserContext'; // Asegúrate de que la ruta sea correcta
 
-/*Usuario*/ 
+/*Usuario*/
 import RegistroProyecto from './Pages/Usuario/RegistroProyecto';
 import TiposDeArea from './Pages/Usuario/Services/TiposDeArea';
 import ItemsDeArea from './Pages/Usuario/Services/ItemsDeArea';
 import ObjetivosDeArea from './Pages/Usuario/Vista_Objetivos/ObjetivosDeArea';
 import VistaAreas1 from './Pages/Usuario/VistaAreas1';
-import VistaAlcance from './Pages/Usuario/VistaAlcance'; 
+import VistaAlcance from './Pages/Usuario/VistaAlcance';
 import VistaUsuario from './Pages/Usuario/VistaUsuario';
 import VistaMisProyectos from './Pages/Usuario/VistaMisProyectos';
 import Home from './Pages/Principal/Home';
@@ -37,12 +37,12 @@ const App = () => {
           <Route path="/Usuario/VistaUsuario" element={<VistaUsuario />} />
           <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
           <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
-          
+
 
           <Route path="/" element={<Home />} />
           <Route path="/Principal/Inicio" element={<Inicio />} />
           <Route path="/Principal/Registro1" element={<Registro1 />} />
-  
+
           <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
 
           <Route path="/Calificar" element={<Calificar />} />

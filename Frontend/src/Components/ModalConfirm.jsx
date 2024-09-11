@@ -19,10 +19,10 @@ export function ModalConfirm({ onConfirm, onCancel, confirmText = "¿Estás segu
   return (
     <Dialog open={isOpen} onClose={() => {}} static={true}>
       <DialogPanel>
-        <Card className="max-w-md mx-auto">
+        <Card className="max-w-md mx-auto border-none">
           <div className="flex flex-col items-center text-center">
             <Text className="text-2xl font-bold text-gray-800 mb-2">
-              Estas a punto de Aceptar el proyecto
+              Estas a punto de Guadar el proyecto
             </Text>
             <Text className="text-gray-600 mb-6">
               {confirmText}

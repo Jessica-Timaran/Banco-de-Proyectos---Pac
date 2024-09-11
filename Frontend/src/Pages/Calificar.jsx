@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CardProyect from "../Components/CardProyect";
 import RadioButton from "../Components/RadioButton";
 import BotonSegundo from "../Components/BotonSegundo";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
+import Layoutprincipal from "../Layouts/LayoutPrincipal";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
 
 const Calificar = () => {

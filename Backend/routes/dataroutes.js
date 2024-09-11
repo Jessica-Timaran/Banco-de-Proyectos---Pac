@@ -28,7 +28,8 @@ import {
     guardarCalificacion, 
     actualizarEstadoRespuestas, 
     getFichas, 
-    getAprendicesByFicha
+    getAprendicesByFicha,
+    asignarProyecto
 
 
 } from '../controllers/datacontroler.js';
@@ -499,6 +500,9 @@ router.get('/fichas', getFichas);
 
 // Ruta para obtener aprendices por ficha
 router.get('/aprendices/:idficha', getAprendicesByFicha);
+
+// Ruta para asignar proyectos
+router.post('/asignar-proyectos', asignarProyecto);
 
 /*------------------------------Administrador---------------------------------------------------------------------------------------*/
 

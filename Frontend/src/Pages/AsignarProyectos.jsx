@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
-import Layoutprincipal from '../layouts/LayoutPrincipal';
+import Layoutprincipal from '../Layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../layouts/Layoutcontenido2';
-import useFichasYAprendices from '../../hooks/useFichasYAprendices';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
+import useFichasYAprendices from '../../hooks/useFichasYAprendices';
 
 const AsignarProyectos = () => {
+  const { idproyecto } = useParams();
   const {
     fichas,
     aprendices,
@@ -16,8 +18,9 @@ const AsignarProyectos = () => {
     error,
   } = useFichasYAprendices();
 
-  const { asignarProyecto, loading: saving, error: saveError } = useAsignarProyecto();
   const [selectedAprendices, setSelectedAprendices] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   const handleCheckboxChange = (idpersona) => {
     setSelectedAprendices(prevState =>
@@ -27,11 +30,38 @@ const AsignarProyectos = () => {
     );
   };
 
-  const handleGuardarClick = async () => {
-    for (const idpersona of selectedAprendices) {
-      await asignarProyecto(selectedFicha, idpersona);
+  const assignProject = async (idficha, selectedAprendices, idproyecto) => {
+    setSaving(true);
+    setSaveError(null);
+    try {
+      // Aquí iría la lógica para hacer la solicitud al backend
+      const response = await fetch('http://localhost:4000/api/asignar-proyectos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idficha, selectedAprendices, idproyecto }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al guardar la asignación');
+      }
+
+      alert('Asignación guardada exitosamente');
+    } catch (error) {
+      setSaveError(error.message);
+    } finally {
+      setSaving(false);
     }
-    // Aquí puedes agregar lógica adicional después de guardar, como mostrar una notificación o redirigir al usuario.
+  };
+
+  const handleGuardarClick = async () => {
+    try {
+      await assignProject(selectedFicha, selectedAprendices, idproyecto);
+      // Aquí puedes agregar lógica adicional después de guardar, como redirigir al usuario.
+    } catch (error) {
+      alert('Hubo un error al guardar la asignación');
+    }
   };
 
   return (
@@ -92,7 +122,6 @@ const AsignarProyectos = () => {
           </div>
 
           <div className="flex justify-end mt-6 mr-4 space-x-4">
-            <BotonPrincipal Text='Volver' />
             <BotonSegundo Text='Guardar' onClick={handleGuardarClick} disabled={saving} />
           </div>
 

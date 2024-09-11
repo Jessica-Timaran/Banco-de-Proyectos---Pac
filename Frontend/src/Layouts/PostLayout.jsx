@@ -1,10 +1,10 @@
 import React from 'react';
 
-const PosLayout = ({ title, children }) => {
+const PosLayout = ({children }) => {
   return (
 
 
-    <div className='bg-[#F5F6FA] m-0 p-0 '>
+    <div className='bg-[#F5F6FA] min-h-screen w-full overflow-x-hidden '>
       {children}
 
     </div>
