@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import Layoutprincipal from '../layouts/LayoutPrincipal';
+import Layoutprincipal from '../Layouts/Layoutprincipal';
 import BarraPreguntas from '../Components/BarraPreguntas';
-import Grid2 from '../Components/Grid2';
+import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
 import Loader from '../Components/Loader';
@@ -125,7 +125,7 @@ const Alcance = () => {
                   </div>
 
                   {preguntasAgrupadas[categoria].map((respuesta) => (
-                    <Grid2
+                    <Grid
                       key={respuesta.idalcance}
                       Text1={respuesta.descripcion}
                       id1={`respuesta-si-${respuesta.idalcance}`}

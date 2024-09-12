@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
-import Grid2 from "../Components/Grid2";
+import Layoutprincipal from "../Layouts/Layoutprincipal";
+import Grid from "../Components/Grid";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
@@ -24,16 +24,16 @@ const Objetivos = () => {
         if (response.ok) {
           const data = await response.json();
           setRespuestas(data.respuestas);
-
-          // Inicializa selecciones y calificaciones
+  
+          // Inicializa selecciones y calificaciones basadas en los datos actualizados
           const seleccionesIniciales = data.respuestas.reduce((acc, respuesta) => {
             acc[respuesta.id] = respuesta.respuesta ? "Sí" : "No";
             return acc;
           }, {});
           setSelecciones(seleccionesIniciales);
-
+  
           const calificacionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = 0; // Inicialización con 0
+            acc[respuesta.id] = respuesta.estado || null; // Usa null si no hay estado
             return acc;
           }, {});
           setCalificaciones(calificacionesIniciales);
@@ -44,7 +44,7 @@ const Objetivos = () => {
         console.error("Error de red al obtener las respuestas:", error);
       }
     };
-
+  
     fetchRespuestas();
   }, [idproyecto]);
 
@@ -54,30 +54,40 @@ const Objetivos = () => {
       [id]: value,
     }));
   };
-
+  
   const handleEvaluarChange = (id, value) => {
-    const nuevaCalificacion = value === "1" ? 10 : 0;
     setCalificaciones((prev) => ({
       ...prev,
-      [id]: nuevaCalificacion,
+      [id]: value === "1" ? "Aprobado" : "No aceptado",
     }));
   };
 
   useEffect(() => {
-    const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
-    const promedioCalculado = respuestas.length > 0 ? (total / (respuestas.length * 10)) * 100 : 0;
+    const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
+    const promedioCalculado = respuestas.length > 0 ? (aprobados / respuestas.length) * 100 : 0;
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
+
 
   const handleNextClick = async () => {
     const detalles = respuestas.map((respuesta) => ({
       idproyecto,
-      idobjetivos: respuesta.id,
-      estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado", // Verifica que este valor coincida con lo que espera tu backend
+      idrespuestasobjetivos: respuesta.id,
+      estado: calificaciones[respuesta.id] || (selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado"),
     }));
-
+  
+    console.log('Detalles a guardar:', detalles);
     try {
       await guardarDetalleCalificacion(detalles);
+      
+      // Actualiza los datos localmente después de guardar
+      setRespuestas((prevRespuestas) =>
+        prevRespuestas.map((respuesta) => ({
+          ...respuesta,
+          estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado",
+        }))
+      );
+  
       navigate(`/alcance/${idproyecto}`, {
         state: {
           promedioObjetivos: promedio,
@@ -120,17 +130,18 @@ const Objetivos = () => {
                 </div>
 
                 {preguntasAgrupadas[categoria].map((respuesta) => (
-                  <Grid2
-                    key={respuesta.id}
-                    Text1={respuesta.descripcion}
-                    id1={`respuesta-si-${respuesta.id}`}
-                    id2={`respuesta-no-${respuesta.id}`}
-                    name={`respuesta-${respuesta.id}`}
-                    seleccionado={selecciones[respuesta.id]}
-                    onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)}
-                    handleEvaluarChange={handleEvaluarChange}
-                    id={respuesta.id}
-                  />
+      <Grid
+        key={respuesta.id}
+        Text1={respuesta.descripcion}
+        id1={`respuesta-si-${respuesta.id}`}
+        id2={`respuesta-no-${respuesta.id}`}
+        name={`respuesta-${respuesta.id}`}
+        seleccionado={selecciones[respuesta.id] || "No"}
+        onChange={handleSelectionChange}
+        handleEvaluarChange={handleEvaluarChange}
+        id={respuesta.id}
+        calificacion={calificaciones[respuesta.id]}
+      />
                 ))}
               </div>
             ))}
