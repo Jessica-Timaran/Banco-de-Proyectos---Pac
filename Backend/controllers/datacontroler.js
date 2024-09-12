@@ -397,6 +397,22 @@ async function updateProyectoItem({ projectId, itemId }) {
 }
 
 
+// Función para actualizar un proyecto existente
+async function updateProject({ idproyecto, nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
+  try {
+      const client = await pool.connect();
+      const result = await client.query(
+          'UPDATE proyecto SET nombre = $1, impacto = $2, responsable = $3, disponibilidad = $4, dia = $5, idarea = $6, idficha = $7, idpersona = $8, idrespuestaobjetivos = $9, idrespuestaalcance = $10, iditems = $11, idtiposdearea = $12 WHERE idproyecto = $13 RETURNING *',
+          [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea, idproyecto]
+      );
+      client.release();
+      console.log('Proyecto actualizado con éxito:', result.rows[0]);
+      return result.rows[0];
+  } catch (error) {
+      console.error('Error al actualizar proyecto:', error);
+      throw error;
+  }
+}
 
 
 // En tu controlador
@@ -928,7 +944,8 @@ export {
     registerItemArea,
     registerTipoDeArea,
     getTipoDeArea,
-    registerArea,  
+    registerArea, 
+    updateProject 
     
 
 };

@@ -1,6 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Estado = ({ estado }) => {
+const Estado = ({ estado, idproyecto }) => {
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate(`/Usuario/RegistroProyecto/${idproyecto}`);
+  };
+
   return (
     <div className="flex space-x-4">
       {estado === 'Aceptado' && (
@@ -23,7 +30,10 @@ const Estado = ({ estado }) => {
             <span className="inline-block w-2.5 h-2.5 bg-yellow-500 rounded-full"></span>
             Devuelto
           </button>
-          <button className="flex items-center px-3 py-1 bg-blue-100 text-blue-600 rounded-full">
+          <button
+            className="flex items-center px-3 py-1 bg-blue-100 text-blue-600 rounded-full"
+            onClick={handleEditClick}
+          >
             <span className="inline-block w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
             Editar
           </button>

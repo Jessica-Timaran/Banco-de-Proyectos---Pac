@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';  // <--- Importa useParams
 import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
-import Layoutcontenido2 from '../../layouts/Layoutcontenido2';
+import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
 import Input from '../../Components/Input';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
@@ -8,6 +9,8 @@ import RadioButton2 from '../../Components/RadioButton2';
 import Loader from '../../Components/Loader';
 
 const RegistroProyecto = () => {
+  const { idproyecto } = useParams();
+  const [idProyecto, setIdProyecto] = useState(idproyecto || null); // Se inicializa con el idproyecto de los params
   const [nombreProyecto, setNombreProyecto] = useState('');
   const [impactoDelProyecto, setImpactoDelProyecto] = useState('');
   const [responsable, setResponsable] = useState('');
@@ -20,15 +23,30 @@ const RegistroProyecto = () => {
     frecuencia: '',
     dias: '',
   });
-  const [loading, setLoading] = useState(true); // Estado para controlar el loader
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (idProyecto) {
+      fetch(`http://localhost:4000/api/proyectos/${idProyecto}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al obtener el proyecto');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setNombreProyecto(data.nombre);
+          setImpactoDelProyecto(data.impacto);
+          setResponsable(data.responsable);
+          setFrecuencia(data.disponibilidad);
+          setDiasSeleccionados(data.dia.split(', '));
+        })
+        .catch(error => console.error('Error al cargar el proyecto:', error))
+        .finally(() => setLoading(false));
+    } else {
       setLoading(false);
-    }, 2000); // Oculta el loader después de 2 segundos
-
-    return () => clearTimeout(timer); // Limpia el timeout si el componente se desmonta
-  }, []);
+    }
+  }, [idProyecto]);
 
   const handleFrecuenciaClick = (value) => {
     setFrecuencia(value);
@@ -36,7 +54,7 @@ const RegistroProyecto = () => {
 
   const handleDiaChange = (e) => {
     const { value, checked } = e.target;
-    setDiasSeleccionados(prev => 
+    setDiasSeleccionados(prev =>
       checked ? [...prev, value] : prev.filter(day => day !== value)
     );
   };
@@ -76,16 +94,21 @@ const RegistroProyecto = () => {
 
     if (!hasError) {
       const diasSeleccionadosStr = diasSeleccionados.join(', ');
-      const userId = localStorage.getItem('userId'); // Asegúrate de que el idpersona es correcto
+      const userId = localStorage.getItem('userId');
 
       if (!userId) {
         console.error('Error: idpersona no encontrado en localStorage');
         return;
       }
 
+      const url = idProyecto
+        ? `http://localhost:4000/api/proyectos/${idProyecto}`
+        : 'http://localhost:4000/api/proyectos';
+      const method = idProyecto ? 'PUT' : 'POST';
+
       try {
-        const response = await fetch('http://localhost:4000/api/proyectos', {
-          method: 'POST',
+        const response = await fetch(url, {
+          method: method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nombre: nombreProyecto,
@@ -93,7 +116,7 @@ const RegistroProyecto = () => {
             responsable: responsable,
             disponibilidad: frecuencia,
             dia: diasSeleccionadosStr,
-            idpersona: userId, // Asegúrate de enviar idpersona
+            idpersona: userId,
           }),
         });
 
@@ -108,9 +131,7 @@ const RegistroProyecto = () => {
         console.error('Error en la solicitud:', error);
       }
     }
-};
-
-
+  };
 
   return (
     <LayoutPrincipal2 title="">
@@ -120,7 +141,7 @@ const RegistroProyecto = () => {
         </div>
       ) : (
         <div className="content-container">
-          <Layoutcontenido2 title="" text1="Registrar Proyecto">
+          <Layoutcontenido2 title="" text1={idProyecto ? "Actualizar Proyecto" : "Registrar Proyecto"}>
             <div className="w-1/2 mx-auto">
               <form onSubmit={handleSubmit}>
                 <div className="flex font-josefin-slab flex-col space-y-8">
@@ -248,7 +269,7 @@ const RegistroProyecto = () => {
                       name="dias"
                       value="Sábado"
                       checked={diasSeleccionados.includes('Sábado')}
-                      label="Sabado"
+                      label="Sábado"
                       onChange={handleDiaChange}
                     />
                     <span className="text-red-500 text-sm sm:col-span-3">
@@ -257,7 +278,7 @@ const RegistroProyecto = () => {
                   </div>
 
                   <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                    <BotonSegundo Text="Siguiente" type="submit" />
+                    <BotonSegundo Text="Guardar" type="submit" />
                   </div>
                 </div>
               </form>
