@@ -52,9 +52,9 @@ const Sidebar = () => {
           <ul id="menu-list" className="space-y-3 font-medium">
             {roleMenuItems.map((item, index) => (
               <li key={index}>
-                <Link to={item.to} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
+                <Link to={item.to} className="flex items-center p-2 text-black rounded-lg dark:text-black group">
                   <div>
-                    <i className={`${item.icon} flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black`} aria-hidden="true"></i>
+                    <i className={`${item.icon} flex-shrink-0 w-5 h-5 text-black dark:text-black`} aria-hidden="true"></i>
                   </div>
                   <span className="flex-1 ms-3 whitespace-nowrap text-black">{item.label}</span> {/* Asegúrate de que el color del texto sea visible */}
                 </Link>
@@ -63,7 +63,7 @@ const Sidebar = () => {
             {/* Opción de Salir */}
             <li>
               <button onClick={handleLogout} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full">
-                <i className="fas fa-sign-out-alt flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black" aria-hidden="true"></i>
+                <i className="fas fa-sign-out-alt flex-shrink-0 w-5 h-5 text-black dark:text-black" aria-hidden="true"></i>
                 <span className="flex-1 ms-3 whitespace-nowrap text-black">Salir</span>
               </button>
             </li>

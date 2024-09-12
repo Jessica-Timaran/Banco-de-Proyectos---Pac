@@ -5,8 +5,8 @@ const GridPrueba = ({ Text1, estado, idproyecto }) => {
   return (
     <div className="w-full bg-white">
       <div className="grid rounded-lg">
-        <div className="grid grid-cols-12 items-center border-b py-4">
-          <div className="col-span-12 md:col-span-10 flex items-center pl-4">
+        <div className="grid grid-cols-12 items-center border-b py-4 px-10 ">
+          <div className="col-span-12 md:col-span-10 flex items-center ">
             <span className="text-lg">{Text1}</span>
           </div>
           <div className="col-span-12 md:col-span-2 flex justify-center items-center space-x-2">

@@ -45,8 +45,8 @@ const Prueba = () => {
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
             <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-10 rounded-t-lg border-b">
-              <div className="col-span-12 md:col-span-11 text-center md:text-left">PROYECTOS</div>
-              <div className="col-span-12 md:col-span-1 text-center md:text-right">ESTADO</div>
+              <div className="col-span-12 md:col-span-10 text-center md:text-left">PROYECTOS</div>
+              <div className="col-span-12 md:col-span-2 text-center md:text-center">ESTADO</div>
             </div>
 
             {proyectos.map((proyecto) => (
