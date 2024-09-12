@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../../Components/Input.jsx';
 import SelectBoxTI from '../../Components/SelectBoxTI.jsx';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal from '../../Layouts/Layoutprincipal.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../../Components/BotonPerfil.jsx';
 import ModalPerfil from '../../Components/Modal.jsx';
@@ -161,7 +161,7 @@ if (formData.confiContraseña.trim() === '') {
     const isValid = validateForm();
     if (isValid) {
       try {
-        const response = await fetch('http://localhost:4000/api/update-profile', {
+        const response = await fetch('http://localhost:4000/api/aprendiz/update-profile', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

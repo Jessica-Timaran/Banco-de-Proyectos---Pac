@@ -1,16 +1,19 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, TabGroup, TabList } from '@tremor/react';
 
-export function Evaluar({ onChange }) {
-  const [selectedTab, setSelectedTab] = useState(null); // Estado para la pestaña seleccionada
+export function Evaluar({ onChange, initialValue }) {
+  const [selectedTab, setSelectedTab] = useState(null);
 
-  // Manejador de cambios para las pestañas
+  useEffect(() => {
+    if (initialValue) {
+      setSelectedTab(initialValue);
+    }
+  }, [initialValue]);
+
   const handleTabClick = (value) => {
     setSelectedTab(value);
-    if (onChange) {
-      onChange(value);
-    }
+    onChange(value);
   };
 
   return (

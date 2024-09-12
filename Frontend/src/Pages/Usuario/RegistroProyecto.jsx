@@ -27,7 +27,7 @@ const RegistroProyecto = () => {
 
   useEffect(() => {
     if (idProyecto) {
-      fetch(`http://localhost:4000/api/proyectos/${idProyecto}`)
+      fetch(`http://localhost:4000/api/user/proyectos/${idProyecto}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Error al obtener el proyecto');
@@ -102,8 +102,8 @@ const RegistroProyecto = () => {
       }
 
       const url = idProyecto
-        ? `http://localhost:4000/api/proyectos/${idProyecto}`
-        : 'http://localhost:4000/api/proyectos';
+        ? `http://localhost:4000/api/user/proyectos/${idProyecto}`
+        : 'http://localhost:4000/api/user/proyectos';
       const method = idProyecto ? 'PUT' : 'POST';
 
       try {

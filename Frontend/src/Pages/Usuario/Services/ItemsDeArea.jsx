@@ -1,6 +1,6 @@
 // ItemsDeArea.js
 import React, { useState, useEffect } from 'react';
-import LayoutPrincipal from '../../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../../Layouts/Layoutprincipal';
 import Card from '../../../Components/Card';
 import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from '../../../Components/BotonPrincipal';
@@ -19,7 +19,7 @@ const ItemsDeArea = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/items/${idarea}/${idtiposdearea}`);
+        const response = await fetch(`http://localhost:4000/api/user/items/${idarea}/${idtiposdearea}`);
         if (!response.ok) {
           throw new Error(`Error fetching items: ${response.statusText}`);
         }
@@ -45,7 +45,7 @@ const ItemsDeArea = () => {
     }
   
     try {
-      const response = await fetch('http://localhost:4000/api/update-proyecto-item', {
+      const response = await fetch('http://localhost:4000/api/user/update-proyecto-item', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

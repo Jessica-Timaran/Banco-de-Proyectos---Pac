@@ -50,7 +50,7 @@ const UpdatePassword = () => {
 
         // Solicitud de actualización de contraseña
         try {
-            const response = await fetch('http://localhost:4000/api/update-password', {
+            const response = await fetch('http://localhost:4000/api/aprendiz/update-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, email, newPassword }), // Incluye el token y el email

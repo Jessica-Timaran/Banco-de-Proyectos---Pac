@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal from "../../Layouts/Layoutprincipal.jsx";
 import Layoutcontenido from "../../Layouts/Layoutcontenido3";
 import ModalAsignaciones from "../../Components/Modales/Modal";
 
@@ -17,7 +17,7 @@ const Calificar = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/assigned-projects');
+        const response = await fetch('http://localhost:4000/api/aprendiz/assigned-projects');
         if (!response.ok) {
           throw new Error('Error al obtener los proyectos');
         }

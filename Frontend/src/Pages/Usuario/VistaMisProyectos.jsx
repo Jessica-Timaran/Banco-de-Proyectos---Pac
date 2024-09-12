@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal from '../../Layouts/Layoutprincipal.jsx';
 import GridPrueba from '../../Components/GridPrueba.jsx';
 import Loader from '../../Components/Loader.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
@@ -18,7 +18,7 @@ const Prueba = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/api/proyectos?userId=${userId}`);
+        const response = await fetch(`http://localhost:4000/api/user/proyectos?userId=${userId}`);
         if (response.ok) {
           const data = await response.json();
           setProyectos(data);

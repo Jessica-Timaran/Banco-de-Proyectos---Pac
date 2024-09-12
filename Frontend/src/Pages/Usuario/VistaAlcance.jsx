@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../Layouts/Layoutprincipal';
 import Grid from '../../Components/Grid';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
@@ -18,7 +18,7 @@ const VistaAlcance = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/alcances');
+        const response = await fetch('http://localhost:4000/api/user/alcances');
         if (!response.ok) {
           throw new Error('La respuesta de la red no fue correcta');
         }
@@ -75,7 +75,7 @@ const VistaAlcance = () => {
 
     try {
       console.log("Antes de realizar fetch...");
-      const response = await fetch('http://localhost:4000/api/guardarRespuestas', {
+      const response = await fetch('http://localhost:4000/api/user/guardarRespuestas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import LayoutPrincipal from "../Layouts/Layoutprincipal";
-import Layoutcontenido2 from "../layouts/Layoutcontenido2";
+import Layoutcontenido2 from "../Layouts/Layoutcontenido2";
 import { ListProject } from "../Components/ListProject";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
@@ -30,7 +30,7 @@ const Detalle = () => {
     const fetchProyecto = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/proyectos/${id}`
+          `http://localhost:4000/api/admin/proyectos/${id}`
         );
         if (response.ok) {
           const data = await response.json();

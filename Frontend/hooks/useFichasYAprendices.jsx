@@ -12,7 +12,7 @@ const useFichasYAprendices = () => {
     const fetchFichas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/fichas');
+        const response = await fetch('http://localhost:4000/api/admin/fichas');
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }

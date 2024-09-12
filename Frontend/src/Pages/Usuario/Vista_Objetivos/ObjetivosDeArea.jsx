@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import LayoutPrincipal from "../../../layouts/LayoutPrincipal";
+import LayoutPrincipal from '../../../Layouts/Layoutprincipal';
 import Grid from "../../../Components/Grid";
 import BotonPrincipal from "../../../Components/BotonPrincipal";
 import BotonSegundo from "../../../Components/BotonSegundo";
@@ -18,7 +18,7 @@ const ObjetivosDeArea = () => {
   useEffect(() => {
     const fetchObjetivos = async (idArea) => {
       try {
-        const response = await fetch(`http://localhost:4000/api/objetivos/${idArea}`);
+        const response = await fetch(`http://localhost:4000/api/user/objetivos/${idArea}`);
         if (!response.ok) {
           throw new Error(`Error fetching objetivos: ${response.statusText}`);
         }
@@ -75,7 +75,7 @@ const ObjetivosDeArea = () => {
     };
   
     try {
-    const response = await fetch(`http://localhost:4000/api/guardarRespuestasObjetivos`, {
+    const response = await fetch(`http://localhost:4000/api/user/guardarRespuestasObjetivos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

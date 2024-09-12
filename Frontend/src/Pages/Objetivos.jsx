@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Layoutprincipal from "../Layouts/Layoutprincipal";
-import Grid from "../Components/Grid";
+import Grid2 from "../Components/Grid2";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
@@ -20,7 +20,7 @@ const Objetivos = () => {
   useEffect(() => {
     const fetchRespuestas = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/respuestas/${idproyecto}`);
+        const response = await fetch(`http://localhost:4000/api/admin/respuestas/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
           setRespuestas(data.respuestas);
@@ -130,7 +130,7 @@ const Objetivos = () => {
                 </div>
 
                 {preguntasAgrupadas[categoria].map((respuesta) => (
-      <Grid
+      <Grid2
         key={respuesta.id}
         Text1={respuesta.descripcion}
         id1={`respuesta-si-${respuesta.id}`}

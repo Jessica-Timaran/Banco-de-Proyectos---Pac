@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../Layouts/Layoutprincipal';
 import Card from '../../Components/Card';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import BotonPrincipal from '../../Components/BotonPrincipal';
@@ -12,7 +12,7 @@ const VistaAreas1 = () => {
   useEffect(() => {
     const fetchAreas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/areas');
+        const response = await fetch('http://localhost:4000/api/user/areas');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -39,7 +39,7 @@ const VistaAreas1 = () => {
 
     try {
       console.log(`Enviando solicitud para seleccionar el área: ${areaId}`);
-      const response = await fetch('http://localhost:4000/api/proyectos/seleccionar-area', {
+      const response = await fetch('http://localhost:4000/api/user/proyectos/seleccionar-area', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

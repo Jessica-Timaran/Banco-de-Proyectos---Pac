@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"; 
 import { Link } from "react-router-dom";
 import CardProyect from "../Components/CardProyect";
-import RadioButton from "../Components/RadioButton";
+import RadioButton4 from "../Components/RadioButton4";
 import BotonSegundo from "../Components/BotonSegundo";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
 import LayoutPrincipal from "../Layouts/Layoutprincipal";
@@ -16,9 +16,9 @@ const Calificar = () => {
       // Limpiar el estado antes de realizar la nueva petición
       setData([]);
       
-      let url = `http://localhost:4000/api/proyectos?estado=${estado}`;
+      let url = `http://localhost:4000/api/admin/proyectos?estado=${estado}`;
       if (estado === 'Asignados') {
-        url = 'http://localhost:4000/api/proyectos/asignados';
+        url = 'http://localhost:4000/api/admin/proyectos/asignados';
       }
       console.log('Fetching URL:', url);
       const response = await fetch(url);
@@ -47,23 +47,23 @@ const Calificar = () => {
           <div className="w-full max-w-7xl">
             <div className="flex justify-start mb-4 ml-9">
               <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4"> 
-                <RadioButton
+                <RadioButton4
                   Text="Recibidos"
                   onClick={() => setFilter('Recibidos')}
                 />
-                <RadioButton
+                <RadioButton4
                   Text="Aceptado"
                   onClick={() => setFilter('Aceptado')}
                 />
-                <RadioButton
+                <RadioButton4
                   Text="Rechazado"
                   onClick={() => setFilter('Rechazado')}
                 />
-                <RadioButton
+                <RadioButton4
                   Text="Devueltos"
                   onClick={() => setFilter('Devuelto')}
                 />
-                <RadioButton
+                <RadioButton4
                   Text="Asignados"
                   onClick={() => setFilter('Asignados')}
                 />

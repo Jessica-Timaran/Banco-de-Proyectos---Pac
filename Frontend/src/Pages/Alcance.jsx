@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import Layoutprincipal from '../Layouts/Layoutprincipal';
 import BarraPreguntas from '../Components/BarraPreguntas';
-import Grid from '../Components/Grid';
+import Grid2 from '../Components/Grid2';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
 import Loader from '../Components/Loader';
@@ -20,7 +20,7 @@ const Alcance = () => {
   useEffect(() => {
     const fetchRespuestasAlcance = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/respuestasalcance/${idproyecto}`);
+        const response = await fetch(`http://localhost:4000/api/admin/respuestasalcance/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
           setRespuestasAlcance(data.respuestasAlcance);
@@ -125,7 +125,7 @@ const Alcance = () => {
                   </div>
 
                   {preguntasAgrupadas[categoria].map((respuesta) => (
-                    <Grid
+                    <Grid2
                       key={respuesta.idalcance}
                       Text1={respuesta.descripcion}
                       id1={`respuesta-si-${respuesta.idalcance}`}

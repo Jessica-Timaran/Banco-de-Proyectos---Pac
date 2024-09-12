@@ -1,6 +1,6 @@
 // TiposDeArea.js
 import React, { useState, useEffect } from 'react';
-import LayoutPrincipal from "../../../layouts/LayoutPrincipal";
+import LayoutPrincipal from '../../../Layouts/Layoutprincipal';
 import Card from "../../../Components/Card";
 import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from "../../../Components/BotonPrincipal";
@@ -18,7 +18,7 @@ const TiposDeArea = () => {
   useEffect(() => {
     const fetchTiposDeArea = async (idArea) => {
       try {
-        const response = await fetch(`http://localhost:4000/api/tipos-de-area/${idArea}`);
+        const response = await fetch(`http://localhost:4000/api/user/tipos-de-area/${idArea}`);
         if (!response.ok) {
           throw new Error(`Error fetching tipos de area: ${response.statusText}`);
         }
@@ -44,7 +44,7 @@ const TiposDeArea = () => {
   
     try {
       console.log('Enviando solicitud para actualizar el proyecto...');
-      const response = await fetch('http://localhost:4000/api/update-proyecto', {
+      const response = await fetch('http://localhost:4000/api/user/update-proyecto', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

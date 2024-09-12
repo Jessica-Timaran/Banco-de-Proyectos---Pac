@@ -81,7 +81,7 @@ const usePostCalificacion = () => {
 
         try {
             // Primero, realiza la solicitud para guardar la calificación
-            const response = await fetch("http://localhost:4000/api/calificaciones", {
+            const response = await fetch("http://localhost:4000/api/admin/calificaciones", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -114,7 +114,7 @@ const usePostCalificacion = () => {
 
     const actualizarIdCalificacion = async (idproyecto, idcalificacion) => {
         try {
-            const response = await fetch("http://localhost:4000/api/actualizar-idcalificacion", {
+            const response = await fetch("http://localhost:4000/api/admin/actualizar-idcalificacion", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
