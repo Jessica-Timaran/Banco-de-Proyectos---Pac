@@ -11,9 +11,13 @@ import VistaAlcance from './Pages/Usuario/VistaAlcance';
 import VistaUsuario from './Pages/Usuario/VistaUsuario';
 import VistaMisProyectos from './Pages/Usuario/VistaMisProyectos';
 import Home from './Pages/Principal/Home';
+import OlvidarContraseña from './Pages/Principal/OlvidarContraseña'
+import UpdatePassword  from './Pages/Principal/UpdatePassword';
 import Inicio from './Pages/Principal/Incio';
 import Registro1 from './Pages/Principal/Registro1';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
+
+
 
 /*SuperAdmin */
 import Dashboard from './Pages/SuperAdmin/Dashboard';
@@ -34,6 +38,15 @@ import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
 
+
+/*Aprendiz*/
+
+import VistaAprendiz from './Pages/Aprendiz/VistaAprendiz'
+import Formulario from './Pages/Aprendiz/Formulario'
+import EditarPerfil from './Pages/Aprendiz/EditarPerfil'
+import VistaProyectos from './Pages/Aprendiz/VistaProyectos'
+import Reporte from './Pages/Aprendiz/Reporte'
+
 const App = () => {
   return (
     <UserProvider> {/* Envuelve toda la aplicación con UserProvider */}
@@ -53,6 +66,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Principal/Inicio" element={<Inicio />} />
           <Route path="/Principal/Registro1" element={<Registro1 />} />
+          <Route path="/OlvidarContraseña" element={<OlvidarContraseña />} />
+        <Route path="/UpdatePassword" element={<UpdatePassword />} />
+      
 
 
           <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
@@ -65,6 +81,13 @@ const App = () => {
           <Route path="/SuperAdmin/alcance" element={<AdminAlcance/>} />
           <Route path="/SuperAdmin/items" element={<AdminItems/>} />
           <Route path="/SuperAdmin/ficha" element={<AdminFicha/>} />
+
+
+          <Route path="/Aprendiz/VistaAprendiz" element={<VistaAprendiz/>} />
+        <Route path="/Aprendiz/Reporte" element={<Reporte/>} />
+        <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos/>} />
+        <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
+        <Route path="/Aprendiz/Formulario" element={<Formulario/>} />
 
 
           <Route path="/Calificar" element={<Calificar />} />

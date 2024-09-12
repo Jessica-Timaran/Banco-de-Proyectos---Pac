@@ -1,5 +1,131 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+
+import transporter from '../config/nodemailerConfig.js';
+
+import multer from 'multer';
+// Configuración de multer para manejar la subida de archivos
+const upload = multer({ 
+    storage: multer.memoryStorage(),
+    fileFilter: (req, file, cb) => {
+      if (file.mimetype === 'application/pdf') {
+        cb(null, true);
+      } else {
+        cb(new Error('Solo se permiten archivos PDF'), false);
+      }
+    }
+  }).single('file');
+  
+  export const sendEmail = (req, res) => {
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({ error: err.message });
+      }
+  
+      const { fromEmail, toEmail, subject, message } = req.body;
+  
+      let mailOptions = {
+        from: fromEmail,
+        to: toEmail,
+        subject: subject,
+        text: message,
+      };
+  
+      if (req.file) {
+        mailOptions.attachments = [{
+          filename: req.file.originalname,
+          content: req.file.buffer
+        }];
+      }
+  
+      try {
+        let info = await transporter.sendMail(mailOptions);
+        console.log("Message sent: %s", info.messageId);
+        res.status(200).json({ message: "Correo enviado con éxito" });
+      } catch (error) {
+        console.error("Error al enviar el correo:", error);
+        res.status(500).json({ error: "Error al enviar el correo" });
+      }
+    });
+  };
+
+  export const getAssignedProjects = async () => {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                proyecto.idproyecto,
+                proyecto.nombre AS nombre_proyecto,
+                json_agg(json_build_object('nombre_persona', personas.nombre)) AS personas_asignadas
+            FROM 
+                asignaciones_proyectos
+            JOIN 
+                proyecto ON asignaciones_proyectos.idproyecto = proyecto.idproyecto
+            JOIN 
+                personas ON asignaciones_proyectos.idpersona = personas.idpersonas
+            WHERE 
+                personas.idrol = 4
+            GROUP BY 
+                proyecto.idproyecto, proyecto.nombre;`
+        );
+        return result.rows;
+    } catch (error) {
+        throw new Error('Error al obtener proyectos asignados: ' + error.message);
+    }
+};
+
+export const updateProfile = async (id, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña) => {
+    try {
+        const result = await pool.query(
+            `UPDATE personas 
+             SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6, contraseña = $7
+             WHERE id = $8 RETURNING *`, // Cambiar idrol por id
+            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, id] // Usar el id de la persona en lugar de idrol
+        );
+        return result.rows.length > 0 ? result.rows[0] : null;
+    } catch (error) {
+        throw new Error('Error al actualizar el perfil');
+    }
+};
+
+async function updatePassword(correo, nuevaContraseña) {
+  try {
+      const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
+
+      const client = await pool.connect();
+      const result = await client.query(
+          'UPDATE personas SET contraseña = $1 WHERE correo = $2 RETURNING *',
+          [hashedPassword, correo]
+      );
+      client.release();
+
+      if (result.rows.length > 0) {
+          return result.rows[0];
+      } else {
+          throw new Error('Usuario no encontrado');
+      }
+  } catch (error) {
+      console.error('Error al actualizar la contraseña:', error);
+      throw error;
+  }
+}
+
+async function checkIfUserExists(correo) {
+  try {
+      const client = await pool.connect();
+      const result = await client.query(
+          'SELECT * FROM personas WHERE correo = $1',
+          [correo]
+      );
+      client.release();
+
+      return result.rows.length > 0;
+  } catch (error) {
+      console.error('Error al verificar si el usuario existe:', error);
+      throw error;
+  }
+}
+
 
 async function checkEmailExists(correo) {
     if (!correo) {
@@ -985,7 +1111,7 @@ async function unlinkUserFromProject(idpersonas, idproyecto) {
   }
 }
 
-export {
+export {updatePassword,  checkIfUserExists,
     getAllPersonas,
     getAllUsuario,
     registerPerson,

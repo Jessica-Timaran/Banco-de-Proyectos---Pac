@@ -12,8 +12,10 @@ const Sidebar = () => {
       { icon: "fas fa-cog", to: "/AsignarProyecto", label: "Asignar Proyecto" },
     ],
     4: [
-      { icon: "fas fa-tachometer-alt", to: "/ProyectosAsignados", label: "Proyectos Asignados" },
-      { icon: "fas fa-user-edit", to: "/EditarPerfil", label: "Editar Perfil" },
+      { icon: "fas fa-home", to: "/Aprendiz/VistaAprendiz", label: "Home" },
+      { icon: "fas fa-tachometer-alt", to: "/Aprendiz/VistaProyectos", label: "Proyectos Asignados" },
+
+      { icon: "fas fa-user-edit", to: "/Aprendiz/EditarPefil", label: "Editar Perfil" },
     ],
     3: [
       { icon: "fas fa-user-plus", to: "/CrearFichas", label: "Crear Usuario" },

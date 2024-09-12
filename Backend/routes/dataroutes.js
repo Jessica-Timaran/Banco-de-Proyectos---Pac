@@ -1,5 +1,9 @@
 import express from 'express';
-import { 
+import { pool } from '../config/db.js';
+import { v4 as uuidv4 } from 'uuid';
+import transporter from '../config/nodemailerConfig.js';
+import bcrypt from 'bcrypt';
+import { sendEmail, updateProfile, checkIfUserExists, getAssignedProjects,  updatePassword,
     checkEmailExists,
     getAllPersonas, 
     getAllUsuario, 
@@ -33,11 +37,107 @@ import {
     updateProject,
     getProyectosAsignados,
     actualizarEstadoRespuestasAlcance
+    
 
 
 } from '../controllers/datacontroler.js';
 
 const router = express.Router();
+
+
+router.post('/send-email', sendEmail);
+
+// Ruta para obtener proyectos asignados a aprendices
+router.get('/assigned-projects', async (req, res) => {
+  try {
+      const projects = await getAssignedProjects();
+      res.status(200).json(projects);
+  } catch (error) {
+      console.error('Error al obtener proyectos asignados:', error);
+      res.status(500).json({ error: 'Error al obtener proyectos asignados' });
+  }
+});
+
+
+router.post('/update-profile', async (req, res) => {
+    const { id, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña } = req.body;
+  
+    const idPersona = parseInt(id, 10);  // Convertir id a número
+    console.log('ID de persona recibido:', idPersona); // Verifica el ID recibido
+  
+    if (isNaN(idPersona)) {
+      return res.status(400).json({ error: 'ID de persona inválido.' });
+    }
+  
+    try {
+      let updateQuery = 'UPDATE personas SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6';
+      let values = [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo];
+  
+      if (contraseña) {
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
+        updateQuery += ', contraseña = $7';
+        values.push(hashedPassword);
+      }
+  
+      updateQuery += ' WHERE idpersonas = $8 RETURNING *';
+      values.push(id);
+  
+      const result = await pool.query(updateQuery, values);
+  
+      if (result.rows.length > 0) {
+        res.status(200).json({ message: 'Perfil actualizado con éxito', profile: result.rows[0] });
+      } else {
+        res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+    } catch (error) {
+      console.error('Error al actualizar el perfil:', error);
+      res.status(500).json({ error: 'Error al actualizar el perfil', details: error.message });
+    }
+  });
+  
+  
+  // Ruta para actualizar la contraseña
+  router.post('/update-password', async (req, res) => {
+    const { email, newPassword } = req.body;
+  
+    try {
+      const user = await updatePassword(email, newPassword);
+      res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
+    } catch (error) {
+      console.error('Error al actualizar la contraseña:', error);
+      res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
+    }
+  });
+  
+  // Ruta para solicitar el enlace de recuperación de contraseña
+  router.post('/reset-password', async (req, res) => {
+    const { email } = req.body;
+  
+    try {
+      // Verificar si el usuario existe
+      const userExists = await checkIfUserExists(email);
+  
+      if (!userExists) {
+        return res.status(404).json({ error: 'Por favor regístrate para hacer el cambio de contraseña.' });
+      }
+  
+      const resetToken = uuidv4(); // Genera un token único
+      const resetLink = `http://localhost:5173/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)}`;
+  
+      const mailOptions = {
+        from: 'pac.bancodeproyectos@gmail.com',
+        to: email,
+        subject: 'Recuperación de Contraseña',
+        html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${resetLink}">Restablecer Contraseña</a></p>`
+      };
+  
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ message: 'Enlace de restablecimiento enviado' });
+    } catch (error) {
+      console.error('Error al enviar el enlace de restablecimiento:', error);
+      res.status(500).json({ error: `Error al enviar el enlace de restablecimiento: ${error.message}` });
+    }
+  });
 
 
 // Ruta para establecer una cookie
@@ -135,7 +235,7 @@ router.post('/login', async (req, res) => {
                 nombre: user.nombre // Asegúrate de que `nombre` esté presente
             });
         } else {
-            res.status(401).json({ error: 'Correo o contraseña incorrectos' });
+            res.status(401).json({ error: 'Correo o contraseña incorrectossss' });
         }
     } catch (error) {
         console.error('Error al iniciar sesión:', error);

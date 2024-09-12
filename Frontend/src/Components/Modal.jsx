@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import checkmarkImg from '../../public/Img/checkmark.png';
 
-const Modal = ({ Text, isOpen, onClose }) => {
+const Modal = ({ Text, isOpen, onClose, message }) => {
   return (
     <>
       {isOpen && (
@@ -17,6 +17,7 @@ const Modal = ({ Text, isOpen, onClose }) => {
             </div>
             <div className="border-b px-4 py-2 flex flex-col justify-center items-center">
               <span className="font-Josefin-Slab">{Text}</span>
+              <p>{message}</p>
               <img src={checkmarkImg} alt="Checkmark" />
             </div>
           </div>

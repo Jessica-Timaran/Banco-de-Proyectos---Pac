@@ -15,4 +15,6 @@ const BotonPrincipal = ({ Text, className = '', onClick, isSelected, additionalC
   );
 };
 
+
+
 export default BotonPrincipal;
