@@ -1,33 +1,23 @@
-import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import BotonSegundo from '../BotonSegundoModal';
 import PropTypes from 'prop-types';
+import { useAreaForm } from '../../../hooks/useAreaForm';
 
-
-const Areas = ({ onClose, onAddMember, onEditMember, onDeleteMember, user, actionType }) => {
-  const [areaName, setAreaName] = useState(user?.name || '');
-  const [estado,] = useState(user?.estado || 'Activo');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const area = { name: areaName, estado };
-
-    if (actionType === 'add') {
-      onAddMember(area);
-    } else if (actionType === 'edit') {
-      onEditMember(area);
-    } else if (actionType === 'delete') {
-      onDeleteMember(area);
-    }
-
-    onClose();
-  };
+export default function Areas({ onClose, onAddArea }) {
+  const { formValues, errors, handleInputChange, handleSubmit } = useAreaForm((data) => {
+    onAddArea(data);  // Llama al callback para actualizar la vista
+    onClose();  // Cierra el modal después de añadir el área
+  });
 
   return (
-    <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
-      <DialogPanel className="sm:max-w-md">
-      <button
+    <Dialog
+      open={true}
+      onClose={onClose}
+      static={true}
+      className="z-[100]"
+    >
+      <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
+        <button
           type="button"
           className="absolute right-4 top-4 p-2 bg-transparent border-none"
           onClick={onClose}
@@ -35,38 +25,32 @@ const Areas = ({ onClose, onAddMember, onEditMember, onDeleteMember, user, actio
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form action="#" method="POST" className="space-y-4" onSubmit={handleSubmit}>
-          <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            {actionType === 'add' ? 'Añade una nueva Area' : actionType === 'edit' ? 'Editar Area' : 'Borrar Area'}
-          </h4>
-
-          {actionType !== 'delete' && (
-            <div className="flex flex-col p-[5%] Flex-box space-y-6">
-              <Input2
-                id="nombreArea"
-                type="text"
-                placeholder="Area"
-                value={areaName}
-                onChange={(e) => setAreaName(e.target.value)}
-                Text="Area:"
-              />
-            </div>
-          )}
-
-          <BotonSegundo text="Agregar" id="guardarBtn" />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h4 className="font-semibold">Añade una nueva Área</h4>
+          <div className="relative flex flex-col p-[5%] Flex-box space-y-6">
+            <Input2
+              id="area"
+              type="text"
+              placeholder="Nombre del Área"
+              value={formValues.area}
+              onChange={handleInputChange}
+              error={errors.area}
+            />
+          </div>
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
+          >
+            Agregar
+          </button>
         </form>
       </DialogPanel>
     </Dialog>
   );
-};
+}
 
 Areas.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onAddMember: PropTypes.func.isRequired,
-  onEditMember: PropTypes.func.isRequired,
-  onDeleteMember: PropTypes.func.isRequired,
-  user: PropTypes.func.isRequired,
-  actionType: PropTypes.func.isRequired,
-}
-
-export default Areas;
+  onAddArea: PropTypes.func.isRequired,
+};

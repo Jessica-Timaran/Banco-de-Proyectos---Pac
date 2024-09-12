@@ -1,3 +1,4 @@
+
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
 import Layoutprincipal from '../../layouts/LayoutPrincipal';
@@ -10,6 +11,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Simula un tiempo de carga de 2 segundos
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -18,6 +20,7 @@ const Dashboard = () => {
   }, []);
 
   return (
+
     <Layoutprincipal title="Proyectos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen">
@@ -25,7 +28,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <Layoutcontenido title="">
-          <div className="bg-verde p-6 sm:p-10 rounded">
+          <div className="bg-Verde p-6 sm:p-10 rounded">
             <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
             <Text className="text-white font-extrabold">Banco de Proyectos</Text>
           </div>
@@ -66,7 +69,7 @@ const Dashboard = () => {
               buttonTex="Ver detalle"
               route="/SuperAdmin/tipodearea"
             />
-             <CardBase
+            <CardBase
               title="Items"
               metricValue={20}
               progressText="Registro proyecto"

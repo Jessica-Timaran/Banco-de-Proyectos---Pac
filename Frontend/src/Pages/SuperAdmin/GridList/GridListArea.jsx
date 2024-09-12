@@ -33,9 +33,9 @@ const GridListArea = () => {
         {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen absolute inset-0">
           <div className="flex flex-col items-center justify-center h-full">
-            <div className="flex-grow" /> 
+            <div className="flex-grow" /> {/* Espaciador superior */}
             <Loader />
-            <div className="flex-grow" /> 
+            <div className="flex-grow" /> {/* Espaciador inferior */}
           </div>
         </div>
       ) : (

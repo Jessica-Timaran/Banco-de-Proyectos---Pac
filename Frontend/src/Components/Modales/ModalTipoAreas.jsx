@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
+import useTipoArea from '../../../hooks/useTipoArea';
 
 // Función para obtener áreas
 const fetchArea = async () => {
@@ -21,7 +23,8 @@ const fetchArea = async () => {
 };
 
 export default function TipoArea({ onClose }) {
-    const [area, setAreaOptions] = useState([]);
+    const [areaOptions, setAreaOptions] = useState([]);
+    const { formData, errors,  handleSubmit, handleChange } = useTipoArea();
 
     // Obtener áreas al montar el componente
     useEffect(() => {
@@ -40,30 +43,36 @@ export default function TipoArea({ onClose }) {
             className="z-[100]"
         >
             <DialogPanel className="sm:max-w-md">
-            <button
-                type="button"
-                className="absolute right-4 top-4 p-2 bg-transparent border-none"
-                onClick={onClose}
-                aria-label="Close"
+                <button
+                    type="button"
+                    className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle dark:text-dark-tremor-content-subtle dark:hover:bg-dark-tremor-background-subtle dark:hover:text-tremor-content"
+                    onClick={onClose}
+                    aria-label="Close"
                 >
-                <i className="fas fa-times size-5" aria-hidden={true}></i>
+                    <RiCloseLine className="size-5" aria-hidden={true} />
                 </button>
-                <form action="#" method="POST" className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
                                 <SelectBoxArea
-                                    id="area-select"
-                                    Text="Seleccione un Area"
-                                    options={area}
+                                    id="idarea"
+                                    Text="Seleccione un Área"
+                                    options={areaOptions}
+                                    value={formData.idarea}
+                                    onChange={handleChange}
+                                    error={errors.idarea}
                                 />
                             </div>
                             <div>
                                 <Input2
-                                    id="nombreArea"
+                                    id="nombreTipoArea"
                                     type="text"
-                                    placeholder="Area"
-                                    Text="Area:"
+                                    placeholder="Nombre del Tipo de Área"
+                                    Text="Tipo de Área:"
+                                    value={formData.nombreTipoArea}
+                                    onChange={handleChange}
+                                    error={errors.nombreTipoArea}
                                 />
                             </div>
                         </div>
@@ -77,4 +86,4 @@ export default function TipoArea({ onClose }) {
 
 TipoArea.propTypes = {
     onClose: PropTypes.func.isRequired,
-  };
+};

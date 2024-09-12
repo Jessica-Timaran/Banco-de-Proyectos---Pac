@@ -136,37 +136,32 @@ async function getObjetivos() {
 };
 
 
-async function agregarPersona({ nombre, tipodocumento, numerodocumento, correo, contrasena, idrol, celular, idficha, estado }) {
+const agregarPersona = async (req, res) => {
+    const { nombre, tipodocumento, numerodocumento, correo, contrasena, idrol, celular, estado, idficha } = req.body;
+  
     try {
-      const response = await fetch('http://localhost:4000/api/agregarpersona', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nombre,
-          tipodocumento,
-          numerodocumento,
-          correo,
-          contrasena,
-          idrol,
-          celular,
-          idficha: rol === 'Aprendiz' ? idficha : null,
-          estado,
-        })
-      });
+      // Ajuste: asegurarse de que idrol se use correctamente
+      const nuevaPersona = {
+        nombre,
+        tipodocumento,
+        numerodocumento,
+        correo,
+        contrasena,
+        idrol,
+        celular,
+        idficha: idrol === 'Aprendiz' ? idficha : null, // Verifica el valor de idrol
+        estado,
+      };
   
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Error desconocido');
-      }
+      // Simulación de inserción en la base de datos
+      const resultado = await db.query('INSERT INTO personas SET ?', nuevaPersona);
   
-      return await response.json();
+      res.status(201).json({ message: 'Usuario registrado exitosamente' });
     } catch (error) {
-      console.error('Error al agregar persona:', error);
-      throw error;
+      console.error('Error al registrar persona:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
-  }
+  };
   
 
 

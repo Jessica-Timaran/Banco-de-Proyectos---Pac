@@ -21,14 +21,14 @@ import CrearArea from './Pages/SuperAdmin/CrearArea';
 
 /*SuperAdmin */
 import Dashboard from './Pages/SuperAdmin/Dashboard';
-import AdminUsuarios from './Pages//SuperAdmin/AdminUsuarios';
-import AdminProyectos from './Pages//SuperAdmin/AdminProyectos';
-import AdminAreas from './Pages//SuperAdmin/AdminAreas';
-import AdminTipoArea from './Pages//SuperAdmin/AdminTipodeArea';
-import AdminObjetivos from './Pages//SuperAdmin/AdminObjetivos'
-import AdminAlcance from './Pages//SuperAdmin/AdminAlcance';
-import AdminItems from './Pages//SuperAdmin/AdminItems'
-import AdminFicha from './Pages//SuperAdmin/AdminFicha';
+import AdminUsuarios from './Pages/SuperAdmin/AdminUsuarios';
+import AdminProyectos from './Pages/SuperAdmin/AdminProyectos';
+import AdminAreas from './Pages/SuperAdmin/AdminAreas';
+import AdminTipoArea from './Pages/SuperAdmin/AdminTipodeArea';
+import AdminObjetivos from './Pages/SuperAdmin/AdminObjetivos'
+import AdminAlcance from './Pages/SuperAdmin/AdminAlcance';
+import AdminItems from './Pages/SuperAdmin/AdminItems'
+import AdminFicha from './Pages/SuperAdmin/AdminFicha';
 
 /*Administrador */
 import Calificar from './Pages/Calificar';
