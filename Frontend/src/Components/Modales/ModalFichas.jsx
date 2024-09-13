@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import RadioButton3 from '../RadioButton3';
 import { useFichaForm } from '../../../hooks/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
@@ -53,36 +52,17 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   error={errors.numeroficha}
                 />
               </div>
-
-              <div className="space-y-4">
-              <div className="flex">
-                  <RadioButton3
-                    Text="Activo"
-                    id="estadoActivo"
-                    value="Activo"
-                    checked={formValues.estado === 'Activo'}
-                    onChange={() => handleInputChange({ target: { id: 'estado', value: 'Activo' } })}
-                    error={errors.estado}
-                  />
-                  <RadioButton3
-                    Text="Inactivo"
-                    id="estadoInactivo"
-                    value="Inactivo"
-                    checked={formValues.estado === 'Inactivo'}
-                    onChange={() => handleInputChange({ target: { id: 'estado', value: 'Inactivo' } })}
-                    error={errors.estado}
-                  />
-                </div>
-              </div>
             </div>
           </div>
+          <div className='flex justify-end'> 
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-blue-500 text-white px-4 py-2 rounded flex justify-end"
+            className="bg-verde text-black px-8 py-2 rounded"
           >
             Agregar
           </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>

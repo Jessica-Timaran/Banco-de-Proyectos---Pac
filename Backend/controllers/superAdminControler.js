@@ -244,12 +244,12 @@ async function registerArea({ area }) {
 // Función para registrar una nueva ficha
 async function registerFicha({ nombre, numeroFicha }) {
     try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha  });
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha});
 
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroficha ) VALUES ($1, $2) RETURNING *',
-            [nombre, numeroFicha, estado]
+            'INSERT INTO ficha (nombre, numeroficha, estado ) VALUES ($1, $2, $3) RETURNING *',
+            [nombre, numeroFicha, true]
         );
         client.release();
         console.log('Ficha registrada con éxito:', result.rows[0]);

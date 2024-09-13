@@ -32,6 +32,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="nombre"
                 type="text"
+                Text="Nombre"
                 placeholder="Nombre del usuario"
                 value={formValues.nombre}
                 onChange={handleInputChange}
@@ -40,6 +41,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <SelectBoxTi
                 id="tipodocumento"
                 text="Tipo de documento"
+                Text="Tipo de documento"
                 value={formValues.tipodocumento}
                 onChange={(value) => handleInputChange({ target: { id: 'tipodocumento', value } })}
                 error={errors.tipodocumento}
@@ -47,6 +49,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="numerodocumento"
                 type="text"
+                Text="Numero de documento"
                 placeholder="Número de documento"
                 value={formValues.numerodocumento}
                 onChange={handleInputChange}
@@ -55,6 +58,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="correo"
                 type="email"
+                Text="Correo:"
                 placeholder="Correo"
                 value={formValues.correo}
                 onChange={handleInputChange}
@@ -65,6 +69,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="contraseña"
                 type="password"
+                Text="Contraseña"
                 placeholder="Contraseña"
                 value={formValues.contraseña}
                 onChange={handleInputChange}
@@ -92,6 +97,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="celular"
                 type="text"
+                Text="Celular"
                 placeholder="Celular"
                 value={formValues.celular}
                 onChange={handleInputChange}
@@ -99,13 +105,15 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
+          <div className='flex justify-end'> 
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-verde text-black px-8 py-2 rounded"
           >
             Agregar
           </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>
