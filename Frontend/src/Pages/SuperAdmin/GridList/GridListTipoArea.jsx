@@ -11,7 +11,7 @@ const GridListTipoArea = () => {
     useEffect(() => {
         const fetchAreas = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/areas');
+                const response = await fetch('http://localhost:4000/api/superAdmin/areas');
                 if (!response.ok) {
                     throw new Error(`Error fetching areas: ${response.statusText}`);
                 }
@@ -29,7 +29,7 @@ const GridListTipoArea = () => {
 
     const fetchTiposDeArea = async (idArea) => {
         try {
-            const response = await fetch(`http://localhost:4000/api/tipos-de-area/${idArea}`);
+            const response = await fetch(`http://localhost:4000/api/superAdmin/tipos-de-area/${idArea}`);
             if (!response.ok) {
                 throw new Error(`Error fetching tipos de area: ${response.statusText}`);
             }

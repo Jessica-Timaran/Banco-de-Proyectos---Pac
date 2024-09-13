@@ -28,7 +28,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <Layoutcontenido title="">
-          <div className="bg-Verde p-6 sm:p-10 rounded">
+          <div className="bg-[#A3E784] p-6 sm:p-10 rounded">
             <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
             <Text className="text-white font-extrabold">Banco de Proyectos</Text>
           </div>
@@ -39,7 +39,7 @@ const Dashboard = () => {
               metricValue={50}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
-              route="/SuperAdmin/usuarios"
+              route="/SuperAdmin/AdminUsuarios"
             />
             <CardBase
               title="Fichas"

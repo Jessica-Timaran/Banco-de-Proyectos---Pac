@@ -25,7 +25,7 @@ import React from 'react';
 const BotonSegundo = ({ Text, onClick, additionalClasses = '', size = 'md' }) => {
   const sizeClasses = {
     sm: 'w-[120px] h-[36px] text-[14px]',
-    md: 'w-[150px] h-[44px] text-[16px]',
+    md: 'w-[180px] h-[44px] text-[16px]',
     lg: 'w-[180px] h-[48px] text-[18px]',
     xl: 'w-[190px]'
   };

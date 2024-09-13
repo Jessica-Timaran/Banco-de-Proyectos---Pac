@@ -21,7 +21,7 @@ const GridList = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/personas');
+      const response = await fetch('http://localhost:4000/api/superAdmin/personas');
       const users = await response.json();
       setData(users);
     } catch (error) {

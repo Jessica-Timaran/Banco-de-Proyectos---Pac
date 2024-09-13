@@ -8,7 +8,7 @@ const GridListArea = () => {
   useEffect(() => {
     const fetchAreas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/areas');
+        const response = await fetch('http://localhost:4000/api/superAdmin/areas');
         const areas = await response.json();
         setData(areas);
       } catch (error) {

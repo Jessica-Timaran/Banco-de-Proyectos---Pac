@@ -87,3 +87,51 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
+
+
+// // Controlador para agregar persona
+// async function agregarPersona(req, res) {
+//   try {
+//     console.log('Datos recibidos:', req.body);
+
+//     const { 
+//       nombre = '', 
+//       tipodocumento = '', 
+//       numerodocumento = '', 
+//       correo = '', 
+//       contraseña = '', 
+//       celular = '', 
+//       idrol = '', 
+//       idficha = null 
+//     } = req.body;
+
+//     // Verificar si faltan datos requeridos
+//     if (!nombre || !tipodocumento || !numerodocumento || !correo || !contraseña || !idrol || !celular) {
+//       return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+//     }
+
+//     // Registrar a la persona en la base de datos
+//     const nuevaPersona = {
+//       nombre,
+//       tipodocumento,
+//       numerodocumento,
+//       correo,
+//       contraseña,
+//       telefono: celular,
+//       idrol,
+//       idficha: idrol === 4 ? idficha : null,  // Solo asigna idficha si el rol es '4' (Aprendiz)
+//       estado: true
+//     };
+    
+
+//     const resultado = await pool.query(
+//       'INSERT INTO personas (nombre, tipodocumento, numerodocumento, correo, contraseña, telefono, idrol, idficha, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+//       [nombre, tipodocumento, numerodocumento, correo, contraseña, celular, idrol, idficha, nuevaPersona.estado]  // Estado booleano
+//     );
+
+//     res.status(201).json({ message: 'Usuario registrado exitosamente', usuario: resultado.rows[0] });
+//   } catch (error) {
+//     console.error('Error al registrar persona:', error);
+//     res.status(500).json({ error: 'Internal server error', details: error.message });
+//   }
+// }

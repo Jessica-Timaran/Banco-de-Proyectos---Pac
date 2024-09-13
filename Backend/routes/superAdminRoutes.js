@@ -3,7 +3,6 @@ import { pool } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import transporter from '../config/nodemailerConfig.js';
 import bcrypt from 'bcrypt';
-
 import {
     getAllPersonas,
     getAllUsuario,
@@ -21,11 +20,9 @@ import {
     registerTipoDeArea,
     registerItemArea,
     checkEmailExists
-
 } from '../controllers/superAdminControler.js';
 
 const router = express.Router();
-
 router.post('/check-email', async (req, res) => {
     const { correo } = req.body;
 
@@ -41,7 +38,8 @@ router.post('/check-email', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
+// Ruta para agregar una persona
+router.post('/agregarpersona', agregarPersona);
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
     try {
@@ -121,35 +119,9 @@ router.get('/objetivos/:idarea', async (req, res) => {
     }
 });
 
-router.post('/agregarpersona', async (req, res) => {
-    try {
-        const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha } = req.body;
 
-        // Verificar si el correo ya existe
-        const emailExists = await checkEmailExists(correo);
-        if (emailExists) {
-            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
-        }
 
-        // Registrar la nueva persona incluyendo idficha si el rol es Aprendiz
-        const newPerson = await agregarPersona({ 
-            nombre, 
-            tipodocumento, 
-            numerodocumento, 
-            telefono, 
-            correo, 
-            contraseña, 
-            idrol, 
-            estado, 
-            idficha: idrol === 'Aprendiz' ? idficha : null 
-        });
 
-        res.status(201).json(newPerson);
-    } catch (error) {
-        console.error('Error al registrar persona:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
 
 // Ruta para obtener todos los proyectos
 router.get('/proyecto', async (req, res) => {

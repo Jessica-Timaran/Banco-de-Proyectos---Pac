@@ -9,7 +9,7 @@ const GridListProyectos = () => {
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/proyecto');
+        const response = await fetch('http://localhost:4000/api/superAdmin/proyecto');
         const proyectos = await response.json();
         setData(proyectos);
       } catch (error) {

@@ -10,7 +10,7 @@ const GridListItems = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/items/${idarea}/${idtiposdearea}`);
+        const response = await fetch(`http://localhost:4000/api/superAdmin/items/${idarea}/${idtiposdearea}`);
         if (!response.ok) {
           throw new Error(`Error fetching items: ${response.statusText}`);
         }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import Layoutprincipal from '../Layouts/Layoutprincipal';
+import Layoutprincipal from '../layouts/LayoutPrincipal';
 import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid2 from '../Components/Grid2';
 import BotonPrincipal from '../Components/BotonPrincipal';
@@ -32,7 +32,7 @@ const Alcance = () => {
           setSelecciones(seleccionesIniciales);
 
           const calificacionesIniciales = data.respuestasAlcance.reduce((acc, respuesta) => {
-            acc[respuesta.idalcance] = 0;
+            acc[respuesta.idalcance] = respuesta.estado || null; // Usa null si no hay estado
             return acc;
           }, {});
           setCalificaciones(calificacionesIniciales);
@@ -50,8 +50,8 @@ const Alcance = () => {
   }, [idproyecto]);
 
   useEffect(() => {
-    const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
-    const promedioCalculado = respuestasAlcance.length > 0 ? (total / (respuestasAlcance.length * 10)) * 100 : 0;
+    const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
+    const promedioCalculado = respuestasAlcance.length > 0 ? (aprobados / respuestasAlcance.length) * 100 : 0;
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestasAlcance.length]);
 
@@ -63,30 +63,50 @@ const Alcance = () => {
   };
 
   const handleEvaluarChange = (id, value) => {
-    const nuevaCalificacion = value === "1" ? 10 : 0;
-
     setCalificaciones((prev) => ({
       ...prev,
-      [id]: nuevaCalificacion,
+      [id]: value === "1" ? "Aprobado" : "No aceptado",
     }));
   };
 
-  const handleNextClick = () => {
-    const promedioObjetivos = location.state?.promedioObjetivos || 0;
+  const handleNextClick = async () => {
+    // Verificar si todas las preguntas tienen una respuesta seleccionada
+    const allAnswered = respuestasAlcance.every((respuesta) => selecciones[respuesta.idalcance] && calificaciones[respuesta.idalcance]);
+
+    if (!allAnswered) {
+      alert("Debes seleccionar todas las opciones de calificar para poder avanzar");
+      return;
+    }
+
     const detallesAlcance = respuestasAlcance.map((respuesta) => ({
-      idrespuesta: respuesta.idalcance,
-      tipo_respuesta: "alcance",
-      estado: selecciones[respuesta.idalcance] === "Sí" ? "Aprobado" : "No aceptado",
+      idproyecto,
+      idrespuestasalcance: respuesta.idalcance,
+      estado: calificaciones[respuesta.idalcance],
     }));
 
-    navigate(`/calificacion/${idproyecto}`, {
-      state: {
-        promedio: promedio,
-        promedioObjetivos: promedioObjetivos,
-        detallesAlcance: detallesAlcance,
-        detallesObjetivos: location.state?.detallesObjetivos || [],
-      },
-    });
+    try {
+      // Aquí puedes agregar tu lógica para guardar los detalles si es necesario
+      // await guardarDetalleCalificacion(detallesAlcance);
+
+      // Actualiza los datos localmente después de guardar
+      setRespuestasAlcance((prevRespuestas) =>
+        prevRespuestas.map((respuesta) => ({
+          ...respuesta,
+          estado: selecciones[respuesta.idalcance] === "Sí" ? "Aprobado" : "No aceptado",
+        }))
+      );
+
+      navigate(`/calificacion/${idproyecto}`, {
+        state: {
+          promedio: promedio,
+          promedioObjetivos: location.state?.promedioObjetivos || 0,
+          detallesAlcance: detallesAlcance,
+          detallesObjetivos: location.state?.detallesObjetivos || [],
+        },
+      });
+    } catch (err) {
+      console.error('Error al guardar los detalles:', err);
+    }
   };
 
   const preguntasAgrupadas = respuestasAlcance.reduce((acc, respuesta) => {
@@ -135,6 +155,7 @@ const Alcance = () => {
                       onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
                       handleEvaluarChange={handleEvaluarChange}
                       id={respuesta.idalcance}
+                      calificacion={calificaciones[respuesta.idalcance]}
                     />
                   ))}
                 </div>

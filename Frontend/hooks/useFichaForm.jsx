@@ -43,7 +43,7 @@ export function useFichaForm(onSuccess) {
     console.log("Valores del formulario:", formValues); // Agrega esta línea para depuración
     if (validateForm()) {
     try {
-      const response = await fetch('http://localhost:4000/api/registerFicha', {
+      const response = await fetch('http://localhost:4000/api/superAdmin/registerFicha', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

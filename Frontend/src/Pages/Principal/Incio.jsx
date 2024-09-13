@@ -58,7 +58,7 @@ const Inicio = () => {
                 window.location.href = '/Usuario/VistaUsuario';
                 break;
               case 3:
-                window.location.href = '/SuperAdmin/VistaSuperadmin';
+                window.location.href = '/SuperAdmin/AdminUsuarios';
                 break;
               case 4:
                 window.location.href = '/Aprendiz/VistaAprendiz';
@@ -150,7 +150,7 @@ const Inicio = () => {
               )}
 
               <div className="flex justify-end w-full">
-              <a href="/OlvidarContraseña" className="text-blue-500 underline decoration-1">yy
+              <a href="/OlvidarContraseña" className="text-blue-500 underline decoration-1">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>

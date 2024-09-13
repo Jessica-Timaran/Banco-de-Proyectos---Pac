@@ -34,7 +34,7 @@ const useFichasYAprendices = () => {
       if (selectedFicha) {
         setLoading(true);
         try {
-          const response = await fetch(`http://localhost:4000/api/aprendices/${selectedFicha}`);
+          const response = await fetch(`http://localhost:4000/api/admin/aprendices/${selectedFicha}`);
           if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
           }

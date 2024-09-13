@@ -16,7 +16,7 @@ const Navbar = ({ Text }) => {
     </div>
     <div className="flex grid-cols-2 justify-center items-center mr-6">
         <img
-          src="/img/logo.svg"
+          src="/Img/perfil.png"
           alt="User Avatar"
           className="flex rounded-full w-12 h-12 mr-2 justify-end"
         />

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
-import Layoutprincipal from '../Layouts/Layoutprincipal';
+import Layoutprincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
 import useFichasYAprendices from '../../hooks/useFichasYAprendices'; //hook para mostrar las fichas y aprendices disponibles

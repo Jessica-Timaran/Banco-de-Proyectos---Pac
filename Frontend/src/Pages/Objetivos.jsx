@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Layoutprincipal from "../Layouts/Layoutprincipal";
+import Layoutprincipal from "../layouts/LayoutPrincipal";
 import Grid2 from "../Components/Grid2";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
@@ -70,34 +70,42 @@ const Objetivos = () => {
 
 
   const handleNextClick = async () => {
-    const detalles = respuestas.map((respuesta) => ({
-      idproyecto,
-      idrespuestasobjetivos: respuesta.id,
-      estado: calificaciones[respuesta.id] || (selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado"),
-    }));
-  
-    console.log('Detalles a guardar:', detalles);
-    try {
-      await guardarDetalleCalificacion(detalles);
-      
-      // Actualiza los datos localmente después de guardar
-      setRespuestas((prevRespuestas) =>
-        prevRespuestas.map((respuesta) => ({
-          ...respuesta,
-          estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado",
-        }))
-      );
-  
-      navigate(`/alcance/${idproyecto}`, {
-        state: {
-          promedioObjetivos: promedio,
-          detallesObjetivos: detalles,
-        },
-      });
-    } catch (err) {
-      console.error('Error al guardar los detalles:', err);
+    // Verificar si todas las preguntas tienen una respuesta seleccionada
+    const allAnswered = respuestas.every((respuesta) => selecciones[respuesta.id] && calificaciones[respuesta.id]);
+
+    if (!allAnswered) {
+        alert("Debes selecionar todas las opciones de calificar para poder avanzar");
+        return;
     }
-  };
+
+    const detalles = respuestas.map((respuesta) => ({
+        idproyecto,
+        idrespuestasobjetivos: respuesta.id,
+        estado: calificaciones[respuesta.id],
+    }));
+
+    try {
+        await guardarDetalleCalificacion(detalles);
+
+        // Actualiza los datos localmente después de guardar
+        setRespuestas((prevRespuestas) =>
+            prevRespuestas.map((respuesta) => ({
+                ...respuesta,
+                estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado",
+            }))
+        );
+
+        navigate(`/alcance/${idproyecto}`, {
+            state: {
+                promedioObjetivos: promedio,
+                detallesObjetivos: detalles,
+            },
+        });
+    } catch (err) {
+        console.error('Error al guardar los detalles:', err);
+    }
+};
+
 
   const preguntasAgrupadas = respuestas.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {

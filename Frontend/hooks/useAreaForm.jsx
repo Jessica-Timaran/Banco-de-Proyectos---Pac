@@ -31,7 +31,7 @@ export function useAreaForm(onSuccess) {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch('http://localhost:4000/api/registerArea', {
+        const response = await fetch('http://localhost:4000/api/superAdmin/registerArea', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
 app.use('/api/admin', adminRoutes);
 app.use('/api/aprendiz', aprendizRoutes);
-app.use('/api/SuperAdmin', superAdmin);
+app.use('/api/superAdmin', superAdmin);
 app.use('/api/user', userRoutes);
 
 // Manejo de errores

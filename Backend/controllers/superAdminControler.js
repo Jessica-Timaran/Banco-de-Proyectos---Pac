@@ -22,6 +22,52 @@ async function checkEmailExists(correo) {
     }
 }
 
+// Controlador para agregar persona
+async function agregarPersona(req, res) {
+    try {
+      console.log('Datos recibidos:', req.body);
+  
+      const {
+        nombre = '',
+        tipodocumento = '',
+        numerodocumento = '',
+        correo = '',
+        contraseña = '',
+        celular = '',
+        idrol = '',
+        idficha = null
+      } = req.body;
+  
+      // Verificar si faltan datos requeridos
+      if (!nombre || !tipodocumento || !numerodocumento || !correo || !contraseña || !idrol || !celular) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+      }
+  
+      // Registrar a la persona en la base de datos
+      const nuevaPersona = {
+        nombre,
+        tipodocumento,
+        numerodocumento,
+        correo,
+        contraseña,
+        telefono: celular,
+        idrol: parseInt(idrol, 10),
+        idficha: idrol === 4 && idficha !== null ? parseInt(idficha, 10) : null,
+        estado: true
+      };
+  
+      const resultado = await pool.query(
+        'INSERT INTO personas (nombre, tipodocumento, numerodocumento, correo, contraseña, telefono, idrol, idficha, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+        [nombre, tipodocumento, numerodocumento, correo, contraseña, celular, nuevaPersona.idrol, nuevaPersona.idficha, nuevaPersona.estado]
+      );
+  
+      res.status(201).json({ message: 'Usuario registrado exitosamente', usuario: resultado.rows[0] });
+    } catch (error) {
+      console.error('Error al registrar persona:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  }
+
 
 // Función para obtener todas las personas
 async function getAllPersonas() {
@@ -134,36 +180,6 @@ async function getObjetivos() {
         throw error;
     }
 };
-
-
-const agregarPersona = async (req, res) => {
-    const { nombre, tipodocumento, numerodocumento, correo, contrasena, idrol, celular, estado, idficha } = req.body;
-  
-    try {
-      // Ajuste: asegurarse de que idrol se use correctamente
-      const nuevaPersona = {
-        nombre,
-        tipodocumento,
-        numerodocumento,
-        correo,
-        contrasena,
-        idrol,
-        celular,
-        idficha: idrol === 'Aprendiz' ? idficha : null, // Verifica el valor de idrol
-        estado,
-      };
-  
-      // Simulación de inserción en la base de datos
-      const resultado = await db.query('INSERT INTO personas SET ?', nuevaPersona);
-  
-      res.status(201).json({ message: 'Usuario registrado exitosamente' });
-    } catch (error) {
-      console.error('Error al registrar persona:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-  
-
 
 
 

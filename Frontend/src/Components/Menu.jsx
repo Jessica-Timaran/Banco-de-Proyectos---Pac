@@ -7,6 +7,7 @@ const Sidebar = () => {
 
   const menuItems = {
     1: [
+      { icon: "fas fa-home", to: "/Calificar", label: "Home" },
       { icon: "fas fa-home", to: "/VistaProyectos", label: "Proyectos" },
       { icon: "fas fa-user", to: "/VistaAprobados", label: "Vista Aprobados" },
       { icon: "fas fa-cog", to: "/AsignarProyecto", label: "Asignar Proyecto" },
@@ -24,11 +25,12 @@ const Sidebar = () => {
       { icon: "fas fa-upload", to: "/CargaMasiva", label: "Cargar Aprendices" },
     ],
     2: [
-      { icon: "fas fa-home", to: "/Usuario/VistaMisProyectos", label: "Vista Mis Proyectos" },
-      { icon: "fas fa-project-diagram", to: "/EditarPerfil", label: "Editar Perfil" },
+      { icon: "fas fa-home", to: "/Usuario/VistaUsuario", label: "Home" },
+      { icon: "fa-solid fa-folder-plus", to: "/Usuario/VistaMisProyectos", label: "Mis Proyectos" },
+      { icon: "fas fa-project-diagram", to: "/Aprendiz/EditarPefil", label: "Editar Perfil" },
     ],
   };
-
+"fa-solid fa-folder-plus"
   const roleMenuItems = menuItems[userRole] || [];
 
   // Función para cerrar sesión
