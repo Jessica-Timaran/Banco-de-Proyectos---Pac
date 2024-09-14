@@ -4,7 +4,7 @@ import BotonSegundo from './BotonSegundo';
 const AprendicesList = ({ title, items, buttonText, buttonAction, buttonColor }) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6 transition-all duration-300 hover:shadow-lg">
-      <h2 className="text-xl font-semibold mb-4 text-gray-700">{title}</h2>
+      <h2 className="text-xl  mb-4 text-gray-700">{title}</h2>
       {items.length > 0 ? (
         <ul className="space-y-3">
           {items.map(item => (

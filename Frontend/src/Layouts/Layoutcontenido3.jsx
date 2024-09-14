@@ -4,7 +4,7 @@ const Layoutcontenido3 = ({ title, children }) => {
   return (
     <>
       <div className="text-center px-20 mt-[1%]">
-        <span className="text-2xl font-bold font-josefin-slab text-center">
+        <span className="text-2xl font-bold  text-center">
           {title}
         </span>
       </div>

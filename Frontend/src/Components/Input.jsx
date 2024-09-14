@@ -3,7 +3,7 @@ import React from 'react';
 const Input = ({ placeholder, type, Text, id, value, onChange, name   }) => {
   return (
     <div className="space-y-2 w-full">
-      <label htmlFor={id} className="font-josefin-slab font-semibold text-black">
+      <label htmlFor={id} className=" font-semibold text-black">
         {Text}
       </label>
       <input

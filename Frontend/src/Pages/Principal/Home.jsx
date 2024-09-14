@@ -9,9 +9,9 @@ const Home = () => {
         <div className="flex space-x-4 mb-8 lg:mb-20">
           <img className="w-16 h-16 md:w-20 md:h-20" src="/Img/Logo.png" alt="Logo" />
         </div>
-        <h1 className="text-4xl md:text-6xl lg:text-9xl font-josefin-slab mb-2">Banco de proyectos</h1>
+        <h1 className="text-4xl md:text-6xl lg:text-9xl font-Nunito-Sans mb-2">Banco de proyectos</h1>
         <h2 className="text-3xl md:text-5xl lg:text-8xl text-Verde font-Inter mb-8 lg:mb-50">ADSO</h2>
-        <p className="text-lg md:text-xl lg:text-2xl font-josefin-sans mb-8 lg:mb-10 lg:w-30">
+        <p className="text-lg md:text-xl lg:text-2xl  mb-8 lg:mb-10 lg:w-30">
           ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?
         </p>
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
