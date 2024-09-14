@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../../Layouts/Layoutprincipal';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Grid from '../../Components/Grid';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
@@ -125,6 +125,13 @@ const VistaAlcance = () => {
                 Por favor marque “SI” o “NO” en cada pregunta
               </h1>
             </div>
+            <button
+               onClick={handleBackClick} 
+              className="flex items-center text-black hover:text-lime-600"
+            >
+              <i className="fas fa-arrow-left w-5 h-5 mr-2 "></i>
+              Volver
+            </button>
 
             {error && (
               <div className="text-red-500 mb-4">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';  // <--- Importa useParams
+import { useParams, useNavigate} from 'react-router-dom';  // <--- Importa useParams
 import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
 import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
 import Input from '../../Components/Input';
@@ -10,6 +10,7 @@ import Loader from '../../Components/Loader';
 
 const RegistroProyecto = () => {
   const { idproyecto } = useParams();
+  const navigate = useNavigate(); 
   const [idProyecto, setIdProyecto] = useState(idproyecto || null); // Se inicializa con el idproyecto de los params
   const [nombreProyecto, setNombreProyecto] = useState('');
   const [impactoDelProyecto, setImpactoDelProyecto] = useState('');
@@ -27,7 +28,7 @@ const RegistroProyecto = () => {
 
   useEffect(() => {
     if (idProyecto) {
-      fetch(`http://localhost:4000/api/user/proyectos/${idProyecto}`)
+      fetch(`http://localhost:4000/api/proyectos/${idProyecto}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Error al obtener el proyecto');
@@ -133,6 +134,11 @@ const RegistroProyecto = () => {
     }
   };
 
+    // Función para manejar el clic en "Volver"
+    const handleVolver = () => {
+      navigate('/Usuario/VistaUsuario');  // Redirige a la vista sin validar el formulario
+    };
+
   return (
     <LayoutPrincipal2 title="">
       {loading ? (
@@ -196,32 +202,33 @@ const RegistroProyecto = () => {
                     </label>
                   </div>
 
-                  <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-y-4 gap-4">
-                    <div className="flex justify-center">
-                      <BotonPrincipal
-                        Text="Semanal"
-                        isSelected={frecuencia === 'Semanal'}
-                        onClick={() => handleFrecuenciaClick('Semanal')}
-                      />
+                  <div className="grid xl:grid-cols-1 2xl:grid-cols-3 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-4">
+                      <div className="flex justify-center">
+                        <BotonPrincipal
+                          Text="Semanal"
+                          isSelected={frecuencia === 'Semanal'}
+                          onClick={() => handleFrecuenciaClick('Semanal')}
+                        />
+                      </div>
+                      <div className="flex justify-center">
+                        <BotonPrincipal
+                          Text="Quincenal"
+                          isSelected={frecuencia === 'Quincenal'}
+                          onClick={() => handleFrecuenciaClick('Quincenal')}
+                        />
+                      </div>
+                      <div className="flex justify-center">
+                        <BotonPrincipal
+                          Text="Mensual"
+                          isSelected={frecuencia === 'Mensual'}
+                          onClick={() => handleFrecuenciaClick('Mensual')}
+                        />
+                      </div>
+                      <span className="text-red-500 text-sm lg:col-span-3 md:col-span-1">
+                        {errors.frecuencia}
+                      </span>
                     </div>
-                    <div className="flex justify-center">
-                      <BotonPrincipal
-                        Text="Quincenal"
-                        isSelected={frecuencia === 'Quincenal'}
-                        onClick={() => handleFrecuenciaClick('Quincenal')}
-                      />
-                    </div>
-                    <div className="flex justify-center">
-                      <BotonPrincipal
-                        Text="Mensual"
-                        isSelected={frecuencia === 'Mensual'}
-                        onClick={() => handleFrecuenciaClick('Mensual')}
-                      />
-                    </div>
-                    <span className="text-red-500 text-sm sm:col-span-3">
-                      {errors.frecuencia}
-                    </span>
-                  </div>
+
 
                   <div className="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
                     <RadioButton2
@@ -276,9 +283,18 @@ const RegistroProyecto = () => {
                       {errors.dias}
                     </span>
                   </div>
-
+                  
                   <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                    <BotonSegundo Text="Guardar" type="submit" />
+                  <button
+                      type="button"  // Asegura que sea de tipo "button" para no enviar el formulario
+                      onClick={handleVolver}
+                    >
+                      <BotonPrincipal Text="Volver" />
+                    </button>
+
+                  <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 ">
+                    <BotonSegundo Text="Siguiente" type="submit" />
+                  </div>
                   </div>
                 </div>
               </form>

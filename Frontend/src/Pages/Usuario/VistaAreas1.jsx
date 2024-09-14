@@ -70,13 +70,13 @@ const VistaAreas1 = () => {
   return (
     <LayoutPrincipal title="">
       <Layoutcontenido title="">
-        <div className="p-8 mx-16">
+        <div className="p-8">
           <h1 className="text-3xl font-bold font-josefin-slab">Áreas de Proyectos</h1>
           <p className="text-lg font-josefin-slab">Por favor seleccione el área en la cual se centrará su proyecto</p>
         </div>
 
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+          <div className="flex justify-center flex-wrap w-full h-full">
             {areas.map((area) => (
               <Card
                 key={area.idarea}
@@ -87,8 +87,8 @@ const VistaAreas1 = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-20">
-          <a href={`/Usuario/RegistroProyecto/${projectId}`} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+        <div className="flex justify-end flex-wrap w-full h-full">
+          <a href={`/Usuario/RegistroProyecto/${projectId}`}>
             <BotonPrincipal Text="Volver" />
           </a>
         </div>

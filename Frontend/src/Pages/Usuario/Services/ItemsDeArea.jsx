@@ -91,7 +91,7 @@ const ItemsDeArea = () => {
         </div>
 
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        <div className="flex justify-center flex-wrap w-full h-full">
             {items.length > 0 ? (
               items.map(item => (
                 <div key={item.iditemsarea} className="card-container">

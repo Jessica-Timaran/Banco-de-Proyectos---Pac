@@ -4,6 +4,7 @@ import LayoutPrincipal from '../../../layouts/LayoutPrincipal';
 import Card from "../../../Components/Card";
 import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from "../../../Components/BotonPrincipal";
+import Loader from '../../../Components/Loader';
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 
 const TiposDeArea = () => {
@@ -72,7 +73,7 @@ const TiposDeArea = () => {
   
 
   if (loading) {
-    return <p>Cargando...</p>; // Puedes reemplazar esto con un componente Loader si lo tienes
+    return <Loader />;  // Puedes reemplazar esto con un componente Loader si lo tienes
   }
 
   return (
@@ -84,7 +85,7 @@ const TiposDeArea = () => {
         </div>
 
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        <div className="flex justify-center flex-wrap w-full h-full">
             {tipos.length > 0 ? (
               tipos.map(tipo => (
                 <div key={tipo.idtiposdearea} className="card-container">
@@ -101,7 +102,7 @@ const TiposDeArea = () => {
         </div>
 
         <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-20">
-          <Link to={`/Usuario/VistaAreas1?projectId=${projectId}`} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+          <Link to={`/Usuario/VistaAreas1?projectId=${projectId}`} >
             <BotonPrincipal Text="Volver" />
           </Link>
         </div>
