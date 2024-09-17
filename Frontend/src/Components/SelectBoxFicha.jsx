@@ -8,7 +8,7 @@ const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
   useEffect(() => {
     const fetchFichas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/superAdmin/ficha');
+        const response = await fetch('http://localhost:4000/api/ficha');
         const data = await response.json();
         setFichas(data);
       } catch (error) {
@@ -38,7 +38,7 @@ const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
       >
         <option value="">Elige una ficha</option>
         {fichas.length > 0 && fichas.map((ficha) => (
-          <option key={ficha.id} value={ficha.id}>
+          <option key={ficha.id || ficha.nombre} value={ficha.id}>
             {`${ficha.nombre} - ${ficha.numeroficha}`}
           </option>
         ))}
@@ -53,9 +53,9 @@ const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
 SelectBoxFicha.propTypes = {
   id: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.string, // Nueva propiedad para mensajes de error
 };
 
 export default SelectBoxFicha;

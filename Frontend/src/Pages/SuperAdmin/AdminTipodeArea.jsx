@@ -7,7 +7,6 @@ import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import TipoAreas from '../../Components/Modales/ModalTipoAreas';
 
-
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,7 +39,6 @@ const Area = () => {
     console.log('Agregar', user);
   };
 
-
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
@@ -55,7 +53,7 @@ const Area = () => {
         <Layoutcontenido title="Tipos de Area">
           <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
-            <button
+              <button
                 onClick={handleGoBack}
                 className="flex items-center text-black hover:text-Verde"
               >

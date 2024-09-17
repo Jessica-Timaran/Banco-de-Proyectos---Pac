@@ -13,11 +13,15 @@ const SelectBoxArea = ({ Text, id, options, value, onChange, error }) => {
                 className="bg-[#F5F6FA] w-[100%] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]"
             >
                 <option value="" disabled>Elige una opción</option>
-                {options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
+                {options.length > 0 ? (
+                    options.map((option) => (
+                        <option key={option.id} value={option.id}>
+                            {option.nombre}
+                        </option>
+                    ))
+                ) : (
+                    <option value="" disabled>No hay opciones disponibles</option>
+                )}
             </select>
             {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </form>
@@ -28,8 +32,8 @@ SelectBoxArea.propTypes = {
     Text: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
+        nombre: PropTypes.string.isRequired
     })).isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,

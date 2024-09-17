@@ -1,13 +1,29 @@
 import PropTypes from 'prop-types';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
+import RadioButton3 from '../RadioButton3';
 import { useFichaForm } from '../../../hooks/useFichaForm';
+import { useState } from 'react';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
   const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
-    onAddFicha(data);  // Llama al callback para actualizar la vista
-    onClose();  // Cierra el modal después de añadir el usuario
+    onAddFicha(data);
+    onClose();
   });
+
+  // Estado para controlar el envío
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Función de envío personalizada para controlar el estado de envío
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isSubmitting) {  // Evita enviar varias veces
+      setIsSubmitting(true); // Desactiva el botón
+      await handleSubmit(e); // Llama al envío del formulario
+      setIsSubmitting(false); // Reactiva el botón después del envío
+    }
+  };
 
   return (
     <Dialog
@@ -25,8 +41,8 @@ export default function ModalFicha({ onClose, onAddFicha }) {
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form onSubmit={handleSubmit} className="space-y-4">
-        <h4 className="font-semibold">Añade nueva ficha</h4>
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <h4 className="font-semibold">Añade nueva ficha</h4>
           <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
               <div className="relative">
@@ -40,7 +56,6 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   error={errors.nombre}
                 />
               </div>
-
               <div className="relative">
                 <Input2
                   id="numeroficha"
@@ -52,22 +67,34 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   error={errors.numeroficha}
                 />
               </div>
+              <div className="space-y-4">
+                <div className="flex">
+                  <RadioButton3
+                    Text="Activo"
+                    Text2="Inactivo"
+                    id="estadoActivo"
+                    value="Activo"
+                    checked={formValues.estado === true}
+                    onChange={() => handleInputChange({ target: { id: 'estado', value: true } })}
+                    error={errors.estado}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className='flex justify-end'> 
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-verde text-black px-8 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded flex justify-end"
+            disabled={isSubmitting} // Desactiva el botón si está enviando
           >
-            Agregar
+            {isSubmitting ? 'Guardando...' : 'Agregar'}
           </button>
-          </div>
         </form>
       </DialogPanel>
     </Dialog>
   );
-};
+}
 
 ModalFicha.propTypes = {
   onClose: PropTypes.func.isRequired,

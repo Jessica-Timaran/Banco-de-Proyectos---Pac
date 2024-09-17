@@ -5,13 +5,14 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListItems from './GridList/GridListItems';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import ModalItems from '../../Components/Modales/ModalItems'; // Importar el modal
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
-  const [, setIsModalOpen] = useState(false);
-  const [, setCurrentUser] = useState(null);
-  const [, setActionType] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null); // Para manejar el item actual
+  const [actionType, setActionType] = useState(''); // Acción actual: 'add', 'edit', 'delete'
 
   const navigate = useNavigate();
 
@@ -24,17 +25,26 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentUser(null);
+    setCurrentItem(null);
     setActionType('add');
     setIsModalOpen(true); // Abrir el modal
   };
 
+  const handleEditClick = (item) => {
+    setCurrentItem(item);
+    setActionType('edit');
+    setIsModalOpen(true); // Abrir el modal
+  };
+
+  const handleDeleteClick = (item) => {
+    setCurrentItem(item);
+    setActionType('delete');
+    setIsModalOpen(true); // Abrir el modal
+  };
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
-
-  
 
   return (
     <LayoutPrincipal title="Items">
@@ -46,17 +56,30 @@ const Area = () => {
         <Layoutcontenido title="Items">
           <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
-            <button
-              onClick={handleGoBack}
-              className="flex items-center text-black hover:text-Verde"
-            >
-              <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
-              Volver
-            </button>
-              <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
+              <button
+                onClick={handleGoBack}
+                className="flex items-center text-black hover:text-Verde"
+              >
+                <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                Volver
+              </button>
+              <BotonSegundoModal text="Agregar Items" id="addItemBtn" onClick={handleAddClick} />
             </div>
-              <GridListItems />
+            <div>
+              <GridListItems onEdit={handleEditClick} onDelete={handleDeleteClick} />
+            </div>
           </div>
+          {isModalOpen && (
+            <ModalItems
+              actionType={actionType}
+              item={currentItem}
+              onClose={() => setIsModalOpen(false)}
+              onSuccess={() => {
+                setIsModalOpen(false);
+                // Aquí puedes hacer una actualización de la lista de items si es necesario
+              }}
+            />
+          )}
         </Layoutcontenido>
       )}
     </LayoutPrincipal>

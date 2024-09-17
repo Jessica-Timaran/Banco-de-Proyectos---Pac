@@ -15,11 +15,17 @@ import {
     obtenerTodosLosProyectos,
     getAllFicha,
     registerArea,
-    registerFicha,
+ 
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
-    checkEmailExists
+    checkEmailExists,
+  
+    insertItem,
+    addTipoDeArea,
+    getItemsByTipoDeArea,
+    registerFicha,
+    getTiposDeArea
 } from '../controllers/superAdminControler.js';
 
 const router = express.Router();
@@ -147,19 +153,25 @@ router.get('/proyecto', async (req, res) => {
 
 
 // Definir la ruta para registrar el área
-router.post('/api/registerArea', async (req, res) => {
+router.post('/registerArea', async (req, res) => {
     try {
         const { area } = req.body;
-        const newArea = await registerArea({ area });
-        if (newArea.error) {
-            return res.status(400).json({ error: newArea.error });
+
+        // Verifica si el campo "area" está presente
+        if (!area) {
+            return res.status(400).json({ message: 'El campo "area" es obligatorio.' });
         }
-        return res.status(201).json(newArea);
+
+        const newArea = await registerArea({ area });
+        res.status(201).json({
+            message: 'Área registrada exitosamente',
+            area: newArea
+        });
     } catch (error) {
-        console.error('Error al registrar área:', error);
-        return res.status(500).json({ error: 'Error al registrar área' });
+        res.status(500).json({ message: 'Error al registrar el área', error: error.message });
     }
 });
+
 
 //Registro ficha
 router.post('/registerFicha', async (req, res) => {
@@ -222,6 +234,13 @@ router.post('/api/registerItemArea', async (req, res) => {
     }
 });
 
+
+router.post('/insertItem', insertItem);
+router.get('/tipos-de-area', getTiposDeArea);
+router.post('/tipos-de-area', addTipoDeArea);
+router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
+
+router.post('/fichas', registerFicha);
 
 
 export default router;

@@ -3,30 +3,28 @@ import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
-import SelectBoxArea from '../SelectBoxArea';
+import SelectBoxArea from '../SelectBoxItems';
 import PropTypes from 'prop-types';
-import useTipoArea from '../../../hooks/useTipoArea';
+import { useItemForm } from '../../../hooks/useItemForm';
 
-// Función para obtener áreas
 const fetchArea = async () => {
     try {
-        const response = await fetch("http://localhost:4000/api/superAdmin/areas");
+        const response = await fetch("http://localhost:4000/api/superAdmin/tipos-de-area");
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        return data.map((area) => ({ value: area.idarea, label: area.area }));
+        return data.map((area) => ({ id: area.idtiposdearea, nombre: area.tiposdearea }));
     } catch (error) {
-        console.error("Error al obtener áreas:", error);
+        console.error("Error al obtener tipos de área:", error);
         return [];
     }
 };
 
 export default function TipoArea({ onClose }) {
+    const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit } = useItemForm(onClose);
     const [areaOptions, setAreaOptions] = useState([]);
-    const { formData, errors, handleSubmit, handleChange } = useTipoArea();
 
-    // Obtener áreas al montar el componente
     useEffect(() => {
         const loadAreas = async () => {
             const areas = await fetchArea();
@@ -35,13 +33,15 @@ export default function TipoArea({ onClose }) {
         loadAreas();
     }, []);
 
+    useEffect(() => {
+        if (formValues.tipoArea) {
+            console.log("Tipo de área en useEffect:", formValues.tipoArea);
+            handleSelectChange({ target: { id: 'tipoArea', value: formValues.tipoArea } });
+        }
+    }, [formValues.tipoArea]);
+
     return (
-        <Dialog
-            open={true}
-            onClose={onClose}
-            static={true}
-            className="z-[100]"
-        >
+        <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
             <DialogPanel className="sm:max-w-md">
                 <button
                     type="button"
@@ -56,23 +56,24 @@ export default function TipoArea({ onClose }) {
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
                                 <SelectBoxArea
-                                    id="idarea"
-                                    Text="Seleccione un Área"
+                                    id="tipoArea"
+                                    Text="Seleccione un Tipo de Área"
                                     options={areaOptions}
-                                    value={formData.idarea}
-                                    onChange={handleChange}
-                                    error={errors.idarea}
+                                    value={formValues.tipoArea}
+                                    onChange={handleSelectChange}
+
                                 />
+                                {<p className="text-red-500 text-sm mt-1">{errors.tipoArea}</p>}
                             </div>
                             <div>
                                 <Input2
-                                    id="nombreTipoArea"
+                                    id="itemName" // Asegúrate de que este id coincide con el estado del formulario
                                     type="text"
-                                    placeholder="Nombre del Tipo de Área"
-                                    Text="Tipo de Área:"
-                                    value={formData.nombreTipoArea}
-                                    onChange={handleChange}
-                                    error={errors.nombreTipoArea}
+                                    placeholder="Placeholder"
+                                    value={formValues.itemName} // Asegúrate de que este valor coincide con el estado del formulario
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${errors.itemName ? 'border-red-500' : 'border-[#D5D5D5]'}`}
                                 />
                             </div>
                         </div>

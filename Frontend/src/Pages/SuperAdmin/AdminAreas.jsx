@@ -6,7 +6,7 @@ import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import Areas from '../../Components/Modales/ModalAreas';
-
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ const Area = () => {
                 onClick={handleGoBack}
                 className="flex items-center text-black hover:text-Verde"
               >
-                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+                <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
