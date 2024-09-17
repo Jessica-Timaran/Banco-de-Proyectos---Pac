@@ -11,17 +11,25 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [areas, setAreas] = useState([]); // Estado para almacenar las áreas
   const [currentArea, setCurrentArea] = useState(null);
   const [actionType, setActionType] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchAreas = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/superAdmin/areas');
+        const data = await response.json();
+        setAreas(data);
+      } catch (error) {
+        console.error('Error al obtener las áreas:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchAreas();
   }, []);
 
   const handleAddClick = () => {
@@ -30,17 +38,15 @@ const Area = () => {
     setIsModalOpen(true);
   };
 
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentArea(null);
   };
 
-  const handleAddArea = (Area) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar', Area);
+  const handleAddArea = (newArea) => {
+    // Actualiza el estado con la nueva área
+    setAreas((prevAreas) => [...prevAreas, newArea]);
   };
-
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
@@ -66,7 +72,7 @@ const Area = () => {
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
             </div>
             <div>
-              <GridListArea />
+              <GridListArea areas={areas} /> {/* Pasa el estado de las áreas */}
             </div>
             {isModalOpen && (
               <Areas

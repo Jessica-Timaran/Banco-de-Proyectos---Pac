@@ -67,9 +67,10 @@ export default function TipoArea({ onClose }) {
                             </div>
                             <div>
                                 <Input2
+                                  Text="Área:"
                                     id="itemName" // Asegúrate de que este id coincide con el estado del formulario
                                     type="text"
-                                    placeholder="Placeholder"
+                                    placeholder="Nombre del Area"
                                     value={formValues.itemName} // Asegúrate de que este valor coincide con el estado del formulario
                                     onChange={handleInputChange}
                                     required
