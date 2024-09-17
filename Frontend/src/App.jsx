@@ -18,7 +18,6 @@ import Registro1 from './Pages/Principal/Registro1';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
 
 
-
 /*SuperAdmin */
 import Dashboard from './Pages/SuperAdmin/Dashboard';
 import AdminUsuarios from './Pages/SuperAdmin/AdminUsuarios';

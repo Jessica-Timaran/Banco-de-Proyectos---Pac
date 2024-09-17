@@ -58,7 +58,7 @@ const Inicio = () => {
                 window.location.href = '/Usuario/VistaUsuario';
                 break;
               case 3:
-                window.location.href = '/SuperAdmin/AdminUsuarios';
+                window.location.href = '/SuperAdmin/dashboard';
                 break;
               case 4:
                 window.location.href = '/Aprendiz/VistaAprendiz';
