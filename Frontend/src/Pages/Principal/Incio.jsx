@@ -52,7 +52,7 @@ const Inicio = () => {
           setTimeout(() => {
             switch (result.rol) {
               case 1:
-                window.location.href = '/Calificar';
+                window.location.href = '/VistaAdmin';
                 break;
               case 2:
                 window.location.href = '/Usuario/VistaUsuario';

@@ -13,7 +13,9 @@ const useAprobacionesAdmin = (idproyecto) => {
         if (!response.ok) {
           throw new Error('Error al obtener las aprobaciones del administrador');
         }
+        
         const data = await response.json();
+        console.log(data);
         setAprobaciones(data.aprobaciones); // Asegúrate de que tu API devuelva un array llamado `aprobaciones`
         setLoading(false);
       } catch (error) {
