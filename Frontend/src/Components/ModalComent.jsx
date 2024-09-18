@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogPanel, Title, Text } from '@tremor/react';
 import React, { useState } from 'react';
 
-export function ModalComent({ buttonColor = 'bg-blue-500', text = 'Abrir comentario', onSubmit }) {
+export function ModalComent({ buttonColor = 'bg-[#A3E784]', text = 'Abrir comentario', onSubmit }) {
   const [isOpen, setIsOpen] = useState(false);
   const [comentario, setComentario] = useState('');
 
@@ -31,7 +31,7 @@ export function ModalComent({ buttonColor = 'bg-blue-500', text = 'Abrir comenta
           <Text className="mb-4">Por favor, ingrese su comentario a continuación:</Text>
 
           <textarea
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 mb-4"
             rows="4"
             value={comentario}
             onChange={(e) => setComentario(e.target.value)}
@@ -48,7 +48,7 @@ export function ModalComent({ buttonColor = 'bg-blue-500', text = 'Abrir comenta
             </Button>
             <Button
               onClick={handleOpenConfirm}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="bg-[#A3E784] text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
             >
               Enviar
             </Button>

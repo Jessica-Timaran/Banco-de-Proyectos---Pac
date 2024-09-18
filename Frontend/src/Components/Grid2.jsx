@@ -2,7 +2,7 @@ import React from 'react';
 import RadioButton2 from '../Components/RadioButton2';
 import { Evaluar } from '../Components/Evaluar';
 
-const Grid2 = ({ Text1, id1, id2, name, seleccionado, onChange, handleEvaluarChange, id }) => {
+const Grid2 = ({ Text1, id1, id2, name, seleccionado, onChange, handleEvaluarChange, id, calificacion }) => {
   return (
     <div className="w-full bg-white">
       <div className="rounded-lg">
@@ -33,7 +33,10 @@ const Grid2 = ({ Text1, id1, id2, name, seleccionado, onChange, handleEvaluarCha
 
           {/* Columna Evaluar */}
           <div className="col-span-1 sm:col-span-4 md:col-span-2 flex justify-center items-center mt-2 sm:mt-0">
-            <Evaluar onChange={(value) => handleEvaluarChange(id, value)} />
+            <Evaluar
+              onChange={(value) => handleEvaluarChange(id, value)}
+              initialValue={calificacion === "Aprobado" ? "1" : calificacion === "No aceptado" ? "2" : null} // Pasamos el valor inicial
+            />
           </div>
         </div>
       </div>
