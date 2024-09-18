@@ -36,6 +36,7 @@ import Objetivos from './Pages/Objetivos';
 import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
+import VistaAdmin from './Pages/VistaAdmin';
 
 
 /*Aprendiz*/
@@ -45,6 +46,7 @@ import Formulario from './Pages/Aprendiz/Formulario'
 import EditarPerfil from './Pages/Aprendiz/EditarPerfil'
 import VistaProyectos from './Pages/Aprendiz/VistaProyectos'
 import Reporte from './Pages/Aprendiz/Reporte'
+
 
 const App = () => {
   return (
@@ -97,6 +99,7 @@ const App = () => {
           <Route path="/asignar-proyectos" element={<AsignarProyectos />} />
           <Route path="/asignar-proyectos/:idproyecto" element={<AsignarProyectos />} />
           <Route path="/calificar/:idproyecto" element={<Calificacion />} />
+          <Route path="/VistaAdmin" element={<VistaAdmin />} />
         </Routes>
       </Router>
     </UserProvider>
