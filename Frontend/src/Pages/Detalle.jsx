@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import LayoutPrincipal from "../Layouts/Layoutprincipal";
+import Layoutprincipal from "../layouts/LayoutPrincipal";
 import Layoutcontenido2 from "../Layouts/Layoutcontenido2";
 import { ListProject } from "../Components/ListProject";
 import BotonPrincipal from "../Components/BotonPrincipal";
@@ -49,7 +49,7 @@ const Detalle = () => {
   }, [id]);
 
   return (
-    <LayoutPrincipal title="Detalle del proyecto">
+    <Layoutprincipal title="Detalle del proyecto">
       <Layoutcontenido2 title="" text1="Detalle del proyecto">
         {isLoading ? (
           <Loader /> // Mostrar Loader mientras se cargan los datos
@@ -129,7 +129,7 @@ const Detalle = () => {
           </div>
         )}
       </Layoutcontenido2>
-    </LayoutPrincipal>
+    </Layoutprincipal>
   );
 };
 

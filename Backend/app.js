@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 // import dataRoutes from './routes/dataroutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import saveRoutes from './routes/saveRoutes.js'
 import aprendizRoutes from './routes/aprendizRoutes.js';
 import superAdmin from './routes/superAdminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rutas de la API
 // app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
 app.use('/api/admin', adminRoutes);
+app.use('/api/save', saveRoutes);
 app.use('/api/aprendiz', aprendizRoutes);
 app.use('/api/superAdmin', superAdmin);
 app.use('/api/user', userRoutes);

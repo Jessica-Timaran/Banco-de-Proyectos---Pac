@@ -1,6 +1,7 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import transporter from '../config/nodemailerConfig.js';
 
 // Controlador para obtener proyectos con filtrado opcional por estado de calificación
 const getProyectos = async (req, res) => {
@@ -13,17 +14,15 @@ const getProyectos = async (req, res) => {
     if (estado === 'Recibidos') {
       // Filtrar para obtener proyectos que no están aceptados, devueltos o rechazados
       query = `
-        SELECT p.*, c.estado 
-        FROM proyecto p 
-        LEFT JOIN calificacion c ON p.idproyecto = c.idproyecto
-        WHERE c.estado IS NULL OR c.estado NOT IN ('Aceptado', 'Rechazado', 'Devuelto')`;
+        SELECT * 
+        FROM proyecto 
+        WHERE estado IS NULL OR estado NOT IN ('Aceptado', 'Rechazado', 'Devuelto')`;
     } else {
       // Filtrar por el estado específico
       query = `
-        SELECT p.*, c.estado 
-        FROM proyecto p 
-        INNER JOIN calificacion c ON p.idproyecto = c.idproyecto
-        WHERE c.estado = $1`;
+        SELECT * 
+        FROM proyecto 
+        WHERE estado = $1`;
       values.push(estado);
     }
 
@@ -122,34 +121,21 @@ const guardarCalificacion = async (req, res) => {
       return res.status(400).json({ message: "Todos los campos son obligatorios" });
     }
 
-    // Verifica si ya existe una calificación para este proyecto
-    const existingCalificacion = await pool.query(
-      "SELECT idcalificacion FROM calificacion WHERE idproyecto = $1",
-      [idproyecto]
+    // Actualiza el proyecto con el nuevo promedio final, estado y comentario
+    const updateProyecto = await pool.query(
+      "UPDATE proyecto SET promediofinal = $1, estado = $2, comentario = $3 WHERE idproyecto = $4",
+      [resultado, estado, comentario, idproyecto]
     );
 
-    let idcalificacion;
-    if (existingCalificacion.rows.length > 0) {
-      // Si ya existe, actualiza la calificación existente
-      idcalificacion = existingCalificacion.rows[0].idcalificacion;
-      await pool.query(
-        "UPDATE calificacion SET resultado = $1, estado = $2, comentario = $3 WHERE idcalificacion = $4",
-        [resultado, estado, comentario, idcalificacion]
-      );
+    // Si la actualización afecta alguna fila (es decir, si el proyecto existía y fue actualizado)
+    if (updateProyecto.rowCount > 0) {
+      res.status(200).json({ message: "Proyecto actualizado exitosamente" });
     } else {
-      // Si no existe, inserta una nueva calificación
-      const result = await pool.query(
-        "INSERT INTO calificacion (resultado, estado, idproyecto, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
-        [resultado, estado, idproyecto, comentario]
-      );
-
-      idcalificacion = result.rows[0].idcalificacion;
+      res.status(404).json({ message: "Proyecto no encontrado" });
     }
-
-    res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: idcalificacion });
   } catch (error) {
-    console.error("Error al guardar la calificación:", error);
-    res.status(500).json({ message: "Error al guardar la calificación" });
+    console.error("Error al actualizar el proyecto:", error);
+    res.status(500).json({ message: "Error al actualizar el proyecto" });
   }
 };
 
@@ -239,71 +225,6 @@ const asignarProyecto = async (req, res) => {
 };
 
 
-// Controlador para actualizar el estado de las respuestas objetivos
-const actualizarEstadoRespuestas = async (req, res) => {
-  const detalles = req.body;
-  console.log('Datos recibidos para actualizar:', detalles);
-  
-  try {
-    const queries = detalles.map((detalle) => {
-      const { idproyecto, idrespuestasobjetivos, estado } = detalle;
-      const estadoFinal = estado === "Aprobado" ? "Aprobado" : "No aceptado";
-      console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuestasobjetivos: ${idrespuestasobjetivos}, estado: ${estadoFinal}`);
-      return pool.query(
-        `UPDATE respuestasobjetivos 
-         SET estado = $1 
-         WHERE idproyecto = $2 AND idrespuestasobjetivos = $3
-         RETURNING *`,
-        [estadoFinal, idproyecto, idrespuestasobjetivos]
-      );
-    });
-
-    const results = await Promise.all(queries);
-    const updatedRows = results.map(result => result.rows[0]);
-    res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
-  } catch (error) {
-    console.error('Error al actualizar estados:', error);
-    res.status(500).json({ message: 'Error al actualizar estados', error: error.message });
-  }
-};
-
-
-// Controlador para actualizar el estado de las respuestas de alcance
-const actualizarEstadoRespuestasAlcance = async (req, res) => {
-  const detalles = req.body;
-  console.log('Datos recibidos para actualizar:', detalles);
-
-  try {
-    const queries = detalles.map((detalle) => {
-      const { idproyecto, idrespuesta, estado } = detalle;
-      
-      // Validación de datos
-      if (!idproyecto || !idrespuesta) {
-        throw new Error(`Datos incompletos: idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}`);
-      }
-
-      const estadoFinal = estado || "No aceptado";
-      console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}, estado: ${estadoFinal}`);
-      
-      return pool.query(
-        `UPDATE respuestasalcance
-         SET estado = $1
-         WHERE idproyecto = $2 AND idrespuesta = $3
-         RETURNING *`,
-        [estadoFinal, idproyecto, idrespuesta]
-      );
-    });
-
-    const results = await Promise.all(queries);
-    const updatedRows = results.map(result => result.rows[0]);
-    res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
-  } catch (error) {
-    console.error('Error al actualizar estados:', error);
-    res.status(400).json({ message: 'Error al actualizar estados', error: error.message });
-  }
-};
-
-
 const actualizarIdCalificacion = async (req, res) => {
   const { idproyecto, idcalificacion } = req.body;
 
@@ -380,7 +301,115 @@ const getSearch = async (req, res) => {
   }
 };
 
+// Enviar correos para los comentenatrio
+export const enviarCorreo = async (req, res) => {
+  const { email, comentario } = req.body;
+  const subject = `Notificación sobre el Estado de su Proyecto`;
 
+
+  const htmlContent = `
+    <html>
+      <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+     
+          <h2 style="color: #4CAF50;">Estado de su Proyecto: </h2>
+          <p style="font-size: 16px; color: #555;">Has recibido un nuevo comentario:</p>
+          <blockquote style="border-left: 5px solid #4CAF50; padding-left: 15px; margin: 10px 0; font-style: italic;">
+            ${comentario}
+          </blockquote>
+          <p style="font-size: 14px; color: #777;">Este es un correo automático, por favor no respondas.</p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: 'pac.bancodeproyectos@gmail.com',
+      to: email,
+      subject: subject,
+      html: htmlContent,
+    });
+    res.status(200).json({ message: 'Correo enviado exitosamente' });
+  } catch (error) {
+    console.error('Error al enviar el correo:', error);
+    res.status(500).json({ message: 'Error al enviar el correo' });
+  }
+};
+
+// controlador para actualizar el puntaje de objetivos
+const actualizarPuntosObjetivos = async (req, res) => {
+  const { idproyecto } = req.params;
+  const { puntosobjetivos } = req.body;
+
+  if (!idproyecto || puntosobjetivos === undefined) {
+    return res.status(400).json({ error: 'Faltan datos requeridos' });
+  }
+
+  try {
+    const result = await pool.query(
+      'UPDATE proyecto SET puntosobjetivos = $1 WHERE idproyecto = $2 RETURNING *',
+      [puntosobjetivos, idproyecto]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Proyecto no encontrado' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al actualizar puntos objetivos:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+// Este se encarga de volver a mostrar el puntaje de objetivos
+
+const obtenerPuntosObjetivos = async (req, res) => {
+  const { idproyecto } = req.params;
+
+  if (!idproyecto) {
+    return res.status(400).json({ error: 'Falta el id del proyecto' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT puntosobjetivos FROM proyecto WHERE idproyecto = $1',
+      [idproyecto]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Proyecto no encontrado' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al obtener puntos objetivos:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+// Función para actualizar puntosalcance en la tabla proyecto
+const actualizarPuntosAlcance = async (req, res) => {
+  const { idproyecto } = req.params;
+  const { puntosalcance } = req.body;
+
+  try {
+      const result = await pool.query(
+          'UPDATE proyecto SET puntosalcance = $1 WHERE idproyecto = $2',
+          [puntosalcance, idproyecto]
+      );
+
+      if (result.rowCount === 0) {
+          return res.status(404).json({ message: 'Proyecto no encontrado' });
+      }
+
+      res.status(200).json({ message: 'Puntos de alcance actualizados correctamente' });
+  } catch (err) {
+      console.error('Error al actualizar puntos de alcance', err);
+      res.status(500).json({ message: 'Error al actualizar puntos de alcance' });
+  }
+};
 
 
 export {
@@ -389,13 +418,15 @@ export {
   getRespuestasByProyecto,
   getRespuestasAlcanceByProyecto,
   guardarCalificacion,
-  actualizarEstadoRespuestas,
   getFichas,
   getAprendicesByFicha,
   asignarProyecto,
-  actualizarEstadoRespuestasAlcance,
   actualizarIdCalificacion,
   getProyectosAsignados,
-  getSearch
+  getSearch,
+  actualizarPuntosObjetivos,
+  obtenerPuntosObjetivos,
+  actualizarPuntosAlcance,
+
 
 };

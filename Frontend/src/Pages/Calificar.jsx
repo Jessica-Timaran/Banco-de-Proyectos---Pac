@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"; 
 import { Link } from "react-router-dom";
 import CardProyect from "../Components/CardProyect";
-import RadioButton4 from "../Components/RadioButton4";
+import RadioButton from "../Components/RadioButton";
 import BotonSegundo from "../Components/BotonSegundo";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
-import LayoutPrincipal from "../Layouts/Layoutprincipal";
+import Layoutprincipal from "../layouts/LayoutPrincipal";
 
 const Calificar = () => {
   const [data, setData] = useState([]);
@@ -16,17 +16,16 @@ const Calificar = () => {
       // Limpiar el estado antes de realizar la nueva petición
       setData([]);
       
+      // Construir la URL con el filtro de estado
       let url = `http://localhost:4000/api/admin/proyectos?estado=${estado}`;
-      if (estado === 'Asignados') {
-        url = 'http://localhost:4000/api/admin/proyectos/asignados';
-      }
+      
+      // Llamada a la API para obtener proyectos según el estado seleccionado
       console.log('Fetching URL:', url);
       const response = await fetch(url);
       if (response.ok) {
         const proyectos = await response.json();
         console.log('Proyectos obtenidos:', proyectos);
         setData(proyectos);
-        
       } else {
         console.error("Error al obtener los proyectos:", response.statusText);
       }
@@ -41,36 +40,32 @@ const Calificar = () => {
   }, [filter]); // Se llama cada vez que el filtro cambia
 
   return (
-    <LayoutPrincipal title="Proyectos">
+    <Layoutprincipal title="Proyectos">
       <Layoutcontenido title="contenido">
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-7xl">
-            <div className="flex justify-start mb-4 ml-9">
-              <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4"> 
-                <RadioButton4
+        <div className="">
+          <div className="w-full">
+             <div className="w-auto">
+              <div className="flex flex-wrap justify-start gap-y-4 lg:px-40 gap-x-8 lg:gap-y-4 mt-4 w-auto max-h-full mb-10"> 
+                <RadioButton
                   Text="Recibidos"
                   onClick={() => setFilter('Recibidos')}
                 />
-                <RadioButton4
+                <RadioButton
                   Text="Aceptado"
                   onClick={() => setFilter('Aceptado')}
                 />
-                <RadioButton4
+                <RadioButton
                   Text="Rechazado"
                   onClick={() => setFilter('Rechazado')}
                 />
-                <RadioButton4
+                <RadioButton
                   Text="Devueltos"
                   onClick={() => setFilter('Devuelto')}
                 />
-                <RadioButton4
-                  Text="Asignados"
-                  onClick={() => setFilter('Asignados')}
-                />
               </div>
-            </div>
+            </div> 
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
+            <div className="flex justify-center flex-wrap w-full">
               {data.length > 0 ? (
                 data.map((proyecto) => (
                   <CardProyect
@@ -89,7 +84,7 @@ const Calificar = () => {
           </div>
         </div>
       </Layoutcontenido>
-    </LayoutPrincipal>
+    </Layoutprincipal>
   );
 };
 
