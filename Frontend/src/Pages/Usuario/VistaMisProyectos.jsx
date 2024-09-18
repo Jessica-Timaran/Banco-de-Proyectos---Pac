@@ -41,25 +41,27 @@ const Prueba = () => {
 
   return (
     <LayoutPrincipal title="">
-      <div className="flex justify-center min-h-screen">
-        <div className="p-10 w-full max-w-7xl my-10">
+      <div className="flex justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl my-10">
           <div className="flex flex-col">
-            <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-10 rounded-t-lg border-b">
-              <div className="col-span-12 md:col-span-10 text-center md:text-left">PROYECTOS</div>
-              <div className="col-span-12 md:col-span-2 text-center md:text-center">ESTADO</div>
+            <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b">
+              <div className="col-span-6 md:col-span-6 text-left flex items-center text-sm sm:text-base">PROYECTOS</div>
+              <div className="col-span-3 md:col-span-3 text-start hidden sm:block">RESPONSABLE</div>
+              <div className="col-span-3 md:col-span-3 text-end">ESTADO</div>
             </div>
-
+            
             {proyectos.map((proyecto) => (
               <GridPrueba
                 key={proyecto.idproyecto}
                 Text1={proyecto.nombre}
                 estado={proyecto.estado}
-                idproyecto={proyecto.idproyecto} // Pasar el idproyecto al componente GridPrueba
+                idproyecto={proyecto.idproyecto}
+                responsable={proyecto.responsable}
               />
             ))}
           </div>
-          <div>
-            <a href='/Usuario/VistaUsuario' className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+          <div className="mt-6">
+            <a href='/Usuario/VistaUsuario' className="flex justify-end">
               <BotonPrincipal Text="Volver" />
             </a>
           </div>

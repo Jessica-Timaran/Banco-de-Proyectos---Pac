@@ -15,6 +15,7 @@ const ObjetivosDeArea = () => {
   const [error, setError] = useState(null);
   const projectId = new URLSearchParams(location.search).get('projectId');
 
+  // Fetch de objetivos cuando cambia el área
   useEffect(() => {
     const fetchObjetivos = async (idArea) => {
       try {
@@ -34,6 +35,7 @@ const ObjetivosDeArea = () => {
     }
   }, [idarea]);
 
+  // Agrupar los objetivos por categoría
   useEffect(() => {
     const grouped = objetivos.reduce((acc, objetivo) => {
       if (!acc[objetivo.categoria]) {
@@ -43,8 +45,16 @@ const ObjetivosDeArea = () => {
       return acc;
     }, {});
     setGroupedObjetivos(grouped);
+
+    // Reiniciar respuestas cuando cambien los objetivos
+    const initialRespuestas = objetivos.reduce((acc, objetivo) => {
+      acc[`pregunta${objetivo.idobjetivos}`] = ''; // inicializa todas las preguntas sin respuesta
+      return acc;
+    }, {});
+    setRespuestas(initialRespuestas); // Asignar respuestas solo para las preguntas actuales
   }, [objetivos]);
 
+  // Manejar cambios en las respuestas
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
     setRespuestas({
@@ -53,12 +63,15 @@ const ObjetivosDeArea = () => {
     });
   };
 
+  // Manejar el envío del formulario
   const handleSubmit = async (event) => {
     event.preventDefault();
   
+    const currentRespuestas = { ...respuestas };
+  
     const allQuestionsAnswered = Object.keys(groupedObjetivos).every((categoriaNombre) => {
       return groupedObjetivos[categoriaNombre].every((objetivo) => {
-        return respuestas[`pregunta${objetivo.idobjetivos}`] !== undefined;
+        return currentRespuestas[`pregunta${objetivo.idobjetivos}`] !== undefined && currentRespuestas[`pregunta${objetivo.idobjetivos}`] !== '';
       });
     });
   
@@ -69,43 +82,62 @@ const ObjetivosDeArea = () => {
   
     setError(null);
   
+    const rawRespuestas = Object.values(currentRespuestas);
+  
+    const normalizedRespuestas = rawRespuestas.map(value => {
+      if (value === 'true') return true;
+      if (value === 'false') return false;
+      return value;
+    }).filter(value => typeof value === 'boolean');
+  
+    const totalRespuestas = normalizedRespuestas.length;
+    const respuestasPositivas = normalizedRespuestas.filter(r => r === true).length;
+    const promedio = totalRespuestas > 0 ? Math.round((respuestasPositivas / totalRespuestas) * 100) : 0;
+  
+    const respuestasFormateadas = Object.entries(currentRespuestas).map(([key, value]) => ({
+      idobjetivos: key.replace('pregunta', ''),
+      respuesta: value
+    }));
+  
     const data = {
-      ...respuestas,
-      idproyecto: projectId || '',
+      respuestas: respuestasFormateadas,
+      idproyecto: projectId,
+      promedio: promedio
     };
   
     try {
-    const response = await fetch(`http://localhost:4000/api/user/guardarRespuestasObjetivos`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+      const response = await fetch('http://localhost:4000/api/user/guardarRespuestasYActualizarPuntos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
   
       if (!response.ok) {
-        throw new Error(`Error al actualizar respuestas: ${response.statusText}`);
+        throw new Error(`Error al procesar la solicitud: ${response.statusText}`);
       }
   
       const result = await response.json();
-      console.log('Respuestas actualizadas correctamente:', result);
+      console.log('Respuestas guardadas y puntos actualizados correctamente:', result);
+  
     } catch (error) {
-      console.error('Error al actualizar respuestas:', error);
+      console.error('Error al procesar la solicitud:', error);
+      setError(error.message);
     } finally {
       navigate(`/Usuario/VistaAlcance?idproyecto=${projectId}`);
     }
   };
-
-
+  
   const handleBackClick = () => {
-    // Recupera la URL de ItemsDeArea desde localStorage
     const returnUrl = localStorage.getItem('itemsReturnUrl') || '/';
-  navigate(returnUrl);
-};
-useEffect(() => {
-  // Guarda la URL de ObjetivosDeArea para volver a ItemsDeArea
-  localStorage.setItem('objetivosReturnUrl', `/Usuario/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
-}, [idarea, idtiposdearea, projectId]);
+    navigate(returnUrl);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('objetivosReturnUrl', `/Usuario/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+  }, [idarea, idtiposdearea, projectId]);
+
   return (
     <LayoutPrincipal title="">
       <div className="flex justify-center min-h-screen">
@@ -125,12 +157,12 @@ useEffect(() => {
               <input type="hidden" name="idproyecto" value={projectId || ''} />
 
               <button
-               onClick={handleBackClick} 
-              className="flex items-center text-black hover:text-lime-600"
-            >
-              <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
-              Volver
-            </button>
+                onClick={handleBackClick} 
+                className="flex items-center text-black hover:text-lime-600"
+              >
+                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+                Volver
+              </button>
 
               <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
@@ -169,7 +201,6 @@ useEffect(() => {
                 <button type="submit" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                   <BotonSegundo Text="Siguiente" />
                 </button>
-             
               </div>
             </form>
           </div>

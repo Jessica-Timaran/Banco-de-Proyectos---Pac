@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';  // <--- Importa useParams
+import { useParams, useNavigate } from 'react-router-dom';
 import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
 import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
 import Input from '../../Components/Input';
 import BotonPrincipal from '../../Components/BotonPrincipal';
+import BotonRegistro from '../../Components/BotonRegistro';
 import BotonSegundo from '../../Components/BotonSegundo';
 import RadioButton2 from '../../Components/RadioButton2';
 import Loader from '../../Components/Loader';
@@ -11,12 +12,12 @@ import Loader from '../../Components/Loader';
 const RegistroProyecto = () => {
   const { idproyecto } = useParams();
   const navigate = useNavigate(); 
-  const [idProyecto, setIdProyecto] = useState(idproyecto || null); // Se inicializa con el idproyecto de los params
+  const [idProyecto, setIdProyecto] = useState(idproyecto || null);
   const [nombreProyecto, setNombreProyecto] = useState('');
   const [impactoDelProyecto, setImpactoDelProyecto] = useState('');
   const [responsable, setResponsable] = useState('');
   const [frecuencia, setFrecuencia] = useState(null);
-  const [diasSeleccionados, setDiasSeleccionados] = useState([]);
+  const [diasSeleccionados, setDiasSeleccionados] = useState('');
   const [errors, setErrors] = useState({
     nombre: '',
     impacto: '',
@@ -28,7 +29,7 @@ const RegistroProyecto = () => {
 
   useEffect(() => {
     if (idProyecto) {
-      fetch(`http://localhost:4000/api/proyectos/${idProyecto}`)
+      fetch(`http://localhost:4000/api/user/proyectos/${idProyecto}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Error al obtener el proyecto');
@@ -40,7 +41,7 @@ const RegistroProyecto = () => {
           setImpactoDelProyecto(data.impacto);
           setResponsable(data.responsable);
           setFrecuencia(data.disponibilidad);
-          setDiasSeleccionados(data.dia.split(', '));
+          setDiasSeleccionados(data.dia);
         })
         .catch(error => console.error('Error al cargar el proyecto:', error))
         .finally(() => setLoading(false));
@@ -54,15 +55,13 @@ const RegistroProyecto = () => {
   };
 
   const handleDiaChange = (e) => {
-    const { value, checked } = e.target;
-    setDiasSeleccionados(prev =>
-      checked ? [...prev, value] : prev.filter(day => day !== value)
-    );
+    const { value } = e.target;
+    setDiasSeleccionados(value); // Almacena solo el día seleccionado más reciente
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     let hasError = false;
     setErrors({
       nombre: '',
@@ -71,7 +70,7 @@ const RegistroProyecto = () => {
       frecuencia: '',
       dias: '',
     });
-
+    
     if (!nombreProyecto) {
       setErrors(prev => ({ ...prev, nombre: 'Este campo es obligatorio.' }));
       hasError = true;
@@ -84,7 +83,7 @@ const RegistroProyecto = () => {
       setErrors(prev => ({ ...prev, responsable: 'Este campo es obligatorio.' }));
       hasError = true;
     }
-    if (diasSeleccionados.length === 0) {
+    if (!diasSeleccionados) {
       setErrors(prev => ({ ...prev, dias: 'Seleccione un día para las reuniones.' }));
       hasError = true;
     }
@@ -92,35 +91,39 @@ const RegistroProyecto = () => {
       setErrors(prev => ({ ...prev, frecuencia: 'Seleccione una frecuencia para las reuniones.' }));
       hasError = true;
     }
-
+    
     if (!hasError) {
-      const diasSeleccionadosStr = diasSeleccionados.join(', ');
       const userId = localStorage.getItem('userId');
-
+    
       if (!userId) {
         console.error('Error: idpersona no encontrado en localStorage');
         return;
       }
-
+    
       const url = idProyecto
         ? `http://localhost:4000/api/user/proyectos/${idProyecto}`
         : 'http://localhost:4000/api/user/proyectos';
       const method = idProyecto ? 'PUT' : 'POST';
-
+  
+      const payload = {
+        nombre: nombreProyecto,
+        impacto: impactoDelProyecto,
+        responsable: responsable,
+        disponibilidad: frecuencia,
+        dia: diasSeleccionados,
+        idpersona: userId,
+        estado: 'En proceso',
+      };
+      
+      console.log('Enviando datos al servidor:', payload);
+    
       try {
         const response = await fetch(url, {
           method: method,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nombre: nombreProyecto,
-            impacto: impactoDelProyecto,
-            responsable: responsable,
-            disponibilidad: frecuencia,
-            dia: diasSeleccionadosStr,
-            idpersona: userId,
-          }),
+          body: JSON.stringify(payload),
         });
-
+    
         if (response.ok) {
           const data = await response.json();
           window.location.href = `/Usuario/VistaAreas1?projectId=${data.idproyecto}`;
@@ -134,10 +137,9 @@ const RegistroProyecto = () => {
     }
   };
 
-    // Función para manejar el clic en "Volver"
-    const handleVolver = () => {
-      navigate('/Usuario/VistaUsuario');  // Redirige a la vista sin validar el formulario
-    };
+  const handleVolver = () => {
+    navigate('/Usuario/VistaUsuario');
+  };
 
   return (
     <LayoutPrincipal2 title="">
@@ -203,55 +205,54 @@ const RegistroProyecto = () => {
                   </div>
 
                   <div className="grid xl:grid-cols-1 2xl:grid-cols-3 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-4">
-                      <div className="flex justify-center">
-                        <BotonPrincipal
-                          Text="Semanal"
-                          isSelected={frecuencia === 'Semanal'}
-                          onClick={() => handleFrecuenciaClick('Semanal')}
-                        />
-                      </div>
-                      <div className="flex justify-center">
-                        <BotonPrincipal
-                          Text="Quincenal"
-                          isSelected={frecuencia === 'Quincenal'}
-                          onClick={() => handleFrecuenciaClick('Quincenal')}
-                        />
-                      </div>
-                      <div className="flex justify-center">
-                        <BotonPrincipal
-                          Text="Mensual"
-                          isSelected={frecuencia === 'Mensual'}
-                          onClick={() => handleFrecuenciaClick('Mensual')}
-                        />
-                      </div>
-                      <span className="text-red-500 text-sm lg:col-span-3 md:col-span-1">
-                        {errors.frecuencia}
-                      </span>
+                    <div className="flex justify-center">
+                      <BotonRegistro
+                        Text="Semanal"
+                        isSelected={frecuencia === 'Semanal'}
+                        onClick={() => handleFrecuenciaClick('Semanal')}
+                      />
                     </div>
-
+                    <div className="flex justify-center">
+                      <BotonRegistro
+                        Text="Quincenal"
+                        isSelected={frecuencia === 'Quincenal'}
+                        onClick={() => handleFrecuenciaClick('Quincenal')}
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                      <BotonRegistro
+                        Text="Mensual"
+                        isSelected={frecuencia === 'Mensual'}
+                        onClick={() => handleFrecuenciaClick('Mensual')}
+                      />
+                    </div>
+                    <span className="text-red-500 text-sm lg:col-span-3 md:col-span-1">
+                      {errors.frecuencia}
+                    </span>
+                  </div>
 
                   <div className="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
                     <RadioButton2
                       id="checkboxLunes"
                       name="dias"
                       value="Lunes"
-                      checked={diasSeleccionados.includes('Lunes')}
-                      label="Lunes" 
+                      checked={diasSeleccionados === 'Lunes'}
+                      label="Lunes"
                       onChange={handleDiaChange}
                     />
                     <RadioButton2
                       id="checkboxMartes"
                       name="dias"
                       value="Martes"
-                      checked={diasSeleccionados.includes('Martes')}
-                      label="Martes" 
+                      checked={diasSeleccionados === 'Martes'}
+                      label="Martes"
                       onChange={handleDiaChange}
                     />
                     <RadioButton2
                       id="checkboxMiercoles"
                       name="dias"
                       value="Miércoles"
-                      checked={diasSeleccionados.includes('Miércoles')}
+                      checked={diasSeleccionados === 'Miércoles'}
                       label="Miércoles"
                       onChange={handleDiaChange}
                     />
@@ -259,7 +260,7 @@ const RegistroProyecto = () => {
                       id="checkboxJueves"
                       name="dias"
                       value="Jueves"
-                      checked={diasSeleccionados.includes('Jueves')}
+                      checked={diasSeleccionados === 'Jueves'}
                       label="Jueves"
                       onChange={handleDiaChange}
                     />
@@ -267,7 +268,7 @@ const RegistroProyecto = () => {
                       id="checkboxViernes"
                       name="dias"
                       value="Viernes"
-                      checked={diasSeleccionados.includes('Viernes')}
+                      checked={diasSeleccionados === 'Viernes'}
                       label="Viernes"
                       onChange={handleDiaChange}
                     />
@@ -275,7 +276,7 @@ const RegistroProyecto = () => {
                       id="checkboxSabado"
                       name="dias"
                       value="Sábado"
-                      checked={diasSeleccionados.includes('Sábado')}
+                      checked={diasSeleccionados === 'Sábado'}
                       label="Sábado"
                       onChange={handleDiaChange}
                     />
@@ -285,16 +286,16 @@ const RegistroProyecto = () => {
                   </div>
                   
                   <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                  <button
-                      type="button"  // Asegura que sea de tipo "button" para no enviar el formulario
+                    <button
+                      type="button"
                       onClick={handleVolver}
                     >
                       <BotonPrincipal Text="Volver" />
                     </button>
 
-                  <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 ">
-                    <BotonSegundo Text="Siguiente" type="submit" />
-                  </div>
+                    <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                      <BotonSegundo Text="Siguiente" type="submit" />
+                    </div>
                   </div>
                 </div>
               </form>

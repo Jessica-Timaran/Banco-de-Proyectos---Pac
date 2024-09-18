@@ -1,12 +1,55 @@
+/* Sidebar.css */
+
 .sidebar {
-    width: 16rem;
-  }
-  
-  .sidebar.w-16 {
-    width: 4rem;
-  }
-  
-  .sidebar.w-64 {
-    width: 16rem;
-  }
-  
+  transition: width 0.3s ease, transform 0.3s ease;
+  background-color: #A3E784;
+}
+
+.sidebar:hover,
+.sidebar.open {
+  width: 16rem; /* Ancho expandido */
+}
+
+.sidebar ul {
+  padding-left: 0;
+}
+
+.sidebar ul li {
+  list-style: none;
+  height: 2.5rem; /* Altura fija para evitar desplazamiento vertical */
+  display: flex;
+  align-items: center; /* Alinea el contenido verticalmente en el centro */
+}
+
+.sidebar ul li a,
+.sidebar ul li button {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  width: 100%; /* Asegura que ocupen todo el ancho del contenedor */
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li button:hover {
+  background-color: #c4fcbfe5;
+}
+
+/* Estilo para que los íconos sean de tamaño original y de color negro */
+.static-icon {
+  font-size: 1rem; /* Tamaño original para los íconos */
+  transition: none; /* Desactiva transiciones para los íconos */
+  margin-right: 1rem; /* Mantiene el espacio constante a la derecha del ícono */
+  line-height: 1; /* Asegura que el ícono esté alineado con el texto */
+  color: black; /* Establece el color de los íconos a negro */
+}
+
+/* Alineación vertical constante para los íconos */
+.sidebar ul li i {
+  width: 20px; /* Ancho original */
+  height: 20px; /* Altura original */
+  display: inline-block; /* Mantiene la alineación en línea con el texto */
+  vertical-align: middle; /* Alinea los íconos verticalmente en el medio */
+}

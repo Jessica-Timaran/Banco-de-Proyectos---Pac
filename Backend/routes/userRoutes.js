@@ -1,9 +1,4 @@
 import express from 'express';
-import { pool } from '../config/db.js';
-import { v4 as uuidv4 } from 'uuid';
-import transporter from '../config/nodemailerConfig.js';
-import bcrypt from 'bcrypt';
-
 import { 
     checkEmailExists,
     getAllPersonas, 
@@ -21,14 +16,18 @@ import {
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos,
     agregarPersona,
     getUserNameById,
     getFichas,
     getAprendicesByFicha,
     getProyectosUsuario,
-    updateProject
-
+    updateProject,
+    getRespuestasByProyecto,
+    getRespuestasAlcanceByProyecto,
+    guardarRespuestasYActualizarPuntos,
+    actualizarPuntosAlcance,
+    actualizarEstadoProyecto
+   
 
 } from '../controllers/userControler.js';
 
@@ -65,6 +64,8 @@ router.post('/check-email', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
@@ -152,14 +153,12 @@ router.get('/ruta-protegida', (req, res) => {
 router.post('/proyectos', async (req, res) => {
     try {
         console.log('Solicitud recibida:', req.body);
-        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea, estado } = req.body;
 
-        // Asegúrate de que el idpersona está presente y es válido
         if (!idpersona) {
             return res.status(400).json({ error: 'Id de usuario no disponible. El usuario debe estar autenticado.' });
         }
 
-        // Convertir cadenas vacías a null
         idarea = idarea || null;
         idficha = idficha || null;
         idrespuestaobjetivos = idrespuestaobjetivos || null;
@@ -175,11 +174,12 @@ router.post('/proyectos', async (req, res) => {
             dia, 
             idarea, 
             idficha, 
-            idpersona,  // Aquí asegúrate de usar idpersona
+            idpersona, 
             idrespuestaobjetivos, 
             idrespuestaalcance, 
             iditems, 
-            idtiposdearea 
+            idtiposdearea, 
+            estado  // Asegúrate de pasar el estado aquí
         });
         res.status(201).json(newProject);
     } catch (error) {
@@ -193,14 +193,12 @@ router.post('/proyectos', async (req, res) => {
 router.put('/proyectos/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea, estado } = req.body;
 
-        // Asegúrate de que el idpersona está presente y es válido
         if (!idpersona) {
             return res.status(400).json({ error: 'Id de usuario no disponible. El usuario debe estar autenticado.' });
         }
 
-        // Convertir cadenas vacías a null
         idarea = idarea || null;
         idficha = idficha || null;
         idrespuestaobjetivos = idrespuestaobjetivos || null;
@@ -222,6 +220,7 @@ router.put('/proyectos/:id', async (req, res) => {
             idrespuestaalcance,
             iditems,
             idtiposdearea,
+            estado  // Asegúrate de pasar el estado aquí
         });
 
         res.status(200).json(updatedProject);
@@ -389,33 +388,33 @@ router.post('/update-proyecto-item', async (req, res) => {
     }
   });
   
-// Ruta para guardar las respuestas de objetivos
-router.post('/guardarRespuestasObjetivos', async (req, res) => {
-    const idproyecto = parseInt(req.body.idproyecto, 10);
-    console.log('ID Proyecto recibido:', idproyecto);
+// // Ruta para guardar las respuestas de objetivos
+// router.post('/guardarRespuestasObjetivos', async (req, res) => {
+//     const idproyecto = parseInt(req.body.idproyecto, 10);
+//     console.log('ID Proyecto recibido:', idproyecto);
   
-    if (isNaN(idproyecto)) {
-      return res.status(400).json({ error: 'ID del proyecto inválido' });
-    }
+//     if (isNaN(idproyecto)) {
+//       return res.status(400).json({ error: 'ID del proyecto inválido' });
+//     }
   
-    try {
-      const respuestas = req.body;
-      const respuestasObjetivos = [];
+//     try {
+//       const respuestas = req.body;
+//       const respuestasObjetivos = [];
   
-      for (const [key, value] of Object.entries(respuestas)) {
-        if (key !== 'idproyecto') {
-          const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
-          respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
-        }
-      }
+//       for (const [key, value] of Object.entries(respuestas)) {
+//         if (key !== 'idproyecto') {
+//           const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
+//           respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
+//         }
+//       }
   
-      await guardarRespuestasObjetivos(respuestasObjetivos);
-      res.redirect(`http://localhost:4321/VistaAlcance?idproyecto=${idproyecto}`);
-    } catch (error) {
-      console.error('Error al guardar respuestas:', error);
-      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-    }
-});
+//       await guardarRespuestasObjetivos(respuestasObjetivos);
+//       res.redirect(`http://localhost:4321/VistaAlcance?idproyecto=${idproyecto}`);
+//     } catch (error) {
+//       console.error('Error al guardar respuestas:', error);
+//       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+//     }
+// });
 
 router.post('/agregarpersona', async (req, res) => {
     try {
@@ -443,4 +442,69 @@ router.get('/fichas', getFichas);
 router.get('/aprendices/:idficha', getAprendicesByFicha);
 
 router.get('/proyectos', getProyectosUsuario);
+
+router.get('/respuestas/:idproyecto', async (req, res) => {
+    try {
+        const { idproyecto } = req.params;
+        console.log(`ID de proyecto recibido en el backend: ${idproyecto}`); // Verifica el valor del ID
+  
+        // Llamada al controlador para obtener las respuestas del proyecto
+        const respuestas = await getRespuestasByProyecto(idproyecto);
+  
+        if (respuestas && respuestas.length > 0) {
+            res.json({
+                proyecto: {
+                    id: idproyecto,
+                    nombre: respuestas[0].proyecto_nombre,
+                },
+                respuestas: respuestas.map((respuesta) => ({
+                    id: respuesta.idrespuestasobjetivos,
+                    descripcion: respuesta.descripcion,
+                    respuesta: respuesta.respuesta,
+                    categoria: respuesta.categoria,  // Incluye la categoría en la respuesta
+                })),
+            });
+        } else {
+            res.status(404).json({ error: 'Respuestas no encontradas para el proyecto' });
+        }
+    } catch (error) {
+        console.error('Error al obtener las respuestas del proyecto:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
+
+  router.post('/guardarRespuestasYActualizarPuntos', guardarRespuestasYActualizarPuntos);
+
+//obtener respuestas de alcance 
+
+router.get('/respuestasalcance/:idproyecto', async (req, res) => {
+    try {
+      const { idproyecto } = req.params;
+  
+      const respuestasAlcance = await getRespuestasAlcanceByProyecto(idproyecto);
+      
+      if (respuestasAlcance && respuestasAlcance.length > 0) {
+        res.json({
+          respuestasAlcance: respuestasAlcance.map((respuesta) => ({
+            idalcance: respuesta.idalcance,
+            descripcion: respuesta.descripcion,
+            respuesta: respuesta.respuesta,
+            categoria: respuesta.categoria // La categoría ahora es correcta
+          })),
+        });
+      } else {
+        res.status(404).json({ error: 'Respuestas de alcance no encontradas para el proyecto' });
+      }
+    } catch (error) {
+      console.error('Error al obtener las respuestas de alcance del proyecto:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
+  
+
+  router.put('/proyectos/:idproyecto', actualizarPuntosAlcance);
+
+  router.put('/proyectos/:idproyecto/estado', actualizarEstadoProyecto);
+
+
 export default router;

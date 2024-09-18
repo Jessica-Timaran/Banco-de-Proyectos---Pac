@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Grid from '../../Components/Grid';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
-import Loader from '../../Components/Loader'; // Importa el componente Loader
+import Loader from '../../Components/Loader';
+import ModalEstado from '../../Components/ModalesUser/ModalEstado';
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);
   const [groupedAlcances, setGroupedAlcances] = useState({});
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false); // Estado para controlar la visibilidad del modal
+  const [estadoProyecto, setEstadoProyecto] = useState(''); // Estado para almacenar el estado del proyecto
   const idproyecto = new URLSearchParams(window.location.search).get('idproyecto') || '';
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/user/alcances');
-        if (!response.ok) {
+        const responseAlcances = await fetch('http://localhost:4000/api/user/alcances');
+        if (!responseAlcances.ok) {
           throw new Error('La respuesta de la red no fue correcta');
         }
-        const data = await response.json();
-        setAlcances(data);
+        const dataAlcances = await responseAlcances.json();
+        setAlcances(dataAlcances);
       } catch (error) {
         console.error('No se han podido recuperar los alcances:', error);
       } finally {
-        setLoading(false); // Desactiva el estado de carga cuando los datos se han cargado
+        setLoading(false);
       }
     };
     fetchData();
@@ -49,6 +52,30 @@ const VistaAlcance = () => {
       ...prevValues,
       [idalcance]: value,
     }));
+  };
+
+  const calculatePromedio = (respuestas) => {
+    const totalAlcances = respuestas.length;
+    const totalTrue = respuestas.filter(respuesta => respuesta.respuesta === true).length;
+    const promedio = totalAlcances > 0 ? Math.round((totalTrue / totalAlcances) * 100) : 0;
+
+    console.log(`Total de respuestas: ${totalAlcances}`);
+    console.log(`Respuestas TRUE: ${totalTrue}`);
+    console.log(`Promedio: ${promedio}%`);
+
+    return promedio;
+  };
+
+  const determinarEstadoProyecto = (promedioFinal) => {
+    if (promedioFinal >= 0 && promedioFinal <= 30) {
+      return 'Rechazado';
+    } else if (promedioFinal >= 31 && promedioFinal <= 70) {
+      return 'Devuelto';
+    } else if (promedioFinal >= 71 && promedioFinal <= 100) {
+      return 'Aceptado';
+    } else {
+      return 'Desconocido';
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -94,23 +121,92 @@ const VistaAlcance = () => {
       }
 
       console.log('Respuestas guardadas correctamente:', result);
-      
-      // Redirigir al obtener una respuesta exitosa
-      navigate('/Usuario/VistaUsuario');
+
+      // Obtener respuestas después de guardar
+      const respuestasResponse = await fetch(`http://localhost:4000/api/user/respuestasalcance/${idproyecto}`);
+      if (!respuestasResponse.ok) {
+        throw new Error('La respuesta de la red no fue correcta');
+      }
+      const respuestasData = await respuestasResponse.json();
+      const promedioAlcance = calculatePromedio(respuestasData.respuestasAlcance);
+
+      console.log(`Promedio calculado después de guardar: ${promedioAlcance}%`);
+
+      // Guardar el promedio en la base de datos
+      const updateResponse = await fetch(`http://localhost:4000/api/promedioFinal/proyectos/${idproyecto}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          puntosalcance: promedioAlcance,
+        }),
+      });
+
+      if (!updateResponse.ok) {
+        throw new Error('Error al actualizar el promedio de alcance.');
+      }
+
+      console.log('Promedio de alcance actualizado correctamente.');
+
+      // Obtener los puntos para calcular el promedio final
+      const promedioFinalResponse = await fetch(`http://localhost:4000/api/promedio/proyectos/${idproyecto}/promediofinal`);
+      if (!promedioFinalResponse.ok) {
+        throw new Error('Error al obtener el promedio final del proyecto');
+      }
+      const finalData = await promedioFinalResponse.json();
+
+      // Convertir a números
+      const puntosObjetivos = parseFloat(finalData.puntosobjetivos) || 0;
+      const puntosAlcance = parseFloat(finalData.puntosalcance) || 0;
+
+      console.log(`Puntos Objetivos: ${puntosObjetivos}`);
+      console.log(`Puntos Alcance: ${puntosAlcance}`);
+
+      // Calcular el promedio final
+      const promedioFinal = (puntosObjetivos + puntosAlcance) / 2;
+
+      console.log(`Promedio final calculado: ${promedioFinal}%`);
+
+      // Determinar el estado del proyecto
+      const estadoProyecto = determinarEstadoProyecto(promedioFinal);
+
+      console.log(`Estado del proyecto determinado: ${estadoProyecto}`);
+
+      // Guardar el promedio final y el estado en la base de datos
+      const guardarFinalResponse = await fetch(`http://localhost:4000/api/promedioFinal/proyectos/${idproyecto}/proyectofinal`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          proyectofinal: promedioFinal,
+          estado: estadoProyecto,
+        }),
+      });
+
+      if (!guardarFinalResponse.ok) {
+        throw new Error('Error al guardar el promedio final y el estado del proyecto.');
+      }
+
+      console.log('Promedio final y estado guardados correctamente en la base de datos.');
+
+      // Mostrar el modal con el estado del proyecto
+      setEstadoProyecto(estadoProyecto);
+      setIsOpen(true);
+
     } catch (error) {
-      console.error('Error al guardar respuestas:', error);
+      console.error('Error al guardar respuestas o actualizar promedio:', error);
     } finally {
       console.log('Finalmente, redirigiendo...');
     }
   };
 
   const handleBackClick = () => {
-    // Recupera la URL de retorno desde localStorage
     const returnUrl = localStorage.getItem('objetivosReturnUrl') || '/VistaObjetivos';
     navigate(returnUrl);
   };
 
-  // Muestra el loader mientras los datos se están cargando
   if (loading) {
     return <Loader />;
   }
@@ -126,7 +222,7 @@ const VistaAlcance = () => {
               </h1>
             </div>
             <button
-               onClick={handleBackClick} 
+              onClick={handleBackClick} 
               className="flex items-center text-black hover:text-lime-600"
             >
               <i className="fas fa-arrow-left w-5 h-5 mr-2 "></i>
@@ -189,9 +285,10 @@ const VistaAlcance = () => {
           </div>
         </div>
       </div>
+      {/* Renderizar el modal */}
+      <ModalEstado estado={estadoProyecto} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </LayoutPrincipal>
   );
 };
 
 export default VistaAlcance;
-
