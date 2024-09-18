@@ -10,14 +10,17 @@ import {
    getRespuestasByProyecto, 
    getRespuestasAlcanceByProyecto, 
    guardarCalificacion, 
-   actualizarEstadoRespuestas, 
    getFichas, 
    getAprendicesByFicha,
    asignarProyecto,
-   actualizarEstadoRespuestasAlcance,
    actualizarIdCalificacion,
    getProyectosAsignados,
-   getSearch
+   getSearch,
+   enviarCorreo,
+   actualizarPuntosObjetivos,
+   obtenerPuntosObjetivos,
+   actualizarPuntosAlcance,
+   
  
   } from '../controllers/adminControler.js';
 
@@ -103,10 +106,7 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
   
 
   // Ruta para guardar la calificación
-router.post('/calificaciones', guardarCalificacion);
-
-// Ruta para actualizar el estado de las respuestas
-router.post('/actualizarEstadoRespuestas', actualizarEstadoRespuestas);
+  router.post('/proyectos/calificar', guardarCalificacion);
 
 // Ruta para obtener todas las fichas activas
 router.get('/fichas', getFichas);
@@ -116,9 +116,6 @@ router.get('/aprendices/:idficha', getAprendicesByFicha);
 
 // Ruta para asignar proyectos
 router.post('/asignar-proyectos', asignarProyecto);
-
-// Ruta para actualizar el estado de las respuestas de alcance
-router.post('/actualizarEstadoRespuestasAlcance', actualizarEstadoRespuestasAlcance);
 
 // Ruta para actualizar el idcalificacion en la tabla proyecto
 router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
@@ -137,5 +134,15 @@ router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
 // Ruta para buscar proyectos
 router.get('/search', getSearch);
 
+router.post('/enviocorreo', enviarCorreo);
+
+// Ruta para actualizar puntos objetivos
+router.put('/proyecto/:idproyecto/actualizarPuntosObjetivos', actualizarPuntosObjetivos);
+
+// Ruta para obtener puntos objetivos
+router.get('/proyecto/:idproyecto/puntosObjetivos', obtenerPuntosObjetivos);
+
+// Ruta para actualizar puntos de alcance en la tabla proyecto
+router.put('/proyecto/:idproyecto/actualizarPuntosAlcance', actualizarPuntosAlcance);
 
 export default router;
