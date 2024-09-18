@@ -11,7 +11,7 @@ const Sidebar = () => {
   const menuItems = {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
-      { icon: 'fas fa-folder-open', to: '/VistaProyectos', label: 'Proyectos' },
+      { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
       // { icon: 'fas fa-user', to: '/VistaAprobados', label: 'Vista Aprobados' },
       // { icon: 'fas fa-cog', to: '/AsignarProyecto', label: 'Asignar Proyecto' },
     ],

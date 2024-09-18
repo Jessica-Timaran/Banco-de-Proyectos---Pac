@@ -43,7 +43,7 @@ const Calificacion = () => {
             if (estado === "Aceptado") {
                 navigate(`/asignar-proyectos/${idproyecto}`); // Reemplaza con la ruta de la siguiente vista
             } else {
-                navigate('/calificacion'); // Reemplaza con la ruta de la vista de inicio
+                navigate(`/Detalle/${idproyecto}`); // Reemplaza con la ruta de la vista de inicio
             }
         } catch (error) {
             console.error("Error al guardar la calificación:", error);
