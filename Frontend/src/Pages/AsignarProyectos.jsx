@@ -52,7 +52,7 @@ const handleGuardarClick = async () => {
   return (
     <Layoutprincipal title="Asignación de Proyecto">
       <Layoutcontenido2 text1="Asignar Proyecto">
-        <Card className='h-[450px]'>
+        <Card className='h-auto'>
           <div className="flex items-center mb-6">
             <Button variant="light" color="gray" className="mr-4">
               Asignación de proyecto
