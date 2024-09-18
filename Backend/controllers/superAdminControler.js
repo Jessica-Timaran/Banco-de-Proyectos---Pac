@@ -435,7 +435,6 @@ export {
     obtenerTodosLosProyectos,
     getAllFicha,
     registerArea,
-
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
