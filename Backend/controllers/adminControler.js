@@ -47,16 +47,16 @@ async function getProyectoById(id) {
       throw new Error('ID inválido');
     }
     const client = await pool.connect();
-    const result = await client.query(`
-      SELECT p.*, 
-             a.area AS nombre_area, 
-             c.resultado AS calificacion_resultado, 
-             c.estado AS calificacion_estado
-      FROM proyecto p
-      LEFT JOIN area a ON p.idarea = a.idarea
-      LEFT JOIN calificacion c ON p.idproyecto = c.idproyecto
-      WHERE p.idproyecto = $1
-    `, [numericId]);
+    const result = await client.query(
+      `SELECT p.*, 
+              a.area AS nombre_area, 
+              p.promediofinal AS calificacion_resultado, 
+              p.estado AS calificacion_estado
+       FROM proyecto p
+       LEFT JOIN area a ON p.idarea = a.idarea
+       WHERE p.idproyecto = $1`, 
+      [numericId]
+    );
 
     client.release();
     if (result.rows.length > 0) {
@@ -69,7 +69,6 @@ async function getProyectoById(id) {
     throw error;
   }
 }
-
 
 const getRespuestasByProyecto = async (idproyecto) => {
   try {

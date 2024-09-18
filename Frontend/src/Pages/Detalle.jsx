@@ -16,13 +16,9 @@ const Detalle = () => {
     responsable: "",
     disponibilidad: "",
     dia: "",
-    idobjetivos: "",
-    idarea: "",
-    idficha: "",
-    idpersona: "",
-    idcalificacion: "",
-    calificacion_resultado: "",
-    calificacion_estado: "",
+    nombre_area: "", // Cambié `idarea` a `nombre_area` para reflejar el nombre del área
+    promediofinal: "", // Aquí reflejamos el nuevo campo de la calificación
+    estado: "", // Aquí reflejamos el nuevo campo para el estado
   });
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
 
@@ -92,28 +88,16 @@ const Detalle = () => {
                   {proyecto.nombre_area || "No disponible"}
                 </span>
               </ListItem>
-              {/* <ListItem>
-                <span className="text-xs sm:text-xl">Ficha</span>
-                <span className="text-xs sm:text-xl">
-                  {proyecto.idficha || "No disponible"}
-                </span>
-              </ListItem>
-              <ListItem>
-                <span className="text-xs sm:text-xl">Persona</span>
-                <span className="text-xs sm:text-xl">
-                  {proyecto.idpersona || "No disponible"}
-                </span>
-              </ListItem> */}
               <ListItem>
                 <span className="text-xs sm:text-xl">Calificación</span>
                 <span className="sm:text-xl">
-                  {proyecto.calificacion_resultado || "No disponible"}
+                  {proyecto.promediofinal || "No disponible"}
                 </span>
               </ListItem>
               <ListItem>
                 <span className="text-xs sm:text-xl">Estado</span>
                 <span className="sm:text-xl">
-                  {proyecto.calificacion_estado || "No disponible"}
+                  {proyecto.estado || "No disponible"}
                 </span>
               </ListItem>
             </ListProject>
