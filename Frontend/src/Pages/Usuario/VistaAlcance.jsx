@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Grid from '../../Components/Grid';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
 import Loader from '../../Components/Loader';
 import ModalEstado from '../../Components/ModalesUser/ModalEstado';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);

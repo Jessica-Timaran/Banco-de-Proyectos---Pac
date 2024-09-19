@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
 import GridPrueba from '../../Components/GridPrueba.jsx';
 import Loader from '../../Components/Loader.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
 
 const Prueba = () => {
   const [proyectos, setProyectos] = useState([]);
