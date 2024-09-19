@@ -4,7 +4,7 @@ import Card from "../../../Components/Card";
 import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from "../../../Components/BotonPrincipal";
 import Loader from '../../../Components/Loader';
-import LayoutPrincipal from '../../../layouts/LayoutPrincipal';
+import LayoutPrincipal from "../layouts/LayoutPrincipal";
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 
 const TiposDeArea = () => {

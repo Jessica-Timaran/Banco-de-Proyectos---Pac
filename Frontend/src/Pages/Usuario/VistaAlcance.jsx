@@ -5,7 +5,7 @@ import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
 import Loader from '../../Components/Loader';
 import ModalEstado from '../../Components/ModalesUser/ModalEstado';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from "../layouts/LayoutPrincipal";
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);

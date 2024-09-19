@@ -3,7 +3,7 @@ import Card from '../../Components/Card';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import Loader from '../../Components/Loader';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from "../layouts/LayoutPrincipal";
 
 const VistaAreas1 = () => {
   const [areas, setAreas] = useState([]);
