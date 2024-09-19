@@ -4,7 +4,7 @@ import Menu from '../Components/Menu';
 import PosLayout from './PostLayout';
 
 // Componente principal
-const Layoutprincipal = ({ title, children }) => {
+const LayoutPrincipal = ({ title, children }) => {
   return (
     <PosLayout title={title}>
       <div>
@@ -23,4 +23,4 @@ const Layoutprincipal = ({ title, children }) => {
   );
 };
 
-export default Layoutprincipal;
+export default LayoutPrincipal;

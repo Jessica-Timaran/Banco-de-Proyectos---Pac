@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import TextArea from '../../Components/TextArea.jsx';
-import LayoutPrincipal from '../../Layouts/Layoutprincipal.jsx';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Input from '../../Components/Input.jsx';

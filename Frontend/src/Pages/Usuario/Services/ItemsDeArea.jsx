@@ -1,11 +1,11 @@
 // ItemsDeArea.js
 import React, { useState, useEffect } from 'react';
-import LayoutPrincipal from '../../../layouts/LayoutPrincipal';
 import Card from '../../../Components/Card';
 import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from '../../../Components/BotonPrincipal';
 import Loader from '../../../Components/Loader';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import LayoutPrincipal from '../../../layouts/LayoutPrincipal';
 
 const ItemsDeArea = () => {
   const { idarea, idtiposdearea } = useParams();

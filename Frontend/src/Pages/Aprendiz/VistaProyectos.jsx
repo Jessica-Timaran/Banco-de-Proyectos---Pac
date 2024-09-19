@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
-import LayoutPrincipal from "../../Layouts/Layoutprincipal.jsx";
+import LayoutPrincipal from "../../layouts/LayoutPrincipal.jsx";
 import Layoutcontenido from "../../Layouts/Layoutcontenido3";
 import ModalAsignaciones from "../../Components/Modales/Modal";
 
