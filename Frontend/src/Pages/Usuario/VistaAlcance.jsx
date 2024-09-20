@@ -5,7 +5,7 @@ import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
 import Loader from '../../Components/Loader';
 import ModalEstado from '../../Components/ModalesUser/ModalEstado';
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);
@@ -215,7 +215,7 @@ const VistaAlcance = () => {
   }
 
   return (
-    <LayoutPrincipal title="">
+    <LayoutPrincipal1 title="">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
@@ -290,7 +290,7 @@ const VistaAlcance = () => {
       </div>
       {/* Renderizar el modal */}
       <ModalEstado estado={estadoProyecto} isOpen={isOpen} onClose={() => setIsOpen(false)} />
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

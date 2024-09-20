@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from '../../../Layouts/LayoutPrincipal1';
 import Grid from "../../../Components/Grid";
 import BotonPrincipal from "../../../Components/BotonPrincipal";
 import BotonSegundo from "../../../Components/BotonSegundo";
@@ -139,7 +139,7 @@ const ObjetivosDeArea = () => {
   }, [idarea, idtiposdearea, projectId]);
 
   return (
-    <LayoutPrincipal title="">
+    <LayoutPrincipal1 title="">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
@@ -206,7 +206,7 @@ const ObjetivosDeArea = () => {
           </div>
         </div>
       </div>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

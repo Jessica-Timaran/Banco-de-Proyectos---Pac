@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import InputField from '../../Components/Input.jsx'; // Asegúrate de que la ruta sea correcta
@@ -52,7 +52,7 @@ const ReportForm = () => {
   };
 
   return (
-    <LayoutPrincipal title="Formulario de Reporte">
+    <LayoutPrincipal1 title="Formulario de Reporte">
       <Layoutcontenido3 title="Formulario de Reporte">
 
 
@@ -167,7 +167,7 @@ const ReportForm = () => {
           
       
       </Layoutcontenido3>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

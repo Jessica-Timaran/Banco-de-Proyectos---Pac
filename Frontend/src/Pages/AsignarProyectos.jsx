@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
-import LayoutPrincipal from '../layouts/LayoutPrincipal';
+import LayoutPrincipal1 from '../Layouts/LayoutPrincipal1';
 import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
 import useFichasYAprendices from '../../hooks/Admin/useFichasYAprendices'; //hook para mostrar las fichas y aprendices disponibles
@@ -50,7 +50,7 @@ const handleGuardarClick = async () => {
 
 
   return (
-    <LayoutPrincipal title="Asignación de Proyecto">
+    <LayoutPrincipal1 title="Asignación de Proyecto">
       <Layoutcontenido2 text1="Asignar Proyecto">
         <Card className='h-auto'>
           <div className="flex items-center mb-6">
@@ -113,7 +113,7 @@ const handleGuardarClick = async () => {
           {assignError && <p className="text-red-500">Error al guardar la asignación: {assignError}</p>}
         </Card>
       </Layoutcontenido2>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

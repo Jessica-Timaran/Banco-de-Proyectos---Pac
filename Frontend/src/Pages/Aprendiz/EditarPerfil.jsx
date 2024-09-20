@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../../Components/Input.jsx';
 import SelectBoxTI from '../../Components/SelectBoxTI.jsx';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../../Components/BotonPerfil.jsx';
 import ModalPerfil from '../../Components/Modal.jsx';
@@ -213,7 +213,7 @@ if (formData.confiContraseña.trim() === '') {
   };
 
   return (
-    <LayoutPrincipal title="Editar Perfil">
+    <LayoutPrincipal1 title="Editar Perfil">
     <Layoutcontenido3 title="Editar Perfil">
 
       <div className="w-full md:w-1/2">
@@ -335,7 +335,7 @@ if (formData.confiContraseña.trim() === '') {
 
         />
       </Layoutcontenido3>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

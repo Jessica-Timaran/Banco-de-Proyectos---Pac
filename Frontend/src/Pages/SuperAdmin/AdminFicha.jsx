@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
@@ -77,7 +77,7 @@ const Fichas = () => {
   };
 
   return (
-    <LayoutPrincipal title="Fichas">
+    <LayoutPrincipal1 title="Fichas">
       {loading ? (
         <div id="loader" className="flex items-center justify-center min-h-screen">
           <Loader />
@@ -108,7 +108,7 @@ const Fichas = () => {
           </div>
         </Layoutcontenido>
       )}
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

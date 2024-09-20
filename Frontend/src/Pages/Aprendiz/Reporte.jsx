@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import TextArea from '../../Components/TextArea.jsx';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Input from '../../Components/Input.jsx';
@@ -95,7 +95,7 @@ const EmailForm = () => {
     };
 
     return (
-        <LayoutPrincipal title="Enviar Correo Electronico">
+        <LayoutPrincipal1 title="Enviar Correo Electronico">
             <Layoutcontenido3 title="Enviar Correo Electronico">
                 <form onSubmit={handleSubmit} className="w-[50%]">
                     <div className="mb-4">
@@ -162,7 +162,7 @@ const EmailForm = () => {
                     message={modalMessage}
                 />
             </Layoutcontenido3>
-        </LayoutPrincipal>
+        </LayoutPrincipal1>
     );
 };
 

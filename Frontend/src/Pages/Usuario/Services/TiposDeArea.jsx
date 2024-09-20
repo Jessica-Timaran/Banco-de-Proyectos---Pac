@@ -4,7 +4,7 @@ import Card from "../../../Components/Card";
 import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from "../../../Components/BotonPrincipal";
 import Loader from '../../../Components/Loader';
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from '../../../Layouts/LayoutPrincipal1';
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 
 const TiposDeArea = () => {
@@ -77,7 +77,7 @@ const TiposDeArea = () => {
   }
 
   return (
-    <LayoutPrincipal title="">
+    <LayoutPrincipal1 title="">
       <Layoutcontenido title="">
         <div className="p-8 mx-16">
           <h1 className="text-3xl font-bold font-josefin-slab">Tipos de Área</h1>
@@ -107,7 +107,7 @@ const TiposDeArea = () => {
           </Link>
         </div>
       </Layoutcontenido>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

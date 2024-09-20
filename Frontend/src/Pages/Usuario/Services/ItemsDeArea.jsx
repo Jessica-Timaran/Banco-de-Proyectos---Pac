@@ -5,7 +5,7 @@ import Layoutcontenido from '../../../Layouts/Layoutcontenido';
 import BotonPrincipal from '../../../Components/BotonPrincipal';
 import Loader from '../../../Components/Loader';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from '../../../Layouts/LayoutPrincipal1';
 
 const ItemsDeArea = () => {
   const { idarea, idtiposdearea } = useParams();
@@ -83,7 +83,7 @@ const ItemsDeArea = () => {
   }
 
   return (
-    <LayoutPrincipal title="">
+    <LayoutPrincipal1 title="">
       <Layoutcontenido title="">
         <div className="p-8 mx-16">
           <h1 className="text-3xl font-bold font-josefin-slab">Items de Áreas</h1>
@@ -113,7 +113,7 @@ const ItemsDeArea = () => {
   </button>
 </div>
       </Layoutcontenido>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

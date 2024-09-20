@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
 import Loader from '../../Components/Loader';
@@ -46,7 +46,7 @@ const Area = () => {
   
 
   return (
-    <LayoutPrincipal title="Objetivos">
+    <LayoutPrincipal1 title="Objetivos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center min-h-screen">
           <Loader />
@@ -76,7 +76,7 @@ const Area = () => {
           </div>
         </Layoutcontenido>
       )}
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

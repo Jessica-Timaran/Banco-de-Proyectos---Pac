@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
+import LayoutPrincipal2 from '../../Layouts/LayoutPrincipal2';
 import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
 import Input from '../../Components/Input';
 import BotonPrincipal from '../../Components/BotonPrincipal';

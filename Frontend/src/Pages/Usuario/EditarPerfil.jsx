@@ -4,7 +4,7 @@ import SelectBoxTI from '../../Components/SelectBoxTI.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
 import ModalPerfil from '../../Components/Modal.jsx';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import '../css/EditarPerfil.css'
 
 const EditarPerfil = () => {
@@ -17,7 +17,7 @@ const EditarPerfil = () => {
   };
 
   return (
-    <LayoutPrincipal title="Editar Perfil">
+    <LayoutPrincipal1 title="Editar Perfil">
       <Layoutcontenido3 title="Editar Perfil">
         <div className="w-full md:w-1/2">
           <div className="flex flex-col p-[5%] Flex-box">
@@ -55,7 +55,7 @@ const EditarPerfil = () => {
           </div>
         </div>
       </Layoutcontenido3>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

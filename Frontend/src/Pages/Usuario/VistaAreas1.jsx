@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Card from '../../Components/Card';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import BotonPrincipal from '../../Components/BotonPrincipal';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
 import Loader from '../../Components/Loader';
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+
 
 const VistaAreas1 = () => {
   const [areas, setAreas] = useState([]);
@@ -68,7 +69,7 @@ const VistaAreas1 = () => {
   const projectId = new URLSearchParams(window.location.search).get('projectId'); // Obtener projectId
 
   return (
-    <LayoutPrincipal title="">
+    <LayoutPrincipal1 title="">
       <Layoutcontenido title="">
         <div className="p-8">
           <h1 className="text-3xl font-bold font-josefin-slab">Áreas de Proyectos</h1>
@@ -93,7 +94,7 @@ const VistaAreas1 = () => {
           </a>
         </div>
       </Layoutcontenido>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

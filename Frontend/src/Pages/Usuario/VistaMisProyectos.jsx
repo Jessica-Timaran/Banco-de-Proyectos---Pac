@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import GridPrueba from '../../Components/GridPrueba.jsx';
 import Loader from '../../Components/Loader.jsx';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+
 
 const Prueba = () => {
   const [proyectos, setProyectos] = useState([]);
@@ -40,7 +41,7 @@ const Prueba = () => {
   }
 
   return (
-    <LayoutPrincipal title="">
+    <LayoutPrincipal1 title="">
       <div className="flex justify-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-7xl my-10">
           <div className="flex flex-col">
@@ -67,7 +68,7 @@ const Prueba = () => {
           </div>
         </div>
       </div>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

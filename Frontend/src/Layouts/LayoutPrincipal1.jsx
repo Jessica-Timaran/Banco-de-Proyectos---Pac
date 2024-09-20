@@ -4,7 +4,7 @@ import Menu from '../Components/Menu';
 import PostLayout1 from './PostLayout1';
 
 // Componente principal
-const LayoutPrincipal = ({ title, children }) => {
+const LayoutPrincipal1 = ({ title, children }) => {
   return (
     <PostLayout1 title={title}>
       <div>
@@ -23,4 +23,4 @@ const LayoutPrincipal = ({ title, children }) => {
   );
 };
 
-export default LayoutPrincipal;
+export default LayoutPrincipal1;

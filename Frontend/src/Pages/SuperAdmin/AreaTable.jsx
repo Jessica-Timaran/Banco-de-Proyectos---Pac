@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido5 from '../../Layouts/Layoutcontenido5';
 import Input2 from '../../Components/Input'; 
 import { CalloutA } from '../../Components/Callout';
@@ -106,7 +106,7 @@ export default function Example() {
 
 
   return (
-    <LayoutPrincipal title="Registro proyecto">
+    <LayoutPrincipal1 title="Registro proyecto">
       <div className="flex justify-center items-center my-4">
         <CalloutA variant="warning" title="Noticia Importante">
           POR FAVOR LLENE TODOS LOS DATOS PARA REALIZAR UN REGISTRO COMPLETO
@@ -265,6 +265,6 @@ export default function Example() {
           </Layoutcontenido5>
         </>
       )}
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 }

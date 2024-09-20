@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PostLayout = ({children }) => {
+const PostLayout1 = ({children }) => {
   return (
 
 
@@ -11,4 +11,4 @@ const PostLayout = ({children }) => {
   );
 };
 
-export default PostLayout;
+export default PostLayout1;

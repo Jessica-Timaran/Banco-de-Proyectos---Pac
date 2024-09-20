@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import LayoutPrincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
 import Grid2 from "../Components/Grid2";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
@@ -116,7 +116,7 @@ const ObjetivosComponent = ({ idproyecto }) => {
   }
 
   return (
-    <LayoutPrincipal title="Objetivos del Proyecto">
+    <LayoutPrincipal1 title="Objetivos del Proyecto">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
@@ -164,7 +164,7 @@ const ObjetivosComponent = ({ idproyecto }) => {
           </div>
         </div>
       </div>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 
