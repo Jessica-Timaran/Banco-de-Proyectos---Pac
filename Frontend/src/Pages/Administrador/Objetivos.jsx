@@ -18,7 +18,7 @@ const Objetivos = () => {
   useEffect(() => {
     const fetchRespuestas = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/respuestas/${idproyecto}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/respuestas/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
           setRespuestas(data.respuestas);

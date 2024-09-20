@@ -8,7 +8,7 @@ const useDetalleCalificacion = (idproyecto) => {
   const guardarDetalleCalificacion = async (detalles) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:4000/api/save/actualizarEstadoRespuestas`, {
+      const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/save/actualizarEstadoRespuestas`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ const useDetalleCalificacion = (idproyecto) => {
   const actualizarPuntosObjetivos = async (puntos) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:4000/api/admin/proyecto/${idproyecto}/actualizarPuntosObjetivos`, {
+      const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/admin/proyecto/${idproyecto}/actualizarPuntosObjetivos`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const useDetalleCalificacion = (idproyecto) => {
   const obtenerPuntosObjetivos = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:4000/api/admin/proyecto/${idproyecto}/puntosObjetivos`, {
+      const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/admin/proyecto/${idproyecto}/puntosObjetivos`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

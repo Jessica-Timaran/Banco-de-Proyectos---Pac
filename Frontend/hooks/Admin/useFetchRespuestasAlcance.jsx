@@ -9,7 +9,7 @@ const useFetchRespuestasAlcance = (idproyecto) => {
   useEffect(() => {
     const fetchRespuestasAlcance = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/admin/respuestasalcance/${idproyecto}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/admin/respuestasalcance/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
           setRespuestasAlcance(data.respuestasAlcance);

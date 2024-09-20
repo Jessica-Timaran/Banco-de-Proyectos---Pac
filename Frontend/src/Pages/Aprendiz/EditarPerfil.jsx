@@ -161,7 +161,7 @@ if (formData.confiContraseña.trim() === '') {
     const isValid = validateForm();
     if (isValid) {
       try {
-        const response = await fetch('http://localhost:4000/api/aprendiz/update-profile', {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/update-profile', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

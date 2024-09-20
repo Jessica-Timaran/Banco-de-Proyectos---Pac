@@ -21,7 +21,7 @@ const VistaAlcance = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseAlcances = await fetch('http://localhost:4000/api/user/alcances');
+        const responseAlcances = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/alcances');
         if (!responseAlcances.ok) {
           throw new Error('La respuesta de la red no fue correcta');
         }
@@ -103,7 +103,7 @@ const VistaAlcance = () => {
   
     try {
       console.log("Antes de realizar fetch...");
-      const response = await fetch('http://localhost:4000/api/user/guardarRespuestas', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/guardarRespuestas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const VistaAlcance = () => {
       console.log('Respuestas guardadas correctamente:', result);
   
       // Obtener respuestas después de guardar
-      const respuestasResponse = await fetch(`http://localhost:4000/api/user/respuestasalcance/${idproyecto}`);
+      const respuestasResponse = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/respuestasalcance/${idproyecto}`);
       if (!respuestasResponse.ok) {
         throw new Error('La respuesta de la red no fue correcta');
       }
@@ -134,7 +134,7 @@ const VistaAlcance = () => {
       console.log(`Promedio calculado después de guardar: ${promedioAlcance}%`);
   
       // Guardar el promedio en la base de datos
-      const updateResponse = await fetch(`http://localhost:4000/api/promedioFinal/proyectos/${idproyecto}`, {
+      const updateResponse = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/promedioFinal/proyectos/${idproyecto}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const VistaAlcance = () => {
       console.log('Promedio de alcance actualizado correctamente.');
   
       // Obtener los puntos para calcular el promedio final
-      const promedioFinalResponse = await fetch(`http://localhost:4000/api/promedio/proyectos/${idproyecto}/promediofinal`);
+      const promedioFinalResponse = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/promedio/proyectos/${idproyecto}/promediofinal`);
       if (!promedioFinalResponse.ok) {
         throw new Error('Error al obtener el promedio final del proyecto');
       }
@@ -175,7 +175,7 @@ const VistaAlcance = () => {
       console.log(`Estado del proyecto determinado: ${estadoProyecto}`);
   
       // Guardar el promedio final y el estado en la base de datos
-      const guardarFinalResponse = await fetch(`http://localhost:4000/api/promedioFinal/proyectos/${idproyecto}/proyectofinal`, {
+      const guardarFinalResponse = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/promedioFinal/proyectos/${idproyecto}/proyectofinal`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

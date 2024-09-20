@@ -17,7 +17,7 @@ const Calificar = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/aprendiz/assigned-projects');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/assigned-projects');
         if (!response.ok) {
           throw new Error('Error al obtener los proyectos');
         }

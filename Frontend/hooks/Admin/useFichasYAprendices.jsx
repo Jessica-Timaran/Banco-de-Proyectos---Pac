@@ -12,7 +12,7 @@ const useFichasYAprendices = () => {
     const fetchFichas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/admin/fichas');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/admin/fichas');
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -34,7 +34,7 @@ const useFichasYAprendices = () => {
       if (selectedFicha) {
         setLoading(true);
         try {
-          const response = await fetch(`http://localhost:4000/api/admin/aprendices/${selectedFicha}`);
+          const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/admin/aprendices/${selectedFicha}`);
           if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
           }

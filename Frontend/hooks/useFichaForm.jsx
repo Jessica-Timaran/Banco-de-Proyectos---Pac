@@ -45,7 +45,7 @@ export function useFichaForm(onSuccess) {
 
     if (validateForm()) {
       try {
-        const response = await fetch('http://localhost:4000/api/superAdmin/registerFicha', {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerFicha', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

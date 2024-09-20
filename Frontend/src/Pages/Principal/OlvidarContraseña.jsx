@@ -37,7 +37,7 @@ const OlvidarContraseña = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/api/aprendiz/reset-password", {
+      const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/aprendiz/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,7 +13,7 @@ export function useItemForm(onSuccess) {
     useEffect(() => {
         const fetchTypes = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/superAdmin/tipos-de-area');
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area');
                 if (!response.ok) {
                     throw new Error(`Error fetching types: ${response.statusText}`);
                 }
@@ -32,7 +32,7 @@ export function useItemForm(onSuccess) {
         const fetchItems = async () => {
             if (formValues.tipoArea) {
                 try {
-                    const response = await fetch(`http://localhost:4000/api/superAdmin/items/${formValues.tipoArea}`);
+                    const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items/${formValues.tipoArea}`);
                     if (!response.ok) {
                         throw new Error(`Error fetching items: ${response.statusText}`);
                     }
@@ -84,7 +84,7 @@ export function useItemForm(onSuccess) {
         if (validateForm()) {
             console.log("Datos del formulario antes de enviar:", formValues);
             try {
-                const response = await fetch('http://localhost:4000/api/superAdmin/insertItem', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/insertItem', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

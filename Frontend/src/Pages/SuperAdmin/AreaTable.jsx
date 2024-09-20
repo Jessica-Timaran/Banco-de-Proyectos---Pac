@@ -51,37 +51,37 @@ export default function Example() {
     try {
       // Guardar área
       if (formData.area) {
-        await axios.post('http://localhost:4000/api/registerArea', { area: formData.area });
+        await axios.post('https://banco-de-proyectos-pac.onrender.com/api/registerArea', { area: formData.area });
       }
 
       // Guardar categorías de objetivos
       if (formData.categoryObjectives) {
-        await axios.post('http://localhost:4000/api/categoriasobjetivos', { nombre: formData.categoryObjectives });
+        await axios.post('https://banco-de-proyectos-pac.onrender.com/api/categoriasobjetivos', { nombre: formData.categoryObjectives });
       }
 
       // Guardar categorías de alcance
       if (formData.categoryScopes) {
-        await axios.post('http://localhost:4000/api/categoriasalcance', { nombre: formData.categoryScopes });
+        await axios.post('https://banco-de-proyectos-pac.onrender.com/api/categoriasalcance', { nombre: formData.categoryScopes });
       }
 
       // Guardar objetivos
       for (const objective of objectives) {
         if (objective) {
-          await axios.post('http://localhost:4000/api/tipos-de-area', { descripcion: objective });
+          await axios.post('https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area', { descripcion: objective });
         }
       }
 
       // Guardar alcances
       for (const scope of scopes) {
         if (scope) {
-          await axios.post('http://localhost:4000/api/alcance', { descripcion: scope });
+          await axios.post('https://banco-de-proyectos-pac.onrender.com/api/alcance', { descripcion: scope });
         }
       }
 
       // Guardar items
       for (const item of items) {
         if (item) {
-          await axios.post('http://localhost:4000/api/insertItem', { tipoArea: formData.area, itemName: item });
+          await axios.post('https://banco-de-proyectos-pac.onrender.com/api/insertItem', { tipoArea: formData.area, itemName: item });
         }
       }
 

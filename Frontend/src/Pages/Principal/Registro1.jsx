@@ -39,7 +39,7 @@ const Registro = () => {
       valid = false;
     } else {
       try {
-        const response = await fetch("http://localhost:4000/api/user/check-email", {
+        const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/user/check-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const Registro = () => {
       try {
         const { nombre, tipoDocumento, numeroDc, correo, telefono, contrasena } = formValues;
 
-        const response = await axios.post("http://localhost:4000/api/user/register", {
+        const response = await axios.post("https://banco-de-proyectos-pac.onrender.com/api/user/register", {
           nombre,
           tipodocumento: tipoDocumento,
           numerodocumento: numeroDc,

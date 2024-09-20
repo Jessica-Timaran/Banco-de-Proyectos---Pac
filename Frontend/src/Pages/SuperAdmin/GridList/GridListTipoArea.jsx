@@ -13,7 +13,7 @@ const GridListTipoArea = () => {
     useEffect(() => {
         const fetchAreas = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/superAdmin/areas');
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
                 if (!response.ok) {
                     throw new Error(`Error fetching areas: ${response.statusText}`);
                 }
@@ -31,7 +31,7 @@ const GridListTipoArea = () => {
 
     const fetchTiposDeArea = async (idArea) => {
         try {
-            const response = await fetch(`http://localhost:4000/api/superAdmin/tipos-de-area/${idArea}`);
+            const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area/${idArea}`);
             if (!response.ok) {
                 throw new Error(`Error fetching tipos de area: ${response.statusText}`);
             }
@@ -47,7 +47,7 @@ const GridListTipoArea = () => {
 
     const fetchItems = async (idArea, idTipoDeArea) => {
         try {
-            const response = await fetch(`http://localhost:4000/api/items/${idArea}/${idTipoDeArea}`);
+            const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/items/${idArea}/${idTipoDeArea}`);
             if (!response.ok) {
                 throw new Error(`Error fetching items: ${response.statusText}`);
             }

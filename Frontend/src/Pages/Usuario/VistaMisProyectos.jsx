@@ -19,7 +19,7 @@ const Prueba = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/api/user/proyectos?userId=${userId}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/proyectos?userId=${userId}`);
         if (response.ok) {
           const data = await response.json();
           setProyectos(data);

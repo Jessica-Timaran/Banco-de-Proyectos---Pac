@@ -8,7 +8,7 @@ const useAprobacionesAlcance = (idproyecto) => {
   useEffect(() => {
     const fetchAprobaciones = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/save/aprobaciones-alcance/${idproyecto}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/save/aprobaciones-alcance/${idproyecto}`);
         if (!response.ok) {
           throw new Error('Error al obtener las aprobaciones');
         }

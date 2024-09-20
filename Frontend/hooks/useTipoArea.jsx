@@ -37,7 +37,7 @@ const useTipoArea = () => {
         event.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:4000/api/superAdmin/registerTipoDeArea', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerTipoDeArea', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -19,7 +19,7 @@ const Dashboard = () => {
     // Aquí puedes mover la lógica de contar los usuarios sin renderizar la tabla
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/usuarios');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/usuarios');
         const usersData = await response.json();
         setUserCount(usersData.length); // Actualiza el conteo de usuarios
       } catch (error) {

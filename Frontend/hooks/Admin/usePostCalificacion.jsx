@@ -17,7 +17,7 @@ const usePostCalificacion = () => {
 
         try {
             // Realiza la solicitud para actualizar la calificación en el proyecto
-            const response = await fetch("http://localhost:4000/api/admin/proyectos/calificar", {
+            const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/admin/proyectos/calificar", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

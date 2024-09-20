@@ -9,7 +9,7 @@ export const useAsignarProyecto = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:4000/api/admin/asignar-proyectos', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/admin/asignar-proyectos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

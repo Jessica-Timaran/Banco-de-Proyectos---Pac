@@ -19,7 +19,7 @@ const ItemsDeArea = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/user/items/${idarea}/${idtiposdearea}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/items/${idarea}/${idtiposdearea}`);
         if (!response.ok) {
           throw new Error(`Error fetching items: ${response.statusText}`);
         }
@@ -45,7 +45,7 @@ const ItemsDeArea = () => {
     }
   
     try {
-      const response = await fetch('http://localhost:4000/api/user/update-proyecto-item', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/update-proyecto-item', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ const VistaAreas1 = () => {
   useEffect(() => {
     const fetchAreas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/user/areas');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/areas');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -40,7 +40,7 @@ const VistaAreas1 = () => {
 
     try {
       console.log(`Enviando solicitud para seleccionar el área: ${areaId}`);
-      const response = await fetch('http://localhost:4000/api/user/proyectos/seleccionar-area', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/proyectos/seleccionar-area', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

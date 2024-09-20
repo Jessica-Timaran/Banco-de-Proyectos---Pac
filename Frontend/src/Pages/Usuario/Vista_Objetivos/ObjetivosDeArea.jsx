@@ -19,7 +19,7 @@ const ObjetivosDeArea = () => {
   useEffect(() => {
     const fetchObjetivos = async (idArea) => {
       try {
-        const response = await fetch(`http://localhost:4000/api/user/objetivos/${idArea}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/objetivos/${idArea}`);
         if (!response.ok) {
           throw new Error(`Error fetching objetivos: ${response.statusText}`);
         }
@@ -106,7 +106,7 @@ const ObjetivosDeArea = () => {
     };
   
     try {
-      const response = await fetch('http://localhost:4000/api/user/guardarRespuestasYActualizarPuntos', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/guardarRespuestasYActualizarPuntos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

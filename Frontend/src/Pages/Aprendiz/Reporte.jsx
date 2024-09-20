@@ -62,7 +62,7 @@ const EmailForm = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:4000/api/aprendiz/send-email', {
+            const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/send-email', {
                 method: 'POST',
                 body: formData,
             });

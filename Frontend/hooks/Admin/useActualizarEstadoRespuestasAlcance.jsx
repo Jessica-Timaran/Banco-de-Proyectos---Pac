@@ -8,7 +8,7 @@ const useActualizarEstadoRespuestasAlcance = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('http://localhost:4000/api/save/actualizar-estado', {
+            const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/save/actualizar-estado', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const useActualizarEstadoRespuestasAlcance = () => {
     const actualizarPuntosAlcance = async (idproyecto, puntos) => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:4000/api/admin/proyecto/${idproyecto}/actualizarPuntosAlcance`, {
+            const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/admin/proyecto/${idproyecto}/actualizarPuntosAlcance`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

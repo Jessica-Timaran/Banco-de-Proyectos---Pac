@@ -26,7 +26,7 @@ const Detalle = () => {
     const fetchProyecto = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/admin/proyectos/${id}`
+          `https://banco-de-proyectos-pac.onrender.com/api/admin/proyectos/${id}`
         );
         if (response.ok) {
           const data = await response.json();

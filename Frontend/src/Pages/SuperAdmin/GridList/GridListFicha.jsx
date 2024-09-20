@@ -10,7 +10,7 @@ const GridListFicha = ({ fichas, setFichas }) => {
   useEffect(() => {
     const fetchFichas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/superAdmin/ficha');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha');
         const fichasData = await response.json();
         setFichas(fichasData);
       } catch (error) {

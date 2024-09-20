@@ -19,7 +19,7 @@ const TiposDeArea = () => {
   useEffect(() => {
     const fetchTiposDeArea = async (idArea) => {
       try {
-        const response = await fetch(`http://localhost:4000/api/user/tipos-de-area/${idArea}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/tipos-de-area/${idArea}`);
         if (!response.ok) {
           throw new Error(`Error fetching tipos de area: ${response.statusText}`);
         }
@@ -45,7 +45,7 @@ const TiposDeArea = () => {
   
     try {
       console.log('Enviando solicitud para actualizar el proyecto...');
-      const response = await fetch('http://localhost:4000/api/user/update-proyecto', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/update-proyecto', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

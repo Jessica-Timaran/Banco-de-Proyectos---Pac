@@ -17,7 +17,7 @@ const Calificar = () => {
       setData([]);
       
       // Construir la URL con el filtro de estado
-      let url = `http://localhost:4000/api/admin/proyectos?estado=${estado}`;
+      let url = `https://banco-de-proyectos-pac.onrender.com/api/admin/proyectos?estado=${estado}`;
       
       // Llamada a la API para obtener proyectos según el estado seleccionado
       console.log('Fetching URL:', url);

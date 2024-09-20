@@ -9,7 +9,7 @@ const useAprobacionesAdmin = (idproyecto) => {
     const fetchAprobaciones = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:4000/api/save/aprobaciones/${idproyecto}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/save/aprobaciones/${idproyecto}`);
         if (!response.ok) {
           throw new Error('Error al obtener las aprobaciones del administrador');
         }
