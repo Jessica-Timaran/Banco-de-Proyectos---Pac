@@ -5,7 +5,7 @@ import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import AceptarTerminos from "../../Components/AceptarTerminos";
 import SelectBoxTI from "../../Components/SelectBoxTI";
-import LayoutFormulario from "../../layouts/LayoutFormulario";
+import LayoutFormulario from "../../Layouts/LayoutFormulario";
 
 const Registro = () => {
   const [formValues, setFormValues] = useState({

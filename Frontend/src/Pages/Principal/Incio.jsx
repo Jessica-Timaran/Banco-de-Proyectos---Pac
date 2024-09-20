@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LayoutFormulario from "../../layouts/LayoutFormulario";
+import LayoutFormulario from "../../Layouts/LayoutFormulario";
 import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import '../../css/Incio.css';
