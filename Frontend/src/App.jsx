@@ -13,9 +13,9 @@ import VistaMisProyectos from './Pages/Usuario/VistaMisProyectos';
 import Home from './Pages/Principal/Home';
 import OlvidarContraseña from './Pages/Principal/OlvidarContraseña'
 import UpdatePassword  from './Pages/Principal/UpdatePassword';
-import Inicio from './Pages/Principal/Incio';
 import Registro1 from './Pages/Principal/Registro1';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
+import Inicio from './Pages/Principal/Inicio';
 
 
 /*SuperAdmin */
@@ -66,7 +66,7 @@ const App = () => {
 
 
           <Route path="/" element={<Home />} />
-          <Route path="/Principal/Incio" element={<Incio />} />
+          <Route path="/Principal/Inicio" element={<Inicio/>} />
           <Route path="/Principal/Registro1" element={<Registro1 />} />
           <Route path="/OlvidarContraseña" element={<OlvidarContraseña />} />
         <Route path="/UpdatePassword" element={<UpdatePassword />} />
