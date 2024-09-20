@@ -170,7 +170,7 @@ const Inicio = () => {
         <div className="hidden lg:flex lg:w-1/2 xl:w-[600px] 2xl:w-[800px] items-center justify-center">
           <img
             className="w-full h-auto max-h-[80vh] object-contain"
-            src="../../public/Img/nino.png"
+            src="/Img/nino.png"
             alt="Imagen niño"
           />
         </div>
