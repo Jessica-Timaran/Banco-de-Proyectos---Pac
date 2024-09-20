@@ -20,8 +20,11 @@ cookieMiddleware(app);
 // Configura CORS para permitir el origen específico
 app.use(cors({
     origin: ['http://localhost:5173', 'https://66eccb7b9990380008b60a2c--bancodeproyectospac.netlify.app'],
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Asegúrate de incluir encabezados necesarios
 }));
+
 
 
 // Middleware para manejar solicitudes JSON y de URL codificadas
