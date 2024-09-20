@@ -11,16 +11,18 @@ import obtenerPromedio from './routes/routesUser/obtenerPromedio.js'
 import { cookieMiddleware } from './middleware/cookieMiddleware.js';
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
+
 
 // Configura el middleware de cookies
 cookieMiddleware(app);
 
 // Configura CORS para permitir el origen específico
 app.use(cors({
-    origin: 'http://localhost:5173', // Reemplaza con el origen de tu frontend
-    credentials: true // Permite el uso de cookies en la solicitud
+    origin: ['http://localhost:5173', 'https://66eccb7b9990380008b60a2c--bancodeproyectospac.netlify.app'],
+    credentials: true
 }));
+
 
 // Middleware para manejar solicitudes JSON y de URL codificadas
 app.use(express.json());
@@ -51,5 +53,5 @@ app.use((err, req, res, next) => {
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

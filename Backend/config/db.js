@@ -1,13 +1,16 @@
-// Backend/config/db.js
 import pkg from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Cargar variables de entorno desde el archivo .env
+
 const { Pool } = pkg;
 
 const pool = new Pool({
-    user: "postgres.lerzcumnybjpexgmttty",
-    host: "aws-0-us-west-1.pooler.supabase.com",
-    database: "postgres",
-    password: "bancodeproyectos",
-    port: 6543,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 });
 
 export { pool };
