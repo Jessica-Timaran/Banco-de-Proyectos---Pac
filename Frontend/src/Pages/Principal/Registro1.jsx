@@ -180,7 +180,7 @@ const Registro = () => {
             <div className="logo-sena flex m-auto items-center justify-center w-full h-28 bg-[#A3E784] rounded-bl-[50px] rounded-br-[50px]">
               <img
                 className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
-                src="/public/img/Logo.png"
+                src="/public/Img/Logo.png"
                 width="10"
                 height="10"
                 alt="Logo Sena"

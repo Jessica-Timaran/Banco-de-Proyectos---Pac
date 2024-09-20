@@ -97,7 +97,7 @@ const Inicio = () => {
             <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#A3E784] rounded-bl-[40px] rounded-br-[40px]">
               <img
                 className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
-                src="/public/img/logo.png"
+                src="/public/Img/logo.png"
                 alt="Logo Sena"
               />
             </div>
@@ -170,7 +170,7 @@ const Inicio = () => {
         <div className="hidden lg:flex lg:w-1/2 xl:w-[600px] 2xl:w-[800px] items-center justify-center">
           <img
             className="w-full h-auto max-h-[80vh] object-contain"
-            src="../../public/img/nino.png"
+            src="../../public/Img/nino.png"
             alt="Imagen niño"
           />
         </div>
