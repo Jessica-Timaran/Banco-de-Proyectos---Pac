@@ -14,7 +14,6 @@ import Home from './Pages/Principal/Home';
 import OlvidarContraseña from './Pages/Principal/OlvidarContraseña'
 import UpdatePassword  from './Pages/Principal/UpdatePassword';
 import Registro1 from './Pages/Principal/Registro1';
-import CrearArea from './Pages/SuperAdmin/CrearArea';
 import Inicio from './Pages/Principal/Inicio';
 
 
@@ -28,7 +27,7 @@ import AdminObjetivos from './Pages/SuperAdmin/AdminObjetivos'
 import AdminAlcance from './Pages/SuperAdmin/AdminAlcance';
 import AdminItems from './Pages/SuperAdmin/AdminItems'
 import AdminFicha from './Pages/SuperAdmin/AdminFicha';
-import AreaTable from './Pages/SuperAdmin/AreaTable';
+import RegistroCompleto from './Pages/SuperAdmin/RegistroCompleto';
 
 /*Administrador */
 import Calificar from './Pages/Calificar';
@@ -73,7 +72,6 @@ const App = () => {
       
 
 
-          <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
           <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
           <Route path="/SuperAdmin/Adminusuarios" element={<AdminUsuarios />} />
           <Route path="/SuperAdmin/proyectos" element={<AdminProyectos/>} />
@@ -83,7 +81,7 @@ const App = () => {
           <Route path="/SuperAdmin/alcance" element={<AdminAlcance/>} />
           <Route path="/SuperAdmin/items" element={<AdminItems/>} />
           <Route path="/SuperAdmin/ficha" element={<AdminFicha/>} />
-          <Route path="/SuperAdmin/areatable" element={<AreaTable />} />
+          <Route path="/SuperAdmin/registrocompleto" element={<RegistroCompleto />} />
 
 
           <Route path="/Aprendiz/VistaAprendiz" element={<VistaAprendiz/>} />

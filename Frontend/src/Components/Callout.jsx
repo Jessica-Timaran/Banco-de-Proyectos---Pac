@@ -1,4 +1,3 @@
-// Callout.js (Archivo donde creaste el componente Callout)
 import React from 'react';
 
 export const CalloutA = ({ variant, title, children }) => {

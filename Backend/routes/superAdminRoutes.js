@@ -15,18 +15,20 @@ import {
     obtenerTodosLosProyectos,
     getAllFicha,
     registerArea,
- 
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
     checkEmailExists,
-  
     insertItem,
     addTipoDeArea,
     getItemsByTipoDeArea,
     registerFicha,
-    getTiposDeArea
+    getTiposDeArea,
+    registerComplete
 } from '../controllers/superAdminControler.js';
+
+
+
 
 const router = express.Router();
 router.post('/check-email', async (req, res) => {
@@ -239,8 +241,8 @@ router.post('/insertItem', insertItem);
 router.get('/tipos-de-area', getTiposDeArea);
 router.post('/tipos-de-area', addTipoDeArea);
 router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
-
 router.post('/fichas', registerFicha);
+router.post('/registerComplete', registerComplete);
 
 
 export default router;

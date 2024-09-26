@@ -38,6 +38,13 @@ app.use('/api/user', userRoutes);
 app.use('/api/promedioFinal', promedioFinal);
 app.use('/api/promedio', obtenerPromedio);
 
+// Manejo de errores 1
+app.use((err, req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 // Manejo de errores
 app.use((err, req, res, next) => {
     console.error(err.stack);

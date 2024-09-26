@@ -1,13 +1,9 @@
 import React from 'react';
 import { useUser } from '../Context/UserContext'; // Importa el contexto del usuario
-import Buscador from '../Components/Buscador'; // Asegúrate de que la ruta es correcta
+
 
 const Navbar = ({ Text }) => {
   const { user } = useUser(); // Usa el contexto del usuario
-
-  if (user === null) {
-    return <div>Loading...</div>; // O cualquier indicador de carga
-  }
 
   return (
     <nav className="bg-Color_carta flex p-4 justify-between z-40">

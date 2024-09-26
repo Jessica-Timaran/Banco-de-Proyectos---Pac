@@ -422,6 +422,84 @@ export async function getItemsByTipoDeArea(req, res) {
     }
 }
 
+export async function registerComplete(req, res) {
+    console.log('Received registerComplete request');
+    console.log('Request body:', req.body);
+  
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+  
+      const { area, tiposDeArea, items, categoriaObjetivos, objetivos, categoriaAlcance, alcances } = req.body;
+  
+      // Registrar área
+      const areaResult = await client.query('INSERT INTO area (area) VALUES ($1) RETURNING idarea', [area]);
+      const areaId = areaResult.rows[0].idarea;
+  
+      // Registrar tipos de área y obtener sus IDs
+      const tiposDeAreaIds = [];
+      for (const tipoArea of tiposDeArea) {
+        const tipoAreaResult = await client.query(
+          'INSERT INTO tipodearea (tiposdearea, idarea) VALUES ($1, $2) RETURNING idtiposdearea',
+          [tipoArea, areaId]
+        );
+        tiposDeAreaIds.push(tipoAreaResult.rows[0].idtiposdearea);
+      }
+  
+      // Registrar ítems asociados con área y tipo de área
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        // Asumimos que cada item corresponde a un tipo de área en el mismo orden
+        // Si hay más items que tipos de área, se repite cíclicamente
+        const tipoAreaId = tiposDeAreaIds[i % tiposDeAreaIds.length];
+        await client.query(
+          'INSERT INTO items (items, idarea, idtiposdearea) VALUES ($1, $2, $3)',
+          [item, areaId, tipoAreaId]
+        );
+      }
+  
+      // Registrar categoría de objetivos
+      const catObjResult = await client.query(
+        'INSERT INTO categoriasobjetivos (nombre) VALUES ($1) RETURNING idcategoriasobjetivos',
+        [categoriaObjetivos]
+      );
+      const catObjId = catObjResult.rows[0].idcategoriasobjetivos;
+  
+      // Registrar objetivos
+      for (const objetivo of objetivos) {
+        await client.query(
+          'INSERT INTO objetivos (descripcion, idcategoriasobjetivos) VALUES ($1, $2)',
+          [objetivo, catObjId]
+        );
+      }
+  
+      // Registrar categoría de alcance
+      const catAlcResult = await client.query(
+        'INSERT INTO categoriasalcance (nombre) VALUES ($1) RETURNING idcategoriasalcance',
+        [categoriaAlcance]
+      );
+      const catAlcId = catAlcResult.rows[0].idcategoriasalcance;
+  
+      // Registrar alcances
+      for (const alcance of alcances) {
+        await client.query(
+          'INSERT INTO alcance (descripcion, idcategoriasalcance) VALUES ($1, $2)',
+          [alcance, catAlcId]
+        );
+      }
+  
+      await client.query('COMMIT');
+      res.status(201).json({ message: 'Registro completo realizado con éxito' });
+    } catch (error) {
+      await client.query('ROLLBACK');
+      console.error('Error en el registro completo:', error);
+      res.status(500).json({ message: 'Error al realizar el registro completo', error: error.message });
+    } finally {
+      client.release();
+    }
+  }
+
+
 
 export {
     getAllPersonas,

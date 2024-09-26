@@ -1,6 +1,6 @@
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
-import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
+import LayoutPrincipal2 from '../../Layouts/LayoutPrincipal2';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import { ChartDonut } from '../../Components/ChartDonut';
@@ -8,7 +8,6 @@ import Loader from '../../Components/Loader';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
-  const [, setUserCount] = useState(0);
 
   useEffect(() => {
     // Simula un tiempo de carga de 2 segundos
@@ -16,31 +15,18 @@ const Dashboard = () => {
       setLoading(false);
     }, 2000);
 
-    // Aquí puedes mover la lógica de contar los usuarios sin renderizar la tabla
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/usuarios');
-        const usersData = await response.json();
-        setUserCount(usersData.length); // Actualiza el conteo de usuarios
-      } catch (error) {
-        console.error('Error al obtener los usuarios:', error);
-      }
-    };
-
-    fetchUsers();
-
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <LayoutPrincipal1 title="Proyectos">
+    <LayoutPrincipal2 title="Proyectos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen">
           <Loader />
         </div>
       ) : (
         <Layoutcontenido title="">
-          <div className="bg-Verde p-6 sm:p-10 rounded">
+          <div className="bg-verde p-6 sm:p-10 rounded">
             <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
             <Text className="text-white font-extrabold">Banco de Proyectos</Text>
           </div>
@@ -107,7 +93,7 @@ const Dashboard = () => {
               metricValue={20}
               progressText="Registro de proyecto"
               buttonTex="Ver detalle"
-              route="/SuperAdmin/areatable"
+              route="/SuperAdmin/registrocompleto"
             />
           </div>
 
@@ -116,7 +102,7 @@ const Dashboard = () => {
           </div>
         </Layoutcontenido>
       )}
-    </LayoutPrincipal1>
+    </LayoutPrincipal2>
   );
 };
 
