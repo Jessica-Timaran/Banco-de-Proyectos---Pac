@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Layoutprincipal from '../../Layouts/LayoutPrincipal';
-import Layoutcontenido5 from '../../layouts/Layoutcontenido5';
+import Layoutcontenido5 from '../../Layouts/Layoutcontenido5';
 import Input2 from '../../Components/Input';
 import { CalloutA } from '../../Components/Callout';
 import BotonSegundo from '../../Components/BotonSegundo';
