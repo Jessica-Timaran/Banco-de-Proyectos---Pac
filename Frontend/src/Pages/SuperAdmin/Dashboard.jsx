@@ -1,6 +1,6 @@
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
-import LayoutPrincipal from '../..layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import { ChartDonut } from '../../Components/ChartDonut';
