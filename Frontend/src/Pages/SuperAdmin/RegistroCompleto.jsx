@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Layoutprincipal from '../../layouts/LayoutPrincipal';
+import Layoutprincipal from '../../Layouts/LayoutPrincipal';
 import Layoutcontenido5 from '../../layouts/Layoutcontenido5';
 import Input2 from '../../Components/Input';
 import { CalloutA } from '../../Components/Callout';
