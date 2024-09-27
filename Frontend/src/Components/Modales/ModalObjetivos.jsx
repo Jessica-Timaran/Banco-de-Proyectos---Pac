@@ -5,41 +5,44 @@ import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
+import { useObjetivosForm } from '../../../hooks/SuperAdmin/useObjetivosForm';
 
-// Función para obtener áreas
-const fetchArea = async () => {
+// Función para obtener categorías
+const fetchCategorias = async () => {
     try {
-        const response = await fetch("http://localhost:4000/api/areas");
+        const response = await fetch("http://localhost:4000/api/objetivos");
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        return data.map((area) => ({ value: area.id, label: area.area }));
+        
+        const categoriasUnicas = [...new Set(data.map(objetivo => objetivo.categoria))];
+        
+        return categoriasUnicas.map((categoria, index) => ({ value: index + 1, label: categoria }));
     } catch (error) {
-        console.error("Error al obtener áreas:", error);
+        console.error("Error al obtener categorías:", error);
         return [];
     }
 };
 
-export default function TipoArea({ onClose }) {
-    const [area, setAreaOptions] = useState([]);
+export default function TipoArea({ onClose, onAddCategoria }) {
+    const [categorias, setCategoriaOptions] = useState([]);
 
-    // Obtener áreas al montar el componente
     useEffect(() => {
-        const loadAreas = async () => {
-            const areas = await fetchArea();
-            setAreaOptions(areas);
+        const loadCategorias = async () => {
+            const categorias = await fetchCategorias();
+            setCategoriaOptions(categorias);
         };
-        loadAreas();
+        loadCategorias();
     }, []);
 
+    const { formValues, errors, handleInputChange, handleSubmit } = useObjetivosForm((data) => {
+        onAddCategoria(data);
+        onClose();
+    });
+
     return (
-        <Dialog
-            open={true}
-            onClose={onClose}
-            static={true}
-            className="z-[100]"
-        >
+        <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
             <DialogPanel className="sm:max-w-md">
                 <button
                     type="button"
@@ -49,23 +52,29 @@ export default function TipoArea({ onClose }) {
                 >
                     <RiCloseLine className="size-5" aria-hidden={true} />
                 </button>
-                <form action="#" method="POST" className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
                                 <SelectBoxArea
-                                    id="area-select"
-                                    Text="Seleccione un Area"
-                                    options={area}
+                                    id="idcategoriasobjetivos"
+                                    Text="Seleccione una Categoría"
+                                    options={categorias}
+                                    value={formValues.idcategoriasobjetivos}
+                                    onChange={handleInputChange}
                                 />
+                                {errors.idcategoriasobjetivos && <span className="text-red-600">{errors.idcategoriasobjetivos}</span>}
                             </div>
                             <div>
                                 <Input2
-                                    id="nombreArea"
+                                    id="descripcion"
                                     type="text"
-                                    placeholder="Area"
-                                    Text="Area:"
+                                    placeholder="Descripción"
+                                    Text="Descripción:"
+                                    value={formValues.descripcion}
+                                    onChange={handleInputChange}
                                 />
+                                {errors.descripcion && <span className="text-red-600">{errors.descripcion}</span>}
                             </div>
                         </div>
                     </div>
@@ -78,4 +87,5 @@ export default function TipoArea({ onClose }) {
 
 TipoArea.propTypes = {
     onClose: PropTypes.func.isRequired,
-  };
+    onAddCategoria: PropTypes.func.isRequired,
+};

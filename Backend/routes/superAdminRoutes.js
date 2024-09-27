@@ -24,7 +24,9 @@ import {
     getItemsByTipoDeArea,
     registerFicha,
     getTiposDeArea,
-    registerComplete
+    registerComplete,
+    insertAlcance,
+    insertObjetivo
 } from '../controllers/superAdminControler.js';
 
 
@@ -243,6 +245,23 @@ router.post('/tipos-de-area', addTipoDeArea);
 router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
 router.post('/fichas', registerFicha);
 router.post('/registerComplete', registerComplete);
+
+// Ruta para obtener todas las categorías
+router.get('/categorias', async (req, res) => {
+    try {
+        const categorias = await getAllCategorias();
+        res.json(categorias);
+    } catch (error) {
+        console.error('Error al obtener categorías:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para insertar un nuevo alcance
+router.post('/insertAlcance', insertAlcance);
+
+// Ruta para insertar un nuevo objetivo
+router.post('/insertObjetivo', insertObjetivo); // Ensure this matches the fetch call
 
 
 export default router;

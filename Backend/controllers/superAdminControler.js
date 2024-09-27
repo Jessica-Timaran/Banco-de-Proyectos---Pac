@@ -500,6 +500,61 @@ export async function registerComplete(req, res) {
   }
 
 
+  export const insertAlcance = async (req, res) => {
+    const { descripcion, idcategoriasalcance } = req.body;
+  
+    // Validar si los datos requeridos están presentes
+    if (!descripcion || !idcategoriasalcance) {
+      console.log('Faltan datos requeridos:', { descripcion, idcategoriasalcance });
+      return res.status(400).json({ message: 'Faltan datos requeridos.' });
+    }
+  
+    const query = `
+      INSERT INTO alcance (descripcion, idcategoriasalcance)
+      VALUES ($1, $2)
+      RETURNING *;
+    `;
+  
+    const values = [descripcion, idcategoriasalcance];
+  
+    try {
+      const result = await pool.query(query, values); // pool.query para ejecutar la consulta
+      console.log('Alcance insertado:', result.rows[0]);
+      res.status(201).json(result.rows[0]); // Retorna el alcance insertado
+    } catch (error) {
+      console.error('Error al insertar alcance:', error);
+      res.status(500).json({ message: 'No se pudo insertar el alcance' });
+    }
+  };
+
+export const insertObjetivo = async (req, res) => {
+    const { descripcion, idcategoriasobjetivos } = req.body;
+
+    // Validar si los datos requeridos están presentes
+    if (!descripcion || !idcategoriasobjetivos) {
+        console.log('Faltan datos requeridos:', { descripcion, idcategoriasobjetivos });
+        return res.status(400).json({ message: 'Faltan datos requeridos.' });
+    }
+
+    const query = `
+        INSERT INTO objetivos (descripcion, idcategoriasobjetivos)
+        VALUES ($1, $2)
+        RETURNING *;
+    `;
+
+    const values = [descripcion, idcategoriasobjetivos];
+
+    try {
+        const result = await pool.query(query, values); // Use pool.query here
+        console.log('Objetivo insertado:', result.rows[0]);
+        res.status(201).json(result.rows[0]); // Retorna el objetivo insertado
+    } catch (error) {
+        console.error('Error al insertar objetivo:', error);
+        res.status(500).json({ message: 'No se pudo insertar el objetivo' });
+    }
+};
+
+
 
 export {
     getAllPersonas,
@@ -516,6 +571,6 @@ export {
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
-    checkEmailExists
+    checkEmailExists,
 
 };

@@ -73,7 +73,7 @@ const App = () => {
 
 
           <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
-          <Route path="/SuperAdmin/Adminusuarios" element={<AdminUsuarios />} />
+          <Route path="/SuperAdmin/usuarios" element={<AdminUsuarios />} />
           <Route path="/SuperAdmin/proyectos" element={<AdminProyectos/>} />
           <Route path="/SuperAdmin/areas" element={<AdminAreas/>} />
           <Route path="/SuperAdmin/tipodearea" element={<AdminTipoArea/>} />

@@ -5,7 +5,7 @@ import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
-import useTipoArea from '../../../hooks/useTipoArea';
+import useTipoArea from '../../../hooks/SuperAdmin/useTipoArea';
 
 // Función para obtener áreas
 const fetchArea = async () => {

@@ -5,7 +5,7 @@ import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxItems';
 import PropTypes from 'prop-types';
-import { useItemForm } from '../../../hooks/useItemForm';
+import { useItemForm } from '../../../hooks/SuperAdmin/useItemForm';
 
 const fetchArea = async () => {
     try {
@@ -38,7 +38,7 @@ export default function TipoArea({ onClose }) {
             console.log("Tipo de área en useEffect:", formValues.tipoArea);
             handleSelectChange({ target: { id: 'tipoArea', value: formValues.tipoArea } });
         }
-    }, [formValues.tipoArea]);
+    }, [formValues.tipoArea, handleSelectChange]);
 
     return (
         <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
