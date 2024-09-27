@@ -1,6 +1,6 @@
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
-import LayoutPrincipal2 from '../../Layouts/LayoutPrincipal2';
+import LayoutPrincipal from '../..layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import { ChartDonut } from '../../Components/ChartDonut';
@@ -19,7 +19,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <LayoutPrincipal2 title="Proyectos">
+    <LayoutPrincipal title="Proyectos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen">
           <Loader />
@@ -102,7 +102,7 @@ const Dashboard = () => {
           </div>
         </Layoutcontenido>
       )}
-    </LayoutPrincipal2>
+    </LayoutPrincipal>
   );
 };
 
