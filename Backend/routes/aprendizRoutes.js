@@ -107,7 +107,7 @@ router.post('/reset-password', async (req, res) => {
     }
 
     const resetToken = uuidv4(); // Genera un token único
-    const resetLink = `http://localhost:5173/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)}`;
+    const resetLink = `https://66ede4ad0e92d7000976bfcf--bancodeproyectospac.netlify.app/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)};`;
 
     const mailOptions = {
       from: 'pac.bancodeproyectos@gmail.com',
