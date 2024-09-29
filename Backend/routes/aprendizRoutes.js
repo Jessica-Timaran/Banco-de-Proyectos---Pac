@@ -82,32 +82,17 @@ router.post('/update-profile', async (req, res) => {
 
 
 // Ruta para actualizar la contraseña
-router.post('/update-password', async (req, res, next) => {
+router.post('/update-password', async (req, res) => {
   const { email, newPassword } = req.body;
 
   try {
-      // Aquí debes realizar la lógica de actualización
-      if (!email || !newPassword) {
-          return res.status(400).json({ error: 'Faltan parámetros.' });
-      }
-
-      const user = await User.findOne({ email });
-      if (!user) {
-          return res.status(404).json({ error: 'Usuario no encontrado.' });
-      }
-
-      // Aquí actualizas la contraseña (asegúrate de usar un método seguro)
-      user.contraseña = await bcrypt.hash(newPassword, 10);
-      await user.save();
-
-      res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
+    const user = await updatePassword(email, newPassword);
+    res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
   } catch (error) {
-      console.error('Error en la actualización de la contraseña:', error);
-      next(error); // Pasar el error al middleware de manejo de errores
+    console.error('Error al actualizar la contraseña:', error);
+    res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
   }
 });
-
-
 
 // Ruta para solicitar el enlace de recuperación de contraseña
 router.post('/reset-password', async (req, res) => {

@@ -19,16 +19,9 @@ cookieMiddleware(app);
 
 // Configura CORS para permitir el origen específico
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || /^https:\/\/.*\.netlify\.app$/.test(origin)) {
-            callback(null, true); // Permitir el origen
-        } else {
-            callback(new Error('No permitido por CORS')); // Rechazar el origen
-        }
-    },
+    origin: /^https:\/\/.*--bancodeproyectospac\.netlify\.app$/,
     credentials: true,
 }));
-
 
 // Middleware para manejar solicitudes JSON y de URL codificadas
 app.use(express.json());
