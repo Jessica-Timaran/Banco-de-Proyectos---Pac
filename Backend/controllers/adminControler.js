@@ -5,6 +5,38 @@ import transporter from '../config/nodemailerConfig.js';
 
 // Controlador para obtener proyectos con filtrado opcional por estado de calificación
 const getProyectos = async (req, res) => {
+  try {
+    const { estado } = req.query;
+
+    let query;
+    const values = [];
+
+    if (estado === 'Recibidos') {
+      // Filtrar para obtener proyectos que no están aceptados, devueltos o rechazados
+      query = `
+        SELECT * 
+        FROM proyecto 
+        WHERE estado IS NULL OR estado NOT IN ('Aceptado', 'Rechazado', 'Devuelto')`;
+    } else {
+      // Filtrar por el estado específico
+      query = `
+        SELECT * 
+        FROM proyecto 
+        WHERE estado = $1`;
+      values.push(estado);
+    }
+
+    console.log('SQL Query:', query);
+    console.log('Values:', values);
+
+    const result = await pool.query(query, values);
+    console.log('Resultados de la consulta:', result.rows);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error al obtener los proyectos:", error);
+    res.status(500).send("Error al obtener los proyectos");
+  }
 };
 
 // Función para obtener un proyecto por ID
