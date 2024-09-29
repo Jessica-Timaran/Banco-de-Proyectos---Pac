@@ -8,7 +8,7 @@ import { useItemForm } from '../../../hooks/SuperAdmin/useItemForm';
 
 const fetchArea = async () => {
     try {
-        const response = await fetch("http://localhost:4000/api/tipos-de-area");
+        const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area");
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }

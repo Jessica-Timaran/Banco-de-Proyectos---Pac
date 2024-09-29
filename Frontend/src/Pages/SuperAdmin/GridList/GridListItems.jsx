@@ -11,7 +11,7 @@ const GridListItems = () => {
   useEffect(() => {
     const fetchTiposDeArea = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/tipos-de-area');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area');
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
@@ -32,7 +32,7 @@ const GridListItems = () => {
     if (itemsByTipoDeArea[idtiposdearea]) return; // Evitar volver a cargar si ya se ha cargado antes
 
     try {
-      const response = await fetch(`http://localhost:4000/api/items/${idtiposdearea}`);
+      const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/items/${idtiposdearea}`);
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
       }

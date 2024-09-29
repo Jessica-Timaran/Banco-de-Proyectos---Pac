@@ -17,7 +17,7 @@ const useAlcanceForm = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/api/categorias');  // Obtiene las categorías desde el backend
+                const response = await axios.get('https://banco-de-proyectos-pac.onrender.com/api/categorias');  // Obtiene las categorías desde el backend
                 setCategories(response.data);  // Almacena las categorías en el estado
             } catch (error) {
                 console.error('Error fetching categories:', error);
@@ -88,7 +88,7 @@ const useAlcanceForm = () => {
                 idcategoriasalcance: formState.selectedCategory,  // Asigna la categoría seleccionada
             };
 
-            await axios.post('http://localhost:4000/api/insertAlcance', alcanceData);  // Envía los datos al backend
+            await axios.post('https://banco-de-proyectos-pac.onrender.com/api/insertAlcance', alcanceData);  // Envía los datos al backend
             setIsSubmitting(false);
             return true;  // Retorna verdadero si se envió exitosamente
         } catch (error) {

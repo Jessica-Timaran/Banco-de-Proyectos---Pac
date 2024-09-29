@@ -8,7 +8,7 @@ import { useObjetivosForm } from '../../../hooks/SuperAdmin/useObjetivosForm';
 
 const fetchCategorias = async () => {
     try {
-        const response = await fetch("http://localhost:4000/api/objetivos");
+        const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/objetivos");
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }

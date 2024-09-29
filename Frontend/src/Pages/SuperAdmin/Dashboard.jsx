@@ -32,14 +32,14 @@ const Dashboard = () => {
       setLoading(true);
       try {
         const [personasRes, fichasRes, proyectosRes, areasRes, tiposAreaRes, itemsRes, objetivosRes, alcancesRes] = await Promise.all([
-          fetch('http://localhost:4000/api/personas'),
-          fetch('http://localhost:4000/api/ficha'),
-          fetch('http://localhost:4000/api/proyecto'),
-          fetch('http://localhost:4000/api/areas'),
-          fetch('http://localhost:4000/api/tipos-de-area'),
-          fetch('http://localhost:4000/api/items'),
-          fetch('http://localhost:4000/api/objetivos'),
-          fetch('http://localhost:4000/api/alcances')
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/personas'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/ficha'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/proyecto'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/areas'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/items'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/objetivos'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/alcances')
         ]);
         
 

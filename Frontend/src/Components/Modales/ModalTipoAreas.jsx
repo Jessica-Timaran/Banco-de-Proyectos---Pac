@@ -20,7 +20,7 @@ export default function TipoArea({ onClose, onAddTipoArea }) {
     // Función para obtener áreas
     const fetchArea = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/areas");
+            const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/areas");
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
