@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../../Components/Loader';
 
-const GridListTipoArea = () => {
+const GridListItems = () => {
   const [tiposDeArea, setTiposDeArea] = useState([]);
   const [itemsByTipoDeArea, setItemsByTipoDeArea] = useState({});
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const GridListTipoArea = () => {
   useEffect(() => {
     const fetchTiposDeArea = async () => {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area');
+        const response = await fetch('http://localhost:4000/api/tipos-de-area');
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
@@ -32,7 +32,7 @@ const GridListTipoArea = () => {
     if (itemsByTipoDeArea[idtiposdearea]) return; // Evitar volver a cargar si ya se ha cargado antes
 
     try {
-      const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items/${idtiposdearea}`);
+      const response = await fetch(`http://localhost:4000/api/items/${idtiposdearea}`);
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
       }
@@ -83,29 +83,21 @@ const GridListTipoArea = () => {
                     onClick={() => handleToggleTipo(tipoDeArea.idtiposdearea)}
                   >
                     {openTipo === tipoDeArea.idtiposdearea ? (
-                      <i className="fas fa-chevron-up w-5 h-5 mr-2 text-gray-500">Ʌ</i>
-                    ) : (
                       <i className="fas fa-chevron-down w-5 h-5 mr-2 text-gray-500"></i>
+                    ) : (
+                      <i className="fas fa-chevron-right w-5 h-5 mr-2 text-gray-500"></i>
                     )}
                     <span className="font-bold text-gray-900">{tipoDeArea.tiposdearea}</span>
                   </td>
                 </tr>
-                {openTipo === tipoDeArea.idtiposdearea && (
-                  itemsByTipoDeArea[tipoDeArea.idtiposdearea] ? (
-                    itemsByTipoDeArea[tipoDeArea.idtiposdearea].map((item) => (
-                      <tr key={item.iditemsarea}>
-                        <td className="px-6 py-4 whitespace-nowrap pl-16 w-full">
-                          <span className="text-gray-900">{item.items}</span>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
+                {openTipo === tipoDeArea.idtiposdearea && itemsByTipoDeArea[tipoDeArea.idtiposdearea] && (
+                  itemsByTipoDeArea[tipoDeArea.idtiposdearea].map((item) => (
+                    <tr key={item.iditemsarea}>
                       <td className="px-6 py-4 whitespace-nowrap pl-16 w-full">
-                        <span className="text-gray-900">Cargando items...</span>
+                        <span className="text-gray-900">{item.items}</span>
                       </td>
                     </tr>
-                  )
+                  ))
                 )}
               </React.Fragment>
             ))}
@@ -116,4 +108,4 @@ const GridListTipoArea = () => {
   );
 };
 
-export default GridListTipoArea;
+export default GridListItems;

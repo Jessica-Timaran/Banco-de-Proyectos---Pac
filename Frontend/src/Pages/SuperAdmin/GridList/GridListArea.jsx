@@ -8,7 +8,7 @@ const GridListArea = () => {
   useEffect(() => {
     const fetchAreas = async () => {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
+        const response = await fetch('http://localhost:4000/api/areas');
         const areas = await response.json();
         setData(areas);
       } catch (error) {

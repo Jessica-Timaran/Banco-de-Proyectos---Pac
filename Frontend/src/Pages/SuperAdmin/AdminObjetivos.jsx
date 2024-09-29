@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
@@ -8,7 +8,7 @@ import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import ModalObjetivos from '../../Components/Modales/ModalObjetivos';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const Area = () => {
+const Objetivos = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -91,4 +91,4 @@ const Area = () => {
   );
 };
 
-export default Area;
+export default Objetivos;

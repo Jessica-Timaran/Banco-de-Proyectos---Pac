@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function useItemForm(onSuccess) {
     const [formValues, setFormValues] = useState({
@@ -7,11 +7,46 @@ export function useItemForm(onSuccess) {
     });
 
     const [errors, setErrors] = useState({});
-    const [types, ] = useState([]);
-    const [items, ] = useState([]);
+    const [types, setTypes] = useState([]);
+    const [items, setItems] = useState([]);
 
+    useEffect(() => {
+        const fetchTypes = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/api/tipos-de-area');
+                if (!response.ok) {
+                    throw new Error(`Error fetching types: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setTypes(data);
+                console.log("Tipos de área cargados:", data);
+            } catch (error) {
+                console.error('Error fetching types:', error);
+            }
+        };
 
+        fetchTypes();
+    }, []);
 
+    useEffect(() => {
+        const fetchItems = async () => {
+            if (formValues.tipoArea) {
+                try {
+                    const response = await fetch(`http://localhost:4000/api/items/${formValues.tipoArea}`);
+                    if (!response.ok) {
+                        throw new Error(`Error fetching items: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    setItems(data);
+                    console.log("Ítems cargados:", data);
+                } catch (error) {
+                    console.error('Error fetching items:', error);
+                }
+            }
+        };
+
+        fetchItems();
+    }, [formValues.tipoArea]);
 
     const validateForm = () => {
         const errors = {};
@@ -60,21 +95,21 @@ export function useItemForm(onSuccess) {
                 if (!response.ok) {
                     const error = await response.json();
                     console.error('Error en la respuesta del servidor:', error);
-                    alert('Error al registrar el ítem: ' + (error.message || 'Error desconocido'));
+                    // Reemplaza alert con manejo de error en tu UI
+                    console.error('Error al registrar el ítem:', error.message || 'Error desconocido');
                     return;
                 }
 
                 const data = await response.json();
-                alert('Ítem registrado con éxito: ' + JSON.stringify(data));
+                console.log('Ítem registrado con éxito:', data);
                 onSuccess(data);
             } catch (error) {
                 console.error('Error al registrar el ítem:', error);
-                alert('Error al registrar el ítem: ' + error.message);
+                // Reemplaza alert con manejo de error en tu UI
+                console.error('Error al registrar el ítem:', error.message);
             }
         }
     };
-
-    
 
     return {
         formValues,
@@ -86,4 +121,3 @@ export function useItemForm(onSuccess) {
         items
     };
 }
-

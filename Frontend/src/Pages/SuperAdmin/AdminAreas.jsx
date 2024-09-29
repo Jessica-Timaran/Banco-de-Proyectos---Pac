@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';
@@ -11,25 +11,17 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [areas, setAreas] = useState([]); // Estado para almacenar las áreas
   const [currentArea, setCurrentArea] = useState(null);
   const [actionType, setActionType] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAreas = async () => {
-      try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
-        const data = await response.json();
-        setAreas(data);
-      } catch (error) {
-        console.error('Error al obtener las áreas:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
 
-    fetchAreas();
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAddClick = () => {
@@ -38,22 +30,24 @@ const Area = () => {
     setIsModalOpen(true);
   };
 
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentArea(null);
   };
 
-  const handleAddArea = (newArea) => {
-    // Actualiza el estado con la nueva área
-    setAreas((prevAreas) => [...prevAreas, newArea]);
+  const handleAddArea = (Area) => {
+    // Lógica para agregar un usuario
+    console.log('Agregar', Area);
   };
+
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
   return (
-    <LayoutPrincipal1 title="Areas">
+    <LayoutPrincipal title="Areas">
       {loading ? (
         <div id="loader" className="flex items-center justify-center min-h-screen">
           <Loader />
@@ -72,7 +66,7 @@ const Area = () => {
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
             </div>
             <div>
-              <GridListArea areas={areas} /> {/* Pasa el estado de las áreas */}
+              <GridListArea />
             </div>
             {isModalOpen && (
               <Areas
@@ -85,7 +79,7 @@ const Area = () => {
           </div>
         </Layoutcontenido>
       )}
-    </LayoutPrincipal1>
+    </LayoutPrincipal>
   );
 };
 

@@ -8,10 +8,10 @@ import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import ModalAlcance from '../../Components/Modales/ModalAlcance';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const Area = () => {
+const Alcance = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentAlcance, setCurrentAlcance] = useState(null);
   const [actionType, setActionType] = useState('');
 
   const navigate = useNavigate();
@@ -25,27 +25,27 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentUser(null);
+    setCurrentAlcance(null);
     setActionType('add');
     setIsModalOpen(true); // Abrir el modal
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false); // Cerrar el modal
-    setCurrentUser(null);
+    setCurrentAlcance(null);
   };
 
-  const handleAddMember = (alcance) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar', alcance);
+  const handleAddAlcance = (alcance) => {
+    // Lógica para agregar el alcance
+    console.log('Agregar alcance:', alcance);
+    // Aquí puedes agregar la lógica para actualizar la lista de alcances,
+    // tal vez haciendo una llamada a la API o actualizando el estado.
+    handleCloseModal(); // Cerrar el modal después de agregar
   };
-
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
-
-  
 
   return (
     <LayoutPrincipal title="Alcance">
@@ -72,8 +72,8 @@ const Area = () => {
             {isModalOpen && (
               <ModalAlcance
                 onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                user={currentUser}
+                onAddAlcance={handleAddAlcance} // Asegúrate de que el nombre coincida
+                user={currentAlcance}
                 actionType={actionType}
               />
             )}
@@ -84,4 +84,4 @@ const Area = () => {
   );
 };
 
-export default Area;
+export default Alcance;

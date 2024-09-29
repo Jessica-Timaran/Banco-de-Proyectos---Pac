@@ -3,46 +3,49 @@ import axios from 'axios';
 
 const useAlcanceForm = () => {
     const [formState, setFormState] = useState({
-        alcanceName: '',
-        selectedCategory: '',
+        alcanceName: '',          // Inicializa el campo para el nombre del alcance
+        selectedCategory: '',     // Inicializa el campo para la categoría seleccionada
     });
-    const [categories, setCategories] = useState([]);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [categories, setCategories] = useState([]);  // Almacena las categorías desde el API
+    const [isSubmitting, setIsSubmitting] = useState(false);  // Controla el estado de envío del formulario
     const [errors, setErrors] = useState({
-        alcanceName: '',
-        selectedCategory: '',
+        alcanceName: '',          // Errores asociados al nombre del alcance
+        selectedCategory: '',     // Errores asociados a la categoría seleccionada
     });
 
-    // Fetch categories from API
+    // Fetch de categorías desde el API
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/api/categorias');
-                setCategories(response.data);
+                const response = await axios.get('http://localhost:4000/api/categorias');  // Obtiene las categorías desde el backend
+                setCategories(response.data);  // Almacena las categorías en el estado
             } catch (error) {
                 console.error('Error fetching categories:', error);
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    fetch: 'Error fetching categories'
+                    fetch: 'Error fetching categories'  // Error al obtener las categorías
                 }));
             }
         };
-        fetchCategories();
+        fetchCategories();  // Llama la función para obtener las categorías
     }, []);
 
+    // Manejo de cambios en los inputs del formulario
     const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormState((prevState) => ({
-          ...prevState,
-          [name]: value,
-      }));
-  
-      // Reset error message when user types
-      setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: '', // Clear error for the specific field being changed
-      }));
-  };
+        const { name, value } = e.target;
+        setFormState((prevState) => ({
+            ...prevState,
+            [name]: value,  // Actualiza el valor del input correspondiente
+        }));
+
+        // Restablece el error del campo que se está cambiando
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '',  // Limpia el error específico del campo
+        }));
+    };
+
+    // Función de validación del formulario
     const validateForm = () => {
         let valid = true;
         const newErrors = {
@@ -50,58 +53,62 @@ const useAlcanceForm = () => {
             selectedCategory: '',
         };
 
+        // Validación del campo de nombre del alcance
         if (!formState.alcanceName.trim()) {
             newErrors.alcanceName = 'La descripción es requerida.';
             valid = false;
         }
 
+        // Validación del campo de categoría seleccionada
         if (!formState.selectedCategory) {
             newErrors.selectedCategory = 'Debes seleccionar una categoría.';
             valid = false;
         }
 
-        setErrors(newErrors);
+        setErrors(newErrors);  // Actualiza los errores
         return valid;
     };
 
+    // Manejo del envío del formulario
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      setIsSubmitting(true);
-      setErrors({}); // Reset all errors
-  
-      if (!validateForm()) {
-          setIsSubmitting(false);
-          return false; // Retorna falso si hay errores
-      }
-  
-      // Si la validación es exitosa
-      try {
-          const alcanceData = {
-              descripcion: formState.alcanceName,
-              idcategoriasalcance: formState.selectedCategory,
-          };
-  
-          await axios.post('http://localhost:4000/api/insertAlcance', alcanceData);
-          setIsSubmitting(false);
-          return true; // Retorna verdadero si se envió exitosamente
-      } catch (error) {
-          console.error('Error inserting alcance:', error);
-          setErrors((prevErrors) => ({
-              ...prevErrors,
-              submit: 'Error inserting alcance',
-          }));
-          setIsSubmitting(false);
-          return false; // Retorna falso si hay error en el envío
-      }
-  };
+        e.preventDefault();
+        setIsSubmitting(true);
+        setErrors({});  // Limpia los errores previos
+
+        // Si la validación falla, detener el proceso
+        if (!validateForm()) {
+            setIsSubmitting(false);
+            return false;  // Retorna falso si hay errores
+        }
+
+        // Si la validación es exitosa
+        try {
+            const alcanceData = {
+                descripcion: formState.alcanceName,  // Asigna la descripción del alcance
+                idcategoriasalcance: formState.selectedCategory,  // Asigna la categoría seleccionada
+            };
+
+            await axios.post('http://localhost:4000/api/insertAlcance', alcanceData);  // Envía los datos al backend
+            setIsSubmitting(false);
+            return true;  // Retorna verdadero si se envió exitosamente
+        } catch (error) {
+            console.error('Error inserting alcance:', error);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                submit: 'Error inserting alcance',  // Error al intentar enviar los datos
+            }));
+            setIsSubmitting(false);
+            return false;  // Retorna falso si hay error en el envío
+        }
+    };
 
     return {
-        formState,
-        categories,
-        isSubmitting,
-        errors, // Ahora contiene los errores
-        handleInputChange,
-        handleSubmit,
+        formState,         // Devuelve el estado del formulario
+        categories,        // Devuelve las categorías obtenidas
+        isSubmitting,      // Devuelve el estado de envío
+        errors,            // Devuelve los errores para mostrarlos en el formulario
+        handleInputChange, // Devuelve la función para manejar cambios en los inputs
+        handleSubmit,      // Devuelve la función para manejar el envío del formulario
     };
 };
 

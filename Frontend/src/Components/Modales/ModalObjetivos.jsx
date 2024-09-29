@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
 import { useObjetivosForm } from '../../../hooks/SuperAdmin/useObjetivosForm';
 
-// Función para obtener categorías
 const fetchCategorias = async () => {
     try {
         const response = await fetch("http://localhost:4000/api/objetivos");
@@ -25,7 +23,7 @@ const fetchCategorias = async () => {
     }
 };
 
-export default function TipoArea({ onClose, onAddCategoria }) {
+export default function Objetivo({ onClose, onAddObjetivo }) {
     const [categorias, setCategoriaOptions] = useState([]);
 
     useEffect(() => {
@@ -37,8 +35,10 @@ export default function TipoArea({ onClose, onAddCategoria }) {
     }, []);
 
     const { formValues, errors, handleInputChange, handleSubmit } = useObjetivosForm((data) => {
-        onAddCategoria(data);
-        onClose();
+        onAddObjetivo(data);
+        setTimeout(() => {
+            onClose();  // Cierra el modal automáticamente después de un breve período de tiempo (2 segundos en este caso)
+        }, 2000);
     });
 
     return (
@@ -78,14 +78,20 @@ export default function TipoArea({ onClose, onAddCategoria }) {
                             </div>
                         </div>
                     </div>
-                    <BotonSegundo text="Agregar" id="guardarBtn" />
+                    <button
+                        type="submit"
+                        id="guardarBtn"
+                        className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
+                    >
+                        Agregar
+                    </button>
                 </form>
             </DialogPanel>
         </Dialog>
     );
 }
 
-TipoArea.propTypes = {
+Objetivo.propTypes = {
     onClose: PropTypes.func.isRequired,
-    onAddCategoria: PropTypes.func.isRequired,
+    onAddObjetivo: PropTypes.func.isRequired,
 };
