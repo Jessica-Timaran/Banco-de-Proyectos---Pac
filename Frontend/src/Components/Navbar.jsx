@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from '../Context/UserContext'; // Importa el contexto del usuario
+import { useUser } from './Context/UserContext'; // Importa el contexto del usuario
 
 
 const Navbar = ({ Text }) => {
