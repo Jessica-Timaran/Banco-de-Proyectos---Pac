@@ -101,8 +101,8 @@ const RegistroProyecto = () => {
       }
     
       const url = idProyecto
-        ? `http:/https://banco-de-proyectos-pac.onrender.com/user/proyectos/${idProyecto}`
-        : 'http:/https://banco-de-proyectos-pac.onrender.com/api/user/proyectos';
+      ? `https://banco-de-proyectos-pac.onrender.com/api/user/proyectos/${idProyecto}`
+      : 'https://banco-de-proyectos-pac.onrender.com/api/user/proyectos';
       const method = idProyecto ? 'PUT' : 'POST';
   
       const payload = {
