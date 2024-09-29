@@ -33,20 +33,22 @@ const ObjetivosComponent = ({ idproyecto }) => {
   const { respuestas, selecciones, setSelecciones, calificaciones, setCalificaciones } = useFetchRespuestas(idproyecto);
 
   useEffect(() => {
-    if (aprobaciones.length > 0) {
+    if (aprobaciones.length > 0 && respuestas.length > 0) {
       const calificacionesActualizadas = aprobaciones.reduce((acc, aprobacion) => {
         acc[aprobacion.idrespuestasobjetivos] = aprobacion.estado;
         return acc;
       }, {});
       setCalificaciones((prev) => ({ ...prev, ...calificacionesActualizadas }));
     }
-  }, [aprobaciones]);
+  }, [aprobaciones, respuestas]);
 
   useEffect(() => {
-    const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
-    const promedioCalculado = respuestas.length > 0 ? (aprobados / respuestas.length) * 100 : 0;
-    setPromedio(promedioCalculado);
-  }, [calificaciones, respuestas.length]);
+    if (respuestas.length > 0 && Object.keys(calificaciones).length > 0) {
+      const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
+      const promedioCalculado = (aprobados / respuestas.length) * 100;
+      setPromedio(promedioCalculado);
+    }
+  }, [calificaciones, respuestas]);
 
   useEffect(() => {
     if (puntosObjetivos !== null) {
@@ -111,7 +113,7 @@ const ObjetivosComponent = ({ idproyecto }) => {
     return acc;
   }, {});
 
-  if (loadingGuardar || loadingAprobaciones) {
+  if (loadingGuardar || loadingAprobaciones || respuestas.length === 0) {
     return <Loader />;
   }
 

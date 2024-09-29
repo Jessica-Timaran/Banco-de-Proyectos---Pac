@@ -5,38 +5,6 @@ import transporter from '../config/nodemailerConfig.js';
 
 // Controlador para obtener proyectos con filtrado opcional por estado de calificación
 const getProyectos = async (req, res) => {
-  try {
-    const { estado } = req.query;
-
-    let query;
-    const values = [];
-
-    if (estado === 'Recibidos') {
-      // Filtrar para obtener proyectos que no están aceptados, devueltos o rechazados
-      query = `
-        SELECT * 
-        FROM proyecto 
-        WHERE estado IS NULL OR estado NOT IN ('Aceptado', 'Rechazado', 'Devuelto')`;
-    } else {
-      // Filtrar por el estado específico
-      query = `
-        SELECT * 
-        FROM proyecto 
-        WHERE estado = $1`;
-      values.push(estado);
-    }
-
-    console.log('SQL Query:', query);
-    console.log('Values:', values);
-
-    const result = await pool.query(query, values);
-    console.log('Resultados de la consulta:', result.rows);
-
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error al obtener los proyectos:", error);
-    res.status(500).send("Error al obtener los proyectos");
-  }
 };
 
 // Función para obtener un proyecto por ID
@@ -223,7 +191,6 @@ const asignarProyecto = async (req, res) => {
   }
 };
 
-
 const actualizarIdCalificacion = async (req, res) => {
   const { idproyecto, idcalificacion } = req.body;
 
@@ -248,18 +215,17 @@ const actualizarIdCalificacion = async (req, res) => {
   }
 };
 
-
+// Controlador para mostrar los proyectos asignados en la vista Asignados
 const getProyectosAsignados = async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT p.idproyecto, p.nombre, p.responsable
+      SELECT DISTINCT p.idproyecto, p.nombre, p.responsable
       FROM proyecto p
       JOIN asignaciones_proyectos ap ON p.idproyecto = ap.idproyecto
-      JOIN personas pe ON ap.idpersona = pe.idpersonas
     `);
 
     if (result.rows.length > 0) {
-      res.json(result.rows);
+      res.json(result.rows);  // Retornar los proyectos asignados
     } else {
       res.status(404).json({ message: 'No hay proyectos asignados.' });
     }
@@ -268,6 +234,30 @@ const getProyectosAsignados = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener proyectos asignados' });
   }
 };
+
+// Controlador para ver a los aprendices asignados
+const getPersonasAsignadas = async (req, res) => {
+  const { idproyecto } = req.params;
+  try {
+    const query = `
+      SELECT p.nombre AS nombre_persona 
+      FROM personas p
+      JOIN asignaciones_proyectos ap ON p.idpersonas = ap.idpersona
+      WHERE ap.idproyecto = $1
+    `;
+    const result = await pool.query(query, [idproyecto]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No hay personas asignadas a este proyecto.' });
+    }
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener las personas asignadas:', error);
+    res.status(500).json({ message: 'Error en el servidor.' });
+  }
+};
+
 
 const getSearch = async (req, res) => {
   try {
@@ -426,6 +416,6 @@ export {
   actualizarPuntosObjetivos,
   obtenerPuntosObjetivos,
   actualizarPuntosAlcance,
-
+  getPersonasAsignadas
 
 };
