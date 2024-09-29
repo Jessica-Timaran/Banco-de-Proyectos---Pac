@@ -83,10 +83,21 @@ router.post('/update-profile', async (req, res) => {
 
 // Ruta para actualizar la contraseña
 router.post('/update-password', async (req, res) => {
-  const { email, newPassword } = req.body;
+  const { email, newPassword, token } = req.body;
 
   try {
+    // Primero, verifica si el token es válido
+    const isValidToken = await verifyResetToken(email, token);
+    if (!isValidToken) {
+      return res.status(400).json({ error: 'Token inválido o expirado' });
+    }
+
+    // Si el token es válido, procede a actualizar la contraseña
     const user = await updatePassword(email, newPassword);
+    
+    // Invalida el token después de usarlo
+    await invalidateResetToken(email);
+
     res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
   } catch (error) {
     console.error('Error al actualizar la contraseña:', error);
