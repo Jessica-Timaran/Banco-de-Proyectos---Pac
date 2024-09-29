@@ -83,7 +83,7 @@ router.post('/update-profile', async (req, res) => {
 
 // Ruta para actualizar la contraseña
 router.post('/update-password', async (req, res) => {
-  const { email, newPassword, token } = req.body;
+  const { email, newPassword } = req.body;
 
   try {
     const user = await updatePassword(email, newPassword);
