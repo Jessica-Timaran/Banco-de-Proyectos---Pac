@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import Layoutprincipal from '../../Layouts/LayoutPrincipal';
+import { useNavigate } from 'react-router-dom';
+import Layoutprincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido5 from '../../Layouts/Layoutcontenido5';
 import Input2 from '../../Components/Input';
 import { CalloutA } from '../../Components/Callout';
@@ -12,6 +13,7 @@ import { ModalR } from '../../Components/ModalR';
 export default function RegistroCompleto() {
   // Estados para manejar la carga, reinicio, modal y datos del formulario
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [resetting, setResetting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -143,6 +145,10 @@ export default function RegistroCompleto() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleGoBack = () => {
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
+  };
+
   // Renderizado condicional para mostrar el loader
   if (loading || resetting) {
     return (
@@ -155,11 +161,21 @@ export default function RegistroCompleto() {
   // Renderizado principal del componente
   return (
     <Layoutprincipal title="Registro proyecto">
+    
       <div className="flex justify-center items-center my-4 px-4 sm:px-6 lg:px-8">
         <CalloutA variant="warning" title="Important Notice">
           POR FAVOR LLENE TODOS LOS DATOS PARA REALIZAR UN REGISTRO COMPLETO
         </CalloutA>
       </div>
+      <div className="flex justify-between items-center mb-4 px-80">
+          <button
+            onClick={handleGoBack}
+            className="flex items-center text-black hover:text-Verde"
+          >
+            <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+            <span className="text-lg leading-6">Volver</span>
+          </button>
+        </div>
       <Layoutcontenido5 title="Registro completo">
         <div className="sm:mx-auto sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -187,9 +203,9 @@ export default function RegistroCompleto() {
                     />
                   </div>
                 ))}
-                <button 
-                  type="button" 
-                  onClick={() => addField('tiposDeArea')} 
+                <button
+                  type="button"
+                  onClick={() => addField('tiposDeArea')}
                   className="text-tremor-brand hover:underline text-sm text-gray-500"
                 >
                   Agregar tipo de área
@@ -209,9 +225,9 @@ export default function RegistroCompleto() {
                     />
                   </div>
                 ))}
-                <button 
-                  type="button" 
-                  onClick={() => addField('items')} 
+                <button
+                  type="button"
+                  onClick={() => addField('items')}
                   className="text-tremor-brand hover:underline text-sm text-gray-500"
                 >
                   Agregar item
@@ -246,9 +262,9 @@ export default function RegistroCompleto() {
                     />
                   </div>
                 ))}
-                <button 
-                  type="button" 
-                  onClick={() => addField('objetivos')} 
+                <button
+                  type="button"
+                  onClick={() => addField('objetivos')}
                   className="text-tremor-brand hover:underline text-sm text-gray-500"
                 >
                   Agregar objetivo
@@ -294,8 +310,8 @@ export default function RegistroCompleto() {
           </form>
         </div>
       </Layoutcontenido5>
-      <ModalR 
-        isOpen={isModalOpen} 
+      <ModalR
+        isOpen={isModalOpen}
         closeDialog={() => closeModal(false)}
         onOkClick={() => closeModal(true)}
       />
