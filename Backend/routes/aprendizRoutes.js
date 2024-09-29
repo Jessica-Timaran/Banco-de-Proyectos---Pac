@@ -111,7 +111,7 @@ router.post('/update-password', async (req, res) => {
     if (error.name === 'JsonWebTokenError') {
       res.status(401).json({ error: 'Token inválido o expirado' });
     } else if (error.message === 'Usuario no encontrado') {
-      res.status(404).json({ error: 'Usuario no encontrado' });
+      res.status(404).json({ error: 'Usuario no encontrados' });
     } else {
       res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
     }
