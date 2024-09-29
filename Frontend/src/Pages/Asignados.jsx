@@ -42,7 +42,7 @@ const Asignados = () => {
         <div className="w-full">
           <div className="flex justify-center flex-wrap w-full">
             {proyectos.map((proyecto) => (
-              <CardProyect key={proyecto.idproyecto} Text={proyecto.nombre} id={proyecto.idproyecto}>
+              <CardProyect key={proyecto.idproyecto} Text={proyecto.nombre}>
                 <BotonSegundo Text="Ver" onClick={() => handleVerClick(proyecto.idproyecto, proyecto.nombre, proyecto.responsable)} />
               </CardProyect>
             ))}
