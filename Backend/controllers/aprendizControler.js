@@ -112,27 +112,41 @@ async function checkIfUserExists(correo) {
 }
 
 async function updatePassword(correo, nuevaContraseña) {
+    let client;
     try {
+        // Generar el hash de la nueva contraseña
         const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
 
-        const client = await pool.connect();
+        // Conectar a la base de datos
+        client = await pool.connect();
+        console.log('Conexión a la base de datos establecida');
+
+        // Ejecutar la consulta SQL
         const result = await client.query(
             'UPDATE personas SET contraseña = $1 WHERE correo = $2 RETURNING *',
             [hashedPassword, correo]
         );
-        client.release();
+        console.log('Consulta SQL ejecutada');
 
+        // Verificar si se actualizó algún registro
         if (result.rows.length > 0) {
+            console.log('Contraseña actualizada con éxito');
             return result.rows[0];
         } else {
+            console.log('Usuario no encontrado');
             throw new Error('Usuario no encontrado');
         }
     } catch (error) {
-        console.error('Error al actualizar la contraseña:', error);
+        console.error('Error detallado al actualizar la contraseña:', error);
         throw error;
+    } finally {
+        // Asegurarse de cerrar la conexión del cliente
+        if (client) {
+            client.release();
+            console.log('Conexión a la base de datos cerrada');
+        }
     }
 }
-
 async function checkEmailExists(correo) {
     if (!correo) {
         throw new Error('El correo electrónico es requerido.');

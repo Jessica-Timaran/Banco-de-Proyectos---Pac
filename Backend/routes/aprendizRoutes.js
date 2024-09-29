@@ -1,6 +1,6 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-
+import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 
@@ -83,16 +83,41 @@ router.post('/update-profile', async (req, res) => {
 
 // Ruta para actualizar la contraseña
 router.post('/update-password', async (req, res) => {
-  const { email, newPassword } = req.body;
+  const { token, email, newPassword } = req.body;
+
+  // Validación de los datos de entrada
+  if (!token || !email || !newPassword) {
+    return res.status(400).json({ error: 'Faltan datos requeridos' });
+  }
 
   try {
+    // Verificar el token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Asegurar que el email en el token coincide con el email proporcionado
+    if (decodedToken.email !== email) {
+      return res.status(401).json({ error: 'Token inválido' });
+    }
+
+    // Llamar a la función de actualización de contraseña
     const user = await updatePassword(email, newPassword);
+    
+    // Respuesta exitosa
     res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
   } catch (error) {
     console.error('Error al actualizar la contraseña:', error);
-    res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
+    
+    // Manejo de errores específicos
+    if (error.name === 'JsonWebTokenError') {
+      res.status(401).json({ error: 'Token inválido o expirado' });
+    } else if (error.message === 'Usuario no encontrado') {
+      res.status(404).json({ error: 'Usuario no encontrado' });
+    } else {
+      res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
+    }
   }
 });
+
 
 // Ruta para solicitar el enlace de recuperación de contraseña
 router.post('/reset-password', async (req, res) => {
