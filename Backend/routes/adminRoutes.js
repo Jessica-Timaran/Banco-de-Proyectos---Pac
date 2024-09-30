@@ -139,4 +139,5 @@ router.put('/proyecto/:idproyecto/actualizarPuntosAlcance', actualizarPuntosAlca
 router.get('/proyectos/:idproyecto/personas', getPersonasAsignadas);
 
 
-export default router;
+export default router;  
+ 
