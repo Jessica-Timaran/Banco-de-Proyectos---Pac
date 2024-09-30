@@ -111,6 +111,12 @@ async function checkIfUserExists(correo) {
     }
 }
 
+export const generateResetToken = (email) => {
+    const secretKey = process.env.JWT_SECRET; // La clave secreta debe estar en tu archivo .env
+    const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' }); // El token expira en 1 hora
+    return token;
+};
+
 async function updatePassword(correo, nuevaContraseña) {
     let client;
     try {
