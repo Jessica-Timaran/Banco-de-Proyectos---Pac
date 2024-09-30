@@ -27,7 +27,7 @@ import {
     getAllCategorias,
 
   
-} from '../controllers/datacontroler.js';
+} from '../controllers/superAdminControler.js';
 
 
 const router = express.Router();
