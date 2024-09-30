@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import CardProyect from "../Components/CardProyect";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
-import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1"
+import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
 import BotonSegundo from "../Components/BotonSegundo";
 import ModalAprendiz from "../Components/ModalAprendiz";
 import useModal from "../../hooks/Admin/useModal";
@@ -42,7 +42,7 @@ const Asignados = () => {
         <div className="w-full">
           <div className="flex justify-center flex-wrap w-full">
             {proyectos.map((proyecto) => (
-              <CardProyect key={proyecto.idproyecto} Text={proyecto.nombre}>
+              <CardProyect key={proyecto.idproyecto} Text={proyecto.nombre} >
                 <BotonSegundo Text="Ver" onClick={() => handleVerClick(proyecto.idproyecto, proyecto.nombre, proyecto.responsable)} />
               </CardProyect>
             ))}
