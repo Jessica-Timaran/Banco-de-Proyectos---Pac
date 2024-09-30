@@ -10,7 +10,7 @@ const GridListAlcances = () => {
   useEffect(() => {
     const fetchAlcances = async () => {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/alcances');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances');
         if (!response.ok) {
           throw new Error(`Error fetching alcances: ${response.statusText}`);
         }

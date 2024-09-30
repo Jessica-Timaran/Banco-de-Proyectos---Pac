@@ -40,7 +40,7 @@ export function useTipoArea(onSuccess) {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

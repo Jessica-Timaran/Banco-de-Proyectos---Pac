@@ -32,14 +32,14 @@ const Dashboard = () => {
       setLoading(true);
       try {
         const [personasRes, fichasRes, proyectosRes, areasRes, tiposAreaRes, itemsRes, objetivosRes, alcancesRes] = await Promise.all([
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/personas'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/ficha'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/proyecto'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/areas'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/items'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/objetivos'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/alcances')
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/personas'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/proyecto'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos'),
+          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances')
         ]);
         
 

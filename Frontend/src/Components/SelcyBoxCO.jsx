@@ -9,7 +9,7 @@ const SelectBoxObjetivos = ({ id, text, value, onChange, error }) => {
   useEffect(() => {
     const fetchObjetivos = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/objetivos');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos');
         if (!response.ok) {
           throw new Error(`Error fetching objetivos: ${response.statusText}`);
         }
