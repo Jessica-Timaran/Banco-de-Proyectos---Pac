@@ -23,7 +23,7 @@ const GridListTipoArea = () => {
     useEffect(() => {
         const fetchAreas = async () => {
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/areas');
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
                 if (!response.ok) throw new Error(`Error al obtener las áreas: ${response.statusText}`);
                 
                 const data = await response.json();
@@ -44,7 +44,7 @@ const GridListTipoArea = () => {
      */
     const fetchTiposDeArea = async (idArea) => {
         try {
-            const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area/${idArea}`);
+            const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area/${idArea}`);
             if (!response.ok) throw new Error(`Error al obtener los tipos de área: ${response.statusText}`);
             
             const data = await response.json();

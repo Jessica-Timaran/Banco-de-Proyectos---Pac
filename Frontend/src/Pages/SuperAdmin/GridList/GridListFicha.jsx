@@ -10,7 +10,7 @@ const GridListFicha = () => {
   const fetchFichas = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/ficha');
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha');
       const fichasData = await response.json();
       setFichas(fichasData);
     } catch (error) {

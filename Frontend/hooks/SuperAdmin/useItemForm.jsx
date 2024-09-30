@@ -13,7 +13,7 @@ export function useItemForm(onSuccess) {
     useEffect(() => {
         const fetchTypes = async () => {
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/tipos-de-area');
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area');
                 if (!response.ok) {
                     throw new Error(`Error fetching types: ${response.statusText}`);
                 }
@@ -32,7 +32,7 @@ export function useItemForm(onSuccess) {
         const fetchItems = async () => {
             if (formValues.tipoArea) {
                 try {
-                    const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/items/${formValues.tipoArea}`);
+                    const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items/${formValues.tipoArea}`);
                     if (!response.ok) {
                         throw new Error(`Error fetching items: ${response.statusText}`);
                     }

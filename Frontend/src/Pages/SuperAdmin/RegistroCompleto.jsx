@@ -97,7 +97,7 @@ export default function RegistroCompleto() {
     }
 
     try {
-      const response = await axios.post('https://banco-de-proyectos-pac.onrender.com/api/registerComplete', formData);
+      const response = await axios.post('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerComplete', formData);
       console.log('Respuesta del servidor:', response.data);
       setIsModalOpen(true);
     } catch (error) {

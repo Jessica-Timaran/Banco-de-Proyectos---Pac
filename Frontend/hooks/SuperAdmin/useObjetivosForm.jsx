@@ -40,7 +40,7 @@ export function useObjetivosForm(onSuccess) {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/insertObjetivo', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/insertObjetivo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

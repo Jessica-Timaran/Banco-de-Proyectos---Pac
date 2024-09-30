@@ -31,7 +31,7 @@ export function useAreaForm(onSuccess) {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/registerArea', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerArea', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
