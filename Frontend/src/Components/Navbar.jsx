@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUser } from '../Context/UserContext'; // Importa el contexto del usuario
+import logoUser from '../../public/user-solid.svg'
 
 
 const Navbar = ({ Text }) => {
@@ -12,8 +13,8 @@ const Navbar = ({ Text }) => {
     </div>
     <div className="flex grid-cols-2 justify-center items-center mr-6">
         <img
-          src="/Img/perfil.png"
-          alt="User Avatar"
+           src={logoUser}
+          alt="User Icon"
           className="flex rounded-full w-12 h-12 mr-2 justify-end"
         />
         <span className="text-black">
