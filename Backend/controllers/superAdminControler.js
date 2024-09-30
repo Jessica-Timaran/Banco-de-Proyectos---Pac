@@ -140,7 +140,7 @@ export async function getItemsByTipoDeArea(req, res) {
 
 
 // Función asincrónica para agregar un nuevo tipo de área
-export const addTipoDeArea = async (req, res) => {
+    const addTipoDeArea = async (req, res) => {
     const { nombreTipoArea, idarea } = req.body;
 
     if (!nombreTipoArea || !idarea) {
