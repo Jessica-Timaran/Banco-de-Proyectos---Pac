@@ -142,7 +142,7 @@ const guardarCalificacion = async (req, res) => {
 // Obtener todas las fichas activas
 const getFichas = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM ficha WHERE estado = TRUE');
+    const result = await pool.query('SELECT * FROM ficha');
     res.json(result.rows);
   } catch (err) {
     console.error('Error al obtener las fichas:', err.message);
