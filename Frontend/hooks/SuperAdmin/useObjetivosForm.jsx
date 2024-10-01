@@ -1,4 +1,4 @@
-import { useState,  } from 'react';
+import { useState } from 'react';
 
 export function useObjetivosForm(onSuccess) {
     const [formValues, setFormValues] = useState({
@@ -12,13 +12,11 @@ export function useObjetivosForm(onSuccess) {
         const errors = {};
         let isValid = true;
 
-        // Validar selección de categoría
         if (!formValues.idcategoriasobjetivos) {
             errors.idcategoriasobjetivos = 'Debes seleccionar una categoría.';
             isValid = false;
         }
 
-        // Validar descripción (mínimo 10 caracteres)
         const descripcionPattern = /^[A-Za-zÀ-ÿ\s.,]{10,}$/;
         if (!descripcionPattern.test(formValues.descripcion.trim())) {
             errors.descripcion = 'La descripción debe tener al menos 10 caracteres.';
@@ -42,7 +40,7 @@ export function useObjetivosForm(onSuccess) {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:4000/api/insertObjetivo', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/insertObjetivo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -53,12 +51,10 @@ export function useObjetivosForm(onSuccess) {
                 if (!response.ok) {
                     const error = await response.json();
                     console.error('Error en la respuesta del servidor:', error);
-                    alert('Error al registrar el objetivo: ' + (error.message || 'Error desconocido'));
-                    return;
+                    return; // Maneja el error sin alerta
                 }
 
                 const data = await response.json();
-                alert('Objetivo registrado con éxito: ' + JSON.stringify(data));
                 onSuccess(data);
                 setFormValues({
                     idcategoriasobjetivos: '',
@@ -66,7 +62,6 @@ export function useObjetivosForm(onSuccess) {
                 });
             } catch (error) {
                 console.error('Error al registrar el objetivo:', error);
-                alert('Error al registrar el objetivo: ' + error.message);
             }
         }
     };

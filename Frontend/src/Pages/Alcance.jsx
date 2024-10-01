@@ -21,21 +21,23 @@ const Alcance = () => {
   const { actualizarEstadoRespuestasAlcance, actualizarPuntosAlcance, loading: loadingActualizar, error: errorActualizar } = useActualizarEstadoRespuestasAlcance();
 
   useEffect(() => {
-    const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
-    const promedioCalculado = respuestasAlcance.length > 0 ? (aprobados / respuestasAlcance.length) * 100 : 0;
-    setPromedio(promedioCalculado);
-  }, [calificaciones, respuestasAlcance.length]);
+    if (respuestasAlcance.length > 0 && Object.keys(calificaciones).length > 0) {
+      const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
+      const promedioCalculado = (aprobados / respuestasAlcance.length) * 100;
+      setPromedio(promedioCalculado);
+    }
+  }, [calificaciones, respuestasAlcance]);
 
   // Cargar las asignaciones de "Aprobado" y "No aceptado" cuando se cargue la vista
   useEffect(() => {
-    if (asignaciones.length > 0) {
-      const nuevasCalificaciones = {};
+    if (asignaciones.length > 0 && respuestasAlcance.length > 0) {
+      const nuevasCalificaciones = { ...calificaciones };
       asignaciones.forEach(asignacion => {
         nuevasCalificaciones[asignacion.idalcance] = asignacion.estado;
       });
       setCalificaciones(nuevasCalificaciones);
     }
-  }, [asignaciones]);
+  }, [asignaciones, respuestasAlcance]);
 
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({

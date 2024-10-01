@@ -10,7 +10,7 @@ const SelectBoxArea = ({ Text, id, options, value, onChange, error }) => {
                 id={id}
                 value={value}
                 onChange={onChange}
-                className="bg-[#F5F6FA] w-[100%] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]"
+                className="bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${error ? 'border-red-500' : 'border-[#D5D5D5]'}`"
             >
                 <option value="" disabled>Elige una opción</option>
                 {options.length > 0 ? (

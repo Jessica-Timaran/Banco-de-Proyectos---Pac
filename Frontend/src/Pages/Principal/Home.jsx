@@ -15,10 +15,10 @@ const Home = () => {
           ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?
         </p>
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="/Principal/Inicio" className="w-full sm:w-auto">
+          <a href="/Principal/Inicio" className="w-full sm:w-auto flex justify-center">
             <BotonPrincipal Text="Iniciar Sesion" />
           </a>
-          <a href="/Principal/Registro1" className="w-full sm:w-auto">
+          <a href="/Principal/Registro1" className="w-full sm:w-auto flex justify-center ">
             <BotonSegundo Text="Registrate" />
           </a>
         </div>

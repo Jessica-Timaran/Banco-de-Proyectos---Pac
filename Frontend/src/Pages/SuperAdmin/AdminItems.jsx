@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListItems from './GridList/GridListItems';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import ModalItems from '../../Components/Modales/ModalItems'; // Importar el modal
 
-const Area = () => {
+const Items = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState(null); // Para manejar el item actual
@@ -47,7 +47,7 @@ const Area = () => {
   };
 
   return (
-    <LayoutPrincipal1 title="Items">
+    <LayoutPrincipal title="Items">
       {loading ? (
         <div id="loader" className="flex items-center justify-center min-h-screen">
           <Loader />
@@ -82,8 +82,9 @@ const Area = () => {
           )}
         </Layoutcontenido>
       )}
-    </LayoutPrincipal1>
+    </LayoutPrincipal>
   );
 };
 
-export default Area;
+export default Items;
+

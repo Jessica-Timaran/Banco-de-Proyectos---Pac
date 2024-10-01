@@ -1,77 +1,79 @@
+import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import BotonSegundo from '../BotonSegundoModal';
+import SelectBoxAlcance from '../SelectBoxAlcance';
 import PropTypes from 'prop-types';
-import SelectBoxArea from '../SelectBoxAlcance';
-import useAlcanceForm from '../../../hooks/SuperAdmin/useAlcanceForm';
+import useAlcanceForm from '../../../hooks/SuperAdmin/useAlcanceForm.jsx';
 
-const Alcance = ({ onClose, actionType }) => {
-  const { formState, categories, errors, handleInputChange, handleSubmit } = useAlcanceForm();
-  const { alcanceName, selectedCategory } = formState;
-
-  const handleSelectChange = (e) => {
-      handleInputChange({ target: { name: 'selectedCategory', value: e.target.value } });
-  };
-
-  const handleSubmitWrapper = async (e) => {
-      const isValid = await handleSubmit(e); // Espera la validación
-      if (isValid) {
-          onClose(); // Solo cierra el modal si la validación es correcta
-      }
-  };
-
-  return (
-      <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
-          <DialogPanel className="sm:max-w-md">
-              <button
-                  type="button"
-                  className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle"
-                  onClick={onClose}
-                  aria-label="Close"
-              >
-                  <RiCloseLine className="size-5" aria-hidden={true} />
-              </button>
-              <form className="space-y-4" onSubmit={handleSubmitWrapper}> {/* Aquí usas handleSubmitWrapper */}
-                  <h4 className="font-semibold text-tremor-content-strong">
-                      {actionType === 'add' ? 'Añade un nuevo Alcance' : 'Editar alcance'}
-                  </h4>
-
-                  <Input2
-                      id="nombrealcance"
-                      name="alcanceName"
-                      type="text"
-                      placeholder="Descripción del alcance"
-                      value={alcanceName}
-                      onChange={handleInputChange}
-                      Text="Descripción:"
-                  />
-                  {errors.alcanceName && <p className="text-red-500">{errors.alcanceName}</p>} {/* Mensaje de error para el input */}
-
-                  <SelectBoxArea
-                      id="categoria"
-                      Text="Selecciona una categoría:"
-                      options={categories.map(category => ({
-                          idcategoriasalcance: category.idcategoriasalcance,
-                          categoria: category.nombre,
-                      }))}
-                      value={selectedCategory}
-                      onChange={handleSelectChange}
-                   // Asegúrate de que el componente maneje el prop error
-                  />
-                  {errors.selectedCategory && <p className="text-red-500">{errors.selectedCategory}</p>} {/* Mensaje de error para el select */}
-
-  
-
-                  <BotonSegundo text={actionType === 'add' ? 'Agregar' : 'Guardar'} />
-              </form>
-          </DialogPanel>
-      </Dialog>
-  );
+// Función para obtener las categorías de la API
+const fetchCategoriasAlcance = async () => {
+    try {
+        const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances");
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        
+        // Extraer categorías únicas de la respuesta
+        const categoriasUnicas = [...new Set(data.map(alcance => alcance.categoria))];
+        
+        // Convertir categorías en opciones para el select
+        return categoriasUnicas.map((categoria, index) => ({
+            value: index + 1,  // Ajusta según tu base de datos
+            label: categoria
+        }));
+    } catch (error) {
+        console.error("Error al obtener categorías:", error);
+        return [];
+    }
 };
+
+export default function Alcance({ onClose, onAddAlcance }) {
+    const [categorias, setCategoriaOptions] = useState([]);
+
+    // Cargar categorías al montar el componente
+    useEffect(() => {
+        const loadCategorias = async () => {
+            const categorias = await fetchCategoriasAlcance();
+            setCategoriaOptions(categorias);
+        };
+        loadCategorias();
+    }, []);
+
+    // Hook personalizado para manejar el formulario
+    const { formValues, errors, handleInputChange, handleSubmit } = useAlcanceForm((data) => {
+        onAddAlcance(data);
+        setTimeout(() => {
+            onClose();
+        }, 2000); // Cerrar el modal después de 2 segundos
+    });
+
+    return (
+        <Dialog open={true} onClose={onClose}>
+            <DialogPanel>
+                <RiCloseLine onClick={onClose} />
+                <form onSubmit={handleSubmit}>
+                    <SelectBoxAlcance
+                        options={categorias}
+                        value={formValues.categoria}
+                        onChange={handleInputChange}
+                    />
+                    <Input2
+                        value={formValues.descripcion}
+                        onChange={handleInputChange}
+                        placeholder="Descripción del alcance"
+                    />
+                    {errors.descripcion && <span>{errors.descripcion}</span>}
+                    <button type="submit">Agregar</button>
+                </form>
+            </DialogPanel>
+        </Dialog>
+    );
+}
+
+// Definición de propTypes
 Alcance.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  actionType: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onAddAlcance: PropTypes.func.isRequired,
 };
-
-export default Alcance;

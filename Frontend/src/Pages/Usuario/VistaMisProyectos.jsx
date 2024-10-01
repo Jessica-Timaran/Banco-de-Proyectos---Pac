@@ -45,21 +45,31 @@ const Prueba = () => {
       <div className="flex justify-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-7xl my-10">
           <div className="flex flex-col">
-            <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b">
-              <div className="col-span-6 md:col-span-6 text-left flex items-center text-sm sm:text-base">PROYECTOS</div>
-              <div className="col-span-3 md:col-span-3 text-start hidden sm:block">RESPONSABLE</div>
-              <div className="col-span-3 md:col-span-3 text-end">ESTADO</div>
+            {/* Encabezado del grid fijo */}
+            <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b sticky top-0 z-10">
+              <div className="col-span-6 md:col-span-6 text-left flex items-center text-sm sm:text-base">
+                PROYECTOS
+              </div>
+              <div className="col-span-3 md:col-span-3 text-start hidden sm:block">
+                RESPONSABLE
+              </div>
+              <div className="col-span-3 md:col-span-3 text-end">
+                ESTADO
+              </div>
             </div>
             
-            {proyectos.map((proyecto) => (
-              <GridPrueba
-                key={proyecto.idproyecto}
-                Text1={proyecto.nombre}
-                estado={proyecto.estado}
-                idproyecto={proyecto.idproyecto}
-                responsable={proyecto.responsable}
-              />
-            ))}
+            {/* Contenido scrollable */}
+            <div className="overflow-y-auto max-h-[80vh]">
+              {proyectos.map((proyecto) => (
+                <GridPrueba
+                  key={proyecto.idproyecto}
+                  Text1={proyecto.nombre}
+                  estado={proyecto.estado}
+                  idproyecto={proyecto.idproyecto}
+                  responsable={proyecto.responsable}
+                />
+              ))}
+            </div>
           </div>
           <div className="mt-6">
             <a href='/Usuario/VistaUsuario' className="flex justify-end">
@@ -70,6 +80,7 @@ const Prueba = () => {
       </div>
     </LayoutPrincipal1>
   );
+  
 };
 
 export default Prueba;

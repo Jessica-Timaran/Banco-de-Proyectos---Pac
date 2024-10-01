@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
-  const [categoria, setFichas] = useState([]);
+const SelectBoxObjetivos = ({ id, text, value, onChange, error }) => {
+  const [categoria, setObjetivos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState('');
 
   useEffect(() => {
     const fetchObjetivos = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/objetivos');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos');
         if (!response.ok) {
           throw new Error(`Error fetching objetivos: ${response.statusText}`);
         }
         const data = await response.json();
-        setFichas(data);
+        setObjetivos(data);
       } catch (error) {
-        setFetchError('Error al obtener las fichas.');
-        console.error('Error al obtener las fichas:', error);
+        setFetchError('Error al obtener los objetivos.');
+        console.error('Error al obtener los objetivos:', error);
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,7 @@ const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
         className={`bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${error ? 'border-red-500' : 'border-[#D5D5D5]'}`}
         disabled={loading}
       >
-        <option value="">Elige una ficha</option>
+        <option value="">Elige una opcion</option>
         {loading ? (
           <option disabled>Cargando...</option>
         ) : fetchError ? (
@@ -61,7 +61,7 @@ const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
   );
 };
 
-SelectBoxFicha.propTypes = {
+SelectBoxObjetivos.propTypes = {
   id: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
@@ -69,4 +69,4 @@ SelectBoxFicha.propTypes = {
   error: PropTypes.string,
 };
 
-export default SelectBoxFicha;
+export default SelectBoxObjetivos;

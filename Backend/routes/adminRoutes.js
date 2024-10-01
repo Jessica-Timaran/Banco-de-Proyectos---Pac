@@ -20,6 +20,7 @@ import {
    actualizarPuntosObjetivos,
    obtenerPuntosObjetivos,
    actualizarPuntosAlcance,
+   getPersonasAsignadas
    
  
   } from '../controllers/adminControler.js';
@@ -120,17 +121,6 @@ router.post('/asignar-proyectos', asignarProyecto);
 // Ruta para actualizar el idcalificacion en la tabla proyecto
 router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
 
-// // Ruta para obtener proyectos asignados a aprendices
-// router.get('/assigned-projects', async (req, res) => {
-//   try {
-//       const projects = await getAssignedProjects();
-//       res.status(200).json(projects);
-//   } catch (error) {
-//       console.error('Error al obtener proyectos asignados:', error);
-//       res.status(500).json({ error: 'Error al obtener proyectos asignados' });
-//   }
-// });
-
 // Ruta para buscar proyectos
 router.get('/search', getSearch);
 
@@ -144,5 +134,9 @@ router.get('/proyecto/:idproyecto/puntosObjetivos', obtenerPuntosObjetivos);
 
 // Ruta para actualizar puntos de alcance en la tabla proyecto
 router.put('/proyecto/:idproyecto/actualizarPuntosAlcance', actualizarPuntosAlcance);
+
+// Ruta para obtener personas asignadas a un proyecto
+router.get('/proyectos/:idproyecto/personas', getPersonasAsignadas);
+
 
 export default router;

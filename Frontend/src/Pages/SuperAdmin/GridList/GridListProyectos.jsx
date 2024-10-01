@@ -46,6 +46,7 @@ const GridListProyectos = () => {
             <tr key={item.idproyecto}>
               <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.responsable}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.estado}</td>
             </tr>
           ))}
         </tbody>

@@ -12,8 +12,7 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      // { icon: 'fas fa-user', to: '/VistaAprobados', label: 'Vista Aprobados' },
-      // { icon: 'fas fa-cog', to: '/AsignarProyecto', label: 'Asignar Proyecto' },
+      { icon: 'fas fa-user', to: '/Asignados', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },

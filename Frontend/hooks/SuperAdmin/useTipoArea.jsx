@@ -1,90 +1,76 @@
 import { useState } from 'react';
 
-const useTipoArea = () => {
-    const [formData, setFormData] = useState({
+export function useTipoArea(onSuccess) {
+    const [formValues, setFormValues] = useState({
         nombreTipoArea: '',
-        estado: true,
-        idarea: 7
+        idarea: ''
     });
     const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState('');
 
     const validateForm = () => {
+        const errors = {};
         let isValid = true;
-        const newErrors = {};
 
         // Validar Nombre del tipo de área
         const nombrePattern = /^[A-Za-zÀ-ÿ\s.,0-9()]{2,50}$/;
-        const nombreValue = formData.nombreTipoArea.trim();
+        const nombreValue = formValues.nombreTipoArea.trim();
         const digitCount = (nombreValue.match(/\d/g) || []).length;
 
         if (!nombrePattern.test(nombreValue) || digitCount !== 1) {
-            newErrors.nombreTipoArea = "El nombre debe contener solo letras y un solo número.";
+            errors.nombreTipoArea = "El nombre debe contener solo letras y un solo número.";
             isValid = false;
         }
 
-        // Validar Estado (al menos un radio button debe estar seleccionado)
-        if (!formData.estado) {
-            newErrors.estado = "Debe seleccionar un estado.";
+        // Validar idarea
+        if (!formValues.idarea) {
+            errors.idarea = "Debe seleccionar un área.";
             isValid = false;
         }
 
-        setErrors(newErrors);
+        setErrors(errors);
         return isValid;
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerTipoDeArea', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(formValues)
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Error: ${await response.text()}`);
+                    const error = await response.json();
+                    console.error('Error en la respuesta del servidor:', error);
+                    throw new Error(error.message || 'Error desconocido');
                 }
 
                 const data = await response.json();
-                setSuccessMessage('Tipo de Área registrado con éxito');
                 console.log('Tipo de Área registrado con éxito:', data);
 
-                // Reset form after success
-                setFormData({
-                    nombreTipoArea: '',
-                    estado: true,
-                    idarea: 7
-                });
-                setTimeout(() => {
-                    window.location.href = '/VistaCrearRegistro';
-                }, 1000);
-
+                // Llamar la función onSuccess al registrar con éxito
+                onSuccess(data);
             } catch (error) {
                 console.error('Error al registrar tipo de área:', error);
-                setSuccessMessage("Hubo un problema al registrar el tipo de área.");
             }
         }
     };
 
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [id]: value
-        }));
-    };
-
     return {
-        formData,
+        formValues,
         errors,
-        successMessage,
+        handleInputChange,
         handleSubmit,
-        handleChange
     };
-};
+}
 
 export default useTipoArea;

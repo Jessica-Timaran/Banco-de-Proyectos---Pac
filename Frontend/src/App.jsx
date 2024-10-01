@@ -37,6 +37,7 @@ import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
 import VistaAdmin from './Pages/VistaAdmin';
+import Asignados from './Pages/Asignados';
 
 
 /*Aprendiz*/
@@ -100,6 +101,7 @@ const App = () => {
           <Route path="/asignar-proyectos/:idproyecto" element={<AsignarProyectos />} />
           <Route path="/calificar/:idproyecto" element={<Calificacion />} />
           <Route path="/VistaAdmin" element={<VistaAdmin />} />
+          <Route path="/Asignados" element={<Asignados />} />
         </Routes>
       </Router>
     </UserProvider>

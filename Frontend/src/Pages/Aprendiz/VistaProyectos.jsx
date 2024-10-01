@@ -4,7 +4,7 @@ import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
 import LayoutPrincipal1 from "../../Layouts/LayoutPrincipal1.jsx";
 import Layoutcontenido from "../../Layouts/Layoutcontenido3";
-import ModalAsignaciones from "../../Components/Modales/Modal";
+import ModalAsignaciones from "../../Components/ModalesUser/Modal";
 
 const Calificar = () => {
   const [projects, setProjects] = useState([]);

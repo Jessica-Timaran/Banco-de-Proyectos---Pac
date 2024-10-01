@@ -8,7 +8,7 @@ import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonBack from "../Components/BotonBack";
 import Loader from "../Components/Loader";
 import { ModalConfirm } from "../Components/ModalConfirm";
-import usePostCalificacion from "../../hooks/Admin/usePostCalificacion"
+import usePostCalificacion from "../../hooks/Admin/usePostCalificacion";
 import { Card, Text, Metric } from "@tremor/react";
 
 const Calificacion = () => {
@@ -34,16 +34,19 @@ const Calificacion = () => {
     const handleAction = (action, comentario) => {
         setEstado(action);
         setComentario(comentario);
-        setShowConfirmModal(true);
+        setShowConfirmModal(true); // Abrir el modal de confirmación
     };
 
     const handleConfirmClose = async () => {
         try {
+            // Guardar comentario en la base de datos
             await postCalificacion(idproyecto, promedioFinal, estado, comentario);
+
+            // Redirección según el estado
             if (estado === "Aceptado") {
-                navigate(`/asignar-proyectos/${idproyecto}`); // Reemplaza con la ruta de la siguiente vista
+                navigate(`/asignar-proyectos/${idproyecto}`);
             } else {
-                navigate(`/Detalle/${idproyecto}`); // Reemplaza con la ruta de la vista de inicio
+                navigate(`/Detalle/${idproyecto}`);
             }
         } catch (error) {
             console.error("Error al guardar la calificación:", error);
