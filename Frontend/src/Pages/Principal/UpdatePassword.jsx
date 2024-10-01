@@ -98,36 +98,36 @@ const UpdatePassword = () => {
                             <label htmlFor="new-password" className="block text-gray-700 font-semibold">
                                 Nueva Contraseña
                             </label>
-                    <Input
-                        type={showPassword.new ? "text" : "password"}
-                        Text=""
-                        placeholder="Nueva Contraseña:"
-                        id="newPassword"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                    <i
-                        className={`bx ${showPassword.new ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-3/4 transform -translate-y-2/4`}
-                        onClick={() => togglePasswordVisibility('new')}
-                    ></i>
+                            <Input
+  type={showPassword.new ? "text" : "password"}
+  Text=""
+  placeholder="Nueva Contraseña:"
+  id="newPassword"
+  value={newPassword}
+  onChange={(e) => setNewPassword(e.target.value)}
+/>
+<i
+  className={`bx ${showPassword.new ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-3/4 transform -translate-y-2/4`}
+  onClick={() => togglePasswordVisibility('new')}
+/>
                 </div>
 
                 <div className="mb-4 relative w-[20em] mt-[5px]">
                             <label htmlFor="confirm-password" className="block text-gray-700 font-semibold">
                                 Confirmar Contraseña
                             </label>
-                    <Input
-                        type={showPassword.confirm ? "text" : "password"}
-                        Text=""
-                        placeholder="Confirmar Contraseña:"
-                        id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <i
-                        className={`bx ${showPassword.confirm ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-3/4 transform -translate-y-2/4`}
-                        onClick={() => togglePasswordVisibility('confirm')}
-                    ></i>
+                            <Input
+  type={showPassword.confirm ? "text" : "password"}
+  Text=""
+  placeholder="Confirmar Contraseña:"
+  id="confirmPassword"
+  value={confirmPassword}
+  onChange={(e) => setConfirmPassword(e.target.value)}
+/>
+<i
+  className={`bx ${showPassword.confirm ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-3/4 transform -translate-y-2/4`}
+  onClick={() => togglePasswordVisibility('confirm')}
+/>
                 </div>
 
                         <div className="flex items-center justify-center mt-[10px]">
