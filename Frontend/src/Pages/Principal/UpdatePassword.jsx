@@ -106,7 +106,7 @@ const UpdatePassword = () => {
                                 onChange={(e) => setNewPassword(e.target.value)}
                             />
                             <i
-                                className={`fas ${showPassword.new ? 'fa-eye' : 'fa-eye-slash'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
+                                className={`bx ${showPassword.new ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
                                 onClick={() => togglePasswordVisibility('new')}
                             ></i>
                         </div>
@@ -123,7 +123,7 @@ const UpdatePassword = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                             <i
-                                className={`fas ${showPassword.confirm ? 'fa-eye' : 'fa-eye-slash'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
+                                className={`bx ${showPassword.confirm ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
                                 onClick={() => togglePasswordVisibility('confirm')}
                             ></i>
                         </div>
@@ -140,7 +140,7 @@ const UpdatePassword = () => {
                     </form>
                 </div>
                 <div className="bg-white p-8 rounded-lg w-[60%]">
-                    <img src={Img2} className="w-[80em] h-[50%]" alt="Imagen de usuario" />
+                    <img src={Img2} className="w-[80em] h-[50%]" />
                 </div>
             </div>
         </div>
