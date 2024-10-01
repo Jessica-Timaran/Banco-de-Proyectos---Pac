@@ -140,7 +140,7 @@ const UpdatePassword = () => {
                     </form>
                 </div>
                 <div className="bg-white p-8 rounded-lg w-[60%]">
-                    <img src={Img2} className="w-[80em] h-[50%]" />
+                    <img src={Img2} className="w-[80em] h-[50%]" alt="Imagen de usuario" />
                 </div>
             </div>
         </div>
