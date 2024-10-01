@@ -563,5 +563,5 @@ export {
     registerItemArea,
     checkEmailExists,
     getItemsPorAreaYTipo,
-    addTipoDeArea 
+    addTipoDeArea
 };

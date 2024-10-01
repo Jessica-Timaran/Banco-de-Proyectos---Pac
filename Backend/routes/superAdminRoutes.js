@@ -39,7 +39,7 @@ router.get('/categorias', getAllCategorias);
 router.post('/insertAlcance', insertAlcance);
 
 // Ruta para insertar un nuevo objetivo
-router.post('/insertObjetivo', insertObjetivo); // Ensure this matches the fetch call
+router.post('/insertObjetivo', insertObjetivo);
 
 
 router.post('/registerComplete', registerComplete);
