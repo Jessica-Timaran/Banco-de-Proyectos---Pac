@@ -1,9 +1,81 @@
 import { pool } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import transporter from '../config/nodemailerConfig.js';
 
 import multer from 'multer';
+
+export function generateToken(email) {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+    return token;
+}
+
+
+async function checkIfUserExists(correo) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'SELECT * FROM personas WHERE correo = $1',
+            [correo]
+        );
+        client.release();
+
+        return result.rows.length > 0;
+    } catch (error) {
+        console.error('Error al verificar si el usuario existe:', error);
+        throw new Error('Error en la base de datos al verificar el usuario.');
+    }
+}
+
+export function verifyResetToken(token) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return reject(new Error('Token inválido'));
+            }
+            resolve(decoded.email); // Asegúrate de que el token contenga el correo
+        });
+    });
+}
+
+async function updatePassword(correo, nuevaContraseña) {
+    try {
+        const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
+
+        const client = await pool.connect();
+        const result = await client.query(
+            'UPDATE personas SET contraseña = $1 WHERE correo = $2 RETURNING *',
+            [hashedPassword, correo]
+        );
+        client.release();
+
+        if (result.rows.length > 0) {
+            return result.rows[0];
+        } else {
+            throw new Error('Usuario no encontrado');
+        }
+    } catch (error) {
+        console.error('Error al actualizar la contraseña:', error);
+        throw new Error('Error en la base de datos al actualizar la contraseña.');
+    }
+}
+
+async function checkEmailExists(correo) {
+    if (!correo) {
+        throw new Error('El correo electrónico es requerido.');
+    }
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT COUNT(*) FROM personas WHERE correo = $1', [correo]);
+        client.release();
+
+        return result.rows[0].count > 0;
+    } catch (error) {
+        console.error('Error en checkEmailExists:', error);
+        throw new Error('Error en la base de datos al verificar el correo electrónico.');
+    }
+}
 // Configuración de multer para manejar la subida de archivos
 const upload = multer({ 
     storage: multer.memoryStorage(),
@@ -95,83 +167,8 @@ export const updateProfile = async (id, nombre, tipodocumento, numerodocumento, 
         throw new Error('Error al actualizar el perfil');
     }
 };
-async function checkIfUserExists(correo) {
-    try {
-        const client = await pool.connect();
-        const result = await client.query(
-            'SELECT * FROM personas WHERE correo = $1',
-            [correo]
-        );
-        client.release();
 
-        return result.rows.length > 0;
-    } catch (error) {
-        console.error('Error al verificar si el usuario existe:', error);
-        throw error;
-    }
-}
 
-export const generateResetToken = (email) => {
-    const secretKey = process.env.JWT_SECRET; // La clave secreta debe estar en tu archivo .env
-    const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' }); // El token expira en 1 hora
-    return token;
-};
-
-async function updatePassword(correo, nuevaContraseña) {
-    let client;
-    try {
-        // Generar el hash de la nueva contraseña
-        const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
-
-        // Conectar a la base de datos
-        client = await pool.connect();
-        console.log('Conexión a la base de datos establecida');
-
-        // Ejecutar la consulta SQL
-        const result = await client.query(
-            'UPDATE personas SET contraseña = $1 WHERE correo = $2 RETURNING *',
-            [hashedPassword, correo]
-        );
-        console.log('Consulta SQL ejecutada');
-
-        // Verificar si se actualizó algún registro
-        if (result.rows.length > 0) {
-            console.log('Contraseña actualizada con éxito');
-            return result.rows[0];
-        } else {
-            console.log('Usuario no encontrado');
-            throw new Error('Usuario no encontrado');
-        }
-    } catch (error) {
-        console.error('Error detallado al actualizar la contraseña:', error);
-        throw error;
-    } finally {
-        // Asegurarse de cerrar la conexión del cliente
-        if (client) {
-            client.release();
-            console.log('Conexión a la base de datos cerrada');
-        }
-    }
-}
-async function checkEmailExists(correo) {
-    if (!correo) {
-        throw new Error('El correo electrónico es requerido.');
-    }
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT COUNT(*) FROM personas WHERE correo = $1', [correo]);
-        client.release();
-        
-        if (result.rows[0].count > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error('Error en checkEmailExists:', error);
-        throw new Error('Error en la base de datos al verificar el correo electrónico.');
-    }
-}
 
 
 // Función para registrar una nueva persona
@@ -596,5 +593,6 @@ export {
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos
+    guardarRespuestasObjetivos,
+
   };

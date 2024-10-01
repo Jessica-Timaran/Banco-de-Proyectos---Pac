@@ -6,8 +6,8 @@ import bcrypt from 'bcrypt';
 
 import transporter from '../config/nodemailerConfig.js';
 import { checkEmailExists, sendEmail, updateProfile, getAssignedProjects,  updatePassword, checkIfUserExists, getAllPersonas, getAllFicha,
-  getAllUsuario, 
-  registerPerson, 
+  getAllUsuario, verifyResetToken,
+  registerPerson,  generateToken, 
   loginPerson, 
   registerProject, 
   getAllAlcances, 
@@ -24,6 +24,70 @@ import { checkEmailExists, sendEmail, updateProfile, getAssignedProjects,  updat
   from '../controllers/aprendizControler.js';
 
 const router = express.Router();
+
+
+// Ruta para actualizar la contraseña
+router.post('/update-password', async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+      const email = await verifyResetToken(token); // Verifica el token y obtiene el correo
+      const user = await updatePassword(email, newPassword);
+      res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
+  } catch (error) {
+      console.error('Error al actualizar la contraseña:', error);
+      res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
+  }
+});
+// Ruta para solicitar el enlace de recuperación de contraseña
+router.post('/reset-password', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+      // Verificar si el usuario existe
+      const userExists = await checkIfUserExists(email);
+
+      if (!userExists) {
+          return res.status(404).json({ error: 'Por favor regístrate para hacer el cambio de contraseña.' });
+      }
+
+      // Genera el token
+      const resetToken = generateToken(email); 
+      const resetLink = `https://66ede4ad0e92d7000976bfcf--bancodeproyectospac.netlify.app/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)}`;
+
+      const mailOptions = {
+          from: 'pac.bancodeproyectos@gmail.com',
+          to: email,
+          subject: 'Recuperación de Contraseña',
+          html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${resetLink}">Restablecer Contraseña</a></p>`
+      };
+
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ message: 'Enlace de restablecimiento enviado' });
+  } catch (error) {
+      console.error('Error al enviar el enlace de restablecimiento:', error);
+      res.status(500).json({ error: `Error al enviar el enlace de restablecimiento: ${error.message}` });
+  }
+});
+
+
+router.post('/check-email', async (req, res) => {
+  const { correo } = req.body;
+
+  if (!correo) {
+      return res.status(400).json({ error: 'Correo electrónico es requerido.' });
+  }
+
+  try {
+      const exists = await checkEmailExists(correo);
+      res.json({ exists });
+  } catch (error) {
+      console.error('Error en el endpoint check-email:', error);
+      res.status(500).json({ error: error.message });
+  }
+});
+
+
 
 router.post('/send-email', sendEmail);
 
@@ -80,90 +144,6 @@ router.post('/update-profile', async (req, res) => {
   }
 });
 
-
-// Ruta para actualizar la contraseña
-router.post('/update-password', async (req, res) => {
-  const { token, email, newPassword } = req.body;
-
-  // Validación de los datos de entrada
-  if (!token || !email || !newPassword) {
-    return res.status(400).json({ error: 'Faltan datos requeridos' });
-  }
-
-  try {
-    // Verificar el token
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Asegurar que el email en el token coincide con el email proporcionado
-    if (decodedToken.email !== email) {
-      return res.status(401).json({ error: 'Token inválido' });
-    }
-
-    // Llamar a la función de actualización de contraseña
-    const user = await updatePassword(email, newPassword);
-    
-    // Respuesta exitosa
-    res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
-  } catch (error) {
-    console.error('Error al actualizar la contraseña:', error);
-    
-    // Manejo de errores específicos
-    if (error.name === 'JsonWebTokenError') {
-      res.status(401).json({ error: 'Token inválido o expirado' });
-    } else if (error.message === 'Usuario no encontrado') {
-      res.status(404).json({ error: 'Usuario no encontrados' });
-    } else {
-      res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
-    }
-  }
-});
-
-
-// Ruta para solicitar el enlace de recuperación de contraseña
-router.post('/reset-password', async (req, res) => {
-  const { email } = req.body;
-
-  try {
-    // Verificar si el usuario existe
-    const userExists = await checkIfUserExists(email);
-
-    if (!userExists) {
-      return res.status(404).json({ error: 'Por favor regístrate para hacer el cambio de contraseña.' });
-    }
-
-    const resetToken = uuidv4(); // Genera un token único
-    const resetLink = `https://66ede4ad0e92d7000976bfcf--bancodeproyectospac.netlify.app/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)};`;
-
-    const mailOptions = {
-      from: 'pac.bancodeproyectos@gmail.com',
-      to: email,
-      subject: 'Recuperación de Contraseña',
-      html: `<p>Haga clic en el siguiente enlace para restablecer su contraseña: <a href="${resetLink}">Restablecer Contraseña</a></p>`
-    };
-
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Enlace de restablecimiento enviado' });
-  } catch (error) {
-    console.error('Error al enviar el enlace de restablecimiento:', error);
-    res.status(500).json({ error: `Error al enviar el enlace de restablecimiento: ${error.message}` });
-  }
-});
-
-router.post('/check-email', async (req, res) => {
-  const { correo } = req.body;
-
-  if (!correo) {
-      return res.status(400).json({ error: 'Correo electrónico es requerido.' });
-  }
-
-  try {
-      const exists = await checkEmailExists(correo);
-      res.json({ exists });
-  } catch (error) {
-      console.error('Error en el endpoint check-email:', error);
-      res.status(500).json({ error: error.message });
-  }
-});
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
