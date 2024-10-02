@@ -1,5 +1,3 @@
-'use client'
-
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
@@ -7,16 +5,20 @@ import Input2 from '../Input2';
 import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
-  // Obtiene los valores del formulario, errores y funciones de manejo del formulario desde el hook useFichaForm
-  const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
-    onAddFicha(data);  // Llama al callback para actualizar la vista cuando se registra una ficha
-    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+  const { formValues, errors, handleInputChange, handleSubmit, isSubmitting } = useFichaForm((data) => {
+    onAddFicha(data); // Actualiza la vista cuando se registra una ficha
+    setSuccessMessage('Registro exitoso'); // Establece el mensaje de éxito
     setTimeout(() => {
-      onClose();  // Cierra el modal después de un breve período
-    }, 2000); // Espera 2 segundos antes de cerrar el modal, puedes ajustar este tiempo según sea necesario
+      onClose(); // Cierra el modal después de 2 segundos
+    }, 2000);
   });
 
-  const [successMessage, setSuccessMessage] = useState('');  // Estado que maneja el mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState(''); // Estado que maneja el mensaje de éxito
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!isSubmitting) handleSubmit(e); // Llama a handleSubmit solo si no se está enviando
+  };
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -32,7 +34,7 @@ export default function ModalFicha({ onClose, onAddFicha }) {
         </button>
 
         {/* Formulario para agregar una nueva ficha */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nueva ficha</h4>
 
           <div className="flex flex-col p-[5%] space-y-4">
@@ -44,9 +46,9 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   type="text"
                   placeholder="Sistemas"
                   Text="Nombre del programa:"
-                  value={formValues.nombre}  // Valor controlado del input
-                  onChange={handleInputChange}  // Maneja el cambio de valor
-                  error={errors.nombre}  // Muestra error si existe
+                  value={formValues.nombre}
+                  onChange={handleInputChange}
+                  error={errors.nombre}
                 />
               </div>
 
@@ -57,9 +59,9 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   type="text"
                   placeholder="2694265"
                   Text="Número de ficha:"
-                  value={formValues.numeroficha}  // Valor controlado del input
-                  onChange={handleInputChange}  // Maneja el cambio de valor
-                  error={errors.numeroficha}  // Muestra error si existe
+                  value={formValues.numeroficha}
+                  onChange={handleInputChange}
+                  error={errors.numeroficha}
                 />
               </div>
             </div>
@@ -73,21 +75,23 @@ export default function ModalFicha({ onClose, onAddFicha }) {
           )}
 
           {/* Botón para agregar la nueva ficha */}
+          <div className='flex justify-end mt-8'>
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
+            className="bg-verde text-white px-4 py-2 rounded justify-end"
+            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
           >
-            Agregar
+            {isSubmitting ? 'Registrando...' : 'Agregar'}
           </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>
   );
 }
 
-// Definición de los tipos de propiedades requeridas para el componente
 ModalFicha.propTypes = {
-  onClose: PropTypes.func.isRequired,  // Función para cerrar el modal
-  onAddFicha: PropTypes.func.isRequired,  // Función que se llama al agregar la ficha
+  onClose: PropTypes.func.isRequired, // Función para cerrar el modal
+  onAddFicha: PropTypes.func.isRequired, // Función que se llama al agregar la ficha
 };

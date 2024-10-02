@@ -5,7 +5,6 @@ const GridListFicha = () => {
   const [fichas, setFichas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
   // Función para obtener las fichas del servidor
   const fetchFichas = async () => {
     setIsLoading(true);
@@ -35,15 +34,23 @@ const GridListFicha = () => {
       <table className="min-w-full divide-y divide-gray-200 table-auto">
         <thead className="bg-[#A3E784]">
           <tr>
-            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Nombre del Ficha</th>
-            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Número ficha</th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">
+              Nombre del Ficha
+            </th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">
+              Número ficha
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {fichas.map((item) => (
             <tr key={item.idficha}>
-              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">{item.nombre}</td>
-              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">{item.numeroficha}</td>
+              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">
+                {item.nombre}
+              </td>
+              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">
+                {item.numeroficha}
+              </td>
             </tr>
           ))}
         </tbody>

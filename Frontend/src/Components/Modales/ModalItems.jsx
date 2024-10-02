@@ -24,6 +24,7 @@ export default function TipoArea({ onClose }) {
     const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit } = useItemForm(onClose);
     const [areaOptions, setAreaOptions] = useState([]);
     const [isClient, setIsClient] = useState(false); // Estado para verificar si está en el cliente
+    const [isSubmitting, setIsSubmitting] = useState(false); // Estado para manejar el envío del formulario
 
     useEffect(() => {
         setIsClient(true); // Cambiar a true una vez que el componente se monte
@@ -47,6 +48,20 @@ export default function TipoArea({ onClose }) {
         }
     }, [formValues.tipoArea]);
 
+    const handleFormSubmit = async (event) => {
+        event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+        setIsSubmitting(true); // Activar el estado de envío
+
+        try {
+            await handleSubmit(event); // Asegúrate de pasar el evento aquí
+            // Aquí puedes agregar lógica adicional, como cerrar el modal o mostrar un mensaje de éxito
+        } catch (error) {
+            console.error("Error en el envío del formulario:", error);
+        } finally {
+            setIsSubmitting(false); // Desactivar el estado de envío
+        }
+    };
+
     return (
         <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
             <DialogPanel className="sm:max-w-md">
@@ -58,7 +73,7 @@ export default function TipoArea({ onClose }) {
                 >
                     <RiCloseLine className="size-5" aria-hidden={true} />
                 </button>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
@@ -85,13 +100,16 @@ export default function TipoArea({ onClose }) {
                         </div>
                     </div>
                     {/* Botón para enviar el formulario */}
-                    <button
-                        type="submit"
-                        id="guardarBtn"
-                        className="bg-blue-500 text-white px-4 py-2 rounded justify-end" // Estilos del botón con clases Tailwind
-                    >
-                        Agregar
-                    </button>
+                    <div className='flex justify-end mt-8'>
+                        <button
+                            type="submit"
+                            id="guardarBtn"
+                            className="bg-verde text-white px-4 py-2 rounded justify-end"
+                            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
+                        >
+                            {isSubmitting ? 'Registrando...' : 'Agregar'}
+                        </button>
+                    </div>
                 </form>
             </DialogPanel>
         </Dialog>

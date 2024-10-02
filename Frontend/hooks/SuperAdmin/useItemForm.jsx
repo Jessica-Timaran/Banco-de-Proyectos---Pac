@@ -31,6 +31,7 @@ export function useItemForm(onSuccess) {
     useEffect(() => {
         const fetchItems = async () => {
             if (formValues.tipoArea) {
+                console.log(`Fetching items for tipoArea: ${formValues.tipoArea}`);
                 try {
                     const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items/${formValues.tipoArea}`);
                     if (!response.ok) {
@@ -84,7 +85,7 @@ export function useItemForm(onSuccess) {
         if (validateForm()) {
             console.log("Datos del formulario antes de enviar:", formValues);
             try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/insertItem', {
+                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/insertItem', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -95,8 +96,6 @@ export function useItemForm(onSuccess) {
                 if (!response.ok) {
                     const error = await response.json();
                     console.error('Error en la respuesta del servidor:', error);
-                    // Reemplaza alert con manejo de error en tu UI
-                    console.error('Error al registrar el ítem:', error.message || 'Error desconocido');
                     return;
                 }
 
@@ -105,8 +104,6 @@ export function useItemForm(onSuccess) {
                 onSuccess(data);
             } catch (error) {
                 console.error('Error al registrar el ítem:', error);
-                // Reemplaza alert con manejo de error en tu UI
-                console.error('Error al registrar el ítem:', error.message);
             }
         }
     };

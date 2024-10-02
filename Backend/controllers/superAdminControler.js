@@ -190,10 +190,6 @@ export async function registerFicha(req, res) {
     const { nombre, numeroficha } = req.body;
 
     try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha });
-
-        const client = await pool.connect();
-
         // Insertar la ficha en la tabla fichas
         const result = await client.query(
             'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',
@@ -347,7 +343,7 @@ async function obtenerTodosLosProyectos() {
     try {
         console.log('Obteniendo todos los proyectos...');
         const cliente = await pool.connect();
-        const consulta = 'SELECT idproyecto, nombre, responsable FROM proyecto';
+        const consulta = 'SELECT idproyecto, nombre, responsable, estado  FROM proyecto';
         console.log('Ejecutando consulta:', consulta);
         const resultado = await cliente.query(consulta);
         cliente.release();

@@ -14,16 +14,17 @@ export function useTipoArea(onSuccess) {
         // Validar Nombre del tipo de área
         const nombrePattern = /^[A-Za-zÀ-ÿ\s.,0-9()]{2,50}$/;
         const nombreValue = formValues.nombreTipoArea.trim();
-        const digitCount = (nombreValue.match(/\d/g) || []).length;
-
-        if (!nombrePattern.test(nombreValue) || digitCount !== 1) {
-            errors.nombreTipoArea = "El nombre debe contener solo letras y un solo número.";
+        if (!nombreValue) {
+            errors.nombreTipoArea = 'El nombre es obligatorio';
+            isValid = false;
+        } else if (!nombrePattern.test(nombreValue)) {
+            errors.nombreTipoArea = 'El nombre no es válido';
             isValid = false;
         }
 
-        // Validar idarea
+        // Validar Área
         if (!formValues.idarea) {
-            errors.idarea = "Debe seleccionar un área.";
+            errors.idarea = 'Debes seleccionar un área';
             isValid = false;
         }
 
@@ -31,37 +32,18 @@ export function useTipoArea(onSuccess) {
         return isValid;
     };
 
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
-        setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    const handleInputChange = (event) => {
+        const { id, value } = event.target;
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [id]: value,
+        }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         if (validateForm()) {
-            try {
-                const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formValues)
-                });
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    console.error('Error en la respuesta del servidor:', error);
-                    throw new Error(error.message || 'Error desconocido');
-                }
-
-                const data = await response.json();
-                console.log('Tipo de Área registrado con éxito:', data);
-
-                // Llamar la función onSuccess al registrar con éxito
-                onSuccess(data);
-            } catch (error) {
-                console.error('Error al registrar tipo de área:', error);
-            }
+            await onSuccess(formValues); // Llamar a la función onSuccess
         }
     };
 
@@ -72,5 +54,3 @@ export function useTipoArea(onSuccess) {
         handleSubmit,
     };
 }
-
-export default useTipoArea;

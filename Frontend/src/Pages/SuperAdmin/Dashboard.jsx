@@ -9,17 +9,6 @@ const Dashboard = () => {
   // Estado para controlar la carga de la página
   const [loading, setLoading] = useState(true);
 
-  // Estados para cada tabla
-  const [counts, setCounts] = useState({
-    users: 0,
-    fichas: 0,
-    proyectos: 0,
-    areas: 0,
-    tiposArea: 0,
-    items: 0,
-    objetivos: 0,
-    alcances: 0
-  });
 
   useEffect(() => {
     // Simula un tiempo de carga de 2 segundos
@@ -27,54 +16,6 @@ const Dashboard = () => {
       setLoading(false);
     }, 2000);
 
-    // Función para obtener los datos de todas las tablas
-    const fetchCounts = async () => {
-      setLoading(true);
-      try {
-        const [personasRes, fichasRes, proyectosRes, areasRes, tiposAreaRes, itemsRes, objetivosRes, alcancesRes] = await Promise.all([
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/personas'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/proyecto'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos'),
-          fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances')
-        ]);
-        
-
-
-        // Procesa todas las respuestas
-        const [personas, fichas, proyectos, areas, tiposArea, items, objetivos, alcances] = await Promise.all([
-          personasRes.json(),
-          fichasRes.json(),
-          proyectosRes.json(),
-          areasRes.json(),
-          tiposAreaRes.json(),
-          itemsRes.json(),
-          objetivosRes.json(),
-          alcancesRes.json()
-        ]);
-
-        // Actualiza los estados con las cantidades
-        setCounts({
-          users: personas.length,
-          fichas: fichas.length,
-          proyectos: proyectos.length,
-          areas: areas.length,
-          tiposArea: tiposArea.length,
-          items: items.length,
-          objetivos: objetivos.length,
-          alcances: alcances.length
-        });
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCounts();
 
     // Limpia el temporizador al desmontar el componente
     return () => clearTimeout(timer);
@@ -96,66 +37,57 @@ const Dashboard = () => {
           </div>
 
           {/* Contenedor de tarjetas */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols- gap-3 sm:mt-12 md:mt-16 z-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 sm:mt-12 md:mt-16 z-0 w-full">
             <CardBase
               title="Usuarios"
-              metricValue={counts.users}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
               route="/SuperAdmin/usuarios"
             />
             <CardBase
               title="Fichas"
-              metricValue={counts.fichas}
               progressText="Aprendices"
               buttonTex="Ver detalle"
               route="/SuperAdmin/ficha"
             />
             <CardBase
               title="Proyectos"
-              metricValue={counts.proyectos}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
               route="/SuperAdmin/proyectos"
             />
             <CardBase
               title="Areas"
-              metricValue={counts.areas}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/areas"
             />
             <CardBase
               title="Tipos de Area"
-              metricValue={counts.tiposArea}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/tipodearea"
             />
             <CardBase
               title="Items"
-              metricValue={counts.items}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/items"
             />
             <CardBase
               title="Objetivo"
-              metricValue={counts.objetivos}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/objetivos"
             />
             <CardBase
               title="Alcance"
-              metricValue={counts.alcances}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/alcance"
             />
             <CardBase
               title="CREAR REGISTRO"
-              metricValue={0}
               progressText="Registro de proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/registrocompleto"

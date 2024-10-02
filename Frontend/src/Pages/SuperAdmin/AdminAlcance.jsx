@@ -12,35 +12,74 @@ const Alcance = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentAlcance, setCurrentAlcance] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [alcances, setAlcances] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchAlcances = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances');
+        if (!response.ok) {
+          throw new Error('Error al cargar los alcances');
+        }
+        const data = await response.json();
+        setAlcances(data);
+      } catch (error) {
+        console.error('Error al cargar alcances:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchAlcances();
   }, []);
 
   const handleAddClick = () => {
     setCurrentAlcance(null);
-    setActionType('add');
-    setIsModalOpen(true); // Abrir el modal
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
+    setIsModalOpen(false);
     setCurrentAlcance(null);
+    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
-  const handleAddAlcance = (alcance) => {
-    // Lógica para agregar el alcance
-    console.log('Agregar alcance:', alcance);
-    // Aquí puedes agregar la lógica para actualizar la lista de alcances,
-    // tal vez haciendo una llamada a la API o actualizando el estado.
-    handleCloseModal(); // Cerrar el modal después de agregar
+  const handleAddAlcance = async (newAlcance) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setLoading(true);
+
+    try {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newAlcance),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error al registrar el alcance: ${errorData.message || response.statusText}`);
+      }
+
+      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
+      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
+      // Recarga solo la lista de alcances después de agregar
+      const updatedResponse = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances');
+      const updatedData = await updatedResponse.json();
+      setAlcances(updatedData);
+    } catch (error) {
+      console.error('Error detallado al agregar alcance:', error);
+    } finally {
+      setIsSubmitting(false);
+      setLoading(false);
+    }
   };
 
   const handleGoBack = () => {
@@ -59,22 +98,27 @@ const Alcance = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
+                className="flex items-center text-black hover:text-verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Alcance" id="addUserBtn" onClick={handleAddClick} />
             </div>
+            {successMessage && (
+              <div className="mb-4 text-green-500">
+                {successMessage}
+              </div>
+            )}
             <div>
-              <GridListAlcance />
+              <GridListAlcance alcances={alcances} setAlcances={setAlcances} />
             </div>
             {isModalOpen && (
               <ModalAlcance
                 onClose={handleCloseModal}
-                onAddAlcance={handleAddAlcance} // Asegúrate de que el nombre coincida
-                user={currentAlcance}
-                actionType={actionType}
+                onAddAlcance={handleAddAlcance}
+                alcance={currentAlcance}
+                isSubmitting={isSubmitting}
               />
             )}
           </div>

@@ -5,19 +5,18 @@ import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
 import { useTipoArea } from '../../../hooks/SuperAdmin/useTipoArea';
 
-export default function TipoArea({ onClose, onAddTipoArea }) {
+export default function ModalTipoAreas({ onClose, onAddTipoArea }) {
     const [areaOptions, setAreaOptions] = useState([]);
-    const { formValues, errors, handleSubmit, handleInputChange } = useTipoArea((data) => {
-        onAddTipoArea(data); // Llama al callback para actualizar la vista
-        setSuccessMessage('Registro exitoso'); // Establece el mensaje de éxito
-        setTimeout(() => {
-            onClose(); // Cierra el modal
-        }, 2000); // Cambia 2000 a la cantidad de milisegundos que desees
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { formValues, errors, handleSubmit, handleInputChange } = useTipoArea(async (data) => {
+        setIsSubmitting(true); // Iniciar el estado de envío
+        await onAddTipoArea(data); // Llamar a onAddTipoArea y esperar
+        setIsSubmitting(false); // Restablecer isSubmitting después del envío
+        onClose(); // Cerrar el modal
     });
 
-    const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
+    const [successMessage, setSuccessMessage] = useState('');
 
-    // Función para obtener áreas
     const fetchArea = async () => {
         try {
             const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas");
@@ -32,7 +31,6 @@ export default function TipoArea({ onClose, onAddTipoArea }) {
         }
     };
 
-    // Obtener áreas al montar el componente
     useEffect(() => {
         const loadAreas = async () => {
             const areas = await fetchArea();
@@ -42,12 +40,7 @@ export default function TipoArea({ onClose, onAddTipoArea }) {
     }, []);
 
     return (
-        <Dialog
-            open={true}
-            onClose={onClose}
-            static={true}
-            className="z-[100]"
-        >
+        <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
             <DialogPanel className="sm:max-w-md">
                 <button
                     type="button"
@@ -79,25 +72,28 @@ export default function TipoArea({ onClose, onAddTipoArea }) {
                             />
                         </div>
                     </div>
-                    {successMessage && (  // Muestra el mensaje de éxito si existe
+                    {successMessage && (
                         <div className="mt-4 text-green-600">
                             {successMessage}
                         </div>
                     )}
-                    <button
-                        type="submit"
-                        id="guardarBtn"
-                        className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
-                    >
-                        Agregar
-                    </button>
+                    <div className='flex justify-end mt-8'>
+                        <button
+                            type="submit"
+                            id="guardarBtn"
+                            className="bg-verde text-white px-4 py-2 rounded justify-end"
+                            disabled={isSubmitting} // Deshabilitar el botón mientras se envía el formulario
+                        >
+                            {isSubmitting ? 'Registrando...' : 'Agregar'}
+                        </button>
+                    </div>
                 </form>
             </DialogPanel>
         </Dialog>
     );
 }
 
-TipoArea.propTypes = {
+ModalTipoAreas.propTypes = {
     onClose: PropTypes.func.isRequired,
     onAddTipoArea: PropTypes.func.isRequired,
 };

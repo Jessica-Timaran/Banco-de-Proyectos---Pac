@@ -1,60 +1,118 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import Loader from '../../../Components/Loader';
 
+const Badge = ({ state }) => {
+  let bgColor = 'bg-gray-200';
+  let text = 'Desconocido';
 
-const GridListProyectos = () => {
-  const [data, setData] = useState([]); // Inicializa el estado con un array vacío
-  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  if (state) {
+    const lowerState = state.toLowerCase();
+    switch (lowerState) {
+      case 'aceptado':
+        bgColor = 'bg-green-200';
+        text = 'Aceptado';
+        break;
+      case 'rechazado':
+        bgColor = 'bg-red-200';
+        text = 'Rechazado';
+        break;
+      case 'devuelto':
+        bgColor = 'bg-orange-200';
+        text = 'Devuelto';
+        break;
+      case 'en proceso':
+        bgColor = 'bg-yellow-200';
+        text = 'En Proceso';
+        break;
+      default:
+        text = state;
+    }
+  }
+
+  return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{text}</span>;
+};
+
+export default function GridListProyectos() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(104); // Cambia este valor según cuántos elementos quieres por página
 
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
         const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/proyecto');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         const proyectos = await response.json();
+        console.log('Proyectos obtenidos:', proyectos);
         setData(proyectos);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching projects:', error);
       } finally {
-        setLoading(false); // Oculta el loader después de la carga
+        setLoading(false);
       }
     };
 
     fetchProyectos();
   }, []);
 
+  // Calcular los índices de los elementos a mostrar en la página actual
+  const indexOfLastItem = currentPage * itemsPerPage; // Último índice de la página actual
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Primer índice de la página actual
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem); // Elementos a mostrar en la página actual
+
+  // Cambiar de página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Calcular el número total de páginas
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-[#A3E784]">
-          <tr>
-            <th className="px-6 py-3 text-left text-gray-900">Nombre</th>
-            <th className="px-6 py-3 text-left text-gray-900">Responsable</th>
-            <th className="px-6 py-3 text-left text-gray-900">Estado</th>
-          </tr>
-        </thead>
-        {loading ? (
-        <div id="loader" className="flex items-center justify-center h-screen absolute inset-0">
-          <div className="flex flex-col items-center justify-center h-full">
-            <div className="flex-grow" /> {/* Espaciador superior */}
-            <Loader />
-            <div className="flex-grow" /> {/* Espaciador inferior */}
-          </div>
+      {loading ? (
+        <div className="flex items-center justify-center h-64">
+          <Loader />
         </div>
       ) : (
-        <tbody className="bg-white divide-y divide-gray-200">
-          {data.map((item) => (
-            <tr key={item.idproyecto}>
-              <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.responsable}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.estado}</td>
-            </tr>
-          ))}
-        </tbody>
+        <>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-[#A3E784]">
+              <tr>
+                <th className="px-6 py-3 text-left text-gray-900">Nombre</th>
+                <th className="px-6 py-3 text-left text-gray-900">Responsable</th>
+                <th className="px-6 py-3 text-left text-gray-900">Estado</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentItems.map((item) => (
+                <tr key={item.idproyecto}>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.responsable}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <Badge state={item.estado} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {/* Paginación */}
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => paginate(index + 1)}
+                className={`mx-1 px-3 py-1 rounded ${currentPage === index + 1 ? 'bg-verde text-white' : 'bg-gray-200 text-gray-900'}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </>
       )}
-      </table>
     </div>
   );
 }
-
-
-export default GridListProyectos;

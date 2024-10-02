@@ -18,23 +18,23 @@ const Fichas = () => {
 
   const navigate = useNavigate();
 
-  const fetchFichas = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas');
-      if (!response.ok) {
-        throw new Error('Error al cargar las fichas');
-      }
-      const data = await response.json();
-      setFichas(data);
-    } catch (error) {
-      console.error('Error al cargar fichas:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchFichas = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas');
+        if (!response.ok) {
+          throw new Error('Error al cargar las fichas');
+        }
+        const data = await response.json();
+        setFichas(data);
+      } catch (error) {
+        console.error('Error al cargar fichas:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchFichas();
   }, []);
 
@@ -70,7 +70,7 @@ const Fichas = () => {
 
       handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
       setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      fetchFichas(); // Recargar solo la lista de fichas
+      setFichas((prevFichas) => [...prevFichas, newFicha]); // Añade la nueva ficha a la lista
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
     } finally {
@@ -95,7 +95,7 @@ const Fichas = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
+                className="flex items-center text-black hover:text-verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver

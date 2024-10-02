@@ -25,6 +25,7 @@ const fetchCategorias = async () => {
 
 export default function Objetivo({ onClose, onAddObjetivo }) {
     const [categorias, setCategoriaOptions] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false); // Añadir estado para isSubmitting
 
     useEffect(() => {
         const loadCategorias = async () => {
@@ -35,9 +36,11 @@ export default function Objetivo({ onClose, onAddObjetivo }) {
     }, []);
 
     const { formValues, errors, handleInputChange, handleSubmit } = useObjetivosForm((data) => {
+        setIsSubmitting(true); // Establecer isSubmitting en true al comenzar el envío
         onAddObjetivo(data);
         setTimeout(() => {
-            onClose();  // Cierra el modal automáticamente después de un breve período de tiempo (2 segundos en este caso)
+            setIsSubmitting(false); // Establecer isSubmitting en false después de 2 segundos
+            onClose();  // Cierra el modal automáticamente después de un breve período de tiempo
         }, 2000);
     });
 
@@ -78,13 +81,16 @@ export default function Objetivo({ onClose, onAddObjetivo }) {
                             </div>
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        id="guardarBtn"
-                        className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
-                    >
-                        Agregar
-                    </button>
+                    <div className='flex justify-end mt-8'>
+                        <button
+                            type="submit"
+                            id="guardarBtn"
+                            className="bg-verde text-white px-4 py-2 rounded justify-end"
+                            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
+                        >
+                            {isSubmitting ? 'Registrando...' : 'Agregar'}
+                        </button>
+                    </div>
                 </form>
             </DialogPanel>
         </Dialog>

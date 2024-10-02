@@ -11,43 +11,72 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Objetivos = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [currentObjetivo, setCurrentObjetivo] = useState(null);
+  const [objetivos, setObjetivos] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchObjetivos = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos');
+        if (!response.ok) {
+          throw new Error('Error al cargar los objetivos');
+        }
+        const data = await response.json();
+        setObjetivos(data);
+      } catch (error) {
+        console.error('Error al cargar objetivos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchObjetivos();
   }, []);
 
   const handleAddClick = () => {
-    setCurrentUser(null);
-    setActionType('add');
-    setIsModalOpen(true); // Abrir el modal
+    setCurrentObjetivo(null);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
-    setCurrentUser(null);
+    setIsModalOpen(false);
+    setCurrentObjetivo(null);
+    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
-  const handleAddMember = (user) => {
-    // Lógica para agregar un objetivo (o usuario)
-    console.log('Agregar ', user);
+  const handleAddObjetivo = async (newObjetivo) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setLoading(true);
 
-    // Aquí puedes llamar a tu función de agregar objetivo
-    // Por ejemplo, si tienes una función para enviar datos a la API:
-    // agregarObjetivo(user).then(() => {
-    //   // Recargar la página después de agregar
-    //   window.location.reload();
-    // });
+    try {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newObjetivo),
+      });
 
-    // Recarga la página directamente como ejemplo
-    window.location.reload(); // Recargar la página
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error al registrar el objetivo: ${errorData.message || response.statusText}`);
+      }
+
+      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
+      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
+      setObjetivos((prevObjetivos) => [...prevObjetivos, newObjetivo]); // Añade el nuevo objetivo a la lista
+    } catch (error) {
+      console.error('Error detallado al agregar objetivo:', error);
+    } finally {
+      setIsSubmitting(false);
+      setLoading(false);
+    }
   };
 
   const handleGoBack = () => {
@@ -66,22 +95,27 @@ const Objetivos = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
+                className="flex items-center text-black hover:text-verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Objetivos" id="addUserBtn" onClick={handleAddClick} />
+              <BotonSegundoModal text="Agregar Objetivo" id="addObjetivoBtn" onClick={handleAddClick} />
             </div>
+            {successMessage && (
+              <div className="mb-4 text-green-500">
+                {successMessage}
+              </div>
+            )}
             <div>
-              <GridListObjetivos />
+              <GridListObjetivos objetivos={objetivos} setObjetivos={setObjetivos} />
             </div>
             {isModalOpen && (
               <ModalObjetivos
                 onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                user={currentUser}
-                actionType={actionType}
+                onAddObjetivo={handleAddObjetivo}
+                objetivo={currentObjetivo}
+                isSubmitting={isSubmitting}
               />
             )}
           </div>
@@ -92,3 +126,4 @@ const Objetivos = () => {
 };
 
 export default Objetivos;
+

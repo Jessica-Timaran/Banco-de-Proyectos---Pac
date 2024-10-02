@@ -6,7 +6,6 @@ import SelectBoxAlcance from '../SelectBoxAlcance';
 import PropTypes from 'prop-types';
 import useAlcanceForm from '../../../hooks/SuperAdmin/useAlcanceForm.jsx';
 
-// Función para obtener las categorías de la API
 const fetchCategoriasAlcance = async () => {
     try {
         const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances");
@@ -14,13 +13,9 @@ const fetchCategoriasAlcance = async () => {
             throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        
-        // Extraer categorías únicas de la respuesta
         const categoriasUnicas = [...new Set(data.map(alcance => alcance.categoria))];
-        
-        // Convertir categorías en opciones para el select
         return categoriasUnicas.map((categoria, index) => ({
-            value: index + 1,  // Ajusta según tu base de datos
+            value: (index + 1).toString(),  // Ajuste del valor como string
             label: categoria
         }));
     } catch (error) {
@@ -29,10 +24,15 @@ const fetchCategoriasAlcance = async () => {
     }
 };
 
-export default function Alcance({ onClose, onAddAlcance }) {
+export default function ModalAlcance({ onClose, onAddAlcance }) {
     const [categorias, setCategoriaOptions] = useState([]);
+    const { formValues, errors, isSubmitting, handleInputChange, handleSubmit } = useAlcanceForm((data) => {
+        onAddAlcance(data);
+        setTimeout(() => {
+            onClose();
+        }, 2000);
+    });
 
-    // Cargar categorías al montar el componente
     useEffect(() => {
         const loadCategorias = async () => {
             const categorias = await fetchCategoriasAlcance();
@@ -41,39 +41,48 @@ export default function Alcance({ onClose, onAddAlcance }) {
         loadCategorias();
     }, []);
 
-    // Hook personalizado para manejar el formulario
-    const { formValues, errors, handleInputChange, handleSubmit } = useAlcanceForm((data) => {
-        onAddAlcance(data);
-        setTimeout(() => {
-            onClose();
-        }, 2000); // Cerrar el modal después de 2 segundos
-    });
-
     return (
         <Dialog open={true} onClose={onClose}>
             <DialogPanel>
-                <RiCloseLine onClick={onClose} />
+                <button type="button" onClick={onClose} aria-label="Close">
+                    <RiCloseLine />
+                </button>
                 <form onSubmit={handleSubmit}>
                     <SelectBoxAlcance
+                        Text="Categoría"
+                        id="categoria"
                         options={categorias}
                         value={formValues.categoria}
                         onChange={handleInputChange}
+                        error={errors.categoria}
                     />
-                    <Input2
-                        value={formValues.descripcion}
-                        onChange={handleInputChange}
-                        placeholder="Descripción del alcance"
-                    />
-                    {errors.descripcion && <span>{errors.descripcion}</span>}
-                    <button type="submit">Agregar</button>
+                   <div>
+                                <Input2
+                                    id="descripcion"
+                                    type="text"
+                                    placeholder="Descripción"
+                                    Text="Descripción:"
+                                    value={formValues.descripcion}
+                                    onChange={handleInputChange}
+                                />
+                                {errors.descripcion && <span className="text-red-600">{errors.descripcion}</span>}
+                            </div>
+                    <div className='flex justify-end mt-8'>
+                        <button
+                            type="submit"
+                            className="bg-verde text-white px-4 py-2 rounded"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Registrando...' : 'Agregar'}
+                        </button>
+                    </div>
                 </form>
             </DialogPanel>
         </Dialog>
     );
 }
 
-// Definición de propTypes
-Alcance.propTypes = {
+ModalAlcance.propTypes = {
     onClose: PropTypes.func.isRequired,
     onAddAlcance: PropTypes.func.isRequired,
 };

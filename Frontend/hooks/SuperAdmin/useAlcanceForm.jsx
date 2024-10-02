@@ -1,115 +1,82 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-const useAlcanceForm = () => {
-    const [formState, setFormState] = useState({
-        alcanceName: '',          // Inicializa el campo para el nombre del alcance
-        selectedCategory: '',     // Inicializa el campo para la categoría seleccionada
+const useAlcanceForm = (onSubmitSuccess) => {
+    const [formValues, setFormValues] = useState({
+        descripcion: '',
+        categoria: '',
     });
-    const [categories, setCategories] = useState([]);  // Almacena las categorías desde el API
-    const [isSubmitting, setIsSubmitting] = useState(false);  // Controla el estado de envío del formulario
-    const [errors, setErrors] = useState({
-        alcanceName: '',          // Errores asociados al nombre del alcance
-        selectedCategory: '',     // Errores asociados a la categoría seleccionada
-    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({});
 
-    // Fetch de categorías desde el API
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await axios.get('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/categorias');  // Obtiene las categorías desde el backend
-                setCategories(response.data);  // Almacena las categorías en el estado
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    fetch: 'Error fetching categories'  // Error al obtener las categorías
-                }));
-            }
-        };
-        fetchCategories();  // Llama la función para obtener las categorías
-    }, []);
-
-    // Manejo de cambios en los inputs del formulario
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormState((prevState) => ({
-            ...prevState,
-            [name]: value,  // Actualiza el valor del input correspondiente
+        const { id, value } = e.target;  // Usamos `id` en lugar de `name`
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [id]: value,  // Actualizamos el campo usando `id`
         }));
 
-        // Restablece el error del campo que se está cambiando
         setErrors((prevErrors) => ({
             ...prevErrors,
-            [name]: '',  // Limpia el error específico del campo
+            [id]: '',  // Limpiamos los errores basados en `id`
         }));
     };
 
-    // Función de validación del formulario
     const validateForm = () => {
         let valid = true;
-        const newErrors = {
-            alcanceName: '',
-            selectedCategory: '',
-        };
+        const newErrors = {};
 
-        // Validación del campo de nombre del alcance
-        if (!formState.alcanceName.trim()) {
-            newErrors.alcanceName = 'La descripción es requerida.';
+        if (!formValues.descripcion.trim()) {
+            newErrors.descripcion = 'La descripción es requerida.';
             valid = false;
         }
 
-        // Validación del campo de categoría seleccionada
-        if (!formState.selectedCategory) {
-            newErrors.selectedCategory = 'Debes seleccionar una categoría.';
+        if (!formValues.categoria) {
+            newErrors.categoria = 'Debes seleccionar una categoría.';
             valid = false;
         }
 
-        setErrors(newErrors);  // Actualiza los errores
+        setErrors(newErrors);
         return valid;
     };
 
-    // Manejo del envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
+
         setIsSubmitting(true);
-        setErrors({});  // Limpia los errores previos
 
-        // Si la validación falla, detener el proceso
-        if (!validateForm()) {
-            setIsSubmitting(false);
-            return false;  // Retorna falso si hay errores
-        }
-
-        // Si la validación es exitosa
         try {
             const alcanceData = {
-                descripcion: formState.alcanceName,  // Asigna la descripción del alcance
-                idcategoriasalcance: formState.selectedCategory,  // Asigna la categoría seleccionada
+                descripcion: formValues.descripcion,
+                idcategoriasalcance: formValues.categoria,
             };
 
-            await axios.post('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/insertAlcance', alcanceData);  // Envía los datos al backend
+            await axios.post('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/insertAlcance', alcanceData);
             setIsSubmitting(false);
-            return true;  // Retorna verdadero si se envió exitosamente
+            onSubmitSuccess(alcanceData);
         } catch (error) {
             console.error('Error inserting alcance:', error);
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                submit: 'Error inserting alcance',  // Error al intentar enviar los datos
+                submit: 'Error inserting alcance',
             }));
             setIsSubmitting(false);
-            return false;  // Retorna falso si hay error en el envío
         }
     };
 
     return {
-        formState,         // Devuelve el estado del formulario
-        categories,        // Devuelve las categorías obtenidas
-        isSubmitting,      // Devuelve el estado de envío
-        errors,            // Devuelve los errores para mostrarlos en el formulario
-        handleInputChange, // Devuelve la función para manejar cambios en los inputs
-        handleSubmit,      // Devuelve la función para manejar el envío del formulario
+        formValues,
+        isSubmitting,
+        errors,
+        handleInputChange,
+        handleSubmit,
     };
 };
 
 export default useAlcanceForm;
+
+
+
+
+

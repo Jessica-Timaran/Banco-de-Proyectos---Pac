@@ -5,15 +5,15 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListTipoArea from './GridList/GridListTipoArea';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal1';
-import TipoAreas from '../../Components/Modales/ModalTipoAreas';
+import ModalTipoAreas from '../../Components/Modales/ModalTipoAreas';
 
 const TipoArea = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTipoArea, setCurrentTipoArea] = useState(null);
   const [actionType, setActionType] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
-  const [reloadTable, setReloadTable] = useState(false); // Estado para recargar la tabla
+  const [successMessage, setSuccessMessage] = useState('');
+  const [reloadTable, setReloadTable] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,22 +36,41 @@ const TipoArea = () => {
     setCurrentTipoArea(null);
   };
 
-  const handleAddTipoArea = (tipoArea) => {
-    // Simular la lógica de agregar un tipo de área
-    console.log('Agregar', tipoArea);
+  const handleAddTipoArea = async (tipoArea) => {
+    try {
+      // Simular la lógica de agregar un tipo de área
+      console.log('Agregar', tipoArea);
 
-    // Mostrar mensaje de éxito
-    setSuccessMessage('Registro exitoso');
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tipoArea),
+      });
 
-    // Recargar la tabla
-    setReloadTable(true);
+      if (!response.ok) {
+        throw new Error('Error al registrar tipo de área');
+      }
 
-    // Cerrar el modal después de un breve retraso
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setSuccessMessage('');
-      setReloadTable(false); // Evitar recargar la tabla indefinidamente
-    }, 2000);
+      const data = await response.json();
+      console.log('Tipo de Área registrado con éxito:', data);
+
+      // Mostrar mensaje de éxito
+      setSuccessMessage('Registro exitoso');
+
+      // Recargar la tabla
+      setReloadTable(true);
+
+      // Cerrar el modal después de un breve retraso
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setSuccessMessage('');
+        setReloadTable(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error al agregar tipo de área:', error);
+    }
   };
 
   const handleGoBack = () => {
@@ -70,7 +89,7 @@ const TipoArea = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
+                className="flex items-center text-black hover:text-verde"
               >
                 <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
                 Volver
@@ -80,7 +99,7 @@ const TipoArea = () => {
 
             {/* Mostrar mensaje de éxito si existe */}
             {successMessage && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+              <div className=" text-green-700 px-4 py-3 rounded relative mb-4">
                 {successMessage}
               </div>
             )}
@@ -91,9 +110,9 @@ const TipoArea = () => {
             </div>
 
             {isModalOpen && (
-              <TipoAreas
+              <ModalTipoAreas
                 onClose={handleCloseModal}
-                onAddMember={handleAddTipoArea}
+                onAddTipoArea={handleAddTipoArea}
                 tipoArea={currentTipoArea}
                 actionType={actionType}
               />
