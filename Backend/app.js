@@ -19,9 +19,20 @@ cookieMiddleware(app);
 
 // Configura CORS para permitir el origen específico
 app.use(cors({
-    origin: 'https://bancodeproyectospac.netlify.app',
+    origin: (origin, callback) => {
+        const whitelist = [
+            'https://bancodeproyectospac.netlify.app',
+            /^https:\/\/[a-zA-Z0-9]+--bancodeproyectospac\.netlify\.app$/
+        ];
+        if (whitelist.some(pattern => typeof pattern === 'string' ? pattern === origin : pattern.test(origin))) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
+
 // Middleware para manejar solicitudes JSON y de URL codificadas
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +49,14 @@ app.use('/api/promedioFinal', promedioFinal);
 app.use('/api/promedio', obtenerPromedio);
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://bancodeproyectospac.netlify.app');
+    const origin = req.headers.origin;
+    const whitelist = [
+        'https://bancodeproyectospac.netlify.app',
+        /^https:\/\/[a-zA-Z0-9]+--bancodeproyectospac\.netlify\.app$/
+    ];
+    if (whitelist.some(pattern => typeof pattern === 'string' ? pattern === origin : pattern.test(origin))) {
+        res.header('Access-Control-Allow-Origin', origin);
+    }
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
