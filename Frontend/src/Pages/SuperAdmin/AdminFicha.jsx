@@ -22,7 +22,7 @@ const Fichas = () => {
     const fetchFichas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -55,7 +55,7 @@ const Fichas = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
