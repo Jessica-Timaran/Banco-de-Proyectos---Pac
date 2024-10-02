@@ -1,3 +1,15 @@
+import express from 'express';
+import cors from 'cors';
+// import dataRoutes from './routes/dataroutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import saveRoutes from './routes/saveRoutes.js'
+import aprendizRoutes from './routes/aprendizRoutes.js';
+import superAdmin from './routes/superAdminRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import promedioFinal from './routes/routesUser/promedioFinal.js'
+import obtenerPromedio from './routes/routesUser/obtenerPromedio.js'
+import { cookieMiddleware } from './middleware/cookieMiddleware.js';
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
