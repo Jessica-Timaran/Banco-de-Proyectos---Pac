@@ -181,7 +181,7 @@ export default function RegistroCompleto() {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="col-span-1">
-                <Input2
+                <Input3
                   placeholder="Área"
                   type="text"
                   Text="Área"
@@ -194,7 +194,7 @@ export default function RegistroCompleto() {
                 <label className="block text-sm font-medium text-gray-700">Tipo de área</label>
                 {formData.tiposDeArea.map((tipo, index) => (
                   <div key={index} className="mb-2">
-                    <Input2
+                    <Input3
                       placeholder={`Tipo de área ${index + 1}`}
                       type="text"
                       value={tipo}
@@ -216,7 +216,7 @@ export default function RegistroCompleto() {
                 <label className="block text-sm font-medium text-gray-700 ">Items</label>
                 {formData.items.map((item, index) => (
                   <div key={index} className="mb-2">
-                    <Input2
+                    <Input3
                       placeholder={`Item ${index + 1}`}
                       type="text"
                       value={item}
@@ -239,7 +239,7 @@ export default function RegistroCompleto() {
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="col-span-1">
-                <Input2
+                <Input3
                   placeholder="Categoría Objetivos"
                   type="text"
                   Text="Categoría Objetivos"
@@ -253,7 +253,7 @@ export default function RegistroCompleto() {
                 <label className="block text-sm font-medium text-gray-700 ">Objetivos</label>
                 {formData.objetivos.map((objetivo, index) => (
                   <div key={index} className="mb-2">
-                    <Input2
+                    <Input3
                       placeholder={`Objetivo ${index + 1}`}
                       type="text"
                       value={objetivo}
@@ -272,7 +272,7 @@ export default function RegistroCompleto() {
               </div>
 
               <div className="col-span-1">
-                <Input2
+                <Input3
                   placeholder="Categoría Alcance"
                   type="text"
                   Text="Categoría Alcance"
@@ -285,7 +285,7 @@ export default function RegistroCompleto() {
                 <label className="block text-sm font-medium text-gray-700">Alcance</label>
                 {formData.alcances.map((alcance, index) => (
                   <div key={index} className="mb-2">
-                    <Input2
+                    <Input3
                       placeholder={`Alcance ${index + 1}`}
                       type="text"
                       value={alcance}
