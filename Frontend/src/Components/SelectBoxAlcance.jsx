@@ -11,7 +11,7 @@ const SelectBoxAlcance = ({ Text, id, options, value, onChange, error }) => {
                 name={id} // Agregado para manejar múltiples selects
                 value={value}
                 onChange={onChange}
-                className={`bg-[#F5F6FA] w-full mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default dark:text-dark-tremor-content-strong ${error ? 'border-red-500' : 'border-[#D5D5D5]'}`}
+                className={`bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${error ? 'border-red-500' : 'border-[#D5D5D5]'}`}
             >
                 <option value="" disabled>Elige una opción</option>
                 {options.map((option) => (

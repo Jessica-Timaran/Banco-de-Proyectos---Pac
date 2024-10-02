@@ -18,6 +18,8 @@ const Badge = ({ variant, children }) => {
 const GridList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(90);
 
   const fetchUsers = async () => {
     try {
@@ -34,6 +36,17 @@ const GridList = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+   // Calcular los índices de los elementos a mostrar en la página actual
+   const indexOfLastItem = currentPage * itemsPerPage; // Último índice de la página actual
+   const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Primer índice de la página actual
+   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem); // Elementos a mostrar en la página actual
+ 
+   // Cambiar de página
+   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+ 
+   // Calcular el número total de páginas
+   const totalPages = Math.ceil(data.length / itemsPerPage);
 
 
   return (
@@ -57,7 +70,7 @@ const GridList = () => {
           </tbody>
         ) : (
           <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
-            {data.map((item) => (
+            {currentItems.map((item) => (
               <tr key={item.idpersonas}>
                 <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{item.correo}</td>
@@ -74,6 +87,18 @@ const GridList = () => {
           </tbody>
         )}
       </table>
+       {/* Paginación */}
+       <div className="flex justify-center mt-4">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => paginate(index + 1)}
+                className={`mx-1 px-3 py-1 rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-900'}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+             </div>
     </div>
   );
 };
