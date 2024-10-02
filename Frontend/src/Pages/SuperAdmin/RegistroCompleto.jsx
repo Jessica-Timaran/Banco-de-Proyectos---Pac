@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layoutprincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido5 from '../../Layouts/Layoutcontenido5';
-import Input2 from '../../Components/Input';
+import Input3 from '../../Components/Input3';
 import { CalloutA } from '../../Components/Callout';
 import BotonSegundo from '../../Components/BotonSegundo';
 import Loader from '../../Components/Loader';
