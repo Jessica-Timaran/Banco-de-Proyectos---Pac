@@ -39,11 +39,13 @@ app.use('/api/promedioFinal', promedioFinal);
 app.use('/api/promedio', obtenerPromedio);
 
 // Manejo de errores 1
-app.use((err, req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+// app.use((err, req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', 'https://bancodeproyectospac.netlify.app'); // Ajusta al dominio exacto
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     next();
+// });
+
 
 // Manejo de errores
 app.use((err, req, res, next) => {
