@@ -27,12 +27,14 @@ const Inicio = () => {
 
     try {
       const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ correo, contraseña: contrasena }),
-      });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ correo, contraseña: contrasena }),
+    credentials: 'include',  // Asegúrate de incluir las credenciales
+});
+
 
       const result = await response.json();
 
