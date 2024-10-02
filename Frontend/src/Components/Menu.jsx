@@ -20,15 +20,10 @@ const Sidebar = () => {
       { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
     ],
     3: [
-      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/usuarios', label: 'Crear Fichas' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/areas', label: 'Crear Areas' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/tipodearea', label: 'Crear Tipos de area' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/items', label: 'Crear Items' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/objetivos', label: 'Crear Objetivos' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/alcance', label: 'Crear Alcances' },
+      { icon: 'fas fa-user-plus', to: '/SuperAdmin/usuarios', label: 'Crear Usuario' },
       { icon: 'fas fa-folder-open', to: '/SuperAdmin/registrocompleto', label: 'Registro completo' },
       { icon: 'fas fa-upload', to: '/SuperAdmin/proyectos', label: 'Ver proyectos' },
+      { icon: 'fa-solid fa-folder-plus', to: '/SuperAdmin/dashboard', label: 'Dashboard' },
     ],
     2: [
       { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },

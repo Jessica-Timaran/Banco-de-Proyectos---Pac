@@ -14,13 +14,13 @@ export const ModalR = ({ isOpen, closeDialog, onOkClick }) => {
             </div>
             <div className="mt-6 flex justify-end space-x-2">
               <button
-                className="bg-gray-300 text-white py-4 px-4 rounded"
+                className="bg-gray-300 text-white py-2 px-4 rounded"
                 onClick={closeDialog}
               >
                 Volver
               </button>
               <button
-                className="bg-verde text-white py-4 px-4 rounded"
+                className="bg-verde text-white py-2 px-4 rounded"
                 onClick={onOkClick}
               >
                 Ok, entendido
