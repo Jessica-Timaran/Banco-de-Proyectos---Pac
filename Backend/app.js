@@ -2,17 +2,16 @@ import express from 'express';
 import cors from 'cors';
 // import dataRoutes from './routes/dataroutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import saveRoutes from './routes/saveRoutes.js'
+import saveRoutes from './routes/saveRoutes.js';
 import aprendizRoutes from './routes/aprendizRoutes.js';
 import superAdmin from './routes/superAdminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import promedioFinal from './routes/routesUser/promedioFinal.js'
-import obtenerPromedio from './routes/routesUser/obtenerPromedio.js'
+import promedioFinal from './routes/routesUser/promedioFinal.js';
+import obtenerPromedio from './routes/routesUser/obtenerPromedio.js';
 import { cookieMiddleware } from './middleware/cookieMiddleware.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-
 
 // Configura el middleware de cookies
 cookieMiddleware(app);
@@ -44,10 +43,10 @@ app.use('/api/save', saveRoutes);
 app.use('/api/aprendiz', aprendizRoutes);
 app.use('/api/superAdmin', superAdmin);
 app.use('/api/user', userRoutes);
-
 app.use('/api/promedioFinal', promedioFinal);
 app.use('/api/promedio', obtenerPromedio);
 
+// Middleware para configurar headers CORS en todas las respuestas
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     const whitelist = [
@@ -68,14 +67,10 @@ app.use((req, res, next) => {
 
 // Manejo de errores
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    console.error('Error:', err.stack);
     res.status(500).json({ error: 'Something broke!', details: err.message });
-});
-
-// Manejador global de errores
-app.use((err, req, res, next) => {
-    console.error('Error global:', err);
-    res.status(500).json({ error: 'Error interno del servidor.' });
 });
 
 // Iniciar el servidor
