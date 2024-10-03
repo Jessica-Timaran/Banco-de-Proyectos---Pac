@@ -85,7 +85,7 @@ export function useForm(onSuccess) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (validateForm()) {
       try {
         const userData = {
@@ -96,9 +96,9 @@ export function useForm(onSuccess) {
           contraseña: formValues.contraseña,
           celular: formValues.celular,
           idrol: parseInt(formValues.idrol, 10),
-          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null,
+          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null, // Asegúrate de que idficha es un número
         };
-
+  
         const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/agregarpersona', {
           method: 'POST',
           headers: {
@@ -106,12 +106,12 @@ export function useForm(onSuccess) {
           },
           body: JSON.stringify(userData),
         });
-
+  
         if (!response.ok) {
           const error = await response.json();
           throw new Error(error.error || 'Error desconocido');
         }
-
+  
         const data = await response.json();
         onSuccess(data);
       } catch (error) {
@@ -120,7 +120,7 @@ export function useForm(onSuccess) {
       }
     }
   };
-
+  
   return {
     formValues,
     errors,

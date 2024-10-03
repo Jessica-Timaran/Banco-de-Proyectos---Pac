@@ -32,7 +32,7 @@ const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
       <select
         id={id}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)} // Aquí el valor se envía correctamente
         className={`bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${error ? 'border-red-500' : 'border-[#D5D5D5]'}`}
         disabled={loading}
       >
