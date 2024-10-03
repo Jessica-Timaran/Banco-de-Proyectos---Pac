@@ -72,6 +72,7 @@ const App = () => {
           <Route path="/Usuario/VistaAreas1" element={<VistaAreas1 />} />
           <Route path="/Usuario/VistaUsuario" element={<VistaUsuario />} />
           <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
+          <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
           <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
           </Route>
 
@@ -93,7 +94,6 @@ const App = () => {
         <Route path="/Aprendiz/VistaAprendiz" element={<VistaAprendiz/>} />
         <Route path="/Aprendiz/Reporte" element={<Reporte/>} />
         <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos/>} />
-        <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
         <Route path="/Aprendiz/Formulario" element={<Formulario/>} />
         </Route>
 
