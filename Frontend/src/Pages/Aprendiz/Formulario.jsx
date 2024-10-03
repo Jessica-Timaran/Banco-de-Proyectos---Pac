@@ -24,43 +24,60 @@ const ReportForm = () => {
   };
 
   const generatePDF = () => {
-    const doc = new jsPDF();
-    
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'in',
+      format: 'letter'
+    });
+  
     // Configuración de fuentes y colores
-    doc.setFont("helvetica");
-    const primaryColor = [0, 102, 204];
-    const secondaryColor = [100, 100, 100];
-    
-    // Encabezado
-    doc.setFontSize(24);
-    doc.setTextColor(...primaryColor);
-    doc.text('Company Name', 20, 20);
-    
-    doc.setFontSize(18);
-    doc.setTextColor(...secondaryColor);
-    doc.text('Reporte de Avance de Proyecto', 20, 30);
-    
-    // Línea separadora
-    doc.setDrawColor(...primaryColor);
-    doc.line(20, 35, 190, 35);
-    
+    doc.setFont("times", "normal");
+    const primaryColor = [0, 0, 0]; // Negro para texto principal
+    const secondaryColor = [100, 100, 100]; // Gris para detalles secundarios
+  
+    // Función para agregar una nueva página
+    const addPage = () => {
+      doc.addPage();
+      addHeader();
+      return 1; // Volver a la parte superior de la página
+    };
+  
+    // Función para agregar el encabezado en cada página
+    const addHeader = () => {
+      doc.setFontSize(12);
+      doc.setFont("times", "bold");
+      doc.text('REPORTE DE AVANCE DE PROYECTO', doc.internal.pageSize.width / 2, 0.5, { align: 'center' });
+      doc.setFont("times", "normal");
+      doc.setFontSize(10);
+      doc.text('Company Name', doc.internal.pageSize.width / 2, 0.7, { align: 'center' });
+      doc.line(0.5, 0.8, doc.internal.pageSize.width - 0.5, 0.8);
+    };
+  
+    // Iniciar la primera página
+    addHeader();
+  
     // Contenido principal
     doc.setFontSize(12);
-    doc.setTextColor(0);
-    
-    const startY = 45;
-    const lineHeight = 10;
-    let currentY = startY;
-    
+    doc.setTextColor(...primaryColor);
+  
+    let yPosition = 1.2; // Comenzar debajo del encabezado
+    const lineHeight = 0.25;
+    const pageHeight = doc.internal.pageSize.height;
+    const margin = 0.5;
+  
     const addField = (label, value) => {
-      doc.setFont("helvetica", "bold");
-      doc.text(`${label}:`, 20, currentY);
-      doc.setFont("helvetica", "normal");
-      const lines = doc.splitTextToSize(value, 150);
-      doc.text(lines, 60, currentY);
-      currentY += lineHeight * lines.length;
+      if (yPosition + lineHeight > pageHeight - 1) {
+        yPosition = addPage();
+      }
+      doc.setFont("times", "bold");
+      doc.text(`${label}:`, margin, yPosition);
+      doc.setFont("times", "normal");
+      const maxWidth = doc.internal.pageSize.width - margin * 2;
+      const lines = doc.splitTextToSize(value, maxWidth - 1.5);
+      doc.text(lines, margin + 1.5, yPosition);
+      yPosition += lineHeight * (lines.length + 0.5);
     };
-    
+  
     addField("Título", report.title);
     addField("Descripción", report.description);
     addField("Estado del Proyecto", report.projectStatus);
@@ -68,21 +85,24 @@ const ReportForm = () => {
     addField("Tareas Pendientes", report.tasksPending);
     addField("Observaciones", report.observations);
     addField("Conclusiones", report.conclusions);
-    
+  
     // Pie de página
-    doc.setFontSize(10);
-    doc.setTextColor(...secondaryColor);
-    doc.text('Generado por Company Name', 20, 280);
-    doc.text('www.companywebsite.com', 20, 285);
-    
-    // Agregar número de página
+    const addFooter = (pageNumber) => {
+      doc.setFontSize(10);
+      doc.setTextColor(...secondaryColor);
+      doc.text('Generado por Company Name', margin, pageHeight - 0.3);
+      doc.text('www.companywebsite.com', doc.internal.pageSize.width - margin, pageHeight - 0.3, { align: 'right' });
+      doc.text(pageNumber.toString(), doc.internal.pageSize.width / 2, pageHeight - 0.3, { align: 'center' });
+    };
+  
+    // Agregar números de página y pie de página
     const pageCount = doc.internal.getNumberOfPages();
-    for(let i = 1; i <= pageCount; i++) {
+    for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
-      doc.text(`Página ${i} de ${pageCount}`, 190, 285, { align: 'right' });
+      addFooter(i);
     }
-    
-    doc.save('report.pdf');
+  
+    doc.save('Reporte_de_Avance_de_Proyecto.pdf');
   };
   return (
     <LayoutPrincipal1 title="Formulario de Reporte">
