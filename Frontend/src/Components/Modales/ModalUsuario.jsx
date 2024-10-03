@@ -1,4 +1,4 @@
-import { Dialog, DialogPanel } from '@tremor/react';
+import { Dialog, DialogPanel } from '@tremor/react'; 
 import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
@@ -8,11 +8,9 @@ import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
-    const { estado, ...datosSinEstado } = data;
-    onAddMember(datosSinEstado);
+    onAddMember(data);
     onClose();
   });
-
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -41,7 +39,6 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <SelectBoxTi
                 id="tipodocumento"
                 text="Tipo de documento"
-                Text="Tipo de documento"
                 value={formValues.tipodocumento}
                 onChange={(value) => handleInputChange({ target: { id: 'tipodocumento', value } })}
                 error={errors.tipodocumento}
@@ -58,7 +55,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="correo"
                 type="email"
-                Text="Correo:"
+                Text="Correo"
                 placeholder="Correo"
                 value={formValues.correo}
                 onChange={handleInputChange}
@@ -84,15 +81,12 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
               {formValues.idrol === '4' && (
                 <SelectBoxFicha
-                id="idficha"
-                text="Seleccione una ficha:"
-                value={formValues.idficha}
-                onChange={(value) => {
-                  console.log('Ficha seleccionada:', value);  // Verificar idficha
-                  handleSelectChange('idficha', value);
-                }}
-                error={errors.idficha}
-              />
+                  id="idficha"
+                  text="Seleccione una ficha:"
+                  value={formValues.idficha}
+                  onChange={(value) => handleSelectChange('idficha', value)}
+                  error={errors.idficha}
+                />
               )}
               <Input2
                 id="celular"
@@ -105,14 +99,14 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
-          <div className='flex justify-end'> 
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-verde text-black px-8 py-2 rounded"
-          >
-            Agregar
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              id="guardarBtn"
+              className="bg-verde text-black px-8 py-2 rounded"
+            >
+              Agregar
+            </button>
           </div>
         </form>
       </DialogPanel>
