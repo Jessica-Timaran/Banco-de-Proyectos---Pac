@@ -55,7 +55,7 @@ const Calificar = () => {
         ) : error ? (
           <p className="text-center text-red-500">Error: {error}</p>
         ) : projects.length > 0 ? (
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab py-8">
             {projects.map((project, index) => (
               <CardProyect
                 key={index}
