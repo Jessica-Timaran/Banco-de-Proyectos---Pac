@@ -339,7 +339,7 @@ async function agregarPersona(req, res) {
         contraseña,
         telefono: celular,
         idrol: parseInt(idrol, 10),
-        idficha: idrol === 4 && idficha !== null ? parseInt(idficha, 10) : null,
+        idficha: idrol === 4 && idficha ? parseInt(idficha, 10) : null,  // Solo guarda idficha si el rol es "Aprendiz"
       };
   
       const resultado = await pool.query(
@@ -353,6 +353,7 @@ async function agregarPersona(req, res) {
       res.status(500).json({ error: 'Internal server error', details: error.message });
     }
   }
+  
 
 
 // Función para obtener todos los proyectos de la base de datos

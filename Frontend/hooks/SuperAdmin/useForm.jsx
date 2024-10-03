@@ -9,7 +9,7 @@ export function useForm(onSuccess) {
     contraseña: '',
     celular: '',
     idrol: '',
-    idficha: '',
+    idficha: '',  // Inicializar como cadena vacía
   });
 
   const [errors, setErrors] = useState({});
@@ -72,8 +72,11 @@ export function useForm(onSuccess) {
     setFormValues((prevValues) => ({ ...prevValues, [id]: value }));
   };
 
-  const handleSelectChange = (id, value) => {
-    setFormValues((prevValues) => ({ ...prevValues, [id]: value }));
+  const handleSelectChange = (name, value) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,  // Actualiza el campo idficha con el valor seleccionado
+    }));
   };
 
   const handleRolChange = (value) => {
@@ -96,7 +99,8 @@ export function useForm(onSuccess) {
           contraseña: formValues.contraseña,
           celular: formValues.celular,
           idrol: parseInt(formValues.idrol, 10),
-          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null, // Asegúrate de que idficha es un número
+          // Solo enviar idficha si el rol es 'Aprendiz'
+          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null,
         };
   
         const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/agregarpersona', {

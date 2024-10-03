@@ -84,7 +84,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
                   id="idficha"
                   text="Seleccione una ficha:"
                   value={formValues.idficha}
-                  onChange={(value) => handleSelectChange('idficha', value)}  // Pasa el id correctamente al form
+                  onChange={(value) => handleSelectChange('idficha', value)}  // Actualiza idficha
                   error={errors.idficha}
                 />
               )}
