@@ -25,32 +25,65 @@ const ReportForm = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-  
+    
+    // Configuración de fuentes y colores
+    doc.setFont("helvetica");
+    const primaryColor = [0, 102, 204];
+    const secondaryColor = [100, 100, 100];
+    
+    // Encabezado
     doc.setFontSize(24);
-    doc.setTextColor(0, 102, 204);
+    doc.setTextColor(...primaryColor);
     doc.text('Company Name', 20, 20);
-  
+    
     doc.setFontSize(18);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Reporte de Avance de Proyecto', 20, 40);
-  
-    doc.setFontSize(14);
-    doc.text(`Título: ${report.title}`, 20, 60);
-    doc.text(`Descripción: ${report.description}`, 20, 70);
-    doc.text(`Estado del Proyecto: ${report.projectStatus}`, 20, 80);
-    doc.text(`Tareas Completadas: ${report.tasksCompleted}`, 20, 90);
-    doc.text(`Tareas Pendientes: ${report.tasksPending}`, 20, 100);
-    doc.text(`Observaciones: ${report.observations}`, 20, 110);
-    doc.text(`Conclusiones: ${report.conclusions}`, 20, 120);
-  
+    doc.setTextColor(...secondaryColor);
+    doc.text('Reporte de Avance de Proyecto', 20, 30);
+    
+    // Línea separadora
+    doc.setDrawColor(...primaryColor);
+    doc.line(20, 35, 190, 35);
+    
+    // Contenido principal
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    
+    const startY = 45;
+    const lineHeight = 10;
+    let currentY = startY;
+    
+    const addField = (label, value) => {
+      doc.setFont("helvetica", "bold");
+      doc.text(`${label}:`, 20, currentY);
+      doc.setFont("helvetica", "normal");
+      const lines = doc.splitTextToSize(value, 150);
+      doc.text(lines, 60, currentY);
+      currentY += lineHeight * lines.length;
+    };
+    
+    addField("Título", report.title);
+    addField("Descripción", report.description);
+    addField("Estado del Proyecto", report.projectStatus);
+    addField("Tareas Completadas", report.tasksCompleted);
+    addField("Tareas Pendientes", report.tasksPending);
+    addField("Observaciones", report.observations);
+    addField("Conclusiones", report.conclusions);
+    
+    // Pie de página
     doc.setFontSize(10);
-    doc.setTextColor(150, 150, 150);
+    doc.setTextColor(...secondaryColor);
     doc.text('Generado por Company Name', 20, 280);
     doc.text('www.companywebsite.com', 20, 285);
-  
+    
+    // Agregar número de página
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.text(`Página ${i} de ${pageCount}`, 190, 285, { align: 'right' });
+    }
+    
     doc.save('report.pdf');
   };
-
   return (
     <LayoutPrincipal1 title="Formulario de Reporte">
       <Layoutcontenido3 title="Formulario de Reporte">
