@@ -61,7 +61,7 @@ const AsignarProyectos = () => {
 
   return (
     <LayoutPrincipal1 title="Asignación de Proyecto">
-      <Layoutcontenido2 text1="Asignar Proyecto">
+      <Layoutcontenido2 text1="">
         <div className="flex justify-start pb-4 w-full">
           <BotonBack 
             Text="Atrás" 

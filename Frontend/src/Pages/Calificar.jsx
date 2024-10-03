@@ -41,7 +41,7 @@ const Calificar = () => {
 
   return (
     <LayoutPrincipal1 title="Proyectos">
-      <Layoutcontenido title="contenido">
+      <Layoutcontenido title="">
         <div className="">
           <div className="w-full">
              <div className="w-auto">
