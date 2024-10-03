@@ -4,14 +4,13 @@ import Loader from '../../Components/Loader.jsx';
 import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
 
-
 const Prueba = () => {
   const [proyectos, setProyectos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProyectos = async () => {
-      const userId = localStorage.getItem('userId');
+      const userId = JSON.parse(localStorage.getItem('user'));
 
       if (!userId) {
         console.error('Error: idpersona no encontrado en localStorage');
@@ -19,7 +18,7 @@ const Prueba = () => {
       }
 
       try {
-        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/proyectos?userId=${userId}`);
+        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/proyectos?userId=${userId.id}`);
         if (response.ok) {
           const data = await response.json();
           setProyectos(data);
@@ -39,6 +38,7 @@ const Prueba = () => {
   if (loading) {
     return <Loader />;
   }
+
 
   return (
     <LayoutPrincipal1 title="">
