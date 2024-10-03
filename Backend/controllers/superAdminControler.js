@@ -190,6 +190,10 @@ export async function registerFicha(req, res) {
     const { nombre, numeroficha } = req.body;
 
     try {
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha });
+
+        const client = await pool.connect();
+
         // Insertar la ficha en la tabla fichas
         const result = await client.query(
             'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',

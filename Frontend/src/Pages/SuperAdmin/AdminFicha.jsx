@@ -1,11 +1,12 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal1';
-import ModalFicha from '../../Components/Modales/ModalFichas';
+import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import ModalFicha from '../../Components/Modales/ModalFichas'; // Cambiado para coincidir con el nombre correcto
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
@@ -13,16 +14,13 @@ const Fichas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFichas = async () => {
-      setLoading(true);
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -46,16 +44,12 @@ const Fichas = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentFicha(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
   const handleAddFicha = async (newFicha) => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setLoading(true);
-
     try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', {
+      console.log('Intentando registrar nueva ficha:', newFicha);
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', { // URL corregida
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,14 +62,13 @@ const Fichas = () => {
         throw new Error(`Error al registrar la ficha: ${errorData.message || response.statusText}`);
       }
 
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      setFichas((prevFichas) => [...prevFichas, newFicha]); // Añade la nueva ficha a la lista
+      const addedFicha = await response.json();
+      console.log('Ficha registrada exitosamente:', addedFicha);
+      setFichas(prevFichas => [...prevFichas, addedFicha]);
+      handleCloseModal();
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
-    } finally {
-      setIsSubmitting(false);
-      setLoading(false);
+      // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
 
@@ -91,26 +84,17 @@ const Fichas = () => {
         </div>
       ) : (
         <Layoutcontenido title="Fichas">
-          <div className="flex flex-col w-full p-4 md:p-10 mb-10">
+          <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-verde"
+                className="flex items-center text-black hover:text-Verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal
-                text="Agregar Ficha"
-                id="addFichaBtn"
-                onClick={handleAddClick}
-              />
+              <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
             <div>
               <GridListFicha fichas={fichas} setFichas={setFichas} />
             </div>
@@ -118,8 +102,7 @@ const Fichas = () => {
               <ModalFicha
                 onClose={handleCloseModal}
                 onAddFicha={handleAddFicha}
-                ficha={currentFicha}
-                isSubmitting={isSubmitting}
+                ficha={currentFicha} // Ajustado para coincidir con el nombre del prop en ModalFicha
               />
             )}
           </div>
