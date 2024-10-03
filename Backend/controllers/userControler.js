@@ -1,5 +1,7 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 
 async function checkEmailExists(correo) {
     if (!correo) {
@@ -79,36 +81,45 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
 
 // Función para iniciar sesión
 async function loginPerson(correo, contraseña) {
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT idpersonas, idrol, nombre, contraseña FROM personas WHERE correo = $1', [correo]); // Asegúrate de seleccionar 'contraseña'
-        client.release();
+  try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT idpersonas, idrol, nombre, contraseña FROM personas WHERE correo = $1', [correo]); 
+      client.release();
 
-        if (result.rows.length > 0) {
-            const person = result.rows[0];
-            if (!person.contraseña) {
-                console.error('Error: contraseña no encontrada en la base de datos');
-                return null;
-            }
+      if (result.rows.length > 0) {
+          const person = result.rows[0];
+          if (!person.contraseña) {
+              console.error('Error: contraseña no encontrada en la base de datos');
+              return null;
+          }
 
-            const match = await bcrypt.compare(contraseña, person.contraseña);
-            if (match) {
-                return { 
-                    id: person.idpersonas,  // Cambié 'id' a 'idpersonas'
-                    rol: person.idrol, 
-                    nombre: person.nombre 
-                };
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        throw error;
-    }
+          const match = await bcrypt.compare(contraseña, person.contraseña);
+          if (match) {
+              // Crea el token
+              const token = jwt.sign(
+                  { id: person.idpersonas, rol: person.idrol, nombre: person.nombre }, // Payload del token
+                  'tu_clave_secreta', // Reemplaza esto con tu clave secreta
+                  { expiresIn: '1h' } // Expiración del token
+              );
+
+              return { 
+                  id: person.idpersonas,  
+                  rol: person.idrol, 
+                  nombre: person.nombre,
+                  token // Retorna el token
+              };
+          } else {
+              return null;
+          }
+      } else {
+          return null;
+      }
+  } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      throw error;
+  }
 }
+
 
 
 // Función para registrar un nuevo proyecto

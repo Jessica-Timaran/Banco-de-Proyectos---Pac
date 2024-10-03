@@ -4,14 +4,13 @@ import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
 import '../../css/Incio.css';
 import { useUser } from '../../Context/UserContext';
-
 const Inicio = () => {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [correoError, setCorreoError] = useState('');
   const [contrasenaError, setContrasenaError] = useState('');
   const [globalError, setGlobalError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState('');
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const { setUser } = useUser();
 
@@ -27,30 +26,30 @@ const Inicio = () => {
 
     try {
       const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/user/login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ correo, contraseña: contrasena }),
-    credentials: 'include',  // Asegúrate de incluir las credenciales
-});
-
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ correo, contraseña: contrasena }),
+      });
 
       const result = await response.json();
 
-      console.log('Respuesta del servidor:', result); // Verifica la respuesta aquí
-
       if (response.ok) {
-        if (result.id && result.nombre) {
-          setUser({ id: result.id, nombre: result.nombre, rol: result.rol });
-          localStorage.setItem('userId', result.id);
-          localStorage.setItem('userRole', result.rol);
-          localStorage.setItem('userName', result.nombre);
+        if (result.id && result.nombre && result.token) {
+          const userData = { id: result.id, nombre: result.nombre, rol: result.rol };
+          setUser(userData);
 
-          // Muestra el mensaje de éxito
+          // Almacena la información del usuario en localStorage
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('token', result.token);
+
+          console.log('Token guardado en localStorage:', result.token); 
+
+          console.log('User data guardado en localStorage:', userData); // Console log
+
           setSuccessMessage('Inicio de sesión exitoso');
 
-          // Redirige después de 2 segundos para que se vea el mensaje de éxito
           setTimeout(() => {
             switch (result.rol) {
               case 1:
@@ -85,6 +84,7 @@ const Inicio = () => {
       setGlobalError('Error en la conexión. Intenta nuevamente.');
     }
   };
+
 
  
   return (

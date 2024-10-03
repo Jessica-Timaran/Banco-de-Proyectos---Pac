@@ -120,11 +120,12 @@ router.post('/login', async (req, res) => {
             req.session.userId = user.id;
             req.session.rol = user.rol;
 
-            // Verifica que se esté enviando el id, nombre y rol del usuario
+            // Verifica que se esté enviando el id, nombre y rol del usuario, así como el token
             res.status(200).json({ 
-                id: user.id, // Aquí asegúrate de que `id` esté presente
-                rol: user.rol,
-                nombre: user.nombre // Asegúrate de que `nombre` esté presente
+                id: user.id, // ID del usuario
+                rol: user.rol, // Rol del usuario
+                nombre: user.nombre, // Nombre del usuario
+                token: user.token // Token JWT que se generó en loginPerson
             });
         } else {
             res.status(401).json({ error: 'Correo o contraseña incorrectos' });
