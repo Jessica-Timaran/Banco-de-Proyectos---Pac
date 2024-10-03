@@ -48,6 +48,7 @@ import EditarPerfil from './Pages/Aprendiz/EditarPerfil'
 import VistaProyectos from './Pages/Aprendiz/VistaProyectos'
 import Reporte from './Pages/Aprendiz/Reporte'
 
+
 import RutaProtegida from './Components/RutaProtegida'; // Asegúrate de que la ruta sea correcta
 
 const App = () => {
@@ -95,6 +96,7 @@ const App = () => {
         <Route path="/Aprendiz/Reporte" element={<Reporte/>} />
         <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos/>} />
         <Route path="/Aprendiz/Formulario" element={<Formulario/>} />
+        <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
         </Route>
 
         <Route element={<RutaProtegida allowedRoles={['1']} />}> {/* Rol de Administrador*/}
