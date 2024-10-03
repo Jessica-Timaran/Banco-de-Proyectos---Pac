@@ -95,7 +95,6 @@ const App = () => {
         <Route path="/Aprendiz/Reporte" element={<Reporte/>} />
         <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos/>} />
         <Route path="/Aprendiz/Formulario" element={<Formulario/>} />
-        <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
         </Route>
 
         <Route element={<RutaProtegida allowedRoles={['1']} />}> {/* Rol de Administrador*/}
@@ -110,6 +109,11 @@ const App = () => {
           <Route path="/VistaAdmin" element={<VistaAdmin />} />
           <Route path="/Asignados" element={<Asignados />} />
           </Route>
+
+          <Route element={<RutaProtegida allowedRoles={['4', '2']} />}> {/* Rol de Aprendiz */}
+       
+        <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
+        </Route>
 
           {/* Ruta de acceso denegado */}
           <Route path="/403" element={<div>No tienes acceso a esta página.</div>} />
