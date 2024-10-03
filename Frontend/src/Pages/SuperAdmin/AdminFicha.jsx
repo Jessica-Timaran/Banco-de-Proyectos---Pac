@@ -20,7 +20,7 @@ const Fichas = () => {
   useEffect(() => {
     const fetchFichas = async () => {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -49,7 +49,7 @@ const Fichas = () => {
   const handleAddFicha = async (newFicha) => {
     try {
       console.log('Intentando registrar nueva ficha:', newFicha);
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', { // URL corregida
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', { // URL corregida
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
