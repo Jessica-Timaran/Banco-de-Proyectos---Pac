@@ -49,7 +49,7 @@ router.get('/tipos-de-area', getTiposDeArea);
 router.post('/tipos-de-area', addTipoDeArea);
 router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
 
-router.post('/fichas', registerFicha);
+router.post('/api/superAdmin/ficha', registerFicha);
 
 router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
     try {
