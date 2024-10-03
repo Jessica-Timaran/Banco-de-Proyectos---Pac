@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
 import LayoutPrincipal1 from "../../Layouts/LayoutPrincipal1.jsx";
-import Layoutcontenido from "../../Layouts/Layoutcontenido3";
+import Layoutcontenido from "../../Layouts/Layoutcontenido5";
 import ModalAsignaciones from "../../Components/ModalesUser/Modal";
 
 const Calificar = () => {
