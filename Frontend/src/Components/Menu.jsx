@@ -45,7 +45,7 @@ const Sidebar = () => {
       { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
     ],
     3: [
-      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
+      { icon: 'fas fa-user-plus', to: '/SuperAdmin/usuarios', label: 'Crear Usuario' },
       { icon: 'fas fa-folder-open', to: '/SuperAdmin/registrocompleto', label: 'Registro completo' },
       { icon: 'fas fa-upload', to: '/SuperAdmin/proyectos', label: 'Ver proyectos' },
     ],

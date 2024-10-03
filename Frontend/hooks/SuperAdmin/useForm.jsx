@@ -7,11 +7,10 @@ export function useForm(onSuccess) {
     numerodocumento: '',
     correo: '',
     contraseña: '',
-    telefono: '', 
+    celular: '',
     idrol: '',
     idficha: '',
-});
-
+  });
 
   const [errors, setErrors] = useState({});
 
@@ -105,11 +104,10 @@ export function useForm(onSuccess) {
           numerodocumento: formValues.numerodocumento,
           correo: formValues.correo,
           contraseña: formValues.contraseña,
-          telefono: formValues.telefono, // Cambia 'celular' a 'telefono'
-          idrol: parseInt(formValues.idrol, 10),
-          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null,
-      };
-      
+          celular: formValues.celular,
+          idrol: parseInt(formValues.idrol, 10), // Asegúrate de que idrol sea un número
+          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null, // Si idrol es '4', convierte idficha a número
+        };
 
         // Verifica la salida de los datos
         console.log('Datos a enviar:', userData);

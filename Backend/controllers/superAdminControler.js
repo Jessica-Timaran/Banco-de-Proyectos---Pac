@@ -309,33 +309,51 @@ async function getObjetivos() {
 };
 
 
-// datacontroler.js
-const agregarPersona = async (req, res) => {
-    const { nombre, tipodocumento, numerodocumento, correo, contraseña, idrol, telefono, estado, idficha } = req.body;
-
+// Controlador para agregar persona
+async function agregarPersona(req, res) {
     try {
-        const nuevaPersona = {
-            nombre,
-            tipodocumento,
-            numerodocumento,
-            correo,
-            contraseña,
-            idrol,
-            telefono, // Asegúrate de usar el nombre correcto del campo
-            idficha: idrol === '4' ? idficha : null, // Asigna idficha si es rol aprendiz
-            nombreempresa: null, // Establece nombreempresa como null
-            estado, // Asegúrate de que el estado también esté incluido
-        };
-
-        // Inserción en la base de datos
-        const resultado = await db.query('INSERT INTO personas SET ?', nuevaPersona);
-
-        res.status(201).json({ message: 'Usuario registrado exitosamente' });
+      console.log('Datos recibidos:', req.body);
+  
+      const {
+        nombre = '',
+        tipodocumento = '',
+        numerodocumento = '',
+        correo = '',
+        contraseña = '',
+        celular = '',
+        idrol = '',
+        idficha = null
+      } = req.body;
+  
+      // Verificar si faltan datos requeridos
+      if (!nombre || !tipodocumento || !numerodocumento || !correo || !contraseña || !idrol || !celular) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+      }
+  
+      // Registrar a la persona en la base de datos
+      const nuevaPersona = {
+        nombre,
+        tipodocumento,
+        numerodocumento,
+        correo,
+        contraseña,
+        telefono: celular,
+        idrol: parseInt(idrol, 10),
+        idficha: idrol === 4 && idficha !== null ? parseInt(idficha, 10) : null,
+        estado: true
+      };
+  
+      const resultado = await pool.query(
+        'INSERT INTO personas (nombre, tipodocumento, numerodocumento, correo, contraseña, telefono, idrol, idficha, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+        [nombre, tipodocumento, numerodocumento, correo, contraseña, celular, nuevaPersona.idrol, nuevaPersona.idficha, nuevaPersona.estado]
+      );
+  
+      res.status(201).json({ message: 'Usuario registrado exitosamente', usuario: resultado.rows[0] });
     } catch (error) {
-        console.error('Error al registrar persona:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+      console.error('Error al registrar persona:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
     }
-};
+  }
 
 
 // Función para obtener todos los proyectos de la base de datos
