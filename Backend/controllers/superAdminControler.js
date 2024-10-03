@@ -340,12 +340,11 @@ async function agregarPersona(req, res) {
         telefono: celular,
         idrol: parseInt(idrol, 10),
         idficha: idrol === 4 && idficha !== null ? parseInt(idficha, 10) : null,
-        estado: true
       };
   
       const resultado = await pool.query(
-        'INSERT INTO personas (nombre, tipodocumento, numerodocumento, correo, contraseña, telefono, idrol, idficha, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-        [nombre, tipodocumento, numerodocumento, correo, contraseña, celular, nuevaPersona.idrol, nuevaPersona.idficha, nuevaPersona.estado]
+        'INSERT INTO personas (nombre, tipodocumento, numerodocumento, correo, contraseña, telefono, idrol, idficha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+        [nombre, tipodocumento, numerodocumento, correo, contraseña, celular, nuevaPersona.idrol, nuevaPersona.idficha]
       );
   
       res.status(201).json({ message: 'Usuario registrado exitosamente', usuario: resultado.rows[0] });

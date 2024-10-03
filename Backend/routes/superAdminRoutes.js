@@ -147,6 +147,7 @@ router.get('/objetivos/:idarea', async (req, res) => {
 
 // Ruta para agregar una persona
 router.post('/agregarpersona', agregarPersona);
+
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
     try {
