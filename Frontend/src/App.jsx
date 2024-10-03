@@ -73,7 +73,6 @@ const App = () => {
           <Route path="/Usuario/VistaAreas1" element={<VistaAreas1 />} />
           <Route path="/Usuario/VistaUsuario" element={<VistaUsuario />} />
           <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
-          <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
           <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
           </Route>
 

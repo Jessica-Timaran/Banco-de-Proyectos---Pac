@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
 import LayoutPrincipal1 from "../../Layouts/LayoutPrincipal1.jsx";
