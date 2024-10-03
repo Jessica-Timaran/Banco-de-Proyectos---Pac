@@ -13,7 +13,7 @@ import VistaMisProyectos from './Pages/Usuario/VistaMisProyectos';
 import Home from './Pages/Principal/Home';
 import OlvidarContraseña from './Pages/Principal/OlvidarContraseña';
 import UpdatePassword from './Pages/Principal/UpdatePassword';
-import Inicio from './Pages/Principal/Incio';
+import Inicio from './Pages/Principal/Inicio';
 import Registro1 from './Pages/Principal/Registro1';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
 
