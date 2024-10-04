@@ -86,13 +86,22 @@ const RegistroProyecto = () => {
     }
     
     if (!hasError) {
-      const userId = localStorage.getItem('user');
-    
-      if (!userId) {
-        console.error('Error: idpersona no encontrado en localStorage');
+      const userString = localStorage.getItem('user');
+      
+      if (!userString) {
+        console.error('Error: Usuario no encontrado en localStorage');
         return;
       }
-    
+  
+      let userId;
+      try {
+        const userObj = JSON.parse(userString);  // Convertir la cadena JSON a objeto
+        userId = userObj.id;  // Acceder al campo 'id'
+      } catch (error) {
+        console.error('Error al parsear el usuario de localStorage:', error);
+        return;
+      }
+      
       const url = idProyecto
       ? `https://banco-de-proyectos-pac.onrender.com/api/user/proyectos/${idProyecto}`
       : 'https://banco-de-proyectos-pac.onrender.com/api/user/proyectos';
@@ -104,19 +113,19 @@ const RegistroProyecto = () => {
         responsable: responsable,
         disponibilidad: frecuencia,
         dia: diasSeleccionados,
-        idpersona: userId, 
+        idpersona: userId,  // Aquí el ID correcto de la persona
         estado: 'En proceso',
       };
       
       console.log('Enviando datos al servidor:', payload);
-    
+  
       try {
         const response = await fetch(url, {
           method: method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-    
+  
         if (response.ok) {
           const data = await response.json();
           window.location.href = `/Usuario/VistaAreas1?projectId=${data.idproyecto}`;
@@ -129,6 +138,7 @@ const RegistroProyecto = () => {
       }
     }
   };
+  
 
   const handleVolver = () => {
     navigate('/Usuario/VistaUsuario');
