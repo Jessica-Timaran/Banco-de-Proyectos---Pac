@@ -33,11 +33,11 @@ const BotonSegundo = ({ Text, onClick, additionalClasses = '', size = 'md' }) =>
   return (
     <div className="flex justify-center sm:justify-end">
       <button
-        className={`relative font-semibold font-sans border border-[#2eb694] bg-[#2eb694] text-white rounded-[5px] overflow-hidden 
+        className={`relative font-semibold font-sans border border-[#2eb694] bg-[#2eb694] text-black rounded-[5px] overflow-hidden 
           transition-all duration-700 mt-3 ${sizeClasses[size]} ${additionalClasses}`}
         onClick={onClick}  
       >
-        <span className="relative z-10 text-black group-hover:text-white duration-500">
+        <span className="relative z-10 text-white group-hover:text-white duration-500">
           {Text}
         </span>
         <span className="absolute w-full h-full bg-[#2eb694] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"></span>

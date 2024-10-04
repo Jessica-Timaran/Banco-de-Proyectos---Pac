@@ -113,7 +113,7 @@ const Sidebar = () => {
           <div className="flex items-center space-x-3">
             <img src={logo} alt="Logo" className="w-10 h-10" />
             <span
-              className={`text-xl font-semibold whitespace-nowrap dark:text-black transition-opacity duration-300 ${
+              className={`text-xl font-semibold whitespace-nowrap text-white transition-opacity duration-300 ${
                 isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -146,7 +146,7 @@ const Sidebar = () => {
     >
       <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
       <span
-        className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+        className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
           isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
         }`}
       >

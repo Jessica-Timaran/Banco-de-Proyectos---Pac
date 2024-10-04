@@ -93,7 +93,7 @@ const RegistroProyecto = () => {
     }
     
     if (!hasError) {
-      const userId = localStorage.getItem('userId');
+      const userId = localStorage.getItem('user');
     
       if (!userId) {
         console.error('Error: idpersona no encontrado en localStorage');
@@ -111,7 +111,7 @@ const RegistroProyecto = () => {
         responsable: responsable,
         disponibilidad: frecuencia,
         dia: diasSeleccionados,
-        idpersona: userId,
+        idpersona: userId, 
         estado: 'En proceso',
       };
       
