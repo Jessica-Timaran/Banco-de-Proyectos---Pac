@@ -5,7 +5,7 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFicha'; // Cambiado para coincidir con el nombre correcto
+import ModalFicha from '../../Components/Modales/ModalFichas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
