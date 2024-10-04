@@ -42,7 +42,7 @@ const Sidebar = () => {
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
       { icon: 'fas fa-tachometer-alt', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
-      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
+      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
     3: [
       { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },

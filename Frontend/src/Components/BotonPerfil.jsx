@@ -15,7 +15,7 @@ const ButtonComponent = ({ Text, className = '', id }) => {
       onClick={handleClick}
     >
       <span
-        className="relative z-10 text-black group-hover:text-black text-[18px] duration-500"
+        className="relative z-10 text-black group-hover:text-white text-[18px] duration-500"
       >
         {Text}
       </span>

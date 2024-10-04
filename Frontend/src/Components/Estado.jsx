@@ -17,7 +17,7 @@ const Estado = ({ estado, idproyecto }) => {
             : estado === 'Rechazado'
             ? 'bg-red-100 text-red-600'
             : estado === 'Devuelto' || estado === 'En proceso'
-            ? 'bg-orange-100 text-orange-600'
+            ? 'bg-yellow-100 text-yellow-600'
             : ''
         }`}
         style={{ minWidth: '120px' }} // Establece un ancho mínimo
@@ -29,7 +29,7 @@ const Estado = ({ estado, idproyecto }) => {
               : estado === 'Rechazado'
               ? 'bg-red-500'
               : estado === 'Devuelto' || estado === 'En proceso'
-              ? 'bg-yellow-200'
+              ? 'bg-yellow-500'
               : ''
           }`}
         ></span>
