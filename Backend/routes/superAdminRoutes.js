@@ -49,15 +49,7 @@ router.get('/tipos-de-area', getTiposDeArea);
 router.post('/tipos-de-area', addTipoDeArea);
 router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
 
-router.get('/ficha', async (req, res) => {
-    try {
-        const ficha = await getAllFicha();
-        res.json(ficha);
-    } catch (error) {
-        console.error('Error al obtener fichas:', error);
-        res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
-    }
-});
+router.post('/fichas', registerFicha);
 
 router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
     try {

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
-import { useState } from 'react';
-import BotonSegundo from '../BotonSegundo';
+import RadioButton3 from '../RadioButton3';
+import { useFichaForm } from '../../../hooks/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
   const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
@@ -11,69 +10,70 @@ export default function ModalFicha({ onClose, onAddFicha }) {
     onClose();
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!isSubmitting) {
-      setIsSubmitting(true);
-      await handleSubmit(e);
-      setIsSubmitting(false);
-    }
-  };
-
   return (
-    <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
+    <Dialog
+      open={true}
+      onClose={onClose}
+      static={true}
+      className="z-[100]"
+    >
       <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
         <button
           type="button"
-          className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content"
+          className="absolute right-4 top-4 p-2 bg-transparent border-none"
           onClick={onClose}
           aria-label="Close"
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-
-        {/* Formulario */}
-        <form onSubmit={handleFormSubmit} className="space-y-4">
-          <div className="flex flex-col p-[5%] space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h4 className="font-semibold">Añade nueva ficha</h4>
+          <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
-              {/* Input para Nombre del programa */}
-              <div>
+              <div className="relative">
                 <Input2
                   id="nombre"
                   type="text"
-                  placeholder="Nombre del programa"
+                  placeholder="Sistemas"
                   Text="Nombre del programa:"
                   value={formValues.nombre}
                   onChange={handleInputChange}
                   error={errors.nombre}
                 />
               </div>
-
-              {/* Input para Número de ficha */}
-              <div>
+              <div className="relative">
                 <Input2
                   id="numeroficha"
                   type="text"
-                  placeholder="Número de ficha"
+                  placeholder="2694265"
                   Text="Número de ficha:"
                   value={formValues.numeroficha}
                   onChange={handleInputChange}
                   error={errors.numeroficha}
                 />
               </div>
+              <div className="space-y-4">
+                <div className="flex">
+                  <RadioButton3
+                    Text="Activo"
+                    Text2="Inactivo"
+                    id="estadoActivo"
+                    value="Activo"
+                    checked={formValues.estado === true}
+                    onChange={() => handleInputChange({ target: { id: 'estado', value: true } })}
+                    error={errors.estado}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Botón de Guardar */}
-          <BotonSegundo
-            Text={isSubmitting ? 'Guardando...' : 'Agregar'}
-            onClick={handleFormSubmit}
-            additionalClasses="text-black bg-[#A3E784] hover:bg-[#90cc74]"
-            size="md"
-          />
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-blue-500 text-white px-4 py-2 rounded flex justify-end"
+          >
+            Agregar
+          </button>
         </form>
       </DialogPanel>
     </Dialog>

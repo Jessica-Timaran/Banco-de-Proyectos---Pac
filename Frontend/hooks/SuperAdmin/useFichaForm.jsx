@@ -3,27 +3,25 @@ import { useState } from 'react';
 export function useFichaForm(onSuccess) {
   const [formValues, setFormValues] = useState({
     nombre: '',
+    estado: true, // Estado por defecto como booleano
     numeroficha: ''
   });
 
   const [errors, setErrors] = useState({});
 
-  // Función para validar el formulario
   const validateForm = () => {
     const errors = {};
     let isValid = true;
 
-    // Validar nombre (solo letras y espacios, entre 2 y 50 caracteres)
     const nombrePattern = /^[A-Za-zÀ-ÿ\s.,]{2,50}$/;
     if (!nombrePattern.test(formValues.nombre.trim())) {
       errors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
       isValid = false;
     }
 
-    // Validar número de ficha (solo números, exactamente 7 dígitos)
     const numerofichaPattern = /^[0-9]{7}$/;
     if (!numerofichaPattern.test(formValues.numeroficha.trim())) {
-      errors.numeroficha = 'El número de ficha debe contener solo números y tener 7 dígitos.';
+      errors.numeroficha = "Debe contener solo números, exactamente 7 dígitos";
       isValid = false;
     }
 
@@ -31,25 +29,26 @@ export function useFichaForm(onSuccess) {
     return isValid;
   };
 
-  // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    if (id === 'estado') {
+      setFormValues(prevValues => ({ ...prevValues, [id]: value === 'true' }));
+    } else {
+      setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    }
   };
 
-  // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Valores del formulario:', formValues);
-
+    console.log("Valores del formulario:", formValues);
     if (validateForm()) {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerFicha', {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', { // URL correcta de la API
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formValues) // Aquí se envía formValues
+          body: JSON.stringify(formValues)
         });
 
         if (!response.ok) {
@@ -59,9 +58,10 @@ export function useFichaForm(onSuccess) {
         }
 
         const data = await response.json();
-        onSuccess(data); // Aquí se pasa el resultado a onSuccess
+        onSuccess(data);
       } catch (error) {
         console.error('Error al registrar ficha:', error);
+        setErrors(prevErrors => ({ ...prevErrors, submit: error.message }));
       }
     }
   };

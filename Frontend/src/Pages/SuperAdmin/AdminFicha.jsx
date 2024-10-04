@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFichas';
+import ModalFicha from '../../Components/Modales/ModalFicha'; // Cambiado para coincidir con el nombre correcto
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
@@ -13,14 +13,13 @@ const Fichas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para el envío
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFichas = async () => {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -47,10 +46,9 @@ const Fichas = () => {
   };
 
   const handleAddFicha = async (newFicha) => {
-    setIsSubmitting(true); // Iniciar el estado de envío
     try {
       console.log('Intentando registrar nueva ficha:', newFicha);
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', { // URL corregida
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,12 +62,12 @@ const Fichas = () => {
       }
 
       const addedFicha = await response.json();
+      console.log('Ficha registrada exitosamente:', addedFicha);
       setFichas(prevFichas => [...prevFichas, addedFicha]);
       handleCloseModal();
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
-    } finally {
-      setIsSubmitting(false); // Terminar el estado de envío
+      // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
 
@@ -84,25 +82,26 @@ const Fichas = () => {
           <Loader />
         </div>
       ) : (
-        <Layoutcontenido>
-          <div className="container mx-auto py-8 px-4">
-            <div className="flex justify-between items-center pb-6 space-x-4">
-              <div className="inline-flex items-center space-x-2">
-                <ArrowLeftIcon className="h-6 w-6" aria-hidden="true" onClick={handleGoBack} />
-                <span className="text-xl font-bold text-gray-900">Fichas</span>
-              </div>
-              <BotonSegundoModal text="Añadir" id="addButton" onClick={handleAddClick} />
+        <Layoutcontenido title="Fichas">
+          <div className="flex flex-col w-full p-10 mb-10">
+            <div className="flex justify-between items-center mb-4">
+              <button
+                onClick={handleGoBack}
+                className="flex items-center text-black hover:text-Verde"
+              >
+                <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                Volver
+              </button>
+              <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
             </div>
-
-            <GridListFicha fichas={fichas} />
-
-            {/* Modal para agregar nueva ficha */}
+            <div>
+              <GridListFicha fichas={fichas} setFichas={setFichas} />
+            </div>
             {isModalOpen && (
               <ModalFicha
                 onClose={handleCloseModal}
                 onAddFicha={handleAddFicha}
-                ficha={currentFicha}
-                isSubmitting={isSubmitting}
+                ficha={currentFicha} // Ajustado para coincidir con el nombre del prop en ModalFicha
               />
             )}
           </div>

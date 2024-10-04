@@ -187,17 +187,17 @@ export async function getItemsByTipoDeArea(req, res) {
 
 // Función para registrar una nueva ficha
 export async function registerFicha(req, res) {
-    const { nombre, numeroficha } = req.body;
+    const { nombre, numeroficha, estado } = req.body;
 
     try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha });
-
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha, estado });
+        
         const client = await pool.connect();
-
+        
         // Insertar la ficha en la tabla fichas
         const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',
-            [nombre, numeroficha]
+            'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
+            [nombre, numeroficha, estado]
         );
 
         client.release();
