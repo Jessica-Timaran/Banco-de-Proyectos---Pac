@@ -11,7 +11,7 @@ const ButtonComponent = ({ Text, className = '', id }) => {
   return (
     <button
       id={id}
-      className={`boton-principal relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#A3E784] group w-[175px] h-[44px] py-[10px] rounded-[5px] mt-3 self-center ${className} ${activeButtonId === id ? 'bg-[#A3E784]' : ''}`}
+      className={`boton-principal relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#2eb694] group w-[175px] h-[44px] py-[10px] rounded-[5px] mt-3 self-center ${className} ${activeButtonId === id ? 'bg-[#2eb694]' : ''}`}
       onClick={handleClick}
     >
       <span
@@ -20,10 +20,10 @@ const ButtonComponent = ({ Text, className = '', id }) => {
         {Text}
       </span>
       <span
-        className="absolute w-full h-full bg-[#A3E784] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"
+        className="absolute w-full h-full bg-[#2eb694] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"
       ></span>
       <span
-        className="absolute w-full h-full bg-[#A3E784] -right-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:right-0 duration-500"
+        className="absolute w-full h-full bg-[#2eb694] -right-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:right-0 duration-500"
       ></span>
     </button>
   );

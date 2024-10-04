@@ -66,7 +66,7 @@ const AsignarProyectos = () => {
           <BotonBack 
             Text="Atrás" 
             textColor="text-white" 
-            className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" 
+            className="bg-[#2eb694] hover:bg-lime-500 font-bold py-2 px-4 rounded" 
             onClick={handleBackClick} // Usamos el manejador de clic para regresar
           />
         </div>

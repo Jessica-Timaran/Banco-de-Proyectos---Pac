@@ -32,7 +32,7 @@ const GridListFicha = () => {
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-x-auto sm:overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200 table-auto">
-        <thead className="bg-[#A3E784]">
+        <thead className="bg-[#2eb694]">
           <tr>
             <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">
               Nombre del Ficha

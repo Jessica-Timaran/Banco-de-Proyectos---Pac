@@ -96,7 +96,7 @@ const Inicio = () => {
             onSubmit={handleSubmit}
             className="form flex flex-col w-full justify-center items-center gap-y-8 lg:gap-y-12 2xl:gap-y-16"
           >
-            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#A3E784] rounded-bl-[40px] rounded-br-[40px]">
+            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px]">
               <img
                 className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
                 src="/Img/Logo.png"

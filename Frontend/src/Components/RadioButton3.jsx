@@ -14,14 +14,14 @@ const RadioButton3 = ({ Text, id, value, checked, onChange, error }) => {
           onChange={onChange}
         />
         {/* Estilo personalizado para el radio button */}
-        <div className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center peer-checked:border-[#A3E784] peer-checked:bg-[#A3E784] transition-colors duration-300">
+        <div className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center peer-checked:border-[#2eb694] peer-checked:bg-[#2eb694] transition-colors duration-300">
           <div className={`w-2.5 h-2.5 bg-white rounded-full ${checked ? 'visible' : 'invisible'} peer-checked:bg-white transition-all duration-300`}></div>
         </div>
       </div>
       
       <label
         htmlFor={id}
-        className="ml-2 text-tremor-default font-medium text-gray-700 peer-checked:text-[#A3E784] transition-colors duration-300"
+        className="ml-2 text-tremor-default font-medium text-gray-700 peer-checked:text-[#2eb694] transition-colors duration-300"
       >
         {Text}
       </label>

@@ -15,7 +15,7 @@ const AceptarTerminos = ({ Text, id, checked, onChange }) => {
           checked={checked}
           onChange={onChange}
         />
-        <span className="checkmark absolute top-0 left-0 h-[25px] w-[25px] bg-[#eee] rounded-[4px] mt-2 border-2 border-solid border-[#A3E784] sm:border-0"></span>
+        <span className="checkmark absolute top-0 left-0 h-[25px] w-[25px] bg-[#eee] rounded-[4px] mt-2 border-2 border-solid border-[#2eb694] sm:border-0"></span>
         <svg
           viewBox="0 0 69 89"
           className="absolute top-[10px] left-0 h-[20px] w-[20px] duration-500 ease-out [stroke-dasharray:100] [stroke-dashoffset:100] peer-checked:[stroke-dashoffset:0]"

@@ -46,7 +46,7 @@ const Prueba = () => {
         <div className="w-full max-w-7xl my-10">
           <div className="flex flex-col">
             {/* Encabezado del grid fijo */}
-            <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b sticky top-0 z-10">
+            <div className="grid grid-cols-12 bg-[#2eb694] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b sticky top-0 z-10">
               <div className="col-span-6 md:col-span-6 text-left flex items-center text-sm sm:text-base">
                 PROYECTOS
               </div>

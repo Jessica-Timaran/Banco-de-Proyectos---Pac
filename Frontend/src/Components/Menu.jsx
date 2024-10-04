@@ -103,7 +103,7 @@ const Sidebar = () => {
         onMouseEnter={() => !isSmallScreen && setIsOpen(true)}
         onMouseLeave={() => !isSmallScreen && setIsOpen(false)}
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#2eb694]">
           <div className="flex items-center space-x-3">
             <img src={logo} alt="Logo" className="w-10 h-10" />
             <span

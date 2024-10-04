@@ -11,7 +11,7 @@ const config = {
     extend: {
       colors: {
         colorCarta: '#FBFCFF',
-        verde: '#A3E784',
+        verde: '#2eb694',
         customGreen: 'rgba(163, 231, 132, 1)',
         tremor: {
           brand: {

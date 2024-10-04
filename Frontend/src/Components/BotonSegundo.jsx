@@ -4,7 +4,7 @@
 //   return (
 //     <div className="flex justify-end">
 //       <button
-//         className="w-[175px] h-[44px] bg-[#A3E784] rounded-[5px] text-white relative font-semibold font-sans border border-[#A3E784] 
+//         className="w-[175px] h-[44px] bg-[#2eb694] rounded-[5px] text-white relative font-semibold font-sans border border-[#2eb694] 
 //         after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#90cc74] after:left-5 overflow-hidden after:bottom-0 after:translate-y-full 
 //         after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700 
 //         transition-all duration-700 mt-3"
@@ -33,7 +33,7 @@ const BotonSegundo = ({ Text, onClick, additionalClasses = '', size = 'md' }) =>
   return (
     <div className="flex justify-center sm:justify-end">
       <button
-        className={`relative font-semibold font-sans border border-[#A3E784] bg-[#A3E784] text-white rounded-[5px] overflow-hidden 
+        className={`relative font-semibold font-sans border border-[#2eb694] bg-[#2eb694] text-white rounded-[5px] overflow-hidden 
           transition-all duration-700 mt-3 ${sizeClasses[size]} ${additionalClasses}`}
         onClick={onClick}  
       >

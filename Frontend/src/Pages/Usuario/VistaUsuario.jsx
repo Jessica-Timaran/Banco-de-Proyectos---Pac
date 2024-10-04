@@ -29,7 +29,7 @@ const VistaUsuario = () => {
             <div className="flex flex-col md:flex-row items-start">
               <div className="w-full md:w-1/2 p-4 md:p-8">
                 <span className="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
-                <span className="text-3xl sm:text-5xl md:text-8xl text-[#A3E784] font-inter mb-4 block">USUARIO</span>
+                <span className="text-3xl sm:text-5xl md:text-8xl text-[#2eb694] font-inter mb-4 block">USUARIO</span>
                 <p className="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
                   ¡Hola! querido usuario, aquí podrás registrar tus proyectos o, si ya tienes, podrás visualizarlos y saber el estado en el que se encuentran. ¡Ten una buena experiencia en el aplicativo!
                 </p>

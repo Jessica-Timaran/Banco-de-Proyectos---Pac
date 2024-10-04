@@ -17,7 +17,7 @@ const ModalEstado = ({ estado, isOpen }) => {
         <p className="mb-6">Su proyecto fue: <strong>{estado}</strong>.</p>
         <button
           onClick={handleClose}
-          className="w-full bg-[#90cc74] text-white py-2 px-4 rounded hover:bg-lime-600"
+          className="w-full bg-[#2eb694] text-white py-2 px-4 rounded hover:bg-green-600"
         >
           Cerrar
         </button>

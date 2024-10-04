@@ -73,7 +73,7 @@ const GridListTipoArea = () => {
         <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
             {/* Tabla principal */}
             <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-[#A3E784]">
+                <thead className="bg-[#2eb694]">
                     <tr>
                         <th className="px-6 py-3 text-left text-gray-900 w-full">Nombre de la Categoría</th>
                     </tr>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const BarraPreguntas = ({ Text1, Text2, Text3, Text4 }) => {
   return (
-    <div className="w-full bg-[#A3E784]">
+    <div className="w-full bg-[#2eb694]">
       <div className="grid rounded-lg">
         {/* Filas de la barra en una sola línea */}
         <div className="grid grid-cols-12 items-center border-b py-4 px-4">

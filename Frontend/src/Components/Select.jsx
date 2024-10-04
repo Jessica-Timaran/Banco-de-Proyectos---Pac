@@ -19,7 +19,7 @@ const Select = () => {
           onChange={handleChange}
         />
         <span
-          className={`tracking-widest peer-checked:bg-[#A3E784] peer-checked:text-black text-center text-gray-700 p-2 rounded-lg transition duration-150 ease-in-out w-full ${selected === 'html' ? 'bg-[#A3E784] text-black' : ''}`}
+          className={`tracking-widest peer-checked:bg-[#2eb694] peer-checked:text-black text-center text-gray-700 p-2 rounded-lg transition duration-150 ease-in-out w-full ${selected === 'html' ? 'bg-[#2eb694] text-black' : ''}`}
         >
           Semanal
         </span>
@@ -35,7 +35,7 @@ const Select = () => {
           onChange={handleChange}
         />
         <span
-          className={`tracking-widest peer-checked:bg-[#A3E784] peer-checked:text-black text-center text-gray-700 p-2 rounded-lg transition duration-150 ease-in-out w-full ${selected === 'react' ? 'bg-[#A3E784] text-black' : ''}`}
+          className={`tracking-widest peer-checked:bg-[#2eb694] peer-checked:text-black text-center text-gray-700 p-2 rounded-lg transition duration-150 ease-in-out w-full ${selected === 'react' ? 'bg-[#2eb694] text-black' : ''}`}
         >
           Quincenal
         </span>
@@ -51,7 +51,7 @@ const Select = () => {
           onChange={handleChange}
         />
         <span
-          className={`tracking-widest peer-checked:bg-[#A3E784] peer-checked:text-black text-center text-gray-700 p-2 w-full rounded-lg transition duration-150 ease-in-out ${selected === 'vue' ? 'bg-[#A3E784] text-black' : ''}`}
+          className={`tracking-widest peer-checked:bg-[#2eb694] peer-checked:text-black text-center text-gray-700 p-2 w-full rounded-lg transition duration-150 ease-in-out ${selected === 'vue' ? 'bg-[#2eb694] text-black' : ''}`}
         >
           Mensual
         </span>
