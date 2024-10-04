@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import RadioButton3 from '../RadioButton3';
-import { useFichaForm } from '../../../hooks/useFichaForm';
+import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
   const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
