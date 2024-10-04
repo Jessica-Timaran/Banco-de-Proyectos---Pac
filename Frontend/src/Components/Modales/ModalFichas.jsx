@@ -74,15 +74,17 @@ export default function ModalFicha({ onClose, onAddFicha }) {
             </div>
           )}
 
-          {/* Botón para agregar la nueva ficha */}
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
-            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
-          >
-            {isSubmitting ? 'Registrando...' : 'Agregar'}
-          </button>
+         {/* Botón para enviar el formulario */}
+         <div className='flex justify-end mt-8'>
+                        <button
+                            type="submit"
+                            id="guardarBtn"
+                            className="bg-verde text-white px-4 py-2 rounded justify-end"
+                            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
+                        >
+                            {isSubmitting ? 'Registrando...' : 'Agregar'}
+                        </button>
+                    </div>
         </form>
       </DialogPanel>
     </Dialog>
