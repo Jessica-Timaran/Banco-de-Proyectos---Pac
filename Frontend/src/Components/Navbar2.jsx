@@ -1,12 +1,10 @@
 import React from 'react';
-import { useUser } from '../Context/UserContext';
+import { useUser } from '../Context/UserContext'; // Importa el contexto del usuario
+import logoUser from '../../public/user-solid.svg'
+
 
 const Navbar2 = ({ Text }) => {
-  const { user } = useUser();
-
-  if (user === null) {
-    return <div>Loading...</div>; // Or any loading indicator
-  }
+  const { user } = useUser(); // Usa el contexto del usuario
 
   return (
     <nav className="bg-Color_carta flex p-4 justify-between z-40 h-20  ">
@@ -28,4 +26,5 @@ const Navbar2 = ({ Text }) => {
     </nav>
   );
 };
+
 export default Navbar2;
