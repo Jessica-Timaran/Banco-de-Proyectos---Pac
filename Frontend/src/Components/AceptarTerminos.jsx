@@ -34,7 +34,7 @@ const AceptarTerminos = ({ Text, id, checked, onChange }) => {
       <style>
         {`
           .checkbox-container input:checked ~ .checkmark {
-            background-color: #A3E784;
+            background-color: #2eb694;
           }
         `}
       </style>

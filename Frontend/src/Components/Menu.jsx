@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../public/Img/Logo.png';
 import '../css/Sidebar.css';
@@ -37,7 +37,7 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      { icon: 'fas fa-user', to: '/Asignados', label: 'Proyectos Asignados' },
+      { icon: 'fas fa-user', to: '/asignar', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
@@ -45,7 +45,13 @@ const Sidebar = () => {
       { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
     ],
     3: [
-      { icon: 'fas fa-user-plus', to: '/SuperAdmin/usuarios', label: 'Crear Usuario' },
+      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/usuarios', label: 'Crear Fichas' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/areas', label: 'Crear Areas' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/tipodearea', label: 'Crear Tipos de area' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/items', label: 'Crear Items' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/objetivos', label: 'Crear Objetivos' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/alcance', label: 'Crear Alcances' },
       { icon: 'fas fa-folder-open', to: '/SuperAdmin/registrocompleto', label: 'Registro completo' },
       { icon: 'fas fa-upload', to: '/SuperAdmin/proyectos', label: 'Ver proyectos' },
     ],
@@ -115,41 +121,40 @@ const Sidebar = () => {
             </span>
           </div>
           <ul className="space-y-3 font-medium mt-5">
-            {roleMenuItems.map((item, index) => (
-              <li key={index} className="w-full">
-               <Link
-                to={item.to}
-                className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
-                onClick={() => console.log('Navigating to:', item.to)}
-              >
-
-                  <i className={`${item.icon} static-icon text-black`} aria-hidden="true"></i>
-                  <span
-                    className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
-                      isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              </li>
-            ))}
-            <li className="w-full">
-              <button
-                onClick={handleLogout}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
-              >
-                <i className="fas fa-sign-out-alt static-icon text-black" aria-hidden="true"></i>
-                <span
-                  className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
-                    isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  Salir
-                </span>
-              </button>
-            </li>
-          </ul>
+  {roleMenuItems.map((item, index) => (
+    <li key={index} className="w-full">
+      <Link
+        to={item.to}
+        className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
+        onClick={() => console.log('Navigating to:', item.to)}
+      >
+        <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
+        <span
+          className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+            isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          {item.label}
+        </span>
+      </Link>
+    </li>
+  ))}
+  <li className="w-full">
+    <button
+      onClick={handleLogout}
+      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
+    >
+      <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
+      <span
+        className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+          isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        Salir
+      </span>
+    </button>
+  </li>
+</ul>
         </div>
       </aside>
 

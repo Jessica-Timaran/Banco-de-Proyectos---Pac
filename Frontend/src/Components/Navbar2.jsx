@@ -9,15 +9,18 @@ const Navbar2 = ({ Text }) => {
   }
 
   return (
-    <nav className="bg-white flex p-2 sm:p-4 justify-end">
-      <div className="flex items-center mr-2 sm:mr-6">
+    <nav className="bg-Color_carta flex p-4 justify-between z-40 h-20  ">
+    <div className="flex items-start z-20 ">
+      {/* <Buscador type="search" /> */}
+    </div>
+    <div className="flex grid-cols-2 justify-center items-center mr-6 ">
         <img
-          src="/Img/perfil.png"
-          alt="User Avatar"
-          className="rounded-full w-8 h-8 sm:w-12 sm:h-12 mr-2"
+           src={logoUser}
+          alt="User Icon"
+          className="flex rounded-full w-7 h-7 mr-2 justify-end"
         />
-        <span className="text-black text-xs sm:text-base">
-          {user.nombre || 'Invitado'}
+        <span className="text-black">
+          {user.nombre || 'Invitado'} {/* Mostrar el nombre del usuario o "Invitado" */}
           <br />
           {Text}
         </span>
@@ -25,5 +28,4 @@ const Navbar2 = ({ Text }) => {
     </nav>
   );
 };
-
 export default Navbar2;

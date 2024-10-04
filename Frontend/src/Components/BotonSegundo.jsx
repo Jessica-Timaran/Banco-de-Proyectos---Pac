@@ -40,8 +40,8 @@ const BotonSegundo = ({ Text, onClick, additionalClasses = '', size = 'md' }) =>
         <span className="relative z-10 text-black group-hover:text-black duration-500">
           {Text}
         </span>
-        <span className="absolute w-full h-full bg-[#90cc74] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"></span>
-        <span className="absolute w-full h-full bg-[#90cc74] -right-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:right-0 duration-500"></span>
+        <span className="absolute w-full h-full bg-[#2eb694] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"></span>
+        <span className="absolute w-full h-full bg-[#2eb694] -right-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:right-0 duration-500"></span>
       </button>
     </div>
   );
