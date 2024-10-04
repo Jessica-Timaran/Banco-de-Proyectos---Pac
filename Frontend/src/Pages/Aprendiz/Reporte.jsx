@@ -147,12 +147,12 @@ const EmailForm = () => {
                             className="hidden"
                         />
                     </div>
-                    <ButtonComponent type="submit" Text="Enviar Correo" className="w-full text-white py-2 rounded hover:bg-[#7EBA5D]" />
+                    <ButtonComponent type="submit" Text="Enviar Correo" className="w-full text-white py-2 rounded hover:bg-[#2eb694]" />
                     <ButtonComponent
                         type="button"
                         Text="Volver"
                         onClick={() => navigate('/Aprendiz/Formulario')}
-                        className="w-full text-white py-2 rounded hover:bg-[#7EBA5D]"
+                        className="w-full text-white py-2 rounded hover:bg-[#2eb694]"
                     />
                 </form>
                 

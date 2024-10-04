@@ -82,9 +82,9 @@ export default function GridListProyectos() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-[#2eb694]">
               <tr>
-                <th className="px-6 py-3 text-left text-gray-900">Nombre</th>
-                <th className="px-6 py-3 text-left text-gray-900">Responsable</th>
-                <th className="px-6 py-3 text-left text-gray-900">Estado</th>
+                <th className="px-6 py-3 text-left text-white">Nombre</th>
+                <th className="px-6 py-3 text-left text-white">Responsable</th>
+                <th className="px-6 py-3 text-left text-white">Estado</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

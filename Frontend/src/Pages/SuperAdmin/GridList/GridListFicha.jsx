@@ -34,10 +34,10 @@ const GridListFicha = () => {
       <table className="min-w-full divide-y divide-gray-200 table-auto">
         <thead className="bg-[#2eb694]">
           <tr>
-            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-white">
               Nombre del Ficha
             </th>
-            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-white">
               Número ficha
             </th>
           </tr>
