@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
@@ -6,7 +5,7 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFichas'; // Cambiado para coincidir con el nombre correcto
+import ModalFicha from '../../Components/Modales/ModalFichas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
@@ -14,6 +13,7 @@ const Fichas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para el envío
 
   const navigate = useNavigate();
 
@@ -47,9 +47,10 @@ const Fichas = () => {
   };
 
   const handleAddFicha = async (newFicha) => {
+    setIsSubmitting(true); // Iniciar el estado de envío
     try {
       console.log('Intentando registrar nueva ficha:', newFicha);
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', { // URL corregida
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,12 +64,12 @@ const Fichas = () => {
       }
 
       const addedFicha = await response.json();
-      console.log('Ficha registrada exitosamente:', addedFicha);
       setFichas(prevFichas => [...prevFichas, addedFicha]);
       handleCloseModal();
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
-      // Aquí podrías mostrar un mensaje de error al usuario
+    } finally {
+      setIsSubmitting(false); // Terminar el estado de envío
     }
   };
 
@@ -83,26 +84,25 @@ const Fichas = () => {
           <Loader />
         </div>
       ) : (
-        <Layoutcontenido title="Fichas">
-          <div className="flex flex-col w-full p-10 mb-10">
-            <div className="flex justify-between items-center mb-4">
-              <button
-                onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
-              >
-                <ArrowLeftIcon className="w-5 h-5 mr-2" />
-                Volver
-              </button>
-              <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
+        <Layoutcontenido>
+          <div className="container mx-auto py-8 px-4">
+            <div className="flex justify-between items-center pb-6 space-x-4">
+              <div className="inline-flex items-center space-x-2">
+                <ArrowLeftIcon className="h-6 w-6" aria-hidden="true" onClick={handleGoBack} />
+                <span className="text-xl font-bold text-gray-900">Fichas</span>
+              </div>
+              <BotonSegundoModal text="Añadir" id="addButton" onClick={handleAddClick} />
             </div>
-            <div>
-              <GridListFicha fichas={fichas} setFichas={setFichas} />
-            </div>
+
+            <GridListFicha fichas={fichas} />
+
+            {/* Modal para agregar nueva ficha */}
             {isModalOpen && (
               <ModalFicha
                 onClose={handleCloseModal}
                 onAddFicha={handleAddFicha}
-                ficha={currentFicha} // Ajustado para coincidir con el nombre del prop en ModalFicha
+                ficha={currentFicha}
+                isSubmitting={isSubmitting}
               />
             )}
           </div>

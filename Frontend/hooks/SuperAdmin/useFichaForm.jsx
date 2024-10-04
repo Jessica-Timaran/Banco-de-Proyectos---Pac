@@ -40,7 +40,7 @@ export function useFichaForm(onSuccess) {
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Valores del formulario:', formValues);  // Para depuración
+    console.log('Valores del formulario:', formValues);
 
     if (validateForm()) {
       try {
@@ -49,7 +49,7 @@ export function useFichaForm(onSuccess) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formValues)  // Enviar los valores del formulario
+          body: JSON.stringify(formValues) // Aquí se envía formValues
         });
 
         if (!response.ok) {
@@ -59,7 +59,7 @@ export function useFichaForm(onSuccess) {
         }
 
         const data = await response.json();
-        onSuccess(data);  // Llamar al callback en caso de éxito
+        onSuccess(data); // Aquí se pasa el resultado a onSuccess
       } catch (error) {
         console.error('Error al registrar ficha:', error);
       }

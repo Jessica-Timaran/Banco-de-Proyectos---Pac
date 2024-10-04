@@ -29,6 +29,8 @@ export function useAreaForm(onSuccess) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Valores del formulario:', formValues);
+
         if (validateForm()) {
             try {
                 const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerArea', {
