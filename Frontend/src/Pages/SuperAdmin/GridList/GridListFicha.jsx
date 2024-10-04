@@ -59,4 +59,4 @@ const GridListFicha = () => {
   );
 };
 
-export default GridListFicha;
+export default GridListFicha; 

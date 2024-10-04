@@ -3,11 +3,10 @@ import { useState } from 'react';
 export function useFichaForm(onSuccess) {
   const [formValues, setFormValues] = useState({
     nombre: '',
-    estado: true, // Estado por defecto como booleano
     numeroficha: ''
   });
-
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para evitar doble envío
 
   const validateForm = () => {
     const errors = {};
@@ -21,7 +20,7 @@ export function useFichaForm(onSuccess) {
 
     const numerofichaPattern = /^[0-9]{7}$/;
     if (!numerofichaPattern.test(formValues.numeroficha.trim())) {
-      errors.numeroficha = "Debe contener solo números, exactamente 7 dígitos";
+      errors.numeroficha = 'Debe contener solo números, exactamente 7 dígitos';
       isValid = false;
     }
 
@@ -31,38 +30,38 @@ export function useFichaForm(onSuccess) {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id === 'estado') {
-      setFormValues(prevValues => ({ ...prevValues, [id]: value === 'true' }));
-    } else {
-      setFormValues(prevValues => ({ ...prevValues, [id]: value }));
-    }
+    setFormValues((prevValues) => ({ ...prevValues, [id]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Valores del formulario:", formValues);
+    if (isSubmitting) return; // Evitar envío si ya está en proceso
+    setIsSubmitting(true);
+
     if (validateForm()) {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', { // URL correcta de la API
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formValues)
+          body: JSON.stringify(formValues),
         });
 
         if (!response.ok) {
           const error = await response.json();
-          console.error('Error en la respuesta del servidor:', error);
           throw new Error(error.error || 'Error desconocido');
         }
 
         const data = await response.json();
         onSuccess(data);
       } catch (error) {
-        console.error('Error al registrar ficha:', error);
-        setErrors(prevErrors => ({ ...prevErrors, submit: error.message }));
+        setErrors((prevErrors) => ({ ...prevErrors, submit: error.message }));
+      } finally {
+        setIsSubmitting(false); // Reactiva el botón de envío
       }
+    } else {
+      setIsSubmitting(false);
     }
   };
 
@@ -71,5 +70,6 @@ export function useFichaForm(onSuccess) {
     errors,
     handleInputChange,
     handleSubmit,
+    isSubmitting, // Devuelve este estado para controlar el botón en el componente
   };
 }
