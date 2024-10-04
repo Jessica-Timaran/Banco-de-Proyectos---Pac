@@ -130,7 +130,7 @@ const Sidebar = () => {
       >
         <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
         <span
-          className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+          className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
             isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
           }`}
         >
