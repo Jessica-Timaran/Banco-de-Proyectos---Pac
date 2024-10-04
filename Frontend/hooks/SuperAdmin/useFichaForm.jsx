@@ -40,7 +40,7 @@ export function useFichaForm(onSuccess) {
 
     if (validateForm()) {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/fichas', {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
