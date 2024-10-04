@@ -31,9 +31,7 @@ const RegistroProyecto = () => {
     if (idProyecto) {
       fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/proyectos/${idProyecto}`)
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Error al obtener el proyecto');
-          }
+          if (!response.ok) throw new Error('Error al obtener el proyecto');
           return response.json();
         })
         .then(data => {
@@ -50,14 +48,9 @@ const RegistroProyecto = () => {
     }
   }, [idProyecto]);
 
-  const handleFrecuenciaClick = (value) => {
-    setFrecuencia(value);
-  };
+  const handleFrecuenciaClick = (value) => setFrecuencia(value);
 
-  const handleDiaChange = (e) => {
-    const { value } = e.target;
-    setDiasSeleccionados(value); // Almacena solo el día seleccionado más reciente
-  };
+  const handleDiaChange = (e) => setDiasSeleccionados(e.target.value);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -140,6 +133,7 @@ const RegistroProyecto = () => {
   const handleVolver = () => {
     navigate('/Usuario/VistaUsuario');
   };
+
 
   return (
     <LayoutPrincipal2 title="">
