@@ -37,7 +37,7 @@ const BotonSegundo = ({ Text, onClick, additionalClasses = '', size = 'md' }) =>
           transition-all duration-700 mt-3 ${sizeClasses[size]} ${additionalClasses}`}
         onClick={onClick}  
       >
-        <span className="relative z-10 text-black group-hover:text-black duration-500">
+        <span className="relative z-10 text-black group-hover:text-white duration-500">
           {Text}
         </span>
         <span className="absolute w-full h-full bg-[#2eb694] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"></span>

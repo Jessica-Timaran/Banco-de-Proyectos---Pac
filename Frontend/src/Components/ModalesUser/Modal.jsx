@@ -23,7 +23,7 @@ const Modal = ({ isOpen, onClose, projectName, people }) => {
           <ul className="space-y-2">
             {people.map((person, index) => (
               <li key={index} className="flex items-center bg-gray-50 rounded-md p-3 ">
-                <span className="h-8 w-8 rounded-full bg-[#A3E784] text-white flex items-center justify-center mr-3">
+                <span className="h-8 w-8 rounded-full bg-[#2eb694] text-white flex items-center justify-center mr-3">
                   {person.nombre_persona.charAt(0).toUpperCase()}
                 </span>
                 <span className="text-gray-800">{person.nombre_persona}</span>
