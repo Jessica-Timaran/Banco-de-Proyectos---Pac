@@ -242,7 +242,7 @@ const VistaAlcance = () => {
               <input type="hidden" name="idproyecto" id="idproyecto" value={idproyecto} />
 
               <div className="grid grid-cols-12 bg-[#2eb694] font-bold py-4 rounded-t-lg border-b">
-                <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">ALCANCE</div>
+                <div className="col-span-12 md:col-span-2 text-center md:text-left px-6 text-white">ALCANCE</div>
               </div>
 
               <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">

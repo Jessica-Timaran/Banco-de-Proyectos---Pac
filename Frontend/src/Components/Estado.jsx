@@ -29,7 +29,7 @@ const Estado = ({ estado, idproyecto }) => {
               : estado === 'Rechazado'
               ? 'bg-red-500'
               : estado === 'Devuelto' || estado === 'En proceso'
-              ? 'bg-orange-500'
+              ? 'bg-yellow-200'
               : ''
           }`}
         ></span>

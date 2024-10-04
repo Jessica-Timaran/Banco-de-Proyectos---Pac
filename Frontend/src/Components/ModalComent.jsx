@@ -72,7 +72,7 @@ export function ModalComent({ buttonColor = 'bg-[#2eb694]', text = 'Abrir coment
             </Button>
             <Button
               onClick={handleOpenConfirm}
-              className="bg-[#2eb694] text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+              className="bg-[#2eb694] text-white px-4 py-2 rounded-lg hover:bg-[#74d6af] transition duration-300"
               disabled={sendingEmail} // Deshabilitar botón mientras se envía el correo
             >
               {sendingEmail ? 'Enviando...' : 'Enviar'}

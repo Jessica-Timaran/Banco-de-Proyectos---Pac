@@ -165,7 +165,7 @@ const ObjetivosDeArea = () => {
               </button>
 
               <div className="grid grid-cols-12 bg-[#2eb694] font-bold py-4 rounded-t-lg border-b">
-                <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
+                <div className="col-span-12 md:col-span-2 text-center md:text-left px-6 text-white">OBJETIVOS</div>
               </div>
 
               <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">

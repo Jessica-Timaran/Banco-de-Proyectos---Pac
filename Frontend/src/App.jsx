@@ -110,10 +110,9 @@ const App = () => {
           <Route path="/Asignados" element={<Asignados />} />
           </Route>
 
-          <Route element={<RutaProtegida allowedRoles={['4', '2']} />}> {/* Rol de Aprendiz */}
-       
-        <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
-        </Route>
+          <Route element={<RutaProtegida allowedRoles={['4', '2']} />}> {/* Rol de Aprendiz y Usuario */}
+            <Route path="/Aprendiz/EditarPerfil" element={<EditarPerfil />} /> {/* Corregí el nombre de la ruta */}
+          </Route>
 
           {/* Ruta de acceso denegado */}
           <Route path="/403" element={<div>No tienes acceso a esta página.</div>} />
