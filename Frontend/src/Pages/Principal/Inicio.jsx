@@ -122,22 +122,22 @@ const Inicio = () => {
               </div>
 
               <div className="relative w-full">
-                <Input
-                  type={mostrarContrasena ? 'text' : 'password'}
-                  Text=""
-                  placeholder="Contraseña:"
-                  id="contrasenaInicio"
-                  value={contrasena}
-                  onChange={(e) => setContrasena(e.target.value)}
-                />
-                <i
-                  className={`bx cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4 ${mostrarContrasena ? 'bx-hide' : 'bx-show'}`}
-                  onClick={togglePasswordVisibility}
-                ></i>
-                <span id="contrasenaError" className="error-message">
-                  {contrasenaError}
-                </span>
-              </div>
+              <Input
+                type={mostrarContrasena ? 'text' : 'password'}
+                Text=""
+                placeholder="Contraseña:"
+                id="contrasenaInicio"
+                value={contrasena}
+                onChange={(e) => setContrasena(e.target.value)}
+              />
+                            <i
+                className={`bx cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4 ${mostrarContrasena ? 'bx bxs-show' : 'bx bxs-hide'}`}
+                onClick={togglePasswordVisibility}
+              ></i>
+              <span id="contrasenaError" className="error-message">
+                {contrasenaError}
+              </span>
+            </div>
 
               {globalError && (
                 <span id="globalError" className="error-message">
