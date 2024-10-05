@@ -289,16 +289,16 @@ const RegistroProyecto = () => {
                     </span>
                   </div>
                   
-                  <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                  <div className="w-full h-full flex flex-row items-center flex-wrap">
                     <button
                       type="button"
                       onClick={handleVolver}
                     >
-                      <BotonPrincipal Text="Volver" />
                     </button>
 
-                    <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                      <BotonSegundo Text="Siguiente" type="submit" />
+                    <div className="w-full flex justify-center items-center flex-wrap gap-x-4">
+                    <BotonPrincipal Text="Volver" />
+                    <BotonSegundo Text="Siguiente" type="submit" />
                     </div>
                   </div>
                 </div>

@@ -131,7 +131,7 @@ const Inicio = () => {
                 onChange={(e) => setContrasena(e.target.value)}
               />
                             <i
-                className={`bx cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4 ${mostrarContrasena ? 'bx bxs-show' : 'bx bxs-hide'}`}
+                className={`bx cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4 ${mostrarContrasena ? "bx-show" : "bx-hide"}`}
                 onClick={togglePasswordVisibility}
               ></i>
               <span id="contrasenaError" className="error-message">

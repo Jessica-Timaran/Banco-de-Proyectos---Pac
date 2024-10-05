@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import LayoutHome from '../../Layouts/LayoutHome';
 import CartaUsuario from '../../Components/CartaUsuario';
 import Loader from '../../Components/Loader';
+import { motion } from 'framer-motion'; // Importa framer-motion
 
 const VistaUsuario = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simula un tiempo de carga de 2 segundos
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -15,15 +15,27 @@ const VistaUsuario = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Si está cargando, muestra solo el Loader
+  // Definimos la animación de entrada
+  const pageVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
+  };
+
   if (loading) {
     return <Loader />;
   }
 
-  // Si no está cargando, renderiza el contenido dentro del layout
   return (
     <LayoutHome title="">
-      <div id="content" className="">
+      <motion.div
+        id="content"
+        className=""
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={pageVariants}
+      >
         <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
           <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
             <div className="flex flex-col md:flex-row items-start">
@@ -50,7 +62,7 @@ const VistaUsuario = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </LayoutHome>
   );
 };

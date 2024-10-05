@@ -17,6 +17,7 @@
     "@tremor/react": "^3.18.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
+    "framer-motion": "^11.11.1",
     "jspdf": "^2.5.1",
     "postcss": "^8.4.42",
     "react": "^18.3.1",

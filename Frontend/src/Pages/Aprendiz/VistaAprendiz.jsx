@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LayoutHome from '../../Layouts/LayoutHome';
 import CartaUsuario from '../../Components/CartaUsuario';
 import Loader from '../../Components/Loader';
+import { motion } from 'framer-motion'; // Importa framer-motion
 
 const VistaUsuario = () => {
   const [loading, setLoading] = useState(true);
@@ -15,6 +16,13 @@ const VistaUsuario = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Definimos la animación de entrada
+  const pageVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
+  };
+
   return (
     <LayoutHome title="">
       {loading ? (
@@ -22,7 +30,14 @@ const VistaUsuario = () => {
           <Loader />
         </div>
       ) : (
-        <div id="content" className="">
+        <motion.div
+          id="content"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={pageVariants} // Aplica las variantes de animación
+          className=""
+        >
           <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
             <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
               <div className="flex flex-col md:flex-row items-start">
@@ -30,7 +45,7 @@ const VistaUsuario = () => {
                   <span className="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
                   <span className="text-3xl sm:text-5xl md:text-8xl text-[#2eb694] font-inter mb-4 block">APRENDIZ</span>
                   <p className="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
-                  ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?
+                    ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla! Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito?
                   </p>
                 </div>
                 <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
@@ -39,7 +54,6 @@ const VistaUsuario = () => {
               </div>
               <div className="flex justify-center mt-8">
                 <div className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
-                
                   <a href="/Aprendiz/VistaProyectos">
                     <CartaUsuario Text="Ver proyectos" />
                   </a>
@@ -47,7 +61,7 @@ const VistaUsuario = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </LayoutHome>
   );
