@@ -231,46 +231,49 @@ const VistaAlcance = () => {
               <i className="fas fa-arrow-left w-5 h-5 mr-2 "></i>
               Volver
             </button>
-
+  
             {error && (
               <div className="text-red-500 mb-4">
                 {error}
               </div>
             )}
-
+  
             <form id="respuestasForm" onSubmit={handleSubmit}>
               <input type="hidden" name="idproyecto" id="idproyecto" value={idproyecto} />
-
+  
               <div className="grid grid-cols-12 bg-[#2eb694] font-bold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-2 text-center md:text-left px-6 text-white">ALCANCE</div>
               </div>
-
+  
               <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipo de alcance</div>
                 <div className="hidden md:block col-span-1 text-center">Sí</div>
                 <div className="hidden md:block col-span-1 text-center">No</div>
               </div>
-
-              {Object.keys(groupedAlcances).map((categoria) => (
-                <React.Fragment key={categoria}>
-                  <div className="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
-                    {categoria}
-                  </div>
-
-                  {groupedAlcances[categoria].map((alcance, index) => (
-                    <Grid
-                      key={alcance.idalcance}
-                      Text1={`${index + 1}. ${alcance.descripcion}`}
-                      id1={`termsCheckbox1-grid${alcance.idalcance}`}
-                      id2={`termsCheckbox2-grid${alcance.idalcance}`}
-                      name={`pregunta${alcance.idalcance}`}
-                      checkedValue={selectedValues[alcance.idalcance]}
-                      onChange={(e) => handleRadioChange(alcance.idalcance, e.target.value)}
-                    />
-                  ))}
-                </React.Fragment>
-              ))}
-
+  
+              {/* Agrega aquí el contenedor con scroll */}
+              <div className="table-container">
+                {Object.keys(groupedAlcances).map((categoria) => (
+                  <React.Fragment key={categoria}>
+                    <div className="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                      {categoria}
+                    </div>
+  
+                    {groupedAlcances[categoria].map((alcance, index) => (
+                      <Grid
+                        key={alcance.idalcance}
+                        Text1={`${index + 1}. ${alcance.descripcion}`}
+                        id1={`termsCheckbox1-grid${alcance.idalcance}`}
+                        id2={`termsCheckbox2-grid${alcance.idalcance}`}
+                        name={`pregunta${alcance.idalcance}`}
+                        checkedValue={selectedValues[alcance.idalcance]}
+                        onChange={(e) => handleRadioChange(alcance.idalcance, e.target.value)}
+                      />
+                    ))}
+                  </React.Fragment>
+                ))}
+              </div>
+  
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <button
                   type="button"

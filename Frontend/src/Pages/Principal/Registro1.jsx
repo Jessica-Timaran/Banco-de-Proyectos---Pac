@@ -270,7 +270,8 @@ const Registro = () => {
                 <div id="empresaError" className="error-message"></div>
               </div>
 
-              <div className="relative w-full">
+               {/* Campo de Contraseña */}
+               <div className="relative w-full">
                 <Input
                   type={showPassword ? "text" : "password"}
                   Text=""
@@ -280,7 +281,7 @@ const Registro = () => {
                   onChange={handleChange}
                 />
                 <i
-                  className={`bx ${showPassword ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4`}
+                  className={`bx ${showPassword ? "bx-show" : "bx-hide"} cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4`}
                   onClick={togglePasswordVisibility}
                 ></i>
                 <span id="contrasenaError" className="error-message">
@@ -288,6 +289,7 @@ const Registro = () => {
                 </span>
               </div>
 
+              {/* Campo de Confirmar Contraseña */}
               <div className="relative w-full">
                 <Input
                   type={showConfirmPassword ? "text" : "password"}
@@ -298,13 +300,14 @@ const Registro = () => {
                   onChange={handleChange}
                 />
                 <i
-                  className={`bx ${showConfirmPassword ? "bx-hide" : "bx-show"} cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4`}
+                  className={`bx ${showConfirmPassword ? "bx-show" : "bx-hide"} cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4`}
                   onClick={toggleConfirmPasswordVisibility}
                 ></i>
                 <span id="confirmarContrasenaError" className="error-message">
                   {errors.confirmarContrasena}
                 </span>
               </div>
+
 
               <div className="relative w-full">
                 <div className="flex items-center">

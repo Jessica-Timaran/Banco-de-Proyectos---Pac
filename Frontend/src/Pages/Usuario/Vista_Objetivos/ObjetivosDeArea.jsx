@@ -174,25 +174,28 @@ const ObjetivosDeArea = () => {
                 <div className="hidden md:block col-span-1 text-center">No</div>
               </div>
 
-              {Object.keys(groupedObjetivos).map((categoriaNombre) => (
-                <div key={categoriaNombre}>
-                  <div className="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
-                    {categoriaNombre}
-                  </div>
+              {/* Aquí envolvemos las filas en un contenedor con scroll */}
+              <div className="overflow-y-scroll max-h-96"> 
+                {Object.keys(groupedObjetivos).map((categoriaNombre) => (
+                  <div key={categoriaNombre}>
+                    <div className="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                      {categoriaNombre}
+                    </div>
 
-                  {groupedObjetivos[categoriaNombre].map((objetivo, index) => (
-                    <Grid 
-                      key={objetivo.idobjetivos}
-                      Text1={`${index + 1}. ${objetivo.descripcion}`}
-                      id1={`radioButton-grid${objetivo.idobjetivos}-si`}
-                      id2={`radioButton-grid${objetivo.idobjetivos}-no`}
-                      name={`pregunta${objetivo.idobjetivos}`}
-                      checkedValue={respuestas[`pregunta${objetivo.idobjetivos}`] || ""}
-                      onChange={handleRadioChange}
-                    />
-                  ))}
-                </div>
-              ))}
+                    {groupedObjetivos[categoriaNombre].map((objetivo, index) => (
+                      <Grid 
+                        key={objetivo.idobjetivos}
+                        Text1={`${index + 1}. ${objetivo.descripcion}`}
+                        id1={`radioButton-grid${objetivo.idobjetivos}-si`}
+                        id2={`radioButton-grid${objetivo.idobjetivos}-no`}
+                        name={`pregunta${objetivo.idobjetivos}`}
+                        checkedValue={respuestas[`pregunta${objetivo.idobjetivos}`] || ""}
+                        onChange={handleRadioChange}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
 
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <button type="button" onClick={handleBackClick} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
