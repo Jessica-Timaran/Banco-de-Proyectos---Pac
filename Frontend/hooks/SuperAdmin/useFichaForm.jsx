@@ -6,7 +6,7 @@ export function useFichaForm(onSuccess) {
     numeroficha: ''
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para evitar doble envío
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     const errors = {};
@@ -35,12 +35,12 @@ export function useFichaForm(onSuccess) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isSubmitting) return; // Evitar envío si ya está en proceso
+    if (isSubmitting) return;
     setIsSubmitting(true);
 
     if (validateForm()) {
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/ficha', {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/registerFicha', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export function useFichaForm(onSuccess) {
       } catch (error) {
         setErrors((prevErrors) => ({ ...prevErrors, submit: error.message }));
       } finally {
-        setIsSubmitting(false); // Reactiva el botón de envío
+        setIsSubmitting(false);
       }
     } else {
       setIsSubmitting(false);
@@ -70,6 +70,6 @@ export function useFichaForm(onSuccess) {
     errors,
     handleInputChange,
     handleSubmit,
-    isSubmitting, // Devuelve este estado para controlar el botón en el componente
+    isSubmitting,
   };
 }

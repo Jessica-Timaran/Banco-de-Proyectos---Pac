@@ -23,7 +23,6 @@ export default function ModalFicha({ onClose, onAddFicha }) {
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
       <DialogPanel className="sm:max-w-md">
-        {/* Botón para cerrar el modal */}
         <button
           type="button"
           className="absolute right-4 top-4 p-2 bg-transparent border-none"
@@ -33,13 +32,11 @@ export default function ModalFicha({ onClose, onAddFicha }) {
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
 
-        {/* Formulario para agregar una nueva ficha */}
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nueva ficha</h4>
 
           <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
-              {/* Campo de entrada para el nombre del programa */}
               <div className="relative">
                 <Input2
                   id="nombre"
@@ -50,9 +47,9 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   onChange={handleInputChange}
                   error={errors.nombre}
                 />
+
               </div>
 
-              {/* Campo de entrada para el número de ficha */}
               <div className="relative">
                 <Input2
                   id="numeroficha"
@@ -63,28 +60,26 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   onChange={handleInputChange}
                   error={errors.numeroficha}
                 />
+
               </div>
             </div>
           </div>
 
-          {/* Muestra el mensaje de éxito si existe */}
           {successMessage && (
             <div className="mt-4 text-green-600">
               {successMessage}
             </div>
           )}
-
-         {/* Botón para enviar el formulario */}
-         <div className='flex justify-end mt-8'>
-                        <button
-                            type="submit"
-                            id="guardarBtn"
-                            className="bg-verde text-white px-4 py-2 rounded justify-end"
-                            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
-                        >
-                            {isSubmitting ? 'Registrando...' : 'Agregar'}
-                        </button>
-                    </div>
+          <div className='flex justify-end mt-8'>
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-verde text-white px-4 py-2 rounded justify-end"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Registrando...' : 'Agregar'}
+          </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>
@@ -92,6 +87,6 @@ export default function ModalFicha({ onClose, onAddFicha }) {
 }
 
 ModalFicha.propTypes = {
-  onClose: PropTypes.func.isRequired, // Función para cerrar el modal
-  onAddFicha: PropTypes.func.isRequired, // Función que se llama al agregar la ficha
-}; 
+  onClose: PropTypes.func.isRequired,
+  onAddFicha: PropTypes.func.isRequired,
+};

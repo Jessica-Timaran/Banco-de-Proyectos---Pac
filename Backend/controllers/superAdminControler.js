@@ -185,35 +185,6 @@ export async function getItemsByTipoDeArea(req, res) {
 };
 
 
-// Función para registrar una nueva ficha
-export async function registerFicha(req, res) {
-    const { nombre, numeroficha, estado } = req.body;
-
-    try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha, estado });
-        
-        const client = await pool.connect();
-        
-        // Insertar la ficha en la tabla fichas
-        const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
-            [nombre, numeroficha, estado]
-        );
-
-        client.release();
-        console.log('Ficha registrada con éxito:', result.rows[0]);
-
-        // Enviar la respuesta al cliente con la ficha registrada
-        return res.status(201).json(result.rows[0]);
-    } catch (error) {
-        console.error('Error al registrar ficha:', error);
-        return res.status(500).json({ error: 'Error al registrar ficha' });
-    }
-}
-
-
-
-
 // Función para obtener todas las personas
 async function getAllPersonas() {
     try {
@@ -561,6 +532,32 @@ export async function registerComplete(req, res) {
       client.release();
     }
   }
+
+  // Función para registrar una nueva ficha
+export async function registerFicha(req, res) {
+    const { nombre, numeroficha } = req.body;
+
+    try {
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha });
+        
+        const client = await pool.connect();
+        
+        // Insertar la ficha en la tabla fichas
+        const result = await client.query(
+            'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',
+            [nombre, numeroficha]
+        );
+
+        client.release();
+        console.log('Ficha registrada con éxito:', result.rows[0]);
+
+        // Enviar la respuesta al cliente con la ficha registrada
+        return res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error al registrar ficha:', error);
+        return res.status(500).json({ error: 'Error al registrar ficha' });
+    }
+}
 
 
 

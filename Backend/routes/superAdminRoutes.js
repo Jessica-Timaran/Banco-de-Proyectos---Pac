@@ -32,6 +32,8 @@ import {
 
 const router = express.Router();
 
+router.post('/registerFicha', registerFicha);
+
 // Ruta para obtener todas las categorías
 router.get('/categorias', getAllCategorias);
 
@@ -49,7 +51,7 @@ router.get('/tipos-de-area', getTiposDeArea);
 router.post('/tipos-de-area', addTipoDeArea);
 router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
 
-router.post('/fichas', registerFicha);
+
 
 router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
     try {
