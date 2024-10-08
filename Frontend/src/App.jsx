@@ -59,8 +59,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Principal/Inicio" element={<Inicio/>} />
           <Route path="/Principal/Registro1" element={<Registro1 />} />
-          <Route path="/OlvidarContraseña" element={<OlvidarContraseña />} />
-          <Route path="/UpdatePassword" element={<UpdatePassword />} />
+          <Route path="/Principal/OlvidarContraseña" element={<OlvidarContraseña />} />
+          <Route path="/Principal/UpdatePassword" element={<UpdatePassword />} />
 
 
           {/* Rutas de Usuario protegida*/}
