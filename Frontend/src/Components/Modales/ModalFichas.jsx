@@ -74,7 +74,7 @@ export default function ModalFicha({ onClose, onAddFicha }) {
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-Verde text-white px-4 py-2 rounded justify-end"
+            className="bg-verde text-white px-4 py-2 rounded justify-end"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Registrando...' : 'Agregar'}

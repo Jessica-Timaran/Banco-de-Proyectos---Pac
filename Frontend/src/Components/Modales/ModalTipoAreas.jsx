@@ -87,7 +87,7 @@ export default function ModalTipoAreas({ onClose, onAddTipoArea }) {
                         <button
                             type="submit"
                             id="guardarBtn"
-                            className="bg-Verde text-white px-4 py-2 rounded justify-end"
+                            className="bg-verde text-white px-4 py-2 rounded justify-end"
                             disabled={isSubmitting} // Deshabilitar el botón mientras se envía el formulario
                         >
                             {isSubmitting ? 'Registrando...' : 'Agregar'}

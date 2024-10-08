@@ -89,7 +89,7 @@ export default function ModalAlcance({ onClose, onAddAlcance }) {
                     <div className='flex justify-end mt-8'>
                         <button
                             type="submit"
-                            className="bg-Verde text-white px-4 py-2 rounded"
+                            className="bg-verde text-white px-4 py-2 rounded"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? 'Registrando...' : 'Agregar'}
