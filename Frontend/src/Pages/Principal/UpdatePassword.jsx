@@ -50,7 +50,7 @@ const UpdatePassword = () => {
 
         // Solicitud de actualización de contraseña
         try {
-            const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/update-password', {
+            const response = await fetch('http://localhost:4000/api/aprendiz/update-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, email, newPassword }), // Incluye el token y el email
@@ -85,13 +85,16 @@ const UpdatePassword = () => {
         <div className="flex justify-center items-center">
    
                 <div className="bg-white rounded-lg w-[40%] flex flex-col items-center max-[768px]:w-[70%]   ">
-                    <div className="logo-sena flex items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px] mb-[15%] ">
-                        <img
-                            className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
-                            src="/public/img/logo.png"
-                            alt="Logo Sena"
-                        />
-                    </div>
+                <div className="logo-sena flex m-auto items-center justify-center w-full h-28 bg-[#2eb694] rounded-bl-[50px] rounded-br-[50px]">
+              <img
+                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
+                src="/Img/Logo.png"
+                width="10"
+                height="10"
+                alt="Logo Sena"
+              />
+            </div>
+
                     <h2 className="text-[33px] font-bold text-gray-800 text-center ">
                         Actualizar Contraseña
                     </h2>
@@ -153,8 +156,3 @@ const UpdatePassword = () => {
 };
 
 export default UpdatePassword;
-
-
-
-
-
