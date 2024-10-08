@@ -1,6 +1,7 @@
 import React, {  useState, useEffect} from 'react';
 import InputField from '../../Components/Input.jsx'; // Asegúrate de que esta importación sea correcta
 import BotonSegundo from '../../Components/BotonSegundo.jsx';
+import LayoutFormulario from "../../layouts/LayoutFormulario";
 
 import Img2 from    '../../../public/Img/usuario.png';
 
@@ -66,19 +67,21 @@ const OlvidarContraseña = () => {
 
   return (
 
+    <LayoutFormulario>
 
-
-    <div className=" flex justify-center  ">
-    <div className=" w-[100em]  flex column items-center ">
-      <div className="bg-white  rounded-lg  w-[40%]  flex flex-col items-center   ">
-      <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px]">
-              <img
+    <div className="flex justify-center items-center">
+   
+                <div className="bg-white rounded-lg w-[40%] flex flex-col items-center max-[768px]:w-[70%]   ">
+                    <div className="logo-sena flex items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px] mb-[15%] ">
+                    <img
                 className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
-                src="/public/img/logo.png"
+                src="/Img/Logo.png"
+                width="10"
+                height="10"
                 alt="Logo Sena"
               />
             </div>
-        <h2 className="text-[33px] font-bold text-gray-800 text-center mt-[15%]  ">
+        <h2 className="text-[33px] font-bold text-gray-800 text-center  ">
           Recuperar Contraseña
         </h2>
         <form id="reset-password-form" className="mt-6" onSubmit={handleSubmit}>
@@ -105,12 +108,11 @@ const OlvidarContraseña = () => {
           </p>
         </form>
       </div>
-      <div className=" bg-white p-8 rounded-lg  w-[60%]  ">
-        <img src={Img2} className="w-[80em] h-[50%]  " />
-
-      </div>
+      <div className="bg-white p-8 rounded-lg w-[60%] flex max-[768px]:hidden">
+                    <img src={Img2} className="w-[70em]  " />
+                </div>
     </div>
-    </div>
+    </LayoutFormulario>
   );
 };
 
