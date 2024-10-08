@@ -1,7 +1,7 @@
 import React, {  useState, useEffect} from 'react';
 import InputField from '../../Components/Input.jsx'; // Asegúrate de que esta importación sea correcta
 import BotonSegundo from '../../Components/BotonSegundo.jsx';
-import LayoutFormulario from "../../layouts/LayoutFormulario";
+import LayoutFormulario from "../../Layouts/LayoutFormulario";
 
 import Img2 from    '../../../public/Img/usuario.png';
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../../Components/Input.jsx';
 import BotonSegundo from '../../Components/BotonSegundo.jsx';
 import Img2 from '../../../public/Img/usuario.png';
-import LayoutFormulario from "../../layouts/LayoutFormulario";
+import LayoutFormulario from "../../Layouts/LayoutFormulario";
 
 const UpdatePassword = () => {
     const navigate = useNavigate(); // Para manejar la navegación
