@@ -18,7 +18,7 @@ const Objetivo = () => {
     const fetchObjetivos = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/objetivos');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos');
         if (!response.ok) {
           throw new Error('Error al cargar los objetivos');
         }
@@ -44,7 +44,7 @@ const Objetivo = () => {
 
   const handleAddObjetivo = async (newObjetivo) => {
     try {
-      const response = await fetch('http://localhost:4000/api/objetivos', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ const TipoArea = () => {
   useEffect(() => {
     const fetchTipoAreas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/tipos-de-area');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area');
         if (!response.ok) {
           throw new Error('Error al cargar los tipos de área');
         }
@@ -44,7 +44,7 @@ const TipoArea = () => {
   // Lógica para agregar un nuevo tipo de área
   const handleAddTipoArea = async (newTipoArea) => {
     try {
-      const response = await fetch('http://localhost:4000/api/tipos-de-area', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/tipos-de-area', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

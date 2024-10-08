@@ -18,7 +18,7 @@ const Items = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/items');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items');
         if (!response.ok) {
           throw new Error('Error al cargar los items');
         }
@@ -45,7 +45,7 @@ const Items = () => {
   // Lógica para agregar un nuevo item
   const handleAddItem = async (newItem) => {
     try {
-      const response = await fetch('http://localhost:4000/api/items', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/items', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

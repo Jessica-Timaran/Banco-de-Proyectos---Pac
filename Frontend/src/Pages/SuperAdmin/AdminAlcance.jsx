@@ -18,7 +18,7 @@ const Alcance = () => {
     const fetchAlcances = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/alcances');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances');
         if (!response.ok) {
           throw new Error('Error al cargar los alcances');
         }
@@ -44,7 +44,7 @@ const Alcance = () => {
 
   const handleAddAlcance = async (newAlcance) => {
     try {
-      const response = await fetch('http://localhost:4000/api/alcances', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

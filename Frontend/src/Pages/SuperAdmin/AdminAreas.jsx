@@ -18,7 +18,7 @@ const Area = () => {
     const fetchAreas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/areas');
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
         if (!response.ok) {
           throw new Error('Error al cargar las áreas');
         }
@@ -44,7 +44,7 @@ const Area = () => {
 
   const handleAddArea = async (newArea) => {
     try {
-      const response = await fetch('http://localhost:4000/api/areas', {
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
