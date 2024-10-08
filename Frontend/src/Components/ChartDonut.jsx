@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DonutChart } from '@tremor/react';
+import Loader from '../../../Components/Loader'; // Si tienes un componente de loader personalizado
 
 const dataFormatter = (number) => `$ ${Intl.NumberFormat('us').format(number)}`;
 
@@ -40,7 +41,7 @@ export const ChartDonut = () => {
     };
 
     proyectos.forEach((proyecto) => {
-      switch (proyecto.estado) {
+      switch (proyecto.estado.toLowerCase()) {
         case 'aceptado':
           estados['Proyectos aceptados'] += 1;
           break;
@@ -66,7 +67,7 @@ export const ChartDonut = () => {
   };
 
   if (loading) {
-    return <div>Cargando...</div>; // Puedes reemplazar esto con un componente `Loader`
+    return <Loader />; // Reemplaza esto por tu componente de loading
   }
 
   return (
