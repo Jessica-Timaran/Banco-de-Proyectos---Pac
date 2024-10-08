@@ -60,7 +60,6 @@ const Objetivo = () => {
       const addedObjetivo = await response.json();
       setObjetivos(prevObjetivo => [...prevObjetivo, addedObjetivo]); // Actualizar la lista de items
       handleCloseModal(); // Cerrar el modal
-      window.location.reload();
     } catch (error) {
       console.error('Error al agregar item:', error);
     }
