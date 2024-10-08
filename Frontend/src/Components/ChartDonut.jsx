@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DonutChart } from '@tremor/react';
-import Loader from '../../../Components/Loader'; // Si tienes un componente de loader personalizado
+import Loader from '../Components/Loader'; // Si tienes un componente de loader personalizado
 
 const dataFormatter = (number) => `$ ${Intl.NumberFormat('us').format(number)}`;
 
