@@ -86,13 +86,11 @@ const UpdatePassword = () => {
    
                 <div className="bg-white rounded-lg w-[40%] flex flex-col items-center max-[768px]:w-[70%]   ">
                     <div className="logo-sena flex items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px] mb-[15%] ">
-                    <img
-                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
-                src="/Img/Logo.png"
-                width="10"
-                height="10"
-                alt="Logo Sena"
-              />
+                        <img
+                            className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
+                            src="/public/img/logo.png"
+                            alt="Logo Sena"
+                        />
                     </div>
                     <h2 className="text-[33px] font-bold text-gray-800 text-center ">
                         Actualizar Contraseña
@@ -155,3 +153,8 @@ const UpdatePassword = () => {
 };
 
 export default UpdatePassword;
+
+
+
+
+
