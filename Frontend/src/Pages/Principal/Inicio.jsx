@@ -152,7 +152,7 @@ const Inicio = () => {
               )}
 
               <div className="flex justify-end w-full">
-              <a href="/OlvidarContraseña" className="text-blue-500 underline decoration-1">
+              <a href="/Principal//OlvidarContraseña" className="text-blue-500 underline decoration-1">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
