@@ -109,7 +109,7 @@ const OlvidarContraseña = () => {
         </form>
       </div>
       <div className="bg-white p-8 rounded-lg w-[60%] flex max-[768px]:hidden">
-                    <img src={Img2} className="w-[70em]  " />
+                    <img src={Img2} className=" " />
                 </div>
     </div>
     </LayoutFormulario>
