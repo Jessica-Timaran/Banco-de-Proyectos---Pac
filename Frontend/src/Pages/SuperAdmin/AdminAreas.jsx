@@ -6,7 +6,7 @@ import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import Areas from '../../Components/Modales/ModalAreas';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
@@ -16,14 +16,13 @@ const Area = () => {
 
   useEffect(() => {
     const fetchAreas = async () => {
-      setLoading(true);
       try {
         const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
         if (!response.ok) {
           throw new Error('Error al cargar las áreas');
         }
         const data = await response.json();
-        setAreas(data); // Cambié setFichas a setAreas
+        setAreas(data);
       } catch (error) {
         console.error('Error al cargar áreas:', error);
       } finally {
@@ -85,7 +84,7 @@ const Area = () => {
                 onClick={handleGoBack}
                 className="flex items-center text-black hover:text-Verde"
               >
-                <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
