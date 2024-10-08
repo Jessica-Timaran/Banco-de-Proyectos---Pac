@@ -9,8 +9,18 @@ import { useForm } from '../../../hooks/SuperAdmin/useForm';
 export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
     onAddMember(data);
+    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+    setTimeout(() => {
     onClose();
+  }, 2000);
   });
+
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no se está enviando
+  };
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -23,7 +33,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nuevo usuario</h4>
           <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div className="space-y-4">
@@ -99,6 +109,11 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
+          {successMessage && (
+            <div className="mt-4 text-green-600">
+              {successMessage}
+            </div>
+          )}
           <div className="flex justify-end">
             <button
               type="submit"

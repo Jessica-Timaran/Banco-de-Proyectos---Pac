@@ -4,7 +4,7 @@ import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
-import { motion } from 'framer-motion'; // Importa framer-motion
+import { ChartDonut } from '../../Components/ChartDonut';
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
@@ -20,12 +20,6 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Definimos la animación de entrada
-  const pageVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
-    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
-  };
 
   return (
     <LayoutPrincipal title="Proyectos">
@@ -35,13 +29,6 @@ const Dashboard = () => {
           <Loader />
         </div>
       ) : (
-        <motion.div
-          id="content"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={pageVariants} // Aplica las variantes de animación
-        >
           <Layoutcontenido title="">
             {/* Encabezado */}
             <div className="bg-verde p-4 sm:p-6 md:p-8 lg:p-10 rounded">
@@ -106,8 +93,10 @@ const Dashboard = () => {
                 route="/SuperAdmin/registrocompleto"
               />
             </div>
+            <div className="border-[1px] rounded-t-lg mt-10">
+          <ChartDonut />
+          </div>
           </Layoutcontenido>
-        </motion.div>
       )}
     </LayoutPrincipal>
   );
