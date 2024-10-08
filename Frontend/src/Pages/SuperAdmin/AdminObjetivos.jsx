@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
@@ -8,21 +8,17 @@ import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import ModalObjetivos from '../../Components/Modales/ModalObjetivos';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const Objetivos = () => {
+const Objetivo = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentObjetivo, setCurrentObjetivo] = useState(null);
   const [objetivos, setObjetivos] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchObjetivos = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos');
+        const response = await fetch('http://localhost:4000/api/objetivos');
         if (!response.ok) {
           throw new Error('Error al cargar los objetivos');
         }
@@ -39,23 +35,16 @@ const Objetivos = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentObjetivo(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentObjetivo(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
   const handleAddObjetivo = async (newObjetivo) => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setLoading(true);
-
     try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos', {
+      const response = await fetch('http://localhost:4000/api/objetivos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,14 +57,12 @@ const Objetivos = () => {
         throw new Error(`Error al registrar el objetivo: ${errorData.message || response.statusText}`);
       }
 
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      setObjetivos((prevObjetivos) => [...prevObjetivos, newObjetivo]); // Añade el nuevo objetivo a la lista
+      const addedObjetivo = await response.json();
+      setObjetivos(prevObjetivo => [...prevObjetivo, addedObjetivo]); // Actualizar la lista de items
+      handleCloseModal(); // Cerrar el modal
+      window.location.reload();
     } catch (error) {
-      console.error('Error detallado al agregar objetivo:', error);
-    } finally {
-      setIsSubmitting(false);
-      setLoading(false);
+      console.error('Error al agregar item:', error);
     }
   };
 
@@ -95,18 +82,13 @@ const Objetivos = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-verde"
+                className="flex items-center text-black hover:text-Verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Objetivo" id="addObjetivoBtn" onClick={handleAddClick} />
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
             <div>
               <GridListObjetivos objetivos={objetivos} setObjetivos={setObjetivos} />
             </div>
@@ -114,8 +96,6 @@ const Objetivos = () => {
               <ModalObjetivos
                 onClose={handleCloseModal}
                 onAddObjetivo={handleAddObjetivo}
-                objetivo={currentObjetivo}
-                isSubmitting={isSubmitting}
               />
             )}
           </div>
@@ -125,5 +105,4 @@ const Objetivos = () => {
   );
 };
 
-export default Objetivos;
-
+export default Objetivo;

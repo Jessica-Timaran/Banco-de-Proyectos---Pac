@@ -11,18 +11,14 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentArea, setCurrentArea] = useState(null);
   const [areas, setAreas] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAreas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
+        const response = await fetch('http://localhost:4000/api/areas');
         if (!response.ok) {
           throw new Error('Error al cargar las áreas');
         }
@@ -39,23 +35,16 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentArea(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentArea(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
   const handleAddArea = async (newArea) => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setLoading(true);
-
     try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas', {
+      const response = await fetch('http://localhost:4000/api/areas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,17 +57,13 @@ const Area = () => {
         throw new Error(`Error al registrar el área: ${errorData.message || response.statusText}`);
       }
 
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      // Recarga solo la lista de áreas después de agregar
-      const updatedResponse = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/areas');
-      const updatedData = await updatedResponse.json();
-      setAreas(updatedData);
+      const addedArea = await response.json();
+      setAreas(prevAreas => [...prevAreas, addedArea]);
+      handleCloseModal();
+      window.location.reload();
     } catch (error) {
-      console.error('Error detallado al agregar área:', error);
-    } finally {
-      setIsSubmitting(false);
-      setLoading(false);
+      console.error('Error al agregar areas:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
 
@@ -98,18 +83,13 @@ const Area = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-verde"
+                className="flex items-center text-black hover:text-Verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
             <div>
               <GridListArea areas={areas} setAreas={setAreas} />
             </div>
@@ -117,8 +97,6 @@ const Area = () => {
               <Areas
                 onClose={handleCloseModal}
                 onAddArea={handleAddArea}
-                area={currentArea}
-                isSubmitting={isSubmitting}
               />
             )}
           </div>

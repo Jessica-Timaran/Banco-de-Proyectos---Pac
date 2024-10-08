@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListAlcance from './GridList/GridListAlcance';
@@ -11,18 +11,14 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Alcance = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentAlcance, setCurrentAlcance] = useState(null);
   const [alcances, setAlcances] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAlcances = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances');
+        const response = await fetch('http://localhost:4000/api/alcances');
         if (!response.ok) {
           throw new Error('Error al cargar los alcances');
         }
@@ -39,23 +35,16 @@ const Alcance = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentAlcance(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentAlcance(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
   const handleAddAlcance = async (newAlcance) => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setLoading(true);
-
     try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances', {
+      const response = await fetch('http://localhost:4000/api/alcances', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,17 +57,13 @@ const Alcance = () => {
         throw new Error(`Error al registrar el alcance: ${errorData.message || response.statusText}`);
       }
 
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      // Recarga solo la lista de alcances después de agregar
-      const updatedResponse = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/alcances');
-      const updatedData = await updatedResponse.json();
-      setAlcances(updatedData);
+      const addedAlcances = await response.json();
+      setAlcances(prevAlcances => [...prevAlcances, addedAlcances]);
+      handleCloseModal();
+      window.location.reload();
     } catch (error) {
-      console.error('Error detallado al agregar alcance:', error);
-    } finally {
-      setIsSubmitting(false);
-      setLoading(false);
+      console.error('Error al agregar Alcances:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
 
@@ -98,18 +83,13 @@ const Alcance = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-verde"
+                className="flex items-center text-black hover:text-Verde"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Alcance" id="addUserBtn" onClick={handleAddClick} />
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
             <div>
               <GridListAlcance alcances={alcances} setAlcances={setAlcances} />
             </div>
@@ -117,8 +97,6 @@ const Alcance = () => {
               <ModalAlcance
                 onClose={handleCloseModal}
                 onAddAlcance={handleAddAlcance}
-                alcance={currentAlcance}
-                isSubmitting={isSubmitting}
               />
             )}
           </div>

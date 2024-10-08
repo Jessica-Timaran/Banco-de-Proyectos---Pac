@@ -1,4 +1,4 @@
-import { Dialog, DialogPanel } from '@tremor/react'; 
+import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
