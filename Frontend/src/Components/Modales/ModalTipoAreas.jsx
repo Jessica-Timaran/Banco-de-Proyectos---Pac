@@ -1,21 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import SelectBoxArea from '../SelectBoxArea';
+import SelectBoxArea from '../SelectBoxR';
 import PropTypes from 'prop-types';
 import { useTipoArea } from '../../../hooks/SuperAdmin/useTipoArea';
 
 export default function ModalTipoAreas({ onClose, onAddTipoArea }) {
     const [areaOptions, setAreaOptions] = useState([]);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { formValues, errors, handleSubmit, handleInputChange } = useTipoArea(async (data) => {
-        setIsSubmitting(true); // Iniciar el estado de envío
-        await onAddTipoArea(data); // Llamar a onAddTipoArea y esperar
-        setIsSubmitting(false); // Restablecer isSubmitting después del envío
-        onClose(); // Cerrar el modal
-    });
+    const { formValues, errors, handleSubmit, handleInputChange, isSubmitting } = useTipoArea(async (data) => {
+        onAddTipoArea(data);  // Llama al callback para agregar un área y actualizar la vista en el componente padre
+        setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+        setTimeout(() => {
+          onClose();  // Cierra el modal automáticamente después de 2 segundos
+        }, 2000);  // Temporizador antes de cerrar el modal
+      })
 
-    const [successMessage, setSuccessMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no se está enviando
+      };
+
 
     const fetchArea = async () => {
         try {
@@ -50,7 +56,7 @@ export default function ModalTipoAreas({ onClose, onAddTipoArea }) {
                 >
                     <i className="fas fa-times size-5" aria-hidden={true}></i>
                 </button>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <SelectBoxArea
@@ -81,7 +87,7 @@ export default function ModalTipoAreas({ onClose, onAddTipoArea }) {
                         <button
                             type="submit"
                             id="guardarBtn"
-                            className="bg-verde text-white px-4 py-2 rounded justify-end"
+                            className="bg-Verde text-white px-4 py-2 rounded justify-end"
                             disabled={isSubmitting} // Deshabilitar el botón mientras se envía el formulario
                         >
                             {isSubmitting ? 'Registrando...' : 'Agregar'}

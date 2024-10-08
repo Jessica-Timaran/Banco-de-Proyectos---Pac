@@ -2,30 +2,43 @@ import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import SelectBoxArea from '../SelectBoxArea';
+import SelectBoxArea from '../SelectBoxR';
 import PropTypes from 'prop-types';
 import { useObjetivosForm } from '../../../hooks/SuperAdmin/useObjetivosForm';
 
-const fetchCategorias = async () => {
-    try {
-        const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos");
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        
-        const categoriasUnicas = [...new Set(data.map(objetivo => objetivo.categoria))];
-        
-        return categoriasUnicas.map((categoria, index) => ({ value: index + 1, label: categoria }));
-    } catch (error) {
-        console.error("Error al obtener categorías:", error);
-        return [];
-    }
-};
-
 export default function Objetivo({ onClose, onAddObjetivo }) {
-    const [categorias, setCategoriaOptions] = useState([]);
-    const [isSubmitting, setIsSubmitting] = useState(false); // Añadir estado para isSubmitting
+    const [categorias, setCategoriaOptions] = useState([]);  // Estado para las categorías
+    const { formValues, errors, handleInputChange, handleSubmit, isSubmitting } = useObjetivosForm(async (data) => {
+        onAddObjetivo(data);  // Agrega el objetivo
+        setSuccessMessage('Registro exitoso');  // Mensaje de éxito
+        setTimeout(() => {
+            setSuccessMessage('');  // Limpia el mensaje de éxito
+            onClose();  // Cierra el modal después de 2 segundos
+        }, 2000);
+    });
+
+    const [successMessage, setSuccessMessage] = useState('');  // Estado para el mensaje de éxito
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no se está enviando
+      };
+
+
+    const fetchCategorias = async () => {
+        try {
+            const response = await fetch("https://banco-de-proyectos-pac.onrender.com/api/superAdmin/objetivos");
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            const categoriasUnicas = [...new Set(data.map(objetivo => objetivo.categoria))];
+            return categoriasUnicas.map((categoria, index) => ({ value: index + 1, label: categoria }));
+        } catch (error) {
+            console.error("Error al obtener categorías:", error);
+            return [];
+        }
+    };
 
     useEffect(() => {
         const loadCategorias = async () => {
@@ -34,15 +47,6 @@ export default function Objetivo({ onClose, onAddObjetivo }) {
         };
         loadCategorias();
     }, []);
-
-    const { formValues, errors, handleInputChange, handleSubmit } = useObjetivosForm((data) => {
-        setIsSubmitting(true); // Establecer isSubmitting en true al comenzar el envío
-        onAddObjetivo(data);
-        setTimeout(() => {
-            setIsSubmitting(false); // Establecer isSubmitting en false después de 2 segundos
-            onClose();  // Cierra el modal automáticamente después de un breve período de tiempo
-        }, 2000);
-    });
 
     return (
         <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -55,7 +59,7 @@ export default function Objetivo({ onClose, onAddObjetivo }) {
                 >
                     <RiCloseLine className="size-5" aria-hidden={true} />
                 </button>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
@@ -65,8 +69,8 @@ export default function Objetivo({ onClose, onAddObjetivo }) {
                                     options={categorias}
                                     value={formValues.idcategoriasobjetivos}
                                     onChange={handleInputChange}
+                                    error={errors.idcategoriasobjetivos}
                                 />
-                                {errors.idcategoriasobjetivos && <span className="text-red-600">{errors.idcategoriasobjetivos}</span>}
                             </div>
                             <div>
                                 <Input2
@@ -76,11 +80,16 @@ export default function Objetivo({ onClose, onAddObjetivo }) {
                                     Text="Descripción:"
                                     value={formValues.descripcion}
                                     onChange={handleInputChange}
+                                    error={errors.descripcion}
                                 />
-                                {errors.descripcion && <span className="text-red-600">{errors.descripcion}</span>}
                             </div>
                         </div>
                     </div>
+                    {successMessage && (
+                        <div className="mt-4 text-green-600">
+                            {successMessage}
+                        </div>
+                    )}
                     <div className='flex justify-end mt-8'>
                         <button
                             type="submit"

@@ -50,15 +50,16 @@ export default function Areas({ onClose, onAddArea }) {
               {successMessage}
             </div>
           )}
-        <div className='flex justify-end mt-8'>
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-verde text-white px-4 py-2 rounded justify-end"
-            disabled={isSubmitting}  // Deshabilita el botón mientras se envía el formulario
-          >
-            {isSubmitting ? 'Registrando...' : 'Agregar'}
-          </button>
+
+          <div className='flex justify-end mt-8'>
+            <button
+              type="submit"
+              id="guardarBtn"
+              className="bg-Verde text-white px-4 py-2 rounded justify-end"
+              disabled={isSubmitting}  // Deshabilita el botón mientras se envía el formulario
+            >
+              {isSubmitting ? 'Registrando...' : 'Agregar'}
+            </button>
           </div>
         </form>
       </DialogPanel>
