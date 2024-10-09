@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { BarChart } from "@tremor/react";
 import Loader from '../Components/Loader';
 
-const dataFormatter = (number) =>
-  Intl.NumberFormat('us').format(number).toString();
+const dataFormatter = (number) => `$ ${Intl.NumberFormat('us').format(number)}`;
 
-export function BarChartGroupExample() {
+export function BarChart() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +35,7 @@ export function BarChartGroupExample() {
 
   // Agrupar los proyectos por estado (aceptado, rechazado, devuelto, en proceso, otros)
   const agruparPorEstado = (proyectos) => {
-    const grupos = {
+    const estados = {
       "Aceptado": 0,
       "Rechazado": 0,
       "Devuelto": 0,
@@ -46,27 +45,27 @@ export function BarChartGroupExample() {
 
     proyectos.forEach((proyecto) => {
       // Agrupación según el estado del proyecto
-      switch (proyecto.estado) {
+      switch (proyecto.estado.toLowerCase()) {
         case 'aceptado':
-          grupos["Aceptado"] += 1;
+          estados["Aceptado"] += 1;
           break;
         case 'rechazado':
-          grupos["Rechazado"] += 1;
+          estados["Rechazado"] += 1;
           break;
         case 'devuelto':
-          grupos["Devuelto"] += 1;
+          estados["Devuelto"] += 1;
           break;
         case 'en proceso':
-          grupos["En Proceso"] += 1;
+          estados["En Proceso"] += 1;
           break;
         default:
-          grupos["Otros"] += 1; // Otros estados se agrupan bajo "Otros"
+          estados["Otros"] += 1; // Otros estados se agrupan bajo "Otros"
           break;
       }
     });
 
     // Convertir el objeto en un arreglo compatible con el BarChart
-    return Object.entries(grupos).map(([name, value]) => ({
+    return Object.entries(estados).map(([name, value]) => ({
       name,
       value,
     }));
@@ -93,6 +92,7 @@ export function BarChartGroupExample() {
             index="name"
             categories={coloresPersonalizados.map((group) => group.name)}
             valueFormatter={dataFormatter}
+            onValueChange={(value) => console.log(value)}
             yAxisWidth={48}
             colors={coloresPersonalizados.map((group) => group.color)} // Asignar colores personalizados
           />
