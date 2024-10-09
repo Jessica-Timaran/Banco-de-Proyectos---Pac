@@ -1,86 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import GridPrueba from '../../Components/GridPrueba.jsx';
-import Loader from '../../Components/Loader.jsx';
-import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
-import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
+import LayoutHome from '../../Layouts/LayoutHome';
+import CartaUsuario from '../../Components/CartaUsuario';
+import Loader from '../../Components/Loader';
+import { motion } from 'framer-motion'; // Importa framer-motion
 
-const Prueba = () => {
-  const [proyectos, setProyectos] = useState([]);
+const VistaUsuario = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProyectos = async () => {
-      const userId = JSON.parse(localStorage.getItem('user'));
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
 
-      if (!userId) {
-        console.error('Error: idpersona no encontrado en localStorage');
-        return;
-      }
-
-      try {
-        const response = await fetch(`https://banco-de-proyectos-pac.onrender.com/api/user/proyectos?userId=${userId.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          setProyectos(data);
-        } else {
-          console.error('Error al obtener los proyectos');
-        }
-      } catch (error) {
-        console.error('Error en la solicitud:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProyectos();
+    return () => clearTimeout(timer);
   }, []);
+
+  // Definimos la animación de entrada
+  const pageVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
+  };
 
   if (loading) {
     return <Loader />;
   }
 
-
   return (
-    <LayoutPrincipal1 title="">
-      <div className="flex justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-7xl my-10">
-          <div className="flex flex-col">
-            {/* Encabezado del grid fijo */}
-            <div className="grid grid-cols-12 bg-[#2eb694] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b sticky top-0 z-10">
-              <div className="col-span-6 md:col-span-6 text-left flex items-center text-sm sm:text-base text-white">
-                PROYECTOS
+    <LayoutHome title="">
+      <motion.div
+        id="content"
+        className=""
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={pageVariants}
+      >
+        <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
+          <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
+            <div className="flex flex-col md:flex-row items-start">
+              <div className="w-full md:w-1/2 p-4 md:p-8">
+                <span className="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
+                <span className="text-3xl sm:text-5xl md:text-8xl text-[#2eb694] font-inter mb-4 block">USUARIO</span>
+                <p className="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
+                  ¡Hola! querido usuario, aquí podrás registrar tus proyectos o, si ya tienes, podrás visualizarlos y saber el estado en el que se encuentran. ¡Ten una buena experiencia en el aplicativo!
+                </p>
               </div>
-              <div className="col-span-3 md:col-span-3 text-start hidden sm:block text-white">
-                RESPONSABLE
-              </div>
-              <div className="col-span-3 md:col-span-3 text-center text-white">
-                ESTADO
+              <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
+                <img className="w-full max-w-md h-auto" src="/Img/usuario.png" alt="Imagen Principal" />
               </div>
             </div>
-            
-            {/* Contenido scrollable */}
-            <div className="overflow-y-auto max-h-[80vh]">
-              {proyectos.map((proyecto) => (
-                <GridPrueba
-                  key={proyecto.idproyecto}
-                  Text1={proyecto.nombre}
-                  estado={proyecto.estado}
-                  idproyecto={proyecto.idproyecto}
-                  responsable={proyecto.responsable}
-                />
-              ))}
+            <div className="flex justify-center mt-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
+                <a href="/Usuario/RegistroProyecto">
+                  <CartaUsuario Text="Registrar proyectos" />
+                </a>
+                <a href="/Usuario/VistaMisProyectos">
+                  <CartaUsuario Text="Ver proyectos" />
+                </a>
+              </div>
             </div>
-          </div>
-          <div className="mt-6">
-            <a href='/Usuario/VistaUsuario' className="flex justify-end">
-              <BotonPrincipal Text="Volver" />
-            </a>
           </div>
         </div>
-      </div>
-    </LayoutPrincipal1>
+      </motion.div>
+    </LayoutHome>
   );
-  
 };
 
-export default Prueba;
+export default VistaUsuario;
