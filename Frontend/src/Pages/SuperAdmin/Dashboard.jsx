@@ -95,13 +95,12 @@ const Dashboard = () => {
               />
             </div>
             <div className="border-[1px] rounded-t-lg mt-10 flex justify-between px-3">
-              <div>
+              
               <ChartDonut />
-              </div>
-          <div>
           <BarChartGroupExample />
           </div>
-          </div>
+        
+        
           </Layoutcontenido>
       )}
     </LayoutPrincipal>
