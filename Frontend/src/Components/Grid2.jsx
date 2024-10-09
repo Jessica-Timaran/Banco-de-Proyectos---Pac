@@ -16,14 +16,14 @@ const Grid2 = ({ Text1, id1, id2, name, seleccionado, onChange, handleEvaluarCha
           {/* Columna Sí y No RadioButtons */}
           <div className="col-span-1 sm:col-span-4 flex justify-center items-center space-x-6">
             <RadioButton2
-              Text="Sí"
+              Text=""
               id={id1}
               name={name}
               checked={seleccionado === "Sí"}
               onChange={onChange}
             />
             <RadioButton2
-              Text="No"
+              Text=""
               id={id2}
               name={name}
               checked={seleccionado === "No"}

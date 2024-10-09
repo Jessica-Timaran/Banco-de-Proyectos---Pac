@@ -12,6 +12,8 @@ const config = {
       colors: {
         colorCarta: '#FBFCFF',
         verde: '#2eb694',
+        border: '#2eb694',
+        hover:'#74d6af',
         customGreen: 'rgba(163, 231, 132, 1)',
         tremor: {
           brand: {

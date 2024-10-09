@@ -4,7 +4,7 @@ import CardProyect from "../Components/CardProyect";
 import RadioButton from "../Components/RadioButton";
 import BotonSegundo from "../Components/BotonSegundo";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
-import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
+import Layoutprincipal from "../layouts/LayoutPrincipal";
 
 const Calificar = () => {
   const [data, setData] = useState([]);
@@ -40,8 +40,8 @@ const Calificar = () => {
   }, [filter]); // Se llama cada vez que el filtro cambia
 
   return (
-    <LayoutPrincipal1 title="Proyectos">
-      <Layoutcontenido title="">
+    <Layoutprincipal title="Proyectos">
+      <Layoutcontenido title="contenido">
         <div className="">
           <div className="w-full">
              <div className="w-auto">
@@ -84,7 +84,7 @@ const Calificar = () => {
           </div>
         </div>
       </Layoutcontenido>
-    </LayoutPrincipal1>
+    </Layoutprincipal>
   );
 };
 

@@ -45,7 +45,7 @@ const ModalAprendiz = ({ isOpen, onClose, projectId, projectName, responsable, a
             <Button variant="secondary" className="px-8" onClick={onClose}>
               Volver
             </Button>
-            <Button variant="secondary" className="px-8" onClick={handleEditClick}>
+            <Button variant="secondary" className="px-8 bg-verde text-white" onClick={handleEditClick}>
               Editar
             </Button>
           </div>

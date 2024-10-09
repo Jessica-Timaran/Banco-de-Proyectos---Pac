@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
+import Layoutprincipal from "../layouts/LayoutPrincipal";
 import Grid2 from "../Components/Grid2";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
@@ -118,10 +118,10 @@ const ObjetivosComponent = ({ idproyecto }) => {
   }
 
   return (
-    <LayoutPrincipal1 title="Objetivos del Proyecto">
+    <Layoutprincipal title="Objetivos del Proyecto">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
-          <div className="flex flex-col">
+          <div className="flex flex-col lg:w-full lg:pl-14 md:pl-9">
             <div className="text-left mb-4">
               <h1 className="font-josefin-slab text-2xl text-black">Respuestas</h1>
             </div>
@@ -130,28 +130,31 @@ const ObjetivosComponent = ({ idproyecto }) => {
               <BarraPreguntas Text1={"Objetivos del proyecto"} Text2={"Sí"} Text3={"No"} Text4={"Calificar"} />
             </div>
 
-            {Object.keys(preguntasAgrupadas).map((categoria, idx) => (
-              <div key={idx}>
-                <div className="text-lg font-bold grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
-                  {categoria || 'Sin Categoría'}
-                </div>
+            {/* Contenedor con scroll para las preguntas y mayor altura */}
+            <div className="overflow-y-auto max-h-[600px]">
+              {Object.keys(preguntasAgrupadas).map((categoria, idx) => (
+                <div key={idx}>
+                  <div className="text-lg font-bold grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                    {categoria || 'Sin Categoría'}
+                  </div>
 
-                {preguntasAgrupadas[categoria].map((respuesta) => (
-                  <Grid2
-                    key={respuesta.id}
-                    Text1={respuesta.descripcion}
-                    id1={`respuesta-si-${respuesta.id}`}
-                    id2={`respuesta-no-${respuesta.id}`}
-                    name={`respuesta-${respuesta.id}`}
-                    seleccionado={selecciones[respuesta.id] || "No"}
-                    onChange={handleSelectionChange}
-                    handleEvaluarChange={handleEvaluarChange}
-                    id={respuesta.id}
-                    calificacion={calificaciones[respuesta.id]}  // Aquí se muestra la calificación del administrador
-                  />
-                ))}
-              </div>
-            ))}
+                  {preguntasAgrupadas[categoria].map((respuesta) => (
+                    <Grid2
+                      key={respuesta.id}
+                      Text1={respuesta.descripcion}
+                      id1={`respuesta-si-${respuesta.id}`}
+                      id2={`respuesta-no-${respuesta.id}`}
+                      name={`respuesta-${respuesta.id}`}
+                      seleccionado={selecciones[respuesta.id] || "No"}
+                      onChange={handleSelectionChange}
+                      handleEvaluarChange={handleEvaluarChange}
+                      id={respuesta.id}
+                      calificacion={calificaciones[respuesta.id]}  // Aquí se muestra la calificación del administrador
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
 
             <div className="text-right mt-4">
               <h2 className="text-xl font-bold">Promedio de Calificaciones: {promedio !== null ? promedio.toFixed(2) : "N/A"}</h2>
@@ -161,12 +164,12 @@ const ObjetivosComponent = ({ idproyecto }) => {
               <Link to={`/Detalle/${idproyecto}`}>
                 <BotonPrincipal Text="Volver" />
               </Link>
-              <BotonSegundo Text="Siguiente" textColor="text-black" onClick={handleNextClick} />
+              <BotonSegundo Text="Siguiente" textColor="text-white" onClick={handleNextClick} />
             </div>
           </div>
         </div>
       </div>
-    </LayoutPrincipal1>
+    </Layoutprincipal>
   );
 };
 

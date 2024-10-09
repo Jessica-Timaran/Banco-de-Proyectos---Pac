@@ -144,7 +144,8 @@ export const getAssignedProjects = async () => {
             JOIN 
                 personas ON asignaciones_proyectos.idpersona = personas.idpersonas
             WHERE 
-                personas.idrol = 4
+                personas.idrol = 4 AND 
+                asignaciones_proyectos.estado = TRUE  -- Filtra por estado true
             GROUP BY 
                 proyecto.idproyecto, proyecto.nombre;`
         );

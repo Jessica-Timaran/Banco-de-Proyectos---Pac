@@ -37,7 +37,7 @@ export function ModalConfirm({ onConfirm, onCancel, confirmText = "¿Estás segu
                 Cancelar
               </Button>
               <Button
-                className="max-w-32 bg-[#2eb694]"
+                className="max-w-32 bg-verde"
                 size="xl"
                 variant="primary"
                 onClick={handleConfirm}

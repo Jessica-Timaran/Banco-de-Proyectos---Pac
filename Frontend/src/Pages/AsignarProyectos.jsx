@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom'; // useLocation para obtener el estado previo
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
-import LayoutPrincipal1 from '../Layouts/LayoutPrincipal1';
+import Layoutprincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
 import useFichasYAprendices from '../../hooks/Admin/useFichasYAprendices';
-import { useAsignarProyecto } from '../../hooks/Admin/useAsignarProyecto';
-import BotonBack from '../Components/BotonBack';
+import useAsignarProyecto from '../../hooks/Admin/useAsignarProyecto'; // Asegúrate de importar el hook correctamente
+
 
 const AsignarProyectos = () => {
   const navigate = useNavigate();
@@ -39,16 +39,17 @@ const AsignarProyectos = () => {
         alert('No se seleccionó ningún aprendiz, la asignación se actualizó a NULL.');
         return;
       }
-
-      for (const idpersona of selectedAprendices) {
-        await asignarProyecto(idproyecto, idpersona);
-      }
-
+  
+      // Aquí envía los ids de los aprendices seleccionados en un array
+      await asignarProyecto(idproyecto, selectedAprendices); // Enviar el arreglo de ids de aprendices
+  
       alert('Asignación guardada correctamente');
     } catch (error) {
       alert('Hubo un error al guardar la asignación');
     }
   };
+  
+  
 
   // Maneja el clic en el botón "Atrás" y reabre el modal si es necesario
   const handleBackClick = () => {
@@ -60,21 +61,12 @@ const AsignarProyectos = () => {
   };
 
   return (
-    <LayoutPrincipal1 title="Asignación de Proyecto">
-      <Layoutcontenido2 text1="">
-        <div className="flex justify-start pb-4 w-full">
-          <BotonBack 
-            Text="Atrás" 
-            textColor="text-white" 
-            className="bg-[#2eb694] hover:bg-lime-500 font-bold py-2 px-4 rounded" 
-            onClick={handleBackClick} // Usamos el manejador de clic para regresar
-          />
-        </div>
+    <Layoutprincipal title="Asignación de Proyecto">
+      <Layoutcontenido2 text1="Asignar Proyecto">
         <Card className='h-auto'>
           <div className="flex items-center mb-6">
-            <Button variant="light" color="gray" className="mr-4">
-              Asignación de proyecto
-            </Button>
+
+            <Title className="text-lg">Asignación de Proyecto</Title>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -96,7 +88,7 @@ const AsignarProyectos = () => {
               </Select>
             </div>
 
-            <div>
+            <div className='w-auto'>
               <Title className="mb-2">Listado de Aprendices</Title>
               <Table>
                 <TableHead>
@@ -131,7 +123,7 @@ const AsignarProyectos = () => {
           {assignError && <p className="text-red-500">Error al guardar la asignación: {assignError}</p>}
         </Card>
       </Layoutcontenido2>
-    </LayoutPrincipal1>
+    </Layoutprincipal>
   );
 };
 
