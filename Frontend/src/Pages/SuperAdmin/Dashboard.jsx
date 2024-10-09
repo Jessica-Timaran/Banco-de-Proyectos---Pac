@@ -5,7 +5,7 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
 import { ChartDonut } from '../../Components/ChartDonut';
-import { BarChartGroupExample } from '../../Components/BarChart';
+
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
@@ -95,9 +95,7 @@ const Dashboard = () => {
               />
             </div>
             <div className="border-[1px] rounded-t-lg mt-10 ">
-              
               <ChartDonut />
-          <BarChartGroupExample />
           </div>
         
         
