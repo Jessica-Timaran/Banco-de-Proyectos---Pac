@@ -85,7 +85,7 @@ const ItemsDeArea = () => {
   return (
     <LayoutPrincipal1 title="">
       <Layoutcontenido title="">
-        <div className="p-8 mx-16">
+        <div className="p-8">
           <h1 className="text-3xl font-bold font-josefin-slab">Items de Áreas</h1>
           <p className="text-lg font-josefin-slab">Por favor seleccione el ítem en el cual se centrará su proyecto</p>
         </div>

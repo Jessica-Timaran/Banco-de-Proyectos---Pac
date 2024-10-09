@@ -158,7 +158,7 @@ const ObjetivosDeArea = () => {
 
               <button
                 onClick={handleBackClick} 
-                className="flex items-center text-black hover:text-lime-600"
+                className="flex items-center text-black hover:text-verde"
               >
                 <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
                 Volver
@@ -168,10 +168,12 @@ const ObjetivosDeArea = () => {
                 <div className="col-span-12 md:col-span-2 text-center md:text-left px-6 text-white">OBJETIVOS</div>
               </div>
 
-              <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
-                <div className="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipos de objetivos</div>
-                <div className="hidden md:block col-span-1 text-center">Sí</div>
-                <div className="hidden md:block col-span-1 text-center">No</div>
+              <div className="bg-green-50 font-semibold py-4 px-6 border-b">
+                <div className="grid grid-cols-12 gap-4 items-center">
+                  <div className="col-span-12 sm:col-span-10 text-center sm:text-left">Tipos de objetivos</div>
+                  <div className="hidden sm:block col-span-1 text-center">Sí</div>
+                  <div className="hidden sm:block col-span-1 text-center">No</div>
+                </div>
               </div>
 
               {/* Aquí envolvemos las filas en un contenedor con scroll */}

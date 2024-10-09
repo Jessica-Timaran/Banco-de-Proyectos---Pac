@@ -79,7 +79,7 @@ const TiposDeArea = () => {
   return (
     <LayoutPrincipal1 title="">
       <Layoutcontenido title="">
-        <div className="p-8 mx-16">
+        <div className="p-8">
           <h1 className="text-3xl font-bold font-josefin-slab">Tipos de Área</h1>
           <p className="text-lg font-josefin-slab">Por favor seleccione el tipo de área en la cual se centrará su proyecto</p>
         </div>
