@@ -82,7 +82,7 @@ const UpdatePassword = () => {
 
     return (
         <LayoutFormulario>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pt-[5%] ">
    
         <div className="bg-white rounded-lg w-[40%] flex flex-col items-center max-[768px]:w-[70%]   ">
                     <div className="logo-sena flex items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px] mb-[15%] ">
