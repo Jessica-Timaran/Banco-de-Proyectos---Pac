@@ -271,7 +271,7 @@ const EditarPerfil = () => {
                 ></i>
               </div>
               <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <div className="mt-[5%] ">
+                <div className="mt-[5%]">
                   
                   <BotonPrincipal type="submit" Text="Guardar" />
                 </div>
