@@ -14,7 +14,7 @@ const Input = ({ placeholder, type, Text, id, value, onChange, name   }) => {
         required
         value={value}
         onChange={onChange}
-        className="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]"
+        className="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px]"
       />
     </div>
   );

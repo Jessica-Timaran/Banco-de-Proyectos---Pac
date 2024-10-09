@@ -9,8 +9,6 @@ import ModalPerfil from '../../Components/Modal.jsx';
 import Navbar from '../../Components/Navbar'; // Ajusta la ruta si es necesario
 
 const EditarPerfil = () => {
-
-
   const [formData, setFormData] = useState({
     id: null,
     nombre: '',
@@ -23,27 +21,40 @@ const EditarPerfil = () => {
     confiContraseña: '',
     estado: true
   });
-  const [errors, setErrors] = useState({
 
-    nombre: '',
-    numerodocumento: '',  // Make sure this key matches both in validation and JSX
-    telefono: '',
-    correo: '',
-    nombreempresa: '',
-    contraseña: '',
-    confiContraseña: '',
-    tipodocumento: '', // Añadir error para
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    contraseña: false,
+    confiContraseña: false,
   });
 
+  // Obtener el userId desde localStorage
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        id: userId,
+      }));
+    } else {
+      setError('ID de usuario no encontrado. Inicia sesión nuevamente.');
+    }
+  }, []);
+
+  // Validación del formulario
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
 
-      // Validar tipo de documento
-  if (!formData.tipodocumento || formData.tipodocumento === 'Elije una opción') {
-    newErrors.tipodocumento = 'Debes seleccionar una opción válida.';
-    isValid = false;
-  }
+    // Validar tipo de documento
+    if (!formData.tipodocumento || formData.tipodocumento === 'Elije una opción') {
+      newErrors.tipodocumento = 'Debes seleccionar una opción válida.';
+      isValid = false;
+    }
+
 
     // Validar nombre
     if (formData.nombre.trim() === '') {
@@ -120,97 +131,74 @@ if (formData.confiContraseña.trim() === '') {
   isValid = false;
 }
 
-    setErrors(newErrors);
-    return isValid;
-  };
+setErrors(newErrors);
+return isValid;
+};
 
+const handleChange = (e) => {
+const { id, value } = e.target;
+setFormData((prevFormData) => ({
+  ...prevFormData,
+  [id]: value,
+}));
+};
 
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const handleSubmit = async (e) => {
+e.preventDefault();
 
-  const [showPassword, setShowPassword] = useState({
-    contraseña: false,
-    confiContraseña: false,
-  });
+// Validar formulario
+const isValid = validateForm();
+if (isValid) {
+  try {
+    const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/update-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        id: userId,
-      }));
+    const data = await response.json();
+
+    if (response.ok) {
+      setMessage(data.message);
+      setError('');
+      setIsModalOpen(true);
+
+      localStorage.setItem('userName', formData.nombre);
+
+      // Limpiar el formulario después de la actualización
+      setFormData({
+        id: formData.id,
+        nombre: '',
+        tipodocumento: '',
+        numerodocumento: '',
+        nombreempresa: '',
+        telefono: '',
+        correo: '',
+        contraseña: '',
+        confiContraseña: '',
+        estado: true,
+      });
     } else {
-      setError('ID de usuario no encontrado. Inicia sesión nuevamente.');
+      setError(data.error || 'Error al actualizar el perfil');
     }
-  }, []);
+  } catch (error) {
+    setError('Error al hacer la solicitud: ' + error.message);
+  }
+}
+};
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-    }));
-  };
+const handleCloseModal = () => {
+setIsModalOpen(false);
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Primero validamos el formulario
-    const isValid = validateForm();
-    if (isValid) {
-      try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/update-profile', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          setMessage(data.message);
-          setError('');
-          setIsModalOpen(true);
-
-          localStorage.setItem('userName', formData.nombre);
-  
-          // Limpiar los campos del formulario después de una actualización exitosa
-          setFormData((prevFormData) => ({
-            id: prevFormData.id, // Mantiene el id del usuario
-            nombre: '',
-            tipodocumento: '',
-            numerodocumento: '',
-            nombreempresa: '',
-            telefono: '',
-            correo: '',
-            contraseña: '',
-            confiContraseña: '',
-            estado: true
-          }));
-        } else {
-          setError(data.error || 'Error al actualizar el perfil');
-        }
-      } catch (error) {
-        console.error('Error al hacer la solicitud:', error);
-        setError('Error al hacer la solicitud: ' + error.message);
-      }
-    }
-  };
-
-  const handleCloseModal = () => {
-  setIsModalOpen(false);
-  };
-
-  const togglePasswordVisibility = (field) => {
-    setShowPassword((prevState) => ({
-      ...prevState,
-      [field]: !prevState[field],
-    }));
-  };
+const togglePasswordVisibility = (field) => {
+setShowPassword((prevState) => ({
+  ...prevState,
+  [field]: !prevState[field],
+}));
+};
 
   return (
     <LayoutPrincipal1 title="Editar Perfil">

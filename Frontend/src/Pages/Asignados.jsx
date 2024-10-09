@@ -38,7 +38,7 @@ const Asignados = () => {
 
   return (
     <LayoutPrincipal1 title="Proyectos">
-      <Layoutcontenido title="Proyectos Asignados">
+      <Layoutcontenido title="">
         <div className="w-full">
           <div className="flex justify-center flex-wrap w-full">
             {proyectos.map((proyecto) => (
