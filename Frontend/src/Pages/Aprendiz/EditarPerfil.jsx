@@ -14,7 +14,6 @@ const EditarPerfil = () => {
     nombre: '',
     tipodocumento: '',
     numerodocumento: '',
-    nombreempresa: '',
     telefono: '',
     correo: '',
     contraseña: '',
@@ -22,29 +21,16 @@ const EditarPerfil = () => {
     estado: true
   });
 
-  const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState({
-    contraseña: false,
-    confiContraseña: false,
+  const [errors, setErrors] = useState({
+    nombre: '',
+    numerodocumento: '',
+    telefono: '',
+    correo: '',
+    contraseña: '',
+    confiContraseña: '',
+    tipodocumento: '',
   });
 
-  // Obtener el userId desde localStorage
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        id: userId,
-      }));
-    } else {
-      setError('ID de usuario no encontrado. Inicia sesión nuevamente.');
-    }
-  }, []);
-
-  // Validación del formulario
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
@@ -54,8 +40,6 @@ const EditarPerfil = () => {
       newErrors.tipodocumento = 'Debes seleccionar una opción válida.';
       isValid = false;
     }
-
-
     // Validar nombre
     if (formData.nombre.trim() === '') {
       newErrors.nombre = 'El nombre completo es obligatorio.';
@@ -67,7 +51,6 @@ const EditarPerfil = () => {
       newErrors.nombre = 'El nombre no puede tener más de 40 caracteres.';
       isValid = false;
     }
-
     // Validar número de documento
     if (formData.numerodocumento.trim() === '') {
       newErrors.numerodocumento = 'El número de documento es requerido.';
@@ -79,7 +62,6 @@ const EditarPerfil = () => {
       newErrors.numerodocumento = 'El número de documento debe tener al menos 10 dígitos.';
       isValid = false;
     }
-
     // Validar teléfono
     if (formData.telefono.trim() === '') {
       newErrors.telefono = 'El teléfono es obligatorio';
@@ -91,7 +73,6 @@ const EditarPerfil = () => {
       newErrors.telefono = 'El teléfono debe contener al menos 10 dígitos.';
       isValid = false;
     }
-
     // Validar correo
     if (formData.correo.trim() === '') {
       newErrors.correo = 'El correo es requerido.';
@@ -100,143 +81,143 @@ const EditarPerfil = () => {
       newErrors.correo = 'El correo electrónico debe contener al menos un arroba (@) y un dominio.';
       isValid = false;
     }
-
-    // Validar nombre de la empresa
-    if (formData.nombreempresa.trim() === '') {
-      newErrors.nombreempresa = 'El nombre de la empresa es requerido.';
+    // Validar contraseña
+    if (formData.contraseña.trim() === '') {
+      newErrors.contraseña = 'La contraseña es requerida.';
       isValid = false;
-    } else if (formData.nombreempresa.trim().length > 50) {
-      newErrors.nombreempresa = 'El nombre de la empresa no puede tener más de 50 caracteres.';
+    } else if (formData.contraseña.trim().length < 8) {
+      newErrors.contraseña = 'La contraseña debe tener al menos 8 caracteres.';
+      isValid = false;
+    } else if (!/[A-Z]/.test(formData.contraseña)) {
+      newErrors.contraseña = 'La contraseña debe contener al menos una letra mayúscula.';
       isValid = false;
     }
+    // Validar confirmar contraseña
+    if (formData.confiContraseña.trim() === '') {
+      newErrors.confiContraseña = 'Debe confirmar su contraseña.';
+      isValid = false;
+    } else if (formData.confiContraseña.trim() !== formData.contraseña.trim()) {
+      newErrors.confiContraseña = 'Las contraseñas no coinciden.';
+      isValid = false;
+    }
+    setErrors(newErrors);
+    return isValid;
+  };
 
-  // Validar contraseña
-if (formData.contraseña.trim() === '') {
-  newErrors.contraseña = 'La contraseña es requerida.';
-  isValid = false;
-} else if (formData.contraseña.trim().length < 8) {
-  newErrors.contraseña = 'La contraseña debe tener al menos 8 caracteres.';
-  isValid = false;
-} else if (!/[A-Z]/.test(formData.contraseña)) {
-  newErrors.contraseña = 'La contraseña debe contener al menos una letra mayúscula.';
-  isValid = false;
-}
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    contraseña: false,
+    confiContraseña: false,
+  });
 
-// Validar confirmar contraseña
-if (formData.confiContraseña.trim() === '') {
-  newErrors.confiContraseña = 'Debe confirmar su contraseña.';
-  isValid = false;
-} else if (formData.confiContraseña.trim() !== formData.contraseña.trim()) {
-  newErrors.confiContraseña = 'Las contraseñas no coinciden.';
-  isValid = false;
-}
-
-setErrors(newErrors);
-return isValid;
-};
-
-const handleChange = (e) => {
-const { id, value } = e.target;
-setFormData((prevFormData) => ({
-  ...prevFormData,
-  [id]: value,
-}));
-};
-
-const handleSubmit = async (e) => {
-e.preventDefault();
-
-// Validar formulario
-const isValid = validateForm();
-if (isValid) {
-  try {
-    const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/update-profile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      setMessage(data.message);
-      setError('');
-      setIsModalOpen(true);
-
-      localStorage.setItem('userName', formData.nombre);
-
-      // Limpiar el formulario después de la actualización
-      setFormData({
-        id: formData.id,
-        nombre: '',
-        tipodocumento: '',
-        numerodocumento: '',
-        nombreempresa: '',
-        telefono: '',
-        correo: '',
-        contraseña: '',
-        confiContraseña: '',
-        estado: true,
-      });
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('Usuario recuperado:', user);
+    if (user) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        id: user.id,
+      }));
     } else {
-      setError(data.error || 'Error al actualizar el perfil');
+      setError('ID de usuario no encontrado. Inicia sesión nuevamente.');
     }
-  } catch (error) {
-    setError('Error al hacer la solicitud: ' + error.message);
-  }
-}
-};
+  }, []);
 
-const handleCloseModal = () => {
-setIsModalOpen(false);
-};
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
 
-const togglePasswordVisibility = (field) => {
-setShowPassword((prevState) => ({
-  ...prevState,
-  [field]: !prevState[field],
-}));
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const isValid = validateForm();
+    if (isValid) {
+      try {
+        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/aprendiz/update-profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setMessage(data.message);
+          setError('');
+          setIsModalOpen(true);
+          localStorage.setItem('userName', formData.nombre);
+
+          setFormData((prevFormData) => ({
+            id: prevFormData.id,
+            nombre: '',
+            tipodocumento: '',
+            numerodocumento: '',
+            telefono: '',
+            correo: '',
+            contraseña: '',
+            confiContraseña: '',
+            estado: true
+          }));
+        } else {
+          setError(data.error || 'Error al actualizar el perfil');
+        }
+      } catch (error) {
+        console.error('Error al hacer la solicitud:', error);
+        setError('Error al hacer la solicitud: ' + error.message);
+      }
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
 
   return (
     <LayoutPrincipal1 title="Editar Perfil">
     <Layoutcontenido3 title="Editar Perfil">
-
-      <div className="w-full md:w-1/2">
-        <div className="flex flex-col p-[5%] Flex-box">
-          <form onSubmit={handleSubmit} className="">
-            <Input
-              placeholder="Nombre completo"
-              type="text"
-              Text="Nombre completo *"
-              id="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-            />
-            <div className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
-
-            <SelectBoxTI
-              Text="Tipo de documento:"
-              id="tipodocumento"
-              value={formData.tipodocumento}
-              onChange={handleChange}
-            />
-            <div className="text-red-500">{errors.tipodocumento}</div>
-            <Input
-              placeholder="Número de documento"
-              type="text"
-              Text="Número de documento"
-              id="numerodocumento"
-              value={formData.numerodocumento}
-              onChange={handleChange}
-               
+        <div className="w-full md:w-1/2">
+          <div className="flex flex-col p-[5%] Flex-box">
+            <form onSubmit={handleSubmit} className="">
+              <Input
+                placeholder="Nombre completo"
+                type="text"
+                Text="Nombre completo *"
+                id="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
               />
-               <div className="text-red-500">{errors.numerodocumento}</div> {/* Muestra el error de nombre */}
-
-             
-               <Input
+              <div className="text-red-500">{errors.nombre}</div>
+              <SelectBoxTI
+                Text="Tipo de documento:"
+                id="tipodocumento"
+                value={formData.tipodocumento}
+                onChange={handleChange}
+              />
+              <div className="text-red-500">{errors.tipodocumento}</div>
+              <Input
+                placeholder="Número de documento"
+                type="text"
+                Text="Número de documento"
+                id="numerodocumento"
+                value={formData.numerodocumento}
+                onChange={handleChange}
+              />
+              <div className="text-red-500">{errors.numerodocumento}</div>
+              <Input
                 placeholder="Teléfono"
                 type="text"
                 Text="Teléfono *"
@@ -244,13 +225,11 @@ setShowPassword((prevState) => ({
                 value={formData.telefono}
                 onChange={handleChange}
               />
-              <div  className="text-red-500">{errors.telefono}</div> {/* Muestra el error de teléfono */}
-
+              <div className="text-red-500">{errors.telefono}</div>
             </form>
           </div>
         </div>
-
-             <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/2">
           <div className="flex flex-col p-[5%] Flex-box">
             <form onSubmit={handleSubmit} className="">
               <Input
@@ -261,23 +240,12 @@ setShowPassword((prevState) => ({
                 value={formData.correo}
                 onChange={handleChange}
               />
-               <div className="text-red-500">{errors.correo}</div>
-              <Input
-                placeholder="Nombre de la Empresa"
-                type="text"
-                Text="Nombre de la Empresa:"
-                id="nombreempresa"
-                value={formData.nombreempresa}
-                onChange={handleChange}
-              />
-               <div  className="text-red-500">{errors.nombreempresa}</div>
-
-              <div className="relative ">
-              <Input
+              <div className="text-red-500">{errors.correo}</div>
+              <div className="relative">
+                <Input
                   placeholder="Contraseña"
-
                   type={showPassword.contraseña ? 'text' : 'password'}
-                    Text="Contraseña:"
+                  Text="Contraseña:"
                   id="contraseña"
                   value={formData.contraseña}
                   onChange={handleChange}
@@ -286,15 +254,13 @@ setShowPassword((prevState) => ({
                   className={`bx ${showPassword.contraseña ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
                   onClick={() => togglePasswordVisibility('contraseña')}
                 ></i>
-                 <div className="text-red-500">{errors.contraseña}</div>
               </div>
-
-
-              <div className="relative ">
-              <Input
+              <div className="text-red-500">{errors.contraseña}</div>
+              <div className="relative">
+                <Input
                   placeholder="Confirmar Contraseña"
                   type={showPassword.confiContraseña ? 'text' : 'password'}
-                    Text="Confirmar Contraseña:"
+                  Text="Confirmar Contraseña:"
                   id="confiContraseña"
                   value={formData.confiContraseña}
                   onChange={handleChange}
@@ -303,9 +269,7 @@ setShowPassword((prevState) => ({
                   className={`bx ${showPassword.confiContraseña ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
                   onClick={() => togglePasswordVisibility('confiContraseña')}
                 ></i>
-                <div className="text-red-500">{errors.confiContraseña}</div> {/* Muestra el error de confirmar contraseña */}
               </div>
-
               <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <div>
                   
