@@ -290,17 +290,13 @@ const RegistroProyecto = () => {
                   </div>
                   
                   <div className="w-full h-full flex flex-row items-center flex-wrap">
-                    <button
-                      type="button"
-                      onClick={handleVolver}
-                    >
-                    </button>
+                   
 
-                    <div className="w-full flex justify-center items-center flex-wrap gap-x-4">
-                    <BotonPrincipal Text="Volver" />
-                    <BotonSegundo Text="Siguiente" type="submit" />
-                    </div>
-                  </div>
+                   <div className="w-full flex md:justify-end justify-center p-5 items-center flex-wrap gap-x-4 ">
+                
+                   <BotonSegundo Text="Siguiente" type="submit" />
+                   </div>
+                 </div>
                 </div>
               </form>
             </div>

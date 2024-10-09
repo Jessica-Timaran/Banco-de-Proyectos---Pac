@@ -247,18 +247,18 @@ const VistaAlcance = () => {
   
               <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipo de alcance</div>
-                <div className="hidden md:block col-span-1 text-center">Sí</div>
-                <div className="hidden md:block col-span-1 text-center">No</div>
+                <div className="hidden md:block col-span-1 text-start">Sí</div>
+                <div className="hidden md:block col-span-1 text-start">No</div>
               </div>
   
               {/* Agrega aquí el contenedor con scroll */}
-              <div className="table-container">
+              <div className="table-container overflow-y-auto max-h-[600px]"> {/* Ajusta max-h-60 según tus necesidades */}
                 {Object.keys(groupedAlcances).map((categoria) => (
                   <React.Fragment key={categoria}>
                     <div className="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
                       {categoria}
                     </div>
-  
+
                     {groupedAlcances[categoria].map((alcance, index) => (
                       <Grid
                         key={alcance.idalcance}
@@ -273,6 +273,7 @@ const VistaAlcance = () => {
                   </React.Fragment>
                 ))}
               </div>
+
   
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <button
