@@ -8,7 +8,7 @@ const RadioButton = ({ Text, id, name = "estado", value, checked, disabled, onCl
         id={id || value}
         name={name}
         value={value}
-        className="form-radio h-5 w-5 focus:ring-lime-600 checked:bg-lime-400"
+        className="form-radio h-5 w-5 focus:ring-verde checked:bg-verde"
         checked={checked}
         disabled={disabled}
         onChange={onClick}  // Captura el evento de cambio

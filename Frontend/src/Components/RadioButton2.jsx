@@ -31,7 +31,7 @@ const RadioButton2 = ({ id, name, value, checked, onChange, label, Text, disable
         value={value}
         checked={checked}
         onChange={onChange}
-        className="form-radio h-5 w-5 focus:ring-red-600"
+        className="form-radio h-5 w-5 focus:ring-verde checked:bg-verde"  // Aplicando clases para el color verde
         disabled={disabled}
         readOnly={readOnly}
       />

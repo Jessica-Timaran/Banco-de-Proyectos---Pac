@@ -89,14 +89,14 @@ const Inicio = () => {
  
   return (
     <LayoutFormulario title="Formulario">
-      <div className="flex flex-col lg:flex-row min-h-screen items-center justify-center lg:gap-x-8 xl:gap-x-16 2xl:gap-x-24 px-4 py-8 lg:py-0">
+      <div className="flex flex-col lg:flex-row min-h-screen items-center justify-center lg:gap-x-8 xl:gap-x-16 2xl:gap-x-48 px-4 py-8 lg:py-0">
         <div className="w-full max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl lg:w-1/2">
           <form
             id="formu"
             onSubmit={handleSubmit}
-            className="form flex flex-col w-full justify-center items-center gap-y-8 lg:gap-y-12 2xl:gap-y-16"
+            className="form flex flex-col w-full lg:w-[300px] justify-center items-center gap-y-8 lg:gap-y-12 2xl:gap-y-16"
           >
-            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-80 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px]">
+            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-72 sm:h-24 lg:w-72 lg:h-28 2xl:w-96 2xl:h-32 bg-[#2eb694] rounded-bl-[40px] rounded-br-[40px]">
               <img
                 className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
                 src="/Img/Logo.png"
@@ -171,7 +171,7 @@ const Inicio = () => {
 
         <div className="hidden lg:flex lg:w-1/2 xl:w-[600px] 2xl:w-[800px] items-center justify-center">
           <img
-            className="w-full h-auto max-h-[80vh] object-contain"
+            className="w-full h-auto max-h-[80vh] lg:w-[700px] object-contain"
             src="/Img/nino.png"
             alt="Imagen niño"
           />
