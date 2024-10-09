@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import CardProyect from "../Components/CardProyect";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
 import BotonSegundo from "../Components/BotonSegundo";
 import ModalAprendiz from "../Components/ModalAprendiz";
 import useModal from "../../hooks/Admin/useModal";
@@ -37,7 +37,7 @@ const Asignados = () => {
   };
 
   return (
-    <Layoutprincipal title="Proyectos">
+    <LayoutPrincipal1 title="Proyectos">
       <Layoutcontenido title="Proyectos Asignados">
         <div className="w-full">
           <div className="flex justify-center flex-wrap w-full">
@@ -59,7 +59,7 @@ const Asignados = () => {
           aprendices={personas}
         />
       )}
-    </Layoutprincipal>
+    </LayoutPrincipal1>
   );
 };
 

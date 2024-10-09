@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
 import Layoutcontenido2 from "../Layouts/Layoutcontenido2";
 import { BarState } from "../Components/BarState";
 import { ModalComent } from "../Components/ModalComent";
@@ -65,7 +65,7 @@ const Calificacion = () => {
     };
 
     return (
-        <Layoutprincipal title="Detalle del proyecto">
+        <LayoutPrincipal1 title="Detalle del proyecto">
             {viewLoading ? (
                 <Loader />
             ) : (
@@ -143,7 +143,7 @@ const Calificacion = () => {
                     )}
                 </Layoutcontenido2>
             )}
-        </Layoutprincipal>
+        </LayoutPrincipal1>
     );
 };
 

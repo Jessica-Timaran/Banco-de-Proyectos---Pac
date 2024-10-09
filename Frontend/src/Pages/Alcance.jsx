@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import Layoutprincipal from '../layouts/LayoutPrincipal';
+import LayoutPrincipal1 from '../Layouts/LayoutPrincipal1';
 import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid2 from '../Components/Grid2';
 import BotonPrincipal from '../Components/BotonPrincipal';
@@ -104,7 +104,7 @@ const Alcance = () => {
   }, {});
 
   return (
-    <Layoutprincipal title="">
+    <LayoutPrincipal1 title="">
       {isLoading || loadingAsignaciones ? (
         <Loader />
       ) : (
@@ -164,7 +164,7 @@ const Alcance = () => {
           </div>
         </div>
       )}
-    </Layoutprincipal>
+    </LayoutPrincipal1>
   );
 };
 
