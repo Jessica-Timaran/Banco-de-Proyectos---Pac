@@ -4,6 +4,7 @@ import BotonSegundo from "../../Components/BotonSegundo";
 import LayoutPrincipal1 from "../../Layouts/LayoutPrincipal1.jsx";
 import Layoutcontenido from "../../Layouts/Layoutcontenido5";
 import ModalAsignaciones from "../../Components/ModalesUser/Modal";
+import { motion } from 'framer-motion'; // Importa framer-motion
 
 const Calificar = () => {
   const [projects, setProjects] = useState([]);
@@ -46,30 +47,44 @@ const Calificar = () => {
     setSelectedProjectName('');
   };
 
+  // Definimos la animación de entrada
+  const pageVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
+  };
+
   return (
     <LayoutPrincipal1 title="Proyectos">
       <Layoutcontenido title="Proyectos Asignados">
-        {loading ? (
-          <p className="text-center">Cargando proyectos...</p>
-        ) : error ? (
-          <p className="text-center text-red-500">Error: {error}</p>
-        ) : projects.length > 0 ? (
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab py-8">
-            {projects.map((project, index) => (
-              <CardProyect
-                key={index}
-                Text={project.nombre_proyecto}
-                onOpenModal={() => handleOpenModal(project.nombre_proyecto, project.personas_asignadas)}
-              >
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={pageVariants}
+        >
+          {loading ? (
+            <p className="text-center">Cargando proyectos...</p>
+          ) : error ? (
+            <p className="text-center text-red-500">Error: {error}</p>
+          ) : projects.length > 0 ? (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab py-8">
+              {projects.map((project, index) => (
+                <CardProyect
+                  key={index}
+                  Text={project.nombre_proyecto}
+                  onOpenModal={() => handleOpenModal(project.nombre_proyecto, project.personas_asignadas)}
+                >
                   <a href="/Aprendiz/Formulario">
-                  <BotonSegundo Text="Informe Proyecto" />
+                    <BotonSegundo Text="Informe Proyecto" />
                   </a>
-              </CardProyect>
-            ))}
-          </div>
-        ) : (
-          <p className="text-center">No hay proyectos para mostrar.</p>
-        )}
+                </CardProyect>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center">No hay proyectos para mostrar.</p>
+          )}
+        </motion.div>
         <ModalAsignaciones
           isOpen={modalOpen}
           onClose={handleCloseModal}

@@ -16,8 +16,10 @@ const Estado = ({ estado, idproyecto }) => {
             ? 'bg-green-100 text-green-600'
             : estado === 'Rechazado'
             ? 'bg-red-100 text-red-600'
-            : estado === 'Devuelto' || estado === 'En proceso'
+            : estado === 'Devuelto'
             ? 'bg-yellow-100 text-yellow-600'
+            : estado === 'En proceso'
+            ? 'bg-orange-100 text-orange-600'  // Cambiar a color naranja
             : ''
         }`}
         style={{ minWidth: '120px' }} // Establece un ancho mínimo
@@ -28,8 +30,10 @@ const Estado = ({ estado, idproyecto }) => {
               ? 'bg-green-500'
               : estado === 'Rechazado'
               ? 'bg-red-500'
-              : estado === 'Devuelto' || estado === 'En proceso'
+              : estado === 'Devuelto'
               ? 'bg-yellow-500'
+              : estado === 'En proceso'
+              ? 'bg-orange-500'  // Cambiar el color del círculo a naranja
               : ''
           }`}
         ></span>
