@@ -6,7 +6,8 @@ import Loader from '../Components/Loader';
 
 const dataFormatter = (number) => `$ ${Intl.NumberFormat('us').format(number)}`;
 
-export function BarChart() {
+
+export function BarChartGroupExample() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
