@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LayoutFormulario from "../../Layouts/LayoutFormulario";
 import Input from "../../Components/Input";
 import BotonPrincipal from "../../Components/BotonPrincipal";
-import '../../css/Incio.css';
+import '../../css/Inicio.css';
 import { useUser } from '../../Context/UserContext';
 const Inicio = () => {
   const [correo, setCorreo] = useState('');

@@ -37,11 +37,11 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      { icon: 'fas fa-user', to: '/Asignados', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid  fa-users', to: '/Asignados', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
-      { icon: 'fas fa-tachometer-alt', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid  fa-users', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
       { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
     3: [
