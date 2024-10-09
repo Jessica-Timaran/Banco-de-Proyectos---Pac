@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
@@ -7,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
-  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
+  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm(async (data) => {
     onAddMember(data);
     setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
     setTimeout(() => {
@@ -114,15 +115,15 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               {successMessage}
             </div>
           )}
-          <div className="flex justify-end">
+            <div className='flex justify-end mt-8'>
             <button
-              type="submit"
-              id="guardarBtn"
-              className="bg-verde text-white px-8 py-2 rounded"
-            >
-              Agregar
-            </button>
-          </div>
+                 type="submit"
+                 className="bg-verde text-white px-4 py-2 rounded"
+                 disabled={isSubmitting}
+             >
+                 {isSubmitting ? 'Registrando...' : 'Agregar'}
+             </button>
+          </div>                      
         </form>
       </DialogPanel>
     </Dialog>
