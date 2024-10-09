@@ -5,7 +5,7 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
 import { ChartDonut } from '../../Components/ChartDonut';
-import { BarChart } from '../../Components/BarChart';
+import BarChart from '../../Components/BarChart';
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
