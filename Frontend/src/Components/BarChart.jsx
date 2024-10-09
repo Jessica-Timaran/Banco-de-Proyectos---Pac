@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { BarChart } from "@/components/BarChart";
-import Loader from '../../../Components/Loader';
+import { BarChart } from "@tremor/react";
+import Loader from '../Components/Loader';
 
 const dataFormatter = (number) =>
   Intl.NumberFormat('us').format(number).toString();
