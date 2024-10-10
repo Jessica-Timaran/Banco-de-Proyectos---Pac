@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from '../Input2';
-import SelectBoxRol2 from '../SelectBoxRol2';
-import SelectBoxFicha from '../SelectBoxFicha';
-import SelectBoxTi from '../SelectBoxTI2';
+import Input2 from '../../Components/Input2';
+import SelectBoxRol2 from '../../Components/SelectBoxRol2';
+import SelectBoxFicha from '../../Components/SelectBoxFicha';
+import SelectBoxTi from '../../Components/SelectBoxTI2';
 import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
+  // Hook personalizado para manejo del formulario
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
-    onAddMember(data);
+    onAddMember(data);  // Callback para agregar usuario
     setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
     setTimeout(() => {
-    onClose();
-  }, 2000);
+      onClose();  // Cierra el modal automáticamente después de 2 segundos
+    }, 2000);
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');  // Estado que maneja el mensaje de éxito
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
