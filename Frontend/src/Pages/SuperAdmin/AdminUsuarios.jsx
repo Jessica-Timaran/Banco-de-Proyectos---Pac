@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../../Components/Input2';
-import SelectBoxRol2 from '../SelectBoxRol2';
-import SelectBoxFicha from '../SelectBoxFicha';
-import SelectBoxTi from '../SelectBoxTI2';
+import SelectBoxRol2 from '../../Components/SelectBoxRol2';
+import SelectBoxFicha from '../../Components/SelectBoxFicha';
+import SelectBoxTi from '../../Components/SelectBoxTI2';
 import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
