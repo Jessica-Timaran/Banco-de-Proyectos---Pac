@@ -208,22 +208,22 @@ const RegistroProyecto = () => {
                     </label>
                   </div>
 
-                  <div className="grid xl:grid-cols-1 2xl:grid-cols-3 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-4">
-                    <div className="flex justify-center">
+                  <div className="w-full flex justify-center items-center flex-row flex-wrap gap-x-1 ">
+                    <div className="w-auto">
                       <BotonRegistro
                         Text="Semanal"
                         isSelected={frecuencia === 'Semanal'}
                         onClick={() => handleFrecuenciaClick('Semanal')}
                       />
                     </div>
-                    <div className="flex justify-center">
+                    <div className="w-auto">
                       <BotonRegistro
                         Text="Quincenal"
                         isSelected={frecuencia === 'Quincenal'}
                         onClick={() => handleFrecuenciaClick('Quincenal')}
                       />
                     </div>
-                    <div className="flex justify-center">
+                    <div className="w-auto">
                       <BotonRegistro
                         Text="Mensual"
                         isSelected={frecuencia === 'Mensual'}

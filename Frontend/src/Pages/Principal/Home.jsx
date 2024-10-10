@@ -7,7 +7,7 @@ const Home = () => {
     <div className="p-4 md:p-10 bg-white flex flex-col lg:flex-row justify-center items-center min-h-screen">
       <div className="w-full lg:w-1/2 p-4 lg:p-10">
         <div className="flex space-x-4 mb-8 lg:mb-20">
-          <img className="w-16 h-16 md:w-20 md:h-20" src="/Img/Logo.png" alt="Logo" />
+          <img className="w-16 h-16 md:w-20 md:h-20" src="/Img/Logoverde.png" alt="Logo" />
         </div>
         <h1 className="text-4xl md:text-6xl lg:text-9xl font-Nunito-Sans mb-2">Banco de proyectos</h1>
         <h2 className="text-3xl md:text-5xl lg:text-8xl text-verde font-Inter mb-8 lg:mb-50">ADSO</h2>

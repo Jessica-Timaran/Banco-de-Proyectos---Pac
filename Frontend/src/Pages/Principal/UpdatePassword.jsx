@@ -95,12 +95,12 @@ const UpdatePassword = () => {
               />
             </div>
 
-                    <h2 className="text-[33px] font-bold text-gray-800 text-center ">
-                        Actualizar Contraseña
+                    <h2 className="text-2xl text-gray-800 text-center ">
+                        ACTUALIZAR CONTRASEÑA
                     </h2>
                     <form onSubmit={handleSubmit} className="mt-6" id="update-password-form">
                     <div className="mb-4 relative w-[20em] mt-[10px]">
-                            <label htmlFor="new-password" className="block text-gray-700 font-semibold">
+                            <label htmlFor="new-password" className="block text-gray-700">
                                 Nueva Contraseña
                             </label>
                     <Input
@@ -118,7 +118,7 @@ const UpdatePassword = () => {
                 </div>
 
                 <div className="mb-4 relative w-[20em] mt-[5px]">
-                            <label htmlFor="confirm-password" className="block text-gray-700 font-semibold">
+                            <label htmlFor="confirm-password" className="block text-gray-700 ">
                                 Confirmar Contraseña
                             </label>
                     <Input

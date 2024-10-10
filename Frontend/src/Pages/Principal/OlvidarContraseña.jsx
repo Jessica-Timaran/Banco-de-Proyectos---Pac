@@ -81,8 +81,8 @@ const OlvidarContraseña = () => {
                 alt="Logo Sena"
               />
             </div>
-        <h2 className="text-[33px] font-bold text-gray-800 text-center  ">
-          Recuperar Contraseña
+        <h2 className="text-2xl text-gray-800 text-center  ">
+        RECUPERAR CONTRASEÑA
         </h2>
         <form id="reset-password-form" className="mt-6" onSubmit={handleSubmit}>
           <div className="mb-4 relative w-[20em] mt-[40px] ">
