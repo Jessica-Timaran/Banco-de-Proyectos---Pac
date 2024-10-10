@@ -47,13 +47,13 @@ const Prueba = () => {
           <div className="flex flex-col">
             {/* Encabezado del grid fijo */}
             <div className="grid grid-cols-12 bg-[#2eb694] font-bold py-4 px-4 sm:px-6 rounded-t-lg border-b sticky top-0 z-10">
-              <div className="col-span-5 md:col-span-5 text-left flex items-center text-sm sm:text-base text-white">
+              <div className="col-span-8 md:col-span-3 text-left flex items-center text-sm sm:text-base text-white">
                 PROYECTOS
               </div>
-              <div className="col-span-3 md:col-span-3 text-center hidden sm:block text-white">
+              <div className="col-span-7 md:col-span-7 text-center hidden sm:block text-white">
                 RESPONSABLE
               </div>
-              <div className="col-span-4 md:col-span-4  text-center text-white">
+              <div className="col-span-4 md:col-span-2  text-center text-white">
                 ESTADO
               </div>
             </div>
