@@ -88,6 +88,7 @@ export function useForm(onSuccess) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Valores del formulario:', formValues);
   
     if (validateForm()) {
       try {

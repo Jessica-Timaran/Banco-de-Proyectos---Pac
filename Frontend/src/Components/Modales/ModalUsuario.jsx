@@ -115,15 +115,17 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               {successMessage}
             </div>
           )}
-            <div className='flex justify-end'> 
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-verde text-black px-8 py-2 rounded"
-          >
-            Agregar
-          </button>
-          </div>                     
+
+          <div className='flex justify-end mt-8'>
+            <button
+              type="submit"
+              id="guardarBtn"
+              className="bg-verde text-white px-4 py-2 rounded justify-end"
+              disabled={isSubmitting}  // Deshabilita el botón mientras se envía el formulario
+            >
+              {isSubmitting ? 'Registrando...' : 'Agregar'}
+            </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>
