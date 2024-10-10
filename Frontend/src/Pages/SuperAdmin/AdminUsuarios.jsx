@@ -1,107 +1,139 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
-import Layoutcontenido from '../../Layouts/Layoutcontenido4';
-import GridList from './GridList/GridListU';
-import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalUsuario from '../../Components/Modales/ModalUsuario';
+import { useState } from 'react';
+import { Dialog, DialogPanel } from '@tremor/react';
+import Input2 from '../Input2';
+import SelectBoxRol2 from '../SelectBoxRol2';
+import SelectBoxFicha from '../SelectBoxFicha';
+import SelectBoxTi from '../SelectBoxTI2';
+import PropTypes from 'prop-types';
+import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
-const Usuarios = () => {
-  const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [usuarios, setUsuarios] = useState([]);
-  const navigate = useNavigate();
+export default function ModalUsuario({ onClose, onAddMember }) {
+  // Hook personalizado para manejo del formulario
+  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
+    onAddMember(data);  // Callback para agregar usuario
+    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+    setTimeout(() => {
+      onClose();  // Cierra el modal automáticamente después de 2 segundos
+    }, 2000);
+  });
 
-  useEffect(() => {
-    const fetchUsuarios = async () => {
-      try {
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/usuarios');
-        if (!response.ok) {
-          throw new Error('Error al cargar los usuarios');
-        }
-        const data = await response.json();
-        setUsuarios(data);
-      } catch (error) {
-        console.error('Error al cargar usuarios:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [successMessage, setSuccessMessage] = useState('');  // Estado que maneja el mensaje de éxito
 
-    fetchUsuarios();
-  }, []);
-
-  const handleAddClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleAddUsuario = async (newUsuario) => {
-    try {
-      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/usuarios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUsuario),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Error al registrar el usuario: ${errorData.message || response.statusText}`);
-      }
-
-      const addedUsuario = await response.json();
-      setUsuarios((prevUsuarios) => [...prevUsuarios, addedUsuario]);
-      handleCloseModal();
-      window.location.reload(); // Recargar la página para actualizar la lista
-    } catch (error) {
-      console.error('Error al agregar usuario:', error);
-      // Aquí podrías mostrar un mensaje de error al usuario
-    }
-  };
-
-  const handleGoBack = () => {
-    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no se está enviando
   };
 
   return (
-    <LayoutPrincipal title="Usuarios">
-      {loading ? (
-        <div id="loader" className="flex items-center justify-center min-h-screen">
-          <Loader />
-        </div>
-      ) : (
-        <Layoutcontenido title="Usuarios">
-          <div className="flex flex-col w-full p-10 mb-10">
-            <div className="flex justify-between items-center mb-4">
-              <button
-                onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
-              >
-                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
-                Volver
-              </button>
-              <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick} />
-            </div>
-            <div>
-              <GridList usuarios={usuarios} setUsuarios={setUsuarios} />
-            </div>
-            {isModalOpen && (
-              <ModalUsuario
-                onClose={handleCloseModal}
-                onAddUsuario={handleAddUsuario}
+    <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
+      <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
+        <button
+          type="button"
+          className="absolute right-4 top-4 p-2 bg-transparent border-none"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <i className="fas fa-times size-5" aria-hidden={true}></i>
+        </button>
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <h4 className="font-semibold">Añade nuevo usuario</h4>
+          <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <div className="space-y-4">
+              <Input2
+                id="nombre"
+                type="text"
+                Text="Nombre"
+                placeholder="Nombre del usuario"
+                value={formValues.nombre}
+                onChange={handleInputChange}
+                error={errors.nombre}
               />
-            )}
+              <SelectBoxTi
+                id="tipodocumento"
+                text="Tipo de documento"
+                value={formValues.tipodocumento}
+                onChange={(value) => handleInputChange({ target: { id: 'tipodocumento', value } })}
+                error={errors.tipodocumento}
+              />
+              <Input2
+                id="numerodocumento"
+                type="text"
+                Text="Numero de documento"
+                placeholder="Número de documento"
+                value={formValues.numerodocumento}
+                onChange={handleInputChange}
+                error={errors.numerodocumento}
+              />
+              <Input2
+                id="correo"
+                type="email"
+                Text="Correo"
+                placeholder="Correo"
+                value={formValues.correo}
+                onChange={handleInputChange}
+                error={errors.correo}
+              />
+            </div>
+            <div className="space-y-4">
+              <Input2
+                id="contraseña"
+                type="password"
+                Text="Contraseña"
+                placeholder="Contraseña"
+                value={formValues.contraseña}
+                onChange={handleInputChange}
+                error={errors.contraseña}
+              />
+              <SelectBoxRol2
+                id="idrol"
+                text="Seleccione un rol:"
+                value={formValues.idrol}
+                onChange={handleRolChange}
+                error={errors.idrol}
+              />
+              {formValues.idrol === '4' && (
+                <SelectBoxFicha
+                  id="idficha"
+                  text="Seleccione una ficha:"
+                  value={formValues.idficha}
+                  onChange={(value) => handleSelectChange('idficha', value)}  // Actualiza idficha
+                  error={errors.idficha}
+                />
+              )}
+              <Input2
+                id="celular"
+                type="text"
+                Text="Celular"
+                placeholder="Celular"
+                value={formValues.celular}
+                onChange={handleInputChange}
+                error={errors.celular}
+              />
+            </div>
           </div>
-        </Layoutcontenido>
-      )}
-    </LayoutPrincipal>
-  );
-};
+          {successMessage && (
+            <div className="mt-4 text-green-600">
+              {successMessage}
+            </div>
+          )}
 
-export default Usuarios;
+          <div className='flex justify-end mt-8'>
+            <button
+              type="submit"
+              id="guardarBtn"
+              className="bg-verde text-white px-4 py-2 rounded justify-end"
+              disabled={isSubmitting}  // Deshabilita el botón mientras se envía el formulario
+            >
+              {isSubmitting ? 'Registrando...' : 'Agregar'}
+            </button>
+          </div>
+        </form>
+      </DialogPanel>
+    </Dialog>
+  );
+}
+
+ModalUsuario.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onAddMember: PropTypes.func.isRequired,
+};

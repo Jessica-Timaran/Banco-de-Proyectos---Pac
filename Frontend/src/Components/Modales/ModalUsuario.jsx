@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
-  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm(async (data) => {
+  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
     onAddMember(data);
     setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
     setTimeout(() => {
