@@ -12,10 +12,13 @@ export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
     onAddMember(data);  // Callback para agregar usuario
     setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+
+    // Esperar un tiempo antes de cerrar el modal
     setTimeout(() => {
-      onClose();  // Cierra el modal automáticamente después de 2 segundos
-    }, 2000);
+      onClose();  // Cierra el modal después de 2 segundos
+    }, 3000);  // Aumentar el tiempo de cierre si es necesario
   });
+
 
   const [successMessage, setSuccessMessage] = useState('');  // Estado que maneja el mensaje de éxito
 
