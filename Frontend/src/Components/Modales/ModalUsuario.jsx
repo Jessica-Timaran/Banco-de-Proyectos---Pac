@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
@@ -18,6 +19,11 @@ export default function ModalUsuario({ onClose, onAddMember }) {
 
   const [successMessage, setSuccessMessage] = useState('');
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSubmit(e);  // Llama a handleSubmit sin comprobar isSubmitting
+  };
+
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
       <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
@@ -25,11 +31,11 @@ export default function ModalUsuario({ onClose, onAddMember }) {
           type="button"
           className="absolute right-4 top-4 p-2 bg-transparent border-none"
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Cerrar"
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nuevo usuario</h4>
           <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div className="space-y-4">
@@ -88,15 +94,15 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
               {formValues.idrol === '4' && (
                 <SelectBoxFicha
-                id="idficha"
-                text="Seleccione una ficha:"
-                value={formValues.idficha}
-                onChange={(value) => {
-                  console.log('Ficha seleccionada:', value);  // Verificar idficha
-                  handleSelectChange('idficha', value);
-                }}
-                error={errors.idficha}
-              />
+                  id="idficha"
+                  text="Seleccione una ficha:"
+                  value={formValues.idficha}
+                  onChange={(value) => {
+                    console.log('Ficha seleccionada:', value);  // Verificar idficha
+                    handleSelectChange('idficha', value);
+                  }}
+                  error={errors.idficha}
+                />
               )}
               <Input2
                 id="celular"
@@ -117,13 +123,13 @@ export default function ModalUsuario({ onClose, onAddMember }) {
           )}
 
           <div className='flex justify-end'>
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-verde text-black px-8 py-2 rounded"
-          >
-            Agregar
-          </button>
+            <button
+              type="submit"
+              id="guardarBtn"
+              className="bg-verde text-black px-8 py-2 rounded"
+            >
+              Agregar
+            </button>
           </div>
         </form>
       </DialogPanel>
