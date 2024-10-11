@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../public/Img/Logo.png';
 import '../css/Sidebar.css';
 
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
@@ -36,11 +37,11 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      { icon: 'fa-solid fa-users', to: '/Asignados', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid  fa-users', to: '/Asignados', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
-      { icon: 'fa-solid fa-users', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid  fa-users', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
       { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
     3: [
@@ -50,7 +51,7 @@ const Sidebar = () => {
     ],
     2: [
       { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },
-      { icon: 'fas fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
+      { icon: 'fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
       { icon: 'fas fa-project-diagram', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
   };
@@ -71,9 +72,7 @@ const Sidebar = () => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
       if (window.innerWidth >= 768) {
-        setIsOpen(true); // Mantener el menú abierto en pantallas grandes
-      } else {
-        setIsOpen(false); // Cerrar el menú en pantallas pequeñas
+        setIsOpen(false);
       }
     };
     window.addEventListener('resize', handleResize);
@@ -84,11 +83,12 @@ const Sidebar = () => {
     console.error('Sidebar Error:', error);
     return <div>Error: {error}. Please <Link to="/">login again</Link>.</div>;
   }
-
+  
   console.log('Role Menu Items:', roleMenuItems);
 
   return (
     <div>
+      {/* ... existing code ... */}
       <aside
         id="sidebar"
         className={`sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-all duration-300 transform ${
@@ -96,8 +96,12 @@ const Sidebar = () => {
             ? isOpen
               ? 'translate-x-0 w-64'
               : '-translate-x-full w-64'
-            : 'w-64'
+            : isOpen
+            ? 'w-64'
+            : 'w-16'
         } md:translate-x-0`}
+        onMouseEnter={() => !isSmallScreen && setIsOpen(true)}
+        onMouseLeave={() => !isSmallScreen && setIsOpen(false)}
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-[#2eb694]">
           <div className="flex items-center space-x-3">
@@ -111,43 +115,40 @@ const Sidebar = () => {
             </span>
           </div>
           <ul className="space-y-3 font-medium mt-5">
-            {roleMenuItems.map((item, index) => (
-              <li key={index} className="w-full">
-                <Link
-                  to={item.to}
-                  className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
-                  onClick={() => {
-                    console.log('Navigating to:', item.to);
-                    if (isSmallScreen) setIsOpen(false); // Cerrar menú en pantallas pequeñas al navegar
-                  }}
-                >
-                  <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
-                  <span
-                    className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
-                      isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              </li>
-            ))}
-            <li className="w-full">
-              <button
-                onClick={handleLogout}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
-              >
-                <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
-                <span
-                  className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
-                    isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  Salir
-                </span>
-              </button>
-            </li>
-          </ul>
+  {roleMenuItems.map((item, index) => (
+    <li key={index} className="w-full">
+      <Link
+        to={item.to}
+        className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
+        onClick={() => console.log('Navigating to:', item.to)}
+      >
+        <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
+        <span
+          className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
+            isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          {item.label}
+        </span>
+      </Link>
+    </li>
+  ))}
+  <li className="w-full">
+    <button
+      onClick={handleLogout}
+      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
+    >
+      <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
+      <span
+        className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
+          isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        Salir
+      </span>
+    </button>
+  </li>
+</ul>
         </div>
       </aside>
 
@@ -161,5 +162,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;
