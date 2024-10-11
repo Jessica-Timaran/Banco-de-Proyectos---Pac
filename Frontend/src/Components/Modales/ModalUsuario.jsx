@@ -126,7 +126,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
             <button
               type="submit"
               id="guardarBtn"
-              className="bg-verde text-white px-4 py-2 rounded justify-end"
+              className="bg-verde text-white px-8 py-2 rounded"
             >
               Agregar
             </button>
