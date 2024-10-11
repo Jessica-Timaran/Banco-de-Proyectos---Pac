@@ -2,7 +2,7 @@ import React from 'react';
 import { useUser } from '../Context/UserContext';
 import logoUser from '../../public/user-solid.svg'
 
-const Navbar = ({ text, toggleMenu }) => {
+const Navbar = ({  toggleMenu }) => {
   const { user } = useUser();
 
   if (user === null) {
@@ -16,16 +16,16 @@ const Navbar = ({ text, toggleMenu }) => {
           <i className="fas fa-bars text-2xl"></i>
         </button>
       </div>
-      <div className="flex items-center">
+      <div className="flex grid-cols-2 justify-center items-center mr-6">
       <img
            src={logoUser}
           alt="User Icon"
           className="flex rounded-full w-7 h-7 mr-2 justify-end"
         />
         <span className="text-black">
-          {user.nombre || 'Invitado'}
+          {user.nombre } {/* Mostrar el nombre del usuario o "Invitado" */}
           <br />
-          {text}
+      
         </span>
       </div>
     </nav>
