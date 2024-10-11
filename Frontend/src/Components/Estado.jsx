@@ -9,7 +9,7 @@ const Estado = ({ estado, idproyecto }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
       <button
         className={`flex items-center justify-center px-3 py-1 text-sm font-medium rounded-full ${
           estado === 'Aceptado'
