@@ -9,16 +9,16 @@ export function useForm(onSuccess) {
     contraseña: '',
     celular: '',
     idrol: '',
-    idficha: '',  // Inicializar como cadena vacía
+    idficha: '', // Inicializar como cadena vacía
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     const errors = {};
     let isValid = true;
 
-    // Validaciones de campos
     const nombrePattern = /^[A-Za-z\s]{2,50}$/;
     if (!nombrePattern.test(formValues.nombre.trim())) {
       errors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
@@ -75,7 +75,7 @@ export function useForm(onSuccess) {
   const handleSelectChange = (name, value) => {
     setFormValues((prevValues) => ({
       ...prevValues,
-      [name]: value,  // Actualiza el campo idficha con el valor seleccionado
+      [name]: value,
     }));
   };
 
@@ -88,44 +88,37 @@ export function useForm(onSuccess) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Valores del formulario:', formValues);
-  
-    if (validateForm()) {
-      try {
-        const userData = {
-          nombre: formValues.nombre,
-          tipodocumento: formValues.tipodocumento,
-          numerodocumento: formValues.numerodocumento,
-          correo: formValues.correo,
-          contraseña: formValues.contraseña,
-          celular: formValues.celular,
-          idrol: parseInt(formValues.idrol, 10),
-          // Solo enviar idficha si el rol es 'Aprendiz'
-          idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null,
-        };
-  
-        const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/agregarpersona', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        });
-  
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || 'Error desconocido');
-        }
-  
-        const data = await response.json();
-        onSuccess(data);
-      } catch (error) {
-        console.error('Error al registrar usuario:', error);
-        setErrors({ submit: error.message });
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);  // Bloquear el envío adicional
+
+    try {
+      const userData = {
+        ...formValues,
+        idrol: parseInt(formValues.idrol, 10),
+        idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null,
+      };
+
+      const response = await fetch('https://banco-de-proyectos-pac.onrender.com/api/superAdmin/agregarpersona', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error desconocido');
       }
+
+      const data = await response.json();
+      onSuccess(data);
+    } catch (error) {
+      setErrors({ submit: error.message });
+    } finally {
+      setIsSubmitting(false);  // Reestablecer el estado
     }
   };
-  
+
   return {
     formValues,
     errors,
@@ -133,5 +126,6 @@ export function useForm(onSuccess) {
     handleSelectChange,
     handleSubmit,
     handleRolChange,
+    isSubmitting,  // Exponer isSubmitting para deshabilitar el botón
   };
 }

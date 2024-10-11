@@ -8,23 +8,17 @@ import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
-  // Hook personalizado para manejo del formulario
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
-    onAddMember(data);  // Callback para agregar usuario
-    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
-
-    // Esperar un tiempo antes de cerrar el modal
-    setTimeout(() => {
-      onClose();  // Cierra el modal después de 2 segundos
-    }, 3000);  // Aumentar el tiempo de cierre si es necesario
+    onAddMember(data);
+    setSuccessMessage('Registro exitoso');
+    setTimeout(() => onClose(), 3000);
   });
 
-
-  const [successMessage, setSuccessMessage] = useState('');  // Estado que maneja el mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no se está enviando
+    if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no está en proceso
   };
 
   return (
@@ -99,7 +93,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
                   id="idficha"
                   text="Seleccione una ficha:"
                   value={formValues.idficha}
-                  onChange={(value) => handleSelectChange('idficha', value)}  // Actualiza idficha
+                  onChange={(value) => handleSelectChange('idficha', value)}
                   error={errors.idficha}
                 />
               )}
@@ -114,22 +108,15 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
-          {successMessage && (
-            <div className="mt-4 text-green-600">
-              {successMessage}
-            </div>
-          )}
-
-          <div className='flex justify-end mt-8'>
-            <button
-              type="submit"
-              id="guardarBtn"
-              className="bg-verde text-white px-4 py-2 rounded justify-end"
-              disabled={isSubmitting}  // Deshabilita el botón mientras se envía el formulario
-            >
-              {isSubmitting ? 'Registrando...' : 'Agregar'}
-            </button>
-          </div>
+          {successMessage && <div className="text-green-500">{successMessage}</div>}
+          
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Enviando...' : 'Agregar'}
+          </button>
         </form>
       </DialogPanel>
     </Dialog>
