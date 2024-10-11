@@ -11,17 +11,16 @@ const LayoutHome = ({ title, children }) => {
   };
   return (
     <PostLayout2 title={title}>
-      <div className="flex h-screen overflow-hidden">
+       <div>
+        <header className="w-full bg-white">
+        <Navbar text="usuario" toggleMenu={toggleMenu} />
+        </header>
+        <aside>
         <Menu isOpen={isOpen} toggleMenu={toggleMenu} />
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <header className="w-full bg-white sticky ">
-            <Navbar text="usuario" toggleMenu={toggleMenu} />
-          </header>
-   
-            {children}
+        </aside>
+        {children}
        
         </div>
-      </div>
     </PostLayout2>
   );
 };

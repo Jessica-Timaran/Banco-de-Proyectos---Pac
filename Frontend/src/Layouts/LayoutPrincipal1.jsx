@@ -12,16 +12,14 @@ const LayoutPrincipal1 = ({ title, children }) => {
 
   return (
     <PostLayout1 title={title}>
-      <div className="flex h-screen overflow-hidden">
-        <Menu isOpen={isOpen} toggleMenu={toggleMenu} />
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <header className="w-full bg-white sticky ">
+ <div>
+<header className="w-full h-full bg-white sticky top-0 z-10">
             <Navbar text="usuario" toggleMenu={toggleMenu} />
           </header>
-   
+          <aside className='w-full'>
+          <Menu isOpen={isOpen} toggleMenu={toggleMenu} />
+        </aside>
             {children}
-       
-        </div>
       </div>
     </PostLayout1>
   );
