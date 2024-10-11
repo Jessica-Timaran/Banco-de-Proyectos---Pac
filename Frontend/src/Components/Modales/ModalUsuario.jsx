@@ -11,7 +11,9 @@ export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
     onAddMember(data);
     setSuccessMessage('Registro exitoso');
-    setTimeout(() => onClose(), 3000);
+    setTimeout(() => {
+      onClose();  // Cierra el modal automáticamente después de 2 segundos
+    }, 2000);  // Temporizador antes de cerrar el modal
   });
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -108,14 +110,19 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
-          {successMessage && <div className="text-green-500">{successMessage}</div>}
-          
+          {successMessage && (
+            <div className="mt-4 text-green-600">
+              {successMessage}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="btn btn-primary"
+            id="guardarBtn"
+            className="bg-verde text-white px-4 py-2 rounded justify-end"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Enviando...' : 'Agregar'}
+            {isSubmitting ? 'Registrando...' : 'Agregar'}
           </button>
         </form>
       </DialogPanel>
