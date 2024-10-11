@@ -11,19 +11,19 @@ const Badge = ({ state }) => {
     const lowerState = state.toLowerCase();
     switch (lowerState) {
       case 'aceptado':
-        bgColor = 'bg-green-200';
+        bgColor = 'bg-green-100 text-green-600';
         text = 'Aceptado';
         break;
       case 'rechazado':
-        bgColor = 'bg-red-200';
+        bgColor = 'bg-red-100 text-red-600';
         text = 'Rechazado';
         break;
       case 'devuelto':
-        bgColor = 'bg-orange-200';
+        bgColor = 'bg-yellow-100 text-yellow-600';
         text = 'Devuelto';
         break;
       case 'en proceso':
-        bgColor = 'bg-yellow-200';
+        bgColor = 'bg-orange-100 text-orange-600';
         text = 'En Proceso';
         break;
       default:

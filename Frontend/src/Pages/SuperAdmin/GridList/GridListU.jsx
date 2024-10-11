@@ -9,7 +9,7 @@ const roleNames = {
 
   // eslint-disable-next-line react/prop-types
 const Badge = ({ variant, children }) => {
-  const bgColor = variant === 'active' ? 'bg-green-200' : 'bg-red-200';
+  const bgColor = variant === 'active' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
   return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
 };
 
