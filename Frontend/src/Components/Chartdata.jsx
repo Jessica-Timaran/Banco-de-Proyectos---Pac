@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { DonutChart } from '@tremor/react';
-import Loader from '../Components/Loader'; // Si tienes un componente de loader personalizado
+import { BarChart } from '@tremor/react';
+import Loader from '../Components/Loader';
 
-const dataFormatter = (number) => `${Intl.NumberFormat('us').format(number)}`;
+const dataFormatter = (number) => 
+  Intl.NumberFormat('us').format(number).toString();
 
-export const ChartDonut = () => {
+export function Chartdata() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,8 +18,7 @@ export const ChartDonut = () => {
         }
         const proyectos = await response.json();
         console.log('Proyectos obtenidos:', proyectos);
-        
-        // Agrupar los proyectos por estado
+
         const proyectosAgrupados = agruparPorEstado(proyectos);
         setData(proyectosAgrupados);
       } catch (error) {
@@ -31,7 +31,6 @@ export const ChartDonut = () => {
     fetchProyectos();
   }, []);
 
-  // Función para agrupar los proyectos por estado
   const agruparPorEstado = (proyectos) => {
     const estados = {
       'Proyectos aceptados': 0,
@@ -41,7 +40,9 @@ export const ChartDonut = () => {
     };
 
     proyectos.forEach((proyecto) => {
-      switch (proyecto.estado.toLowerCase()) {
+      const estadoNormalizado = proyecto.estado.toLowerCase();
+
+      switch (estadoNormalizado) {
         case 'aceptado':
           estados['Proyectos aceptados'] += 1;
           break;
@@ -59,30 +60,35 @@ export const ChartDonut = () => {
       }
     });
 
-    // Convertir el objeto en un arreglo compatible con el DonutChart
-    return Object.entries(estados).map(([name, value]) => ({
-      name,
-      value,
-    }));
+    return [
+      {
+        name: '',
+        'Proyectos aceptados': estados['Proyectos aceptados'],
+        'Proyectos rechazados': estados['Proyectos rechazados'],
+        'Proyectos devueltos': estados['Proyectos devueltos'],
+        'Proyectos en proceso': estados['Proyectos en proceso'],
+      }
+    ];
   };
 
   if (loading) {
-    return <Loader />; // Reemplaza esto por tu componente de loading
+    return <Loader />;
   }
 
   return (
-    <div className="mx-auto space-y-12">
-      <div className="space-y-3">
-        <div className="flex justify-center">
-          <DonutChart
-            data={data}
-            variant="donut"
-            valueFormatter={dataFormatter}
-            onValueChange={(value) => console.log(value)}
-            colors={["green", "red", "orange", "yellow"]}
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <p className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        Total de proyectos en el sistema
+      </p>
+      <BarChart
+        className="mt-6"
+        data={data}
+        index="name"
+        categories={['Proyectos aceptados', 'Proyectos rechazados', 'Proyectos devueltos', 'Proyectos en proceso']}
+        colors={['green', 'red', 'yellow', 'orange']}
+        valueFormatter={dataFormatter}
+        yAxisWidth={48}
+      />
+    </>
   );
-};
+}

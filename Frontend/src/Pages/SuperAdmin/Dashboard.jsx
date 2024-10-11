@@ -5,6 +5,7 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
 import { ChartDonut } from '../../Components/ChartDonut';
+import { Chartdata } from '../../Components/Chartdata';
 
 
 const Dashboard = () => {
@@ -96,6 +97,8 @@ const Dashboard = () => {
             </div>
             <div className="border-[1px] rounded-t-lg mt-10 ">
               <ChartDonut />
+              <Chartdata/>
+              
           </div>
         
         

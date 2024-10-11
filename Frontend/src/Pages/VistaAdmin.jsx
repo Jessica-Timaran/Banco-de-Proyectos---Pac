@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import LayoutHome from '../Layouts/LayoutHome';
-import CartaUsuario from '../Components/CartaUsuario';
-import Loader from '../Components/Loader';
-import BotonPrincipal from '../Components/BotonPrincipal';
-import BotonSegundo from '../Components/BotonSegundo';
-import { motion } from 'framer-motion'; // Importa framer-motion
+import { Title, Text } from '@tremor/react';
+import { useEffect, useState } from 'react';
+import LayoutPrincipal1 from '../Layouts/LayoutPrincipal1';
+import Layoutcontenido from '../Layouts/Layoutcontenido'
+import CardBase from '../Components/CardBase'
+import Loader from '../Components/Loader'
+import { ChartDonut } from '../Components/ChartDonut'
+import { Chartdata } from '../Components/Chartdata'
+
 
 const VistaAdmin = () => {
+  // Estado para controlar la carga de la página
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,55 +18,42 @@ const VistaAdmin = () => {
       setLoading(false);
     }, 2000);
 
+    // Limpia el temporizador al desmontar el componente
     return () => clearTimeout(timer);
   }, []);
 
-  // Definimos la animación de entrada y salida
-  const pageVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
-    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
-  };
 
-  // Si está cargando, muestra solo el Loader
-  if (loading) {
-    return <Loader />;
-  }
-
-  // Si no está cargando, renderiza el contenido dentro del layout con la animación
   return (
-    <LayoutHome title="">
-      <motion.div
-        id="content"
-        className=""
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={pageVariants}
-      >
-        <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
-          <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
-            <div className="flex flex-col md:flex-row items-start">
-              <div className="w-full md:w-1/2 p-4 md:p-8">
-                <span className="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
-                <span className="text-3xl sm:text-5xl md:text-8xl text-verde font-inter mb-4 block">Instructor</span>
-                <p className="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
-                  ¡Hola! querido Instructor, aquí podrás ver los proyectos registrados por parte de las empresas o usuarios. ¡Ten una buena experiencia en el aplicativo!
-                </p>
-              </div>
-              <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
-                <img className="w-full max-w-md h-auto" src="/Img/usuario.png" alt="Imagen Principal" />
-              </div>
-            </div>
-            <div className="flex justify-start gap-x-7 mt-8 mx-7">
-              <a href="/calificar">
-                <BotonSegundo Text="Empezar" />
-              </a>
-            </div>
-          </div>
+    <LayoutPrincipal1 title="Proyectos">
+      {loading ? (
+        // Muestra el loader mientras se cargan los datos
+        <div id="loader" className="flex items-center justify-center h-screen">
+          <Loader />
         </div>
-      </motion.div>
-    </LayoutHome>
+      ) : (
+        <Layoutcontenido title="">
+          {/* Encabezado */}
+          <div className="bg-verde p-4 sm:p-6 md:p-8 lg:p-10 rounded">
+            <Title className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold">Bienvenido Instructor</Title>
+            <Text className="text-white font-extrabold text-sm sm:text-base md:text-lg">Banco de Proyectos</Text>
+          </div>
+
+          <div className="w-full border-[1px] rounded-t-lg mt-16 sm:p-10 flex sm:justify-start justify-center items-center flex-wrap  ">
+            <div className="w-full h-full sm:px-8 ">
+            <Chartdata />
+            </div>
+
+            <div className="w-full h-full flex justify-center items-center">
+            <ChartDonut />
+            </div>
+           
+          </div>
+
+
+
+        </Layoutcontenido>
+      )}
+    </LayoutPrincipal1>
   );
 };
 
