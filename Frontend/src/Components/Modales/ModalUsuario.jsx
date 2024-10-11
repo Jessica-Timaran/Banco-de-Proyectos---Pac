@@ -4,7 +4,7 @@ import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
 import SelectBoxTi from '../SelectBoxTI2';
 import PropTypes from 'prop-types';
-import { useForm } from '../../../hooks/useForm';
+import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {

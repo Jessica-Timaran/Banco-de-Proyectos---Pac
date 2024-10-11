@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../Layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
