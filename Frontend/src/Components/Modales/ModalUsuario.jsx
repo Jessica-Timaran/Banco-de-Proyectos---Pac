@@ -9,8 +9,11 @@ import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
-    const { estado, ...datosSinEstado } = data;
-    onAddMember(datosSinEstado);
+    const userData = {
+      ...data,
+      estado: true,
+    };
+    onAddMember(userData);
     setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
     setTimeout(() => {
       onClose();  // Cierra el modal automáticamente después de 2 segundos
