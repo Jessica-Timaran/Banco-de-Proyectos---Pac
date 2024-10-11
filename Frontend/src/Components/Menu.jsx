@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../public/Img/Logo.png';
 import '../css/Sidebar.css';
 
-
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
@@ -37,11 +36,11 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      { icon: 'fa-solid  fa-users', to: '/Asignados', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid fa-users', to: '/Asignados', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
-      { icon: 'fa-solid  fa-users', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid fa-users', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
       { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
     3: [
@@ -51,7 +50,7 @@ const Sidebar = () => {
     ],
     2: [
       { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },
-      { icon: 'fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
+      { icon: 'fas fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
       { icon: 'fas fa-project-diagram', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
   };
@@ -72,7 +71,9 @@ const Sidebar = () => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
       if (window.innerWidth >= 768) {
-        setIsOpen(false);
+        setIsOpen(true); // Mantener el menú abierto en pantallas grandes
+      } else {
+        setIsOpen(false); // Cerrar el menú en pantallas pequeñas
       }
     };
     window.addEventListener('resize', handleResize);
@@ -83,7 +84,7 @@ const Sidebar = () => {
     console.error('Sidebar Error:', error);
     return <div>Error: {error}. Please <Link to="/">login again</Link>.</div>;
   }
-  
+
   console.log('Role Menu Items:', roleMenuItems);
 
   return (
@@ -115,6 +116,10 @@ const Sidebar = () => {
                 <Link
                   to={item.to}
                   className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
+                  onClick={() => {
+                    console.log('Navigating to:', item.to);
+                    if (isSmallScreen) setIsOpen(false); // Cerrar menú en pantallas pequeñas al navegar
+                  }}
                 >
                   <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
                   <span
@@ -152,16 +157,6 @@ const Sidebar = () => {
           className="fixed inset-0 bg-black opacity-50 z-30"
           onClick={toggleSidebar}
         ></div>
-      )}
-
-      {/* Botón para abrir el sidebar en pantallas pequeñas */}
-      {isSmallScreen && (
-        <button
-          onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-50 p-2 bg-[#2eb694] text-white rounded-full hover:bg-green-600"
-        >
-          <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
-        </button>
       )}
     </div>
   );
