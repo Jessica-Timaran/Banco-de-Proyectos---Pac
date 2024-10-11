@@ -31,7 +31,7 @@ export default function Areas({ onClose, onAddArea }) {
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        
+
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade una nueva Área</h4>
           <div className="relative flex flex-col p-[5%] space-y-6">
@@ -44,7 +44,7 @@ export default function Areas({ onClose, onAddArea }) {
               error={errors.area}
             />
           </div>
-          
+
           {successMessage && (
             <div className="mt-4 text-green-600">
               {successMessage}

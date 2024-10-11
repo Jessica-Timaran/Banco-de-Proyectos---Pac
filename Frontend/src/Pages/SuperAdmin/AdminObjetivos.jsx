@@ -51,19 +51,21 @@ const Objetivo = () => {
         },
         body: JSON.stringify(newObjetivo),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`Error al registrar el objetivo: ${errorData.message || response.statusText}`);
       }
-
+  
       const addedObjetivo = await response.json();
-      setObjetivos(prevObjetivo => [...prevObjetivo, addedObjetivo]); // Actualizar la lista de items
+      setObjetivos(prevObjetivo => [...prevObjetivo, addedObjetivo]); // Agregar a la lista
       handleCloseModal(); // Cerrar el modal
+      window.location.reload(); // Recargar la página
     } catch (error) {
       console.error('Error al agregar item:', error);
     }
   };
+  ;
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
