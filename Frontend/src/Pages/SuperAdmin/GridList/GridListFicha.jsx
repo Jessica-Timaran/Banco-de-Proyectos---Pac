@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Loader from '../../../Components/Loader';
+
 
 const GridListFicha = () => {
   const [fichas, setFichas] = useState([]);
@@ -23,11 +23,6 @@ const GridListFicha = () => {
   useEffect(() => {
     fetchFichas();
   }, []);
-
-  // Mostrar el loader mientras se cargan los datos
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-x-auto sm:overflow-hidden">

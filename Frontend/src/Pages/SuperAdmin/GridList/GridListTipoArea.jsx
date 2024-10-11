@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
-import Loader from '../../../Components/Loader';
+
 
 
 const GridListTipoArea = () => {
@@ -61,17 +61,6 @@ const GridListTipoArea = () => {
                         <th className="px-6 py-3 text-left text-white w-full">Nombre de la Categoría</th>
                     </tr>
                 </thead>
-                
-                {/* Si está en estado de carga, muestra el Loader */}
-                {loading ? (
-                    <tbody>
-                        <tr>
-                            <td colSpan="2" className="flex items-center justify-center h-screen">
-                                <Loader />
-                            </td>
-                        </tr>
-                    </tbody>
-                ) : (
                     <tbody className="min-w-full bg-white divide-y divide-gray-200">
                         {/* Mapeo de las áreas obtenidas */}
                         {areas.map(area => (
@@ -91,7 +80,6 @@ const GridListTipoArea = () => {
                                         <span className="font-bold text-gray-900">{area.area}</span>
                                     </td>
                                 </tr>
-                                
                                 {/* Tipos de área asociados, si el área está abierta */}
                                 {openAreas[area.idarea] && tipos[area.idarea] && tipos[area.idarea].map(tipo => (
                                     <tr key={tipo.idtipoarea}>
@@ -106,7 +94,6 @@ const GridListTipoArea = () => {
                             </React.Fragment>
                         ))}
                     </tbody>
-                )}
             </table>
         </div>
     );

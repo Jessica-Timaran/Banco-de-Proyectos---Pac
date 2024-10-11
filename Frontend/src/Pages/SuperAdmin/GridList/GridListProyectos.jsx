@@ -73,12 +73,6 @@ export default function GridListProyectos() {
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-      {loading ? (
-        <div className="flex items-center justify-center h-64">
-          <Loader />
-        </div>
-      ) : (
-        <>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-[#2eb694]">
               <tr>
@@ -111,8 +105,6 @@ export default function GridListProyectos() {
               </button>
             ))}
           </div>
-        </>
-      )}
     </div>
   );
 }

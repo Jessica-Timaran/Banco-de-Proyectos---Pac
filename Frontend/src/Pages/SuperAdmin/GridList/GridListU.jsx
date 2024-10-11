@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Loader from '../../../Components/Loader';
 
 const roleNames = {
   1: 'Administrador',
@@ -41,12 +40,12 @@ const GridList = () => {
    const indexOfLastItem = currentPage * itemsPerPage; // Último índice de la página actual
    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Primer índice de la página actual
    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem); // Elementos a mostrar en la página actual
- 
+
    // Cambiar de página
-   const paginate = (pageNumber) => setCurrentPage(pageNumber);
- 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
    // Calcular el número total de páginas
-   const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
 
   return (
@@ -60,15 +59,6 @@ const GridList = () => {
             <th className="px-6 py-3 text-left text-white">Rol</th>
           </tr>
         </thead>
-        {loading ? (
-          <tbody>
-            <tr>
-              <td colSpan="5" className="text-center py-4">
-                <Loader />
-              </td>
-            </tr>
-          </tbody>
-        ) : (
           <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
             {currentItems.map((item) => (
               <tr key={item.idpersonas}>
@@ -85,10 +75,9 @@ const GridList = () => {
               </tr>
             ))}
           </tbody>
-        )}
       </table>
        {/* Paginación */}
-       <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index + 1}
@@ -98,7 +87,7 @@ const GridList = () => {
                 {index + 1}
               </button>
             ))}
-             </div>
+          </div>
     </div>
   );
 };

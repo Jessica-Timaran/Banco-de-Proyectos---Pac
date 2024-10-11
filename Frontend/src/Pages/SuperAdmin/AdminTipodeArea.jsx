@@ -60,7 +60,6 @@ const TipoArea = () => {
       const addedTipoArea = await response.json();
       setTipoAreas(prevTipoAreas => [...prevTipoAreas, addedTipoArea]);
       handleCloseModal();
-      window.location.reload();
     } catch (error) {
       console.error('Error al agregar tipo de área:', error);
       // Aquí podrías mostrar un mensaje de error al usuario

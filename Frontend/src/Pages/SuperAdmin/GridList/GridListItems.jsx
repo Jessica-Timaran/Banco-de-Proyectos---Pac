@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Loader from '../../../Components/Loader';
+
 
 const GridListItems = () => {
   const [tiposDeArea, setTiposDeArea] = useState([]);
@@ -63,17 +63,6 @@ const GridListItems = () => {
             <th className="px-6 py-3 text-left text-white w-full">Nombre de la Categoría</th>
           </tr>
         </thead>
-        {loading ? (
-          <tbody>
-            <tr>
-              <td colSpan="2" className="flex items-center justify-center h-screen">
-                <div className="flex flex-col items-center justify-center h-full">
-                  <Loader />
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        ) : (
           <tbody className="min-w-full bg-white divide-y divide-gray-200">
             {tiposDeArea.map((tipoDeArea) => (
               <React.Fragment key={tipoDeArea.idtiposdearea}>
@@ -102,7 +91,6 @@ const GridListItems = () => {
               </React.Fragment>
             ))}
           </tbody>
-        )}
       </table>
     </div>
   );
