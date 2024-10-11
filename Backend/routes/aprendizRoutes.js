@@ -53,7 +53,7 @@ router.post('/reset-password', async (req, res) => {
 
       // Genera el token
       const resetToken = generateToken(email); 
-      const resetLink = `https://bancodeproyectospac.netlify.app/Principal/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)}`;
+      const resetLink = `https://bancodeproyectospac.netlify.app/bancodeproyectospac.netlify.app/Principal/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)}`;
 
       const mailOptions = {
           from: 'pac.bancodeproyectos@gmail.com',
