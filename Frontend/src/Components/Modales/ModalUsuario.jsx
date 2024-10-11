@@ -1,27 +1,22 @@
-import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from '../../Components/Input2';
-import SelectBoxRol2 from '../../Components/SelectBoxRol2';
-import SelectBoxFicha from '../../Components/SelectBoxFicha';
-import SelectBoxTi from '../../Components/SelectBoxTI2';
+import Input2 from '../Input2';
+import SelectBoxRol2 from '../SelectBoxRol2';
+import SelectBoxFicha from '../SelectBoxFicha';
+import SelectBoxTi from '../SelectBoxTI2';
 import PropTypes from 'prop-types';
-import { useForm } from '../../../hooks/SuperAdmin/useForm';
+import { useForm } from '../../../hooks/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
-  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange, isSubmitting } = useForm((data) => {
-    onAddMember(data);
-    setSuccessMessage('Registro exitoso');
+  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
+    const { estado, ...datosSinEstado } = data;
+    onAddMember(datosSinEstado);
+    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
     setTimeout(() => {
       onClose();  // Cierra el modal automáticamente después de 2 segundos
     }, 2000);  // Temporizador antes de cerrar el modal
   });
 
   const [successMessage, setSuccessMessage] = useState('');
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no está en proceso
-  };
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -34,7 +29,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form onSubmit={handleFormSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nuevo usuario</h4>
           <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div className="space-y-4">
@@ -50,6 +45,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <SelectBoxTi
                 id="tipodocumento"
                 text="Tipo de documento"
+                Text="Tipo de documento"
                 value={formValues.tipodocumento}
                 onChange={(value) => handleInputChange({ target: { id: 'tipodocumento', value } })}
                 error={errors.tipodocumento}
@@ -66,7 +62,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               <Input2
                 id="correo"
                 type="email"
-                Text="Correo"
+                Text="Correo:"
                 placeholder="Correo"
                 value={formValues.correo}
                 onChange={handleInputChange}
@@ -92,12 +88,15 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
               {formValues.idrol === '4' && (
                 <SelectBoxFicha
-                  id="idficha"
-                  text="Seleccione una ficha:"
-                  value={formValues.idficha}
-                  onChange={(value) => handleSelectChange('idficha', value)}
-                  error={errors.idficha}
-                />
+                id="idficha"
+                text="Seleccione una ficha:"
+                value={formValues.idficha}
+                onChange={(value) => {
+                  console.log('Ficha seleccionada:', value);  // Verificar idficha
+                  handleSelectChange('idficha', value);
+                }}
+                error={errors.idficha}
+              />
               )}
               <Input2
                 id="celular"
@@ -110,20 +109,22 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
+
           {successMessage && (
             <div className="mt-4 text-green-600">
               {successMessage}
             </div>
           )}
 
+          <div className='flex justify-end'>
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-verde text-white px-4 py-2 rounded justify-end"
-            disabled={isSubmitting}
+            className="bg-verde text-black px-8 py-2 rounded"
           >
-            {isSubmitting ? 'Registrando...' : 'Agregar'}
+            Agregar
           </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>
