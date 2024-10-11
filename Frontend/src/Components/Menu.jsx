@@ -88,7 +88,6 @@ const Sidebar = () => {
 
   return (
     <div>
-      {/* ... existing code ... */}
       <aside
         id="sidebar"
         className={`sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-all duration-300 transform ${
@@ -96,12 +95,8 @@ const Sidebar = () => {
             ? isOpen
               ? 'translate-x-0 w-64'
               : '-translate-x-full w-64'
-            : isOpen
-            ? 'w-64'
-            : 'w-16'
+            : 'w-64'
         } md:translate-x-0`}
-        onMouseEnter={() => !isSmallScreen && setIsOpen(true)}
-        onMouseLeave={() => !isSmallScreen && setIsOpen(false)}
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-[#2eb694]">
           <div className="flex items-center space-x-3">
@@ -115,40 +110,39 @@ const Sidebar = () => {
             </span>
           </div>
           <ul className="space-y-3 font-medium mt-5">
-  {roleMenuItems.map((item, index) => (
-    <li key={index} className="w-full">
-      <Link
-        to={item.to}
-        className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
-        onClick={() => console.log('Navigating to:', item.to)}
-      >
-        <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
-        <span
-          className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
-            isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          {item.label}
-        </span>
-      </Link>
-    </li>
-  ))}
-  <li className="w-full">
-    <button
-      onClick={handleLogout}
-      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
-    >
-      <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
-      <span
-        className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
-          isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        Salir
-      </span>
-    </button>
-  </li>
-</ul>
+            {roleMenuItems.map((item, index) => (
+              <li key={index} className="w-full">
+                <Link
+                  to={item.to}
+                  className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
+                >
+                  <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
+                  <span
+                    className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
+                      isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              </li>
+            ))}
+            <li className="w-full">
+              <button
+                onClick={handleLogout}
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
+              >
+                <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
+                <span
+                  className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
+                    isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  Salir
+                </span>
+              </button>
+            </li>
+          </ul>
         </div>
       </aside>
 
@@ -158,6 +152,16 @@ const Sidebar = () => {
           className="fixed inset-0 bg-black opacity-50 z-30"
           onClick={toggleSidebar}
         ></div>
+      )}
+
+      {/* Botón para abrir el sidebar en pantallas pequeñas */}
+      {isSmallScreen && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed top-4 left-4 z-50 p-2 bg-[#2eb694] text-white rounded-full hover:bg-green-600"
+        >
+          <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
+        </button>
       )}
     </div>
   );
