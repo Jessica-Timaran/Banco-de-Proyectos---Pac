@@ -14,7 +14,7 @@ const LayoutPrincipal2 = ({ title, children }) => {
         <aside>
           <Menu />
         </aside>
-        <main className="flex-1"> 
+        <main className="flex-1">
           {children}
         </main>
       </div>
