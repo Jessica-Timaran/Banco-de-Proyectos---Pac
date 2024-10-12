@@ -52,7 +52,7 @@ const Sidebar = ({ isOpen, toggleMenu, setIsOpen }) => {
     ],
     2: [
       { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },
-      { icon: 'fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
+      { icon: 'fas fa-folder-open', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
       { icon: 'fas fa-project-diagram', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
   };
