@@ -51,10 +51,14 @@ async function getProyectoById(id) {
       `SELECT p.*, 
               a.area AS nombre_area, 
               p.promediofinal AS calificacion_resultado, 
-              p.estado AS calificacion_estado
+              p.estado AS calificacion_estado,
+              per.correo AS correo_encargado,
+              per.telefono AS telefono_encargado
        FROM proyecto p
        LEFT JOIN area a ON p.idarea = a.idarea
-       WHERE p.idproyecto = $1`, 
+       LEFT JOIN personas per ON p.idpersona = per.idpersonas
+       WHERE p.idproyecto = $1 
+       AND per.idrol = 2`,  // Filtrar por el rol 2 (encargado del proyecto)
       [numericId]
     );
 

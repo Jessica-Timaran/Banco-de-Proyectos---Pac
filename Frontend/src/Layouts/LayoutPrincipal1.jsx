@@ -14,7 +14,7 @@ const LayoutPrincipal1 = ({ title, children }) => {
     <PostLayout1 title={title}>
  <div>
 <header className="w-full h-full bg-white sticky top-0 z-10">
-            <Navbar text="usuario" toggleMenu={toggleMenu} />
+            <Navbar text="" toggleMenu={toggleMenu} />
           </header>
           <aside className='w-full'>
           <Menu isOpen={isOpen} toggleMenu={toggleMenu} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import LayoutPrincipal1 from "../Layouts/LayoutPrincipal1";
+import Layoutprincipal1 from "..//Layouts/LayoutPrincipal1";
 import Layoutcontenido2 from "../Layouts/Layoutcontenido2";
 import { ListProject } from "../Components/ListProject";
 import BotonPrincipal from "../Components/BotonPrincipal";
@@ -14,6 +14,8 @@ const Detalle = () => {
     nombre: "",
     impacto: "",
     responsable: "",
+    telefono: "",    // Asegúrate de usar estas claves
+    correo: "",      // Asegúrate de usar estas claves
     disponibilidad: "",
     dia: "",
     nombre_area: "", // Cambié `idarea` a `nombre_area` para reflejar el nombre del área
@@ -30,7 +32,18 @@ const Detalle = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          setProyecto(data);
+          setProyecto({
+            nombre: data.nombre,
+            impacto: data.impacto,
+            responsable: data.responsable,
+            telefono: data.telefono_encargado,  // Corregido a `telefono_encargado`
+            correo: data.correo_encargado,      // Corregido a `correo_encargado`
+            disponibilidad: data.disponibilidad,
+            dia: data.dia,
+            nombre_area: data.nombre_area,
+            promediofinal: data.promediofinal,
+            estado: data.estado,
+          });
         } else {
           console.error("Error al obtener el proyecto:", response.statusText);
         }
@@ -45,7 +58,7 @@ const Detalle = () => {
   }, [id]);
 
   return (
-    <LayoutPrincipal1 title="Detalle del proyecto">
+    <Layoutprincipal1 title="Detalle del proyecto">
       <Layoutcontenido2 title="" text1="Detalle del proyecto">
         {isLoading ? (
           <Loader /> // Mostrar Loader mientras se cargan los datos
@@ -68,6 +81,18 @@ const Detalle = () => {
                 <span className="text-xs sm:text-xl">Responsable</span>
                 <span className="text-xs sm:text-xl">
                   {proyecto.responsable || "No disponible"}
+                </span>
+              </ListItem>
+              <ListItem>
+                <span className="text-xs sm:text-xl">Teléfono</span>
+                <span className="text-xs sm:text-xl">
+                  {proyecto.telefono || "No disponible"} {/* Mostrar el teléfono */}
+                </span>
+              </ListItem>
+              <ListItem>
+                <span className="text-xs sm:text-xl">Correo</span>
+                <span className="text-xs sm:text-xl">
+                  {proyecto.correo || "No disponible"} {/* Mostrar el correo */}
                 </span>
               </ListItem>
               <ListItem>
@@ -113,7 +138,7 @@ const Detalle = () => {
           </div>
         )}
       </Layoutcontenido2>
-    </LayoutPrincipal1>
+    </Layoutprincipal1>
   );
 };
 
